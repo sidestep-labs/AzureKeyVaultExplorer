@@ -6,17 +6,17 @@
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
-		<RootNamespace>sidestep</RootNamespace>
+		<RootNamespace>sidestep.quickey</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>sidestep</ApplicationTitle>
+		<ApplicationTitle>sidestep.quickey</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.sidestep</ApplicationId>
-		<ApplicationIdGuid>1b1fa47a-0fae-4310-98a1-e255f21038b6</ApplicationIdGuid>
+		<ApplicationId>com.companyname.sidestep.quickey</ApplicationId>
+		<ApplicationIdGuid>891b81e2-b63e-4e44-a320-3aca3b152eba</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -28,10 +28,6 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)'=='net7.0-ios'">
-	  <ProvisioningType>automatic</ProvisioningType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -53,8 +49,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.49.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
 	</ItemGroup>

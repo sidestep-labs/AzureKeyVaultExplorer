@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="sidestep.AppShell"
+    x:Class="sidestep.quickey.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:sidestep"
+    xmlns:local="clr-namespace:sidestep.quickey"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
@@ -12,4 +12,3 @@
         Route="MainPage" />
 
 </Shell>
-<!--https://blog.syncfusion.com/blogs/post/authenticate-the-net-maui-app-with-azure-ad.aspx-->

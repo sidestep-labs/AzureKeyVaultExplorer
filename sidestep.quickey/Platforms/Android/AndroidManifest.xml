@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
+
+		<activity android:name="microsoft.identity.client.BrowserTabActivity"  android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<!-- important for tenancy in azure-->
+				<data android:scheme="msalaf5aa517-b812-4e07-ae81-bbc03410670e" android:host="auth" />
+			</intent-filter>
+		</activity>
+
+	</application>
+
+	<queries>
+		<package android:name="com.azure.authenticator" />
+		<package android:name="com.companyname.sidestep.quickey" />
+		<!-- This value should be copied from the sidestep.quickey.csproj file -->
+		<package android:name="com.microsoft.windowsintune.companyportal" />
+	</queries>
+
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+</manifest>

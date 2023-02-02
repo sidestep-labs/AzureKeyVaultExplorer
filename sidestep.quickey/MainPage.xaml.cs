@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using Microsoft.Identity.Client;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -8,6 +9,8 @@ namespace sidestep.quickey;
 public partial class MainPage : ContentPage
 {
     private int count = 0;
+    private JwtSecurityToken tokenValue;
+    private string t;
 
     public MainPage()
     {
@@ -21,6 +24,10 @@ public partial class MainPage : ContentPage
             var authService = new AuthService();
             var result = await authService.LoginAsync(CancellationToken.None);
             var token = result?.IdToken; // AccessToken also can be used
+            Console.WriteLine(result.AccessToken);
+            t = result?.AccessToken;
+
+            AuthService
             if (token != null)
             {
                 var handler = new JwtSecurityTokenHandler();
@@ -29,6 +36,7 @@ public partial class MainPage : ContentPage
                 if (data != null)
                 {
                     var stringBuilder = new StringBuilder();
+                    tokenValue = data;
                     stringBuilder.AppendLine($"Name: {data.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
                     stringBuilder.AppendLine($"Email: {data.Claims.FirstOrDefault(x => x.Type.Equals("preferred_username"))?.Value}");
                     await Toast.Make(stringBuilder.ToString()).Show();
@@ -44,7 +52,10 @@ public partial class MainPage : ContentPage
     private void OnCounterClicked(object sender, EventArgs e)
     {
         count++;
-
+        Console.WriteLine(count);
+        Debug.WriteLine(count);
+        Debug.WriteLine($"Name: {tokenValue.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
+        Debug.WriteLine(t);
         if (count == 1)
             CounterBtn.Text = $"Clicked {count} time";
         else

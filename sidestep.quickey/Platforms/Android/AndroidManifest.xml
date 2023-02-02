@@ -8,7 +8,7 @@
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<!-- important for tenancy in azure-->
-				<data android:scheme="msalaf5aa517-b812-4e07-ae81-bbc03410670e" android:host="auth" />
+				<data android:scheme="msal7c09c1d9-3585-403c-834a-53452958e76f" android:host="auth" />
 			</intent-filter>
 		</activity>
 

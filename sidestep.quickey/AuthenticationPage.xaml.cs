@@ -4,6 +4,7 @@ using sidestep.quickey.Services;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Xml.Schema;
 
 namespace sidestep.quickey;
 
@@ -29,7 +30,7 @@ public partial class AuthenticationPage : ContentPage
             AuthenticationResult authenticationResult;
             string token;
             var existingAccount = await _auth.RefreshTokenAsync(CancellationToken.None);
-
+            
             if (existingAccount != null)
             {
                 authenticationResult = existingAccount;

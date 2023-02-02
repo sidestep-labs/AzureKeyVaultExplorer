@@ -19,6 +19,8 @@ public class AuthService
     // Propagates notification that the operation should be cancelled.
     public async Task<AuthenticationResult> LoginAsync(CancellationToken cancellationToken)
     {
+        await AttachTokenCache();
+
         AuthenticationResult result;
         try
         {
@@ -28,7 +30,7 @@ public class AuthService
                 .ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account
-
+           
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
             return result;
         }
@@ -45,21 +47,17 @@ public class AuthService
     /// <returns></returns>
     public async Task<AuthenticationResult> RefreshTokenAsync(CancellationToken cancellationToken)
     {
-        return null;
-        //bool hasKey = Preferences.Default.ContainsKey("auth_account_id");
-        //if (!hasKey)
-        //{
-        //    //Preferences.Default.Remove("auth_account");
-        //    return null;
-        //}
-        //AuthenticationResult authenticationResult;
+        await AttachTokenCache();
+        AuthenticationResult authenticationResult;
 
-        //string accountId = Preferences.Default.Get("auth_account_id", "");
+        var account = await authenticationClient.GetAccountsAsync();
+        if(!account.Any())
+        {
+            return null;
+        }
+        authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, account.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
 
-        //var account = await authenticationClient.GetAccountAsync("e9d56783-6195-4a0a-82cb-1c1d842981de");
-        //authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, account).WithForceRefresh(true).ExecuteAsync();
-
-        //return authenticationResult;
+        return authenticationResult;
     }
 
     private async Task<IEnumerable<IAccount>> AttachTokenCache()
@@ -77,14 +75,14 @@ public class AuthService
                .WithLinuxKeyring(Constants.LinuxKeyRingSchema, Constants.LinuxKeyRingCollection, Constants.LinuxKeyRingLabel, Constants.LinuxKeyRingAttr1, Constants.LinuxKeyRingAttr2)
                .WithMacKeyChain(Constants.KeyChainServiceName, Constants.KeyChainAccountName)
                .Build();
-
+        
         msalCacheHelper = await MsalCacheHelper.CreateAsync(storageProperties);
         msalCacheHelper.RegisterCache(authenticationClient.UserTokenCache);
 
-        msalCacheHelper.CacheChanged += (object sender, CacheChangedEventArgs args) =>
-        {
-            Console.WriteLine($"Cache Changed, Added: {args.AccountsAdded.Count()} Removed: {args.AccountsRemoved.Count()}");
-        };
+        //msalCacheHelper.CacheChanged += (object sender, CacheChangedEventArgs args) =>
+        //{
+        //    Console.WriteLine($"Cache Changed, Added: {args.AccountsAdded.Count()} Removed: {args.AccountsRemoved.Count()}");
+        //};
 
         // If the cache file is being reused, we'd find some already-signed-in accounts
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);

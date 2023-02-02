@@ -13,7 +13,7 @@ public static class Constants
 
     // Cache settings
     public const string CacheFileName = "quickey_msal_cache.txt";
-    public readonly static string CacheDir = MsalCacheHelper.UserRootDirectory;
+    public readonly static string CacheDir = FileSystem.Current.CacheDirectory;
 
     public const string KeyChainServiceName = "quickey_msal_service";
     public const string KeyChainAccountName = "quickey_msal_account";

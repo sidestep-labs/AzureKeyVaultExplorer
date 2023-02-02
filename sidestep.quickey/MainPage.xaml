@@ -34,11 +34,11 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
-
             <Button
-                Text="Login"
-                SemanticProperties.Hint="Login"
-                Clicked="OnLoginClicked"
+                x:Name="GoTobtn"
+                Text="GoToLogin"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="Go"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>

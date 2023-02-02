@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using sidestep.quickey.Services;
 
 namespace sidestep.quickey
 {
@@ -14,6 +15,10 @@ namespace sidestep.quickey
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
             builder.UseMauiCommunityToolkit();
+
+            builder.Services.AddSingleton<AuthenticationPage>();
+            //builder.Services.AddTransient<SecretsPage>();
+            builder.Services.AddSingleton<AuthService>();
 
 #if DEBUG
             builder.Logging.AddDebug();

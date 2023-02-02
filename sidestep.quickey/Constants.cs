@@ -1,4 +1,6 @@
-﻿namespace sidestep.quickey;
+﻿using Microsoft.Identity.Client.Extensions.Msal;
+
+namespace sidestep.quickey;
 
 public static class Constants
 {
@@ -7,4 +9,19 @@ public static class Constants
 
     //Leaving the scope to its default values.
     public static readonly string[] Scopes = new string[] { "openid", "offline_access" };
+
+
+    // Cache settings
+    public const string CacheFileName = "quickey_msal_cache.txt";
+    public readonly static string CacheDir = MsalCacheHelper.UserRootDirectory;
+
+    public const string KeyChainServiceName = "quickey_msal_service";
+    public const string KeyChainAccountName = "quickey_msal_account";
+
+    public const string LinuxKeyRingSchema = "com.contoso.devtools.tokencache";
+    public const string LinuxKeyRingCollection = MsalCacheHelper.LinuxKeyRingDefaultCollection;
+    public const string LinuxKeyRingLabel = "MSAL token cache for all Contoso dev tool apps.";
+    public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");
+    public static readonly KeyValuePair<string, string> LinuxKeyRingAttr2 = new KeyValuePair<string, string>("ProductGroup", "MyApps");
+
 }

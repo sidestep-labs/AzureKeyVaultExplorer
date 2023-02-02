@@ -6,9 +6,11 @@
     xmlns:local="clr-namespace:sidestep.quickey"
     Shell.FlyoutBehavior="Disabled">
 
+
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+      Title="Home"
+      ContentTemplate="{DataTemplate local:MainPage}"
+      Route="MainPage" />
+
 
 </Shell>

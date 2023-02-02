@@ -1,61 +1,26 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using Microsoft.Identity.Client;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-
-namespace sidestep.quickey;
+﻿namespace sidestep.quickey;
 
 public partial class MainPage : ContentPage
 {
     private int count = 0;
-    private JwtSecurityToken tokenValue;
-    private string t;
 
     public MainPage()
     {
         InitializeComponent();
     }
 
-    private async void OnLoginClicked(object sender, EventArgs e)
+    private void Go(object sender, EventArgs e)
     {
-        try
+        //if (Preferences.Get("is_authenticated", false) == false)
         {
-            var authService = new AuthService();
-            var result = await authService.LoginAsync(CancellationToken.None);
-            var token = result?.IdToken; // AccessToken also can be used
-            Console.WriteLine(result.AccessToken);
-            t = result?.AccessToken;
-
-            AuthService
-            if (token != null)
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var data = handler.ReadJwtToken(token);
-                var claims = data.Claims.ToList();
-                if (data != null)
-                {
-                    var stringBuilder = new StringBuilder();
-                    tokenValue = data;
-                    stringBuilder.AppendLine($"Name: {data.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
-                    stringBuilder.AppendLine($"Email: {data.Claims.FirstOrDefault(x => x.Type.Equals("preferred_username"))?.Value}");
-                    await Toast.Make(stringBuilder.ToString()).Show();
-                }
-            }
-        }
-        catch (MsalClientException ex)
-        {
-            await Toast.Make(ex.Message).Show();
-        }
+            Shell.Current.GoToAsync(nameof(AuthenticationPage));
+        } 
     }
 
     private void OnCounterClicked(object sender, EventArgs e)
     {
+        //Preferences.Clear();
         count++;
-        Console.WriteLine(count);
-        Debug.WriteLine(count);
-        Debug.WriteLine($"Name: {tokenValue.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
-        Debug.WriteLine(t);
         if (count == 1)
             CounterBtn.Text = $"Clicked {count} time";
         else

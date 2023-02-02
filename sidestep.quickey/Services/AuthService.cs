@@ -24,9 +24,17 @@ public class AuthService
         AuthenticationResult result;
         try
         {
+
+
             result = await authenticationClient
                 .AcquireTokenInteractive(Constants.Scopes)
                 //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.
+#if ANDROID
+                .WithParentActivityOrWindow(Microsoft.Maui.ApplicationModel.Platform.CurrentActivity)
+#endif
+
+
+
                 .ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account

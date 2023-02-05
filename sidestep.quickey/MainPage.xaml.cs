@@ -12,9 +12,7 @@ public partial class MainPage : ContentPage
     private void Go(object sender, EventArgs e)
     {
         //if (Preferences.Get("is_authenticated", false) == false)
-        {
-            Shell.Current.GoToAsync(nameof(AuthenticationPage));
-        } 
+        Shell.Current.GoToAsync(nameof(AuthenticationPage));
     }
 
     private void OnCounterClicked(object sender, EventArgs e)

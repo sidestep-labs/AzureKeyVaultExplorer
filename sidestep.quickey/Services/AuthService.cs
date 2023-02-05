@@ -13,6 +13,12 @@ public class AuthService
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
             .WithRedirectUri($"msal{Constants.ClientId}://auth")
+#if MACCATALYST
+                .WithIosKeychainSecurityGroup("com.microsoft.adalcache")
+#elif IOS
+                .WithIosKeychainSecurityGroup("com.microsoft.adalcache")
+#endif
+
             .Build();
     }
 
@@ -24,8 +30,6 @@ public class AuthService
         AuthenticationResult result;
         try
         {
-
-
             result = await authenticationClient
                 .AcquireTokenInteractive(Constants.Scopes)
                 //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.
@@ -33,12 +37,10 @@ public class AuthService
                 .WithParentActivityOrWindow(Microsoft.Maui.ApplicationModel.Platform.CurrentActivity)
 #endif
 
-
-
                 .ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account
-           
+
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
             return result;
         }
@@ -59,7 +61,7 @@ public class AuthService
         AuthenticationResult authenticationResult;
 
         var account = await authenticationClient.GetAccountsAsync();
-        if(!account.Any())
+        if (!account.Any())
         {
             return null;
         }
@@ -83,7 +85,7 @@ public class AuthService
                .WithLinuxKeyring(Constants.LinuxKeyRingSchema, Constants.LinuxKeyRingCollection, Constants.LinuxKeyRingLabel, Constants.LinuxKeyRingAttr1, Constants.LinuxKeyRingAttr2)
                .WithMacKeyChain(Constants.KeyChainServiceName, Constants.KeyChainAccountName)
                .Build();
-        
+
         msalCacheHelper = await MsalCacheHelper.CreateAsync(storageProperties);
         msalCacheHelper.RegisterCache(authenticationClient.UserTokenCache);
 

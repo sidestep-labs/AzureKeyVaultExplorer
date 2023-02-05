@@ -9,10 +9,10 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void Go(object sender, EventArgs e)
+    private async void Go(object sender, EventArgs e)
     {
         //if (Preferences.Get("is_authenticated", false) == false)
-        Shell.Current.GoToAsync(nameof(AuthenticationPage));
+       await Shell.Current.GoToAsync(nameof(AuthenticationPage));
     }
 
     private void OnCounterClicked(object sender, EventArgs e)

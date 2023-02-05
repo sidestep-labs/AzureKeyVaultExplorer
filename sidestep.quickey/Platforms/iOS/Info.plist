@@ -34,7 +34,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.companyname.sidestep.quickey"</string>
+			<string>com.companyname.sidestep.quickey</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>msal7c09c1d9-3585-403c-834a-53452958e76f</string>

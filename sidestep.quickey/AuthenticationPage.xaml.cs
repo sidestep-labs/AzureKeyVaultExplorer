@@ -53,7 +53,7 @@ public partial class AuthenticationPage : ContentPage
                     tokenValue = data;
                     stringBuilder.AppendLine($"Name: {data.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
                     stringBuilder.AppendLine($"Email: {data.Claims.FirstOrDefault(x => x.Type.Equals("preferred_username"))?.Value}");
-                    await Toast.Make(stringBuilder.ToString()).Show();
+                    await Toast.Make(stringBuilder.ToString()).Show(); 
                 }
                 Preferences.Set("is_authenticated", true);
                 await Shell.Current.GoToAsync("..");

@@ -13,12 +13,7 @@ public class AuthService
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
             .WithRedirectUri($"msal{Constants.ClientId}://auth")
-#if MACCATALYST
-                .WithIosKeychainSecurityGroup("com.microsoft.adalcache")
-#elif IOS
-                .WithIosKeychainSecurityGroup("com.microsoft.adalcache")
-#endif
-
+            .WithIosKeychainSecurityGroup("com.companyname.sidestep.quickey")
             .Build();
     }
 

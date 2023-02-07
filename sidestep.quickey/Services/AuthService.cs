@@ -1,4 +1,5 @@
-﻿using Microsoft.Identity.Client;
+﻿using System.Diagnostics;
+using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace sidestep.quickey.Services;
@@ -25,11 +26,28 @@ public class AuthService
         AuthenticationResult result;
         try
         {
-            result = await authenticationClient
+
+            var options = new SystemWebViewOptions()
+            {
+                HtmlMessageError = "<p> An error occured: {0}. Details {1}</p>",
+                BrowserRedirectSuccess = new Uri("https://www.microsoft.com")
+        };
+
+
+         
+
+
+        result = await authenticationClient
                 .AcquireTokenInteractive(Constants.Scopes)
+                                
                 //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.
 #if ANDROID
                 .WithParentActivityOrWindow(Microsoft.Maui.ApplicationModel.Platform.CurrentActivity)
+#endif
+#if MACCATALYST
+                .WithUseEmbeddedWebView(false)
+         .WithSystemWebViewOptions(options)
+
 #endif
 
                 .ExecuteAsync(cancellationToken);
@@ -39,8 +57,9 @@ public class AuthService
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
             return result;
         }
-        catch (MsalClientException)
+        catch (MsalClientException ex)
         {
+            Debug.WriteLine(ex);
             return null;
         }
     }

@@ -113,12 +113,13 @@ public class AuthService
     {
         try
         {
+            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                 new WebAuthenticatorOptions()
                 {
                     Url = new Uri("https://mysite.com/mobileauth/Microsoft"),
                     CallbackUrl = new Uri("myapp://"),
-                    PrefersEphemeralWebBrowserSession = true
+                    //PrefersEphemeralWebBrowserSession = true
                 });
 
             string accessToken = authResult?.AccessToken;

@@ -13,11 +13,11 @@ public class AuthService
     public AuthService()
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
-#if MACCATALYST 
-            .WithRedirectUri($"https://login.microsoftonline.com/common/oauth2/nativeclient")
-#else
+//#if MACCATALYST 
+//            .WithRedirectUri($"https://login.microsoftonline.com/common/oauth2/nativeclient")
+//#else
             .WithRedirectUri($"msal{Constants.ClientId}://auth")
-#endif
+//#endif
             .WithIosKeychainSecurityGroup("com.companyname.sidestep.quickey")
             .Build();
     }
@@ -48,11 +48,11 @@ public class AuthService
 #if ANDROID
                 .WithParentActivityOrWindow(Microsoft.Maui.ApplicationModel.Platform.CurrentActivity)
 #endif
-#if MACCATALYST
-                .WithUseEmbeddedWebView(false)
-         .WithSystemWebViewOptions(options)
+//#if MACCATALYST
+                //.WithUseEmbeddedWebView(false)
+         //.WithSystemWebViewOptions(options)
 
-#endif
+//#endif
 
                 .ExecuteAsync(cancellationToken);
 

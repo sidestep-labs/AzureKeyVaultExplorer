@@ -108,4 +108,26 @@ public class AuthService
         // If the cache file is being reused, we'd find some already-signed-in accounts
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
     }
+
+    private async Task MasCatalystAuthAsync()
+    {
+        try
+        {
+            WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                new WebAuthenticatorOptions()
+                {
+                    Url = new Uri("https://mysite.com/mobileauth/Microsoft"),
+                    CallbackUrl = new Uri("myapp://"),
+                    PrefersEphemeralWebBrowserSession = true
+                });
+
+            string accessToken = authResult?.AccessToken;
+
+            // Do something with the token
+        }
+        catch (TaskCanceledException e)
+        {
+            // Use stopped auth
+        }
+    }
 }

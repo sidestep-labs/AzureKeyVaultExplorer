@@ -10,10 +10,7 @@ namespace sidestep.quickey;
 
 public partial class AuthenticationPage : ContentPage
 {
-    private int count = 0;
     private JwtSecurityToken tokenValue;
-    private string t;
-
     private AuthService _auth;
     public AuthenticationPage(AuthService auth)
     {
@@ -66,4 +63,8 @@ public partial class AuthenticationPage : ContentPage
         }
     }
 
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+         await _auth.MasCatalystAuthAsync();
+    }
 }

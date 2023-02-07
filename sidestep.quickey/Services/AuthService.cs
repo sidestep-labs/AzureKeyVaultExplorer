@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.Identity.Client;
+﻿using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
+using System.Diagnostics;
 
 namespace sidestep.quickey.Services;
 
@@ -13,11 +13,11 @@ public class AuthService
     public AuthService()
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
-#if MACCATALYST 
-            .WithRedirectUri($"https://login.microsoftonline.com/common/oauth2/nativeclient")
-#else
+            //#if MACCATALYST
+            //            .WithRedirectUri($"https://login.microsoftonline.com/common/oauth2/nativeclient")
+            //#else
             .WithRedirectUri($"msal{Constants.ClientId}://auth")
-#endif
+            //#endif
             .WithIosKeychainSecurityGroup("com.companyname.sidestep.quickey")
             .Build();
     }
@@ -30,30 +30,23 @@ public class AuthService
         AuthenticationResult result;
         try
         {
-
             var options = new SystemWebViewOptions()
             {
                 HtmlMessageError = "<p> An error occured: {0}. Details {1}</p>",
                 BrowserRedirectSuccess = new Uri("https://www.microsoft.com")
-        };
+            };
 
+            //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.
+            //#if MACCATALYST
+            //.WithUseEmbeddedWebView(false)
+            //.WithSystemWebViewOptions(options)
+            //#endif
 
-         
-
-
-        result = await authenticationClient
-                .AcquireTokenInteractive(Constants.Scopes)
-                                
-                //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.
+            result = await authenticationClient
+                    .AcquireTokenInteractive(Constants.Scopes)
 #if ANDROID
                 .WithParentActivityOrWindow(Microsoft.Maui.ApplicationModel.Platform.CurrentActivity)
 #endif
-#if MACCATALYST
-                .WithUseEmbeddedWebView(false)
-         .WithSystemWebViewOptions(options)
-
-#endif
-
                 .ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account
@@ -114,5 +107,35 @@ public class AuthService
 
         // If the cache file is being reused, we'd find some already-signed-in accounts
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
+    }
+
+    public async Task MasCatalystAuthAsync()
+    {
+        try
+        {
+
+
+            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
+            WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                new WebAuthenticatorOptions()
+                {
+                    
+                    //Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
+                    //CallbackUrl = new Uri($"myapp://"),
+
+                    Url = new Uri("io.identitymodel.native://callback"),
+                    CallbackUrl = new Uri("https://demo.identityserver.io"),
+                    //PrefersEphemeralWebBrowserSession = true
+                });
+
+            string accessToken = authResult?.AccessToken;
+
+            // Do something with the token
+        }
+        catch (TaskCanceledException e)
+        {
+            // Use stopped auth
+            Debug.WriteLine(e.Message);
+        }
     }
 }

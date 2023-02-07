@@ -27,6 +27,15 @@ ios:Page.ModalPresentationStyle="PageSheet">
                 Clicked="OnLoginClicked"
                 HorizontalOptions="Center" />
 
+
+
+            <Button
+                Text="Web Auth Login"
+                SemanticProperties.Hint="Loginx"
+                Clicked="Button_Clicked"
+                HorizontalOptions="Center" />
+
+
         </VerticalStackLayout>
     </ScrollView>
 

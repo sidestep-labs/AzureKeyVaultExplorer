@@ -31,11 +31,13 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-	  <CodesignResourceRules></CodesignResourceRules>
+	  <CodesignResourceRules>Platforms\iOS\Entitlements.plist</CodesignResourceRules>
+	  <AdditionalArgs />
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-	  <CodesignResourceRules></CodesignResourceRules>
+	  <CodesignResourceRules>Platforms\iOS\Entitlements.plist</CodesignResourceRules>
+	  <AdditionalArgs />
 	</PropertyGroup>
 
 	<ItemGroup>

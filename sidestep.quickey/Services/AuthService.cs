@@ -119,12 +119,12 @@ public class AuthService
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                 new WebAuthenticatorOptions()
                 {
-                    
-                    //Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
-                    //CallbackUrl = new Uri($"myapp://"),
 
-                    Url = new Uri("io.identitymodel.native://callback"),
-                    CallbackUrl = new Uri("https://demo.identityserver.io"),
+                    Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
+                    CallbackUrl = new Uri($"myapp://"),
+
+                    //Url = new Uri("io.identitymodel.native://callback"),
+                    //CallbackUrl = new Uri("https://demo.identityserver.io"),
                     //PrefersEphemeralWebBrowserSession = true
                 });
 

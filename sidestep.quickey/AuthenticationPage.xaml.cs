@@ -63,4 +63,8 @@ public partial class AuthenticationPage : ContentPage
         }
     }
 
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+         await _auth.MasCatalystAuthAsync();
+    }
 }

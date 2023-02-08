@@ -109,16 +109,22 @@ public class AuthService
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
     }
 
-    private async Task MasCatalystAuthAsync()
+    public async Task MasCatalystAuthAsync()
     {
         try
         {
+
+
             //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                 new WebAuthenticatorOptions()
                 {
-                    Url = new Uri("https://mysite.com/mobileauth/Microsoft"),
-                    CallbackUrl = new Uri("myapp://"),
+                    
+                    //Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
+                    //CallbackUrl = new Uri($"myapp://"),
+
+                    Url = new Uri("io.identitymodel.native://callback"),
+                    CallbackUrl = new Uri("https://demo.identityserver.io"),
                     //PrefersEphemeralWebBrowserSession = true
                 });
 
@@ -129,6 +135,7 @@ public class AuthService
         catch (TaskCanceledException e)
         {
             // Use stopped auth
+            Debug.WriteLine(e.Message);
         }
     }
 }

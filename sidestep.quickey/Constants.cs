@@ -8,7 +8,14 @@ public static class Constants
     public static readonly string ClientId = "7c09c1d9-3585-403c-834a-53452958e76f";
 
     //Leaving the scope to its default values.
-    public static readonly string[] Scopes = new string[] { "openid", "offline_access" };
+    public static readonly string[] Scopes = new string[] { "openid", "offline_access", };
+
+
+    public static readonly string[] AzureRMScope = new string[] { "https://management.core.windows.net//.default"};
+
+    public static readonly string[] KvScope = new string[] {  "https://vault.azure.net//.default" };
+
+    public static readonly string[] AzureScopes = new string[] { "https://management.core.windows.net//.default",  "https://vault.azure.net//.default" };
 
 
     // Cache settings

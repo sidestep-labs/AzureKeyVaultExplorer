@@ -35,6 +35,17 @@ ios:Page.ModalPresentationStyle="PageSheet">
                 Clicked="Button_Clicked"
                 HorizontalOptions="Center" />
 
+            <Button
+                Text="Logout"
+                SemanticProperties.Hint="Logout"
+                Clicked="Logout_Button"
+                HorizontalOptions="Center" />
+            
+            <Button
+                Text="Tokens"
+                SemanticProperties.Hint="GetAzToken"
+                Clicked="AzToken_Button"
+                HorizontalOptions="Center" />
 
         </VerticalStackLayout>
     </ScrollView>

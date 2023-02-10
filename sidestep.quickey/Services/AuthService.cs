@@ -135,7 +135,7 @@ public class AuthService
         try
         { //https://youtu.be/gQoqg4P-uJ0?t=129
             //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync( Constants.Url,
+            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.Url,
                 new Uri($"msauth.com.company.sidestep.quickey://auth")
             );
            string accessToken = authResult?.AccessToken;

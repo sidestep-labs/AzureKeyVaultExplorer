@@ -20,7 +20,15 @@ public static class Constants
         $"&nonce=678910");
 
 
-  
+
+    public static readonly Uri IdTokenUri = new Uri($"https://login.microsoftonline.com/958763de-a224-4d6c-8eb1-c63b2fb66f1b/oauth2/v2.0/authorize?" +
+        $"client_id={ClientId}" +
+        $"&response_type=id_token" +
+        $"&redirect_uri=msauth.com.company.sidestep.quickey://auth" +
+        //$"&response_mode=form_post" +
+        $"&scope=openid offline_access" +
+        $"&state=12345" +
+        $"&nonce=678910");
 
 
     //Leaving the scope to its default values.

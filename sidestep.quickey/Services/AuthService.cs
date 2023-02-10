@@ -50,6 +50,7 @@ public class AuthService
                 .ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account
+            //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
 
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
             return result;
@@ -109,23 +110,25 @@ public class AuthService
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
     }
 
-    public async Task MasCatalystAuthAsync()
+    public async Task MacCatalystAuthAsync()
     {
         try
         {
 
-
             //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
-                new WebAuthenticatorOptions()
-                {
-                    //https://youtu.be/gQoqg4P-uJ0?t=129
-                    Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
-                    CallbackUrl = new Uri($"myapp://"),
+            //WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+            //    new WebAuthenticatorOptions()
+            //    {
+            //        //https://youtu.be/gQoqg4P-uJ0?t=129
+            //        Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
+            //        CallbackUrl = new Uri($"myapp://"),
+                   
 
-                    //PrefersEphemeralWebBrowserSession = true
-                });
+            //        //PrefersEphemeralWebBrowserSession = true
+            //    });
 
+
+           await WebAuthenticator.AuthenticateAsync(new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"), new Uri("http://localhost"));
             string accessToken = authResult?.AccessToken;
 
             // Do something with the token

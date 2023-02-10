@@ -37,7 +37,10 @@
 			<array>
 				<string>msal7c09c1d9-3585-403c-834a-53452958e76f</string>
 				<string>myapp</string>
+				<string>msauth.com.company.sidestep.quickey://auth</string>
 			</array>
+			<key>CFBundleURLIconFile</key>
+			<string>CFBundleURLIconFile</string>
 		</dict>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>

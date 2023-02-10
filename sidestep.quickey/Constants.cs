@@ -6,7 +6,13 @@ public static class Constants
 {
     //The Application or Client ID will be generated while registering the app in the Azure portal. Copy and paste the GUID.
     public static readonly string ClientId = "7c09c1d9-3585-403c-834a-53452958e76f";
-    public static readonly Uri Url = new Uri($"https://login.microsoftonline.com/common/adminconsent?client_id={ClientId}&state=initlogin&redirect_uri=msauth.com.company.sidestep.quickey://auth");
+    //public static readonly Uri Url = new Uri($"https://login.microsoftonline.com/common/adminconsent?client_id={ClientId}&state=initlogin&redirect_uri=msauth.com.company.sidestep.quickey://auth");
+    
+    public static readonly Uri Url = new Uri($"https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={ClientId}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&redirect_uri=msauth.com.company.sidestep.quickey://auth");
+
+
+
+
     //Leaving the scope to its default values.
     public static readonly string[] Scopes = new string[] { "openid", "offline_access", };
 

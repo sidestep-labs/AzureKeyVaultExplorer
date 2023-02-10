@@ -139,11 +139,11 @@ public class AuthService
             {
                 Url = Constants.Url,
                 CallbackUrl = new Uri($"msauth.com.company.sidestep.quickey://auth"),
-                PrefersEphemeralWebBrowserSession = true
+                PrefersEphemeralWebBrowserSession = false
             });
-            //string accessToken = authResult?.AccessToken;
-
+           string accessToken = authResult?.AccessToken;
             // Do something with the token
+
         }
         catch (TaskCanceledException e)
         {

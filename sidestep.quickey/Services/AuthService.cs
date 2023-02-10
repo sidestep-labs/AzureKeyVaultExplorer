@@ -138,7 +138,7 @@ public class AuthService
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(new WebAuthenticatorOptions()
             {
                 Url = Constants.Url,
-                CallbackUrl = new Uri($"myapp://"),
+                CallbackUrl = new Uri($"msauth.com.company.sidestep.quickey://auth"),
                 PrefersEphemeralWebBrowserSession = true
             });
             //string accessToken = authResult?.AccessToken;

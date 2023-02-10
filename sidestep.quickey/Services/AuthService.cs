@@ -44,14 +44,17 @@ public class AuthService
 
             result = await authenticationClient
                     .AcquireTokenInteractive(Constants.Scopes)
+                    .WithExtraScopesToConsent(Constants.AzureRMScope)
 #if ANDROID
                 .WithParentActivityOrWindow(Microsoft.Maui.ApplicationModel.Platform.CurrentActivity)
 #endif
                 .ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account
+            //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
 
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
+
             return result;
         }
         catch (MsalClientException ex)
@@ -71,12 +74,12 @@ public class AuthService
         await AttachTokenCache();
         AuthenticationResult authenticationResult;
 
-        var account = await authenticationClient.GetAccountsAsync();
-        if (!account.Any())
+        var accounts = await authenticationClient.GetAccountsAsync();
+        if (!accounts.Any())
         {
             return null;
         }
-        authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, account.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
+        authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
 
         return authenticationResult;
     }
@@ -107,5 +110,42 @@ public class AuthService
 
         // If the cache file is being reused, we'd find some already-signed-in accounts
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
+    }
+
+    public async Task Logout()
+    {
+        var accounts = await authenticationClient.GetAccountsAsync();
+        await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
+    }
+
+    public async Task<AuthenticationResult> GetAzureArmTokenSilent()
+    {
+        var accounts = await authenticationClient.GetAccountsAsync();
+        return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.FirstOrDefault()).ExecuteAsync();
+    }
+
+    public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
+    {
+        var accounts = await authenticationClient.GetAccountsAsync();
+        return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
+    }
+
+    public async Task MacCatalystAuthAsync()
+    {
+        try
+        { //https://youtu.be/gQoqg4P-uJ0?t=129
+            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
+            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync( Constants.Url,
+                new Uri($"msauth.com.company.sidestep.quickey://auth")
+            );
+           string accessToken = authResult?.AccessToken;
+            // Do something with the token
+
+        }
+        catch (TaskCanceledException e)
+        {
+            // Use stopped auth
+            Debug.WriteLine(e.Message);
+        }
     }
 }

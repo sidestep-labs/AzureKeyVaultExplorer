@@ -4,7 +4,6 @@ using sidestep.quickey.Services;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.Xml.Schema;
 
 namespace sidestep.quickey;
 
@@ -12,6 +11,7 @@ public partial class AuthenticationPage : ContentPage
 {
     private JwtSecurityToken tokenValue;
     private AuthService _auth;
+
     public AuthenticationPage(AuthService auth)
     {
         InitializeComponent();
@@ -27,7 +27,7 @@ public partial class AuthenticationPage : ContentPage
             AuthenticationResult authenticationResult;
             string token;
             var existingAccount = await _auth.RefreshTokenAsync(CancellationToken.None);
-            
+
             if (existingAccount != null)
             {
                 authenticationResult = existingAccount;
@@ -50,11 +50,10 @@ public partial class AuthenticationPage : ContentPage
                     tokenValue = data;
                     stringBuilder.AppendLine($"Name: {data.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
                     stringBuilder.AppendLine($"Email: {data.Claims.FirstOrDefault(x => x.Type.Equals("preferred_username"))?.Value}");
-                    await Toast.Make(stringBuilder.ToString()).Show(); 
+                    await Toast.Make(stringBuilder.ToString()).Show();
                 }
                 Preferences.Set("is_authenticated", true);
                 await Shell.Current.GoToAsync("..");
-
             }
         }
         catch (MsalClientException ex)
@@ -63,4 +62,19 @@ public partial class AuthenticationPage : ContentPage
         }
     }
 
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await _auth.MacCatalystAuthAsync();
+    }
+
+    private async void Logout_Button(object sender, EventArgs e)
+    {
+        await _auth.Logout();
+    }
+    private async void AzToken_Button(object sender, EventArgs e)
+    {
+        var a = await _auth.GetAzureArmTokenSilent();
+        var k = await _auth.GetAzureKeyVaultTokenSilent();
+        Debug.WriteLine(k.AccessToken);
+    }
 }

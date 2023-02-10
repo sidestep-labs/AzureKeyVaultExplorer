@@ -27,6 +27,13 @@
 
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
+      <Extensions>
+            <uap:Extension Category="windows.protocol">
+            <uap:Protocol Name="myapp">
+                <uap:DisplayName>My App</uap:DisplayName>
+            </uap:Protocol>
+            </uap:Extension>
+        </Extensions>
       <uap:VisualElements
         DisplayName="$placeholder$"
         Description="$placeholder$"

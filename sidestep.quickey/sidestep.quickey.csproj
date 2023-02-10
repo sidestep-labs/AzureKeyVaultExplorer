@@ -35,11 +35,13 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CodesignResourceRules>Platforms\iOS\Entitlements.plist</CodesignResourceRules>
 	  <AdditionalArgs />
+	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 	  <CodesignResourceRules>Platforms\iOS\Entitlements.plist</CodesignResourceRules>
 	  <AdditionalArgs />
+	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -51,9 +53,6 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
-
-		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
@@ -70,6 +69,12 @@
 
 	<ItemGroup>
 	  <Folder Include="ViewModels\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

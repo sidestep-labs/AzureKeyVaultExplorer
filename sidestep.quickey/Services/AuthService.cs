@@ -133,19 +133,14 @@ public class AuthService
     public async Task MacCatalystAuthAsync()
     {
         try
-        {
+        { //https://youtu.be/gQoqg4P-uJ0?t=129
             //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            //WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
-            //    new WebAuthenticatorOptions()
-            //    {
-            //        //https://youtu.be/gQoqg4P-uJ0?t=129
-            //        Url = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"),
-            //        CallbackUrl = new Uri($"myapp://"),
-
-            //        //PrefersEphemeralWebBrowserSession = true
-            //    });
-
-            await WebAuthenticator.AuthenticateAsync(new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient"), new Uri("http://localhost"));
+            WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(new WebAuthenticatorOptions()
+            {
+                Url = Constants.Url,
+                CallbackUrl = new Uri($"myapp://"),
+                PrefersEphemeralWebBrowserSession = true
+            });
             //string accessToken = authResult?.AccessToken;
 
             // Do something with the token

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using Microsoft.Identity.Client;
 using sidestep.quickey.Services;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -74,6 +75,6 @@ public partial class AuthenticationPage : ContentPage
     {
         var a = await _auth.GetAzureArmTokenSilent();
         var k = await _auth.GetAzureKeyVaultTokenSilent();
-        Console.WriteLine(k.AccessToken);
+        Debug.WriteLine(k.AccessToken);
     }
 }

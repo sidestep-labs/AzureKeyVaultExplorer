@@ -1,5 +1,4 @@
-﻿using Android.Net.Wifi.Hotspot2.Pps;
-using Microsoft.Identity.Client;
+﻿using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
 using System.Net.Http;
@@ -138,7 +137,7 @@ public class AuthService
     /// this is to be used for mac catalyst only
     /// </summary>
     /// <returns></returns>
-    public async Task WebLoginAsync()
+    public  async Task WebLoginAsync()
     {
         try
         { //https://youtu.be/gQoqg4P-uJ0?t=129
@@ -161,7 +160,7 @@ public class AuthService
     /// mac catalyst specific
     /// </summary>
     /// <returns></returns>
-    public async Task<string> GetAccessTokenForScoopeAsync(IEnumerable<string> Scopes)
+    public async Task<string> GetAccessTokenForScopeAsync(IEnumerable<string> Scopes)
     {
         try
         { //https://youtu.be/gQoqg4P-uJ0?t=129

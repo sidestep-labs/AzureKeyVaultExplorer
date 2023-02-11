@@ -1,6 +1,9 @@
-﻿using Microsoft.Identity.Client;
+﻿using Android.Net.Wifi.Hotspot2.Pps;
+using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace sidestep.quickey.Services;
 
@@ -130,7 +133,12 @@ public class AuthService
         return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
     }
 
-    public async Task MacCatalystAuthAsync()
+    #region MacCatalystWebAuth
+    /// <summary>
+    /// this is to be used for mac catalyst only
+    /// </summary>
+    /// <returns></returns>
+    public async Task WebLoginAsync()
     {
         try
         { //https://youtu.be/gQoqg4P-uJ0?t=129
@@ -148,4 +156,46 @@ public class AuthService
             Debug.WriteLine(e.Message);
         }
     }
+
+    /// <summary>
+    /// mac catalyst specific
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> GetAccessTokenForScoopeAsync(IEnumerable<string> Scopes)
+    {
+        try
+        { //https://youtu.be/gQoqg4P-uJ0?t=129
+            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
+            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.Url,
+                new Uri($"msauth.com.company.sidestep.quickey://auth")
+            );
+            string accessToken = authResult?.AccessToken;
+            // Do something with the token
+
+            // TODO: cache this token.
+
+            return accessToken;
+        }
+        catch (TaskCanceledException e)
+        {
+            Debug.WriteLine(e.Message);
+            throw;
+        }
+    }
+
+
+    //private HttpClient _httpClient = new HttpClient();
+    //public async Task<IAccount> GetUserInfo(string bearerToken)
+    //{
+
+    //    _httpClient.DefaultRequestHeaders.Authorization =
+    //        new AuthenticationHeaderValue("Bearer", bearerToken);
+    //    var response = await _httpClient.GetAsync("https://graph.microsoft.com/oidc/userinfo");
+
+    //}
+
+
+    #endregion
+
+
 }

@@ -1,8 +1,12 @@
-﻿using Microsoft.Identity.Client;
+﻿using Azure;
+using Azure.Core;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 
 namespace sidestep.quickey.Services;
 
@@ -126,10 +130,38 @@ public class AuthService
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.FirstOrDefault()).ExecuteAsync();
     }
 
+
+    public class CustomTokenCredential : TokenCredential
+    {
+        private readonly string _token;
+        private readonly DateTimeOffset _expiresOn;
+        public CustomTokenCredential(AuthenticationResult access)
+        {
+            _expiresOn = access.ExpiresOn;
+            _token = access.AccessToken;
+        }
+        public override AccessToken GetToken(TokenRequestContext requestContext, CancellationToken cancellationToken)
+        {
+            return new AccessToken(_token, _expiresOn);
+        }
+
+        public override ValueTask<AccessToken> GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+        {
+            return ValueTask.FromResult(new AccessToken(_token, _expiresOn));
+        }
+    }
+
     public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
         var accounts = await authenticationClient.GetAccountsAsync();
-        return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
+        var res =  await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
+        var tokenCredential = new CustomTokenCredential(res);
+
+        var x = new SecretClient(new Uri("https://kv-quickey.vault.azure.net/"), tokenCredential); ;
+        var test = x.GetSecret("test");
+        return res;
+
+
     }
 
     #region MacCatalystWebAuth

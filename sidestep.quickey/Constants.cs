@@ -37,7 +37,7 @@ public static class Constants
 
     public static readonly string[] AzureRMScope = new string[] { "https://management.core.windows.net//.default"};
 
-    public static readonly string[] KvScope = new string[] {  "https://vault.azure.net//.default" };
+    public static readonly string[] KvScope = new string[] {  "https://vault.azure.net/.default" };
 
     public static readonly string[] AzureScopes = new string[] { "https://management.core.windows.net//.default",  "https://vault.azure.net//.default" };
 

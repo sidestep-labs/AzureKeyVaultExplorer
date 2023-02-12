@@ -174,10 +174,14 @@ public class AuthService
         try
         { //https://youtu.be/gQoqg4P-uJ0?t=129
             //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.Url,
+            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
                 new Uri($"msauth.com.company.sidestep.quickey://auth")
             );
-           string accessToken = authResult?.AccessToken;
+
+
+            await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
+            //WebAuthenticator.Default.
+            string accessToken = authResult?.AccessToken;
             // Do something with the token
 
         }
@@ -215,18 +219,32 @@ public class AuthService
     }
 
 
-    //private HttpClient _httpClient = new HttpClient();
-    //public async Task<IAccount> GetUserInfo(string bearerToken)
-    //{
-
-    //    _httpClient.DefaultRequestHeaders.Authorization =
-    //        new AuthenticationHeaderValue("Bearer", bearerToken);
-    //    var response = await _httpClient.GetAsync("https://graph.microsoft.com/oidc/userinfo");
-
-    //}
+    private HttpClient _httpClient = new HttpClient();
+    public async Task GetAccessTokenForAuthCodeFlow(string code)
+    {
 
 
+        //_httpClient.DefaultRequestHeaders.Authorization =
+        //    new AuthenticationHeaderValue("Bearer", bearerToken);
+
+        var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
+
+        var queryString = new Dictionary<string,string>
+        {
+            { "client_id", Constants.ClientId },
+            { "client_id", String.Join(",",scopes) },
+            { "code", code },
+            { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
+            { "grant_type", "authorization_code" },
+            //{ "code_verifier", "authorization_code" },
+         };
+
+
+        Debug.WriteLine(queryString.ToString());
+
+        var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",
+            new FormUrlEncodedContent(queryString));
+        Debug.WriteLine(request.IsSuccessStatusCode);
+    }
     #endregion
-
-
 }

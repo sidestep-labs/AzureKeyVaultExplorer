@@ -7,13 +7,15 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
-
+using System.Text.Json;
 namespace sidestep.quickey.Services;
 
 public class AuthService
 {
     public IPublicClientApplication authenticationClient;
     public MsalCacheHelper msalCacheHelper;
+    private static HttpClient _httpClient => new HttpClient();
+
     // Providing the RedirectionUri to receive the token based on success or failure.
 
     public AuthService()
@@ -219,20 +221,19 @@ public class AuthService
     }
 
 
-    private HttpClient _httpClient = new HttpClient();
     public async Task GetAccessTokenForAuthCodeFlow(string code)
     {
+        //using var httpClient = new HttpClient();
 
-
-        //_httpClient.DefaultRequestHeaders.Authorization =
-        //    new AuthenticationHeaderValue("Bearer", bearerToken);
+            //_httpClient.DefaultRequestHeaders.Authorization =
+            //    new AuthenticationHeaderValue("Bearer", bearerToken);
 
         var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
 
         var queryString = new Dictionary<string,string>
         {
             { "client_id", Constants.ClientId },
-            { "client_id", String.Join(",",scopes) },
+            { "scope", String.Join(" ",scopes) },
             { "code", code },
             { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
             { "grant_type", "authorization_code" },
@@ -244,6 +245,12 @@ public class AuthService
 
         var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",
             new FormUrlEncodedContent(queryString));
+        //https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
+
+        var xxx = await request.Content.ReadAsStringAsync();
+
+        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+
         Debug.WriteLine(request.IsSuccessStatusCode);
     }
     #endregion

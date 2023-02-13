@@ -20,6 +20,13 @@ namespace sidestep.quickey
             //builder.Services.AddTransient<SecretsPage>();
             builder.Services.AddSingleton<AuthService>();
 
+            //builder.Services.AddSingleton<HttpClientFactory>();
+
+            //builder.Services.AddHttpClient("ClientName", (opt) =>
+            //        opt.BaseAddress = new Uri("<Add your API URL here>"))
+            //.AddHttpMessageHandler((s) => s.GetService<AuthHandler>());
+
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

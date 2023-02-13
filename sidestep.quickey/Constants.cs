@@ -12,24 +12,42 @@ public static class Constants
 
     public static readonly Uri Url = new Uri($"https://login.microsoftonline.com/958763de-a224-4d6c-8eb1-c63b2fb66f1b/oauth2/v2.0/authorize?" +
         $"client_id={ClientId}" +
-        $"&response_type=id_token" +
+        $"&response_type=token code" +
         $"&redirect_uri=msauth.com.company.sidestep.quickey://auth" +
-        //$"&response_mode=form_post" +
-        $"&scope=openid offline_access" +
-        $"&state=12345" +
-        $"&nonce=678910");
+        $"&response_mode=query" +
+        $"&scope=openid offline_access profile email" +
+        $"&state=login" +
+        $"&nonce=111821");
 
+    public static readonly Uri AuthCodeFlowUri = new Uri($"https://login.microsoftonline.com/common/oauth2/v2.0/authorize" +
+        $"?client_id={ClientId}" +
+        $"&response_type=code id_token" +
+        $"&redirect_uri=msauth.com.company.sidestep.quickey://auth" +
+        $"&response_mode=fragment" +
+        $"&scope=openid offline_access profile email" +
+        $"&state=1"+
+        $"&nonce=1");
 
-  
+    //$"&code_challenge=YTFjNjI1OWYzMzA3MTI4ZDY2Njg5M2RkNmVjNDE5YmEyZGRhOGYyM2IzNjdmZWFhMTQ1ODg3NDcxY2Nl" +
+    //$"&code_challenge_method=S25
+
+    public static readonly Uri AuthCodeFlowAccessTokenUri = new Uri($"https://login.microsoftonline.com/common/oauth2/v2.0/authorize" +
+           $"?client_id={ClientId}" +
+           $"&response_type=code id_token" +
+           $"&redirect_uri=msauth.com.company.sidestep.quickey://auth" +
+           $"&response_mode=fragment" +
+           $"&scope=openid offline_access profile email" +
+           $"&state=1" +
+           $"&nonce=1");
 
 
     //Leaving the scope to its default values.
-    public static readonly string[] Scopes = new string[] { "openid", "offline_access", };
+    public static readonly string[] Scopes = new string[] { "openid", "offline_access", "profile", "email" };
 
 
     public static readonly string[] AzureRMScope = new string[] { "https://management.core.windows.net//.default"};
 
-    public static readonly string[] KvScope = new string[] {  "https://vault.azure.net//.default" };
+    public static readonly string[] KvScope = new string[] {  "https://vault.azure.net/.default" };
 
     public static readonly string[] AzureScopes = new string[] { "https://management.core.windows.net//.default",  "https://vault.azure.net//.default" };
 

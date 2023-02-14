@@ -55,7 +55,7 @@
 	  <CodesignKey>Mac Developer</CodesignKey>
 	  <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
 	  <EnableCodeSigning>False</EnableCodeSigning>
-	  <MtouchLink>Full</MtouchLink>
+	  <MtouchLink>None</MtouchLink>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
 	  <CreatePackage>true</CreatePackage>

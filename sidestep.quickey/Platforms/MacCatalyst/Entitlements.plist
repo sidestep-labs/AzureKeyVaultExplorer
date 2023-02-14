@@ -6,9 +6,11 @@
 	<array>
 		<string>com.companyname.sidestep.quickey</string>
 	</array>
-	 <key>com.companyname.sidestep.quickey</key>
-    <false/>
-    <key>com.apple.security.get-task-allow</key>
-    <true/>
+	<key>com.companyname.sidestep.quickey</key>
+	<false/>
+	<key>com.apple.security.get-task-allow</key>
+	<true/>
+	<key>aps-environment</key>
+	<string>development</string>
 </dict>
 </plist>

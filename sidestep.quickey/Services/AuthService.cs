@@ -160,7 +160,7 @@ public class AuthService
         try
         {
 
-            if(Preferences.Get("is_autheniticated", false) == true)
+            if(Preferences.Get("is_authenticated", false) == true)
             {
                 await RefreshAccessTokenForAuthCodeFlow();
             }

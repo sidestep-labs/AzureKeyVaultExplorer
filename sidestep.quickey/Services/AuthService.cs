@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Text.Json;
+using System.IdentityModel.Tokens.Jwt;
+
 namespace sidestep.quickey.Services;
 
 public class AuthService
@@ -133,25 +135,7 @@ public class AuthService
     }
 
 
-    public class CustomTokenCredential : TokenCredential
-    {
-        private readonly string _token;
-        private readonly DateTimeOffset _expiresOn;
-        public CustomTokenCredential(AuthenticationResult access)
-        {
-            _expiresOn = access.ExpiresOn;
-            _token = access.AccessToken;
-        }
-        public override AccessToken GetToken(TokenRequestContext requestContext, CancellationToken cancellationToken)
-        {
-            return new AccessToken(_token, _expiresOn);
-        }
-
-        public override ValueTask<AccessToken> GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
-        {
-            return ValueTask.FromResult(new AccessToken(_token, _expiresOn));
-        }
-    }
+  
 
     public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
@@ -174,15 +158,29 @@ public class AuthService
     public  async Task WebLoginAsync()
     {
         try
-        { 
-            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
-                new Uri($"msauth.com.company.sidestep.quickey://auth")
-            );
-            await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
+        {
 
-            Preferences.Set("username", "");
-            Preferences.Set("email", "");
+            if(Preferences.Get("is_autheniticated", false) == true)
+            {
+                await RefreshAccessTokenForAuthCodeFlow();
+            }
+            else
+            {
+                //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
+                    WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
+                    new Uri($"msauth.com.company.sidestep.quickey://auth")
+                );
+                await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
+
+                var token = new JwtSecurityToken(jwtEncodedString: authResult.IdToken);
+                var email = token.Claims.First(c => c.Type == "email").Value;
+                var name = token.Claims.First(c => c.Type == "name").Value;
+                Preferences.Set("name", name);
+                Preferences.Set("email", email);
+                Preferences.Set("is_authenticated", !string.IsNullOrEmpty(authResult.IdToken));
+            }
+
+
         }
         catch (TaskCanceledException e)
         {
@@ -209,8 +207,12 @@ public class AuthService
         var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",
             new FormUrlEncodedContent(queryString));
         //https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
-        //var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
         Preferences.Default.Set("oauth_authentication_response", await request.Content.ReadAsStringAsync());
+
+        await RefreshAccessTokenForAuthCodeFlow();
+
+
     }
 
     public async Task RefreshAccessTokenForAuthCodeFlow()
@@ -227,7 +229,7 @@ public class AuthService
             { "grant_type", "refresh_token" },
          };
         var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",new FormUrlEncodedContent(queryString));
-        //var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
         Preferences.Default.Set("oauth_authentication_response", await request.Content.ReadAsStringAsync());
     }
 

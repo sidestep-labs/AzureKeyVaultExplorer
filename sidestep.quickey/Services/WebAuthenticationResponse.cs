@@ -21,5 +21,8 @@ public class AuthenticationResponse
 
     [JsonPropertyName("id_token")]
     public string IdToken { get; set; }
+
+    public DateTime? ExpiryDateTime { get { return  new DateTime().AddSeconds(ExpiresIn).ToUniversalTime(); } }
+
 }
 

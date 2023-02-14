@@ -179,12 +179,10 @@ public class AuthService
             WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
                 new Uri($"msauth.com.company.sidestep.quickey://auth")
             );
-
             await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
-            //WebAuthenticator.Default.
-            string accessToken = authResult?.AccessToken;
-            // Do something with the token
 
+            Preferences.Set("username", "");
+            Preferences.Set("email", "");
         }
         catch (TaskCanceledException e)
         {
@@ -193,33 +191,6 @@ public class AuthService
         }
     }
 
-    /// <summary>
-    /// mac catalyst specific
-    /// </summary>
-    /// <returns></returns>
-    public async Task<string> GetAccessTokenForScopeAsync(IEnumerable<string> Scopes)
-    {
-        try
-        { //https://youtu.be/gQoqg4P-uJ0?t=129
-            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.Url,
-                new Uri($"msauth.com.company.sidestep.quickey://auth")
-            );
-            string accessToken = authResult?.AccessToken;
-            // Do something with the token
-
-            // TODO: cache this token.
-
-            return accessToken;
-        }
-        catch (TaskCanceledException e)
-        {
-            Debug.WriteLine(e.Message);
-            throw;
-        }
-    }
-
-   
     public async Task GetAccessTokenForAuthCodeFlow(string code)
     {
 
@@ -235,28 +206,18 @@ public class AuthService
             //{ "code_verifier", "authorization_code" },
          };
 
-
-        Debug.WriteLine(queryString.ToString());
-
         var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",
             new FormUrlEncodedContent(queryString));
         //https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
-
-
-        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
-        await SecureStorage.Default.SetAsync("oauth_authentication_response", await request.Content.ReadAsStringAsync());
-
-
-        Debug.WriteLine(request.IsSuccessStatusCode);
+        //var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        Preferences.Default.Set("oauth_authentication_response", await request.Content.ReadAsStringAsync());
     }
 
     public async Task RefreshAccessTokenForAuthCodeFlow()
     {
-
         var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
-        var cachedOAuth = await SecureStorage.Default.GetAsync("oauth_authentication_response");
+        var cachedOAuth = Preferences.Default.Get("oauth_authentication_response", "");
         var auth =  JsonSerializer.Deserialize<AuthenticationResponse>(cachedOAuth);
-
         var queryString = new Dictionary<string, string>
         {
             { "client_id", Constants.ClientId },
@@ -265,12 +226,9 @@ public class AuthService
             { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
             { "grant_type", "refresh_token" },
          };
-
         var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",new FormUrlEncodedContent(queryString));
-
-        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
-        await SecureStorage.Default.SetAsync("oauth_authentication_response", await request.Content.ReadAsStringAsync());
-
+        //var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        Preferences.Default.Set("oauth_authentication_response", await request.Content.ReadAsStringAsync());
     }
 
 

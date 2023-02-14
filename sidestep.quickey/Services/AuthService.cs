@@ -220,7 +220,7 @@ public class AuthService
         }
     }
 
-
+   
     public async Task GetAccessTokenForAuthCodeFlow(string code)
     {
         //using var httpClient = new HttpClient();
@@ -247,11 +247,37 @@ public class AuthService
             new FormUrlEncodedContent(queryString));
         //https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
 
-        var xxx = await request.Content.ReadAsStringAsync();
 
         var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        await SecureStorage.Default.SetAsync("oauth_authentication_response", await request.Content.ReadAsStringAsync());
+
 
         Debug.WriteLine(request.IsSuccessStatusCode);
     }
+
+    public async Task RefreshAccessTokenForAuthCodeFlow()
+    {
+
+        var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
+        var cachedOAuth = await SecureStorage.Default.GetAsync("oauth_authentication_response");
+        var auth =  JsonSerializer.Deserialize<AuthenticationResponse>(cachedOAuth);
+
+        var queryString = new Dictionary<string, string>
+        {
+            { "client_id", Constants.ClientId },
+            { "scope", String.Join(" ",scopes) },
+            { "refresh_token", auth.RefreshToken },
+            { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
+            { "grant_type", "refresh_token" },
+         };
+
+        var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",new FormUrlEncodedContent(queryString));
+
+        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        await SecureStorage.Default.SetAsync("oauth_authentication_response", await request.Content.ReadAsStringAsync());
+
+    }
+
+
     #endregion
 }

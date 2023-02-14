@@ -166,7 +166,7 @@ public class AuthService
 
     }
 
-    #region MacCatalystWebAuth
+    #region MacCatalyst We bAuth Microsoft Identity Platform
     /// <summary>
     /// this is to be used for mac catalyst only
     /// </summary>
@@ -174,12 +174,11 @@ public class AuthService
     public  async Task WebLoginAsync()
     {
         try
-        { //https://youtu.be/gQoqg4P-uJ0?t=129
+        { 
             //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
             WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
                 new Uri($"msauth.com.company.sidestep.quickey://auth")
             );
-
 
             await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
             //WebAuthenticator.Default.
@@ -223,17 +222,13 @@ public class AuthService
    
     public async Task GetAccessTokenForAuthCodeFlow(string code)
     {
-        //using var httpClient = new HttpClient();
-
-            //_httpClient.DefaultRequestHeaders.Authorization =
-            //    new AuthenticationHeaderValue("Bearer", bearerToken);
 
         var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
 
         var queryString = new Dictionary<string,string>
         {
             { "client_id", Constants.ClientId },
-            { "scope", String.Join(" ",scopes) },
+            { "scope", String.Join(" ", scopes) },
             { "code", code },
             { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
             { "grant_type", "authorization_code" },

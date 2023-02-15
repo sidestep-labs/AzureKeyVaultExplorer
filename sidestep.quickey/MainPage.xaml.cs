@@ -32,6 +32,9 @@ public partial class MainPage : ContentPage
         Window secondWindow = new Window(new MainPage());
         secondWindow.Width = 400;
         secondWindow.Height = 500;
+
+        secondWindow.MaximumWidth = 400;
+        secondWindow.MaximumHeight = 500;
         Application.Current.OpenWindow(secondWindow);
     }
 }

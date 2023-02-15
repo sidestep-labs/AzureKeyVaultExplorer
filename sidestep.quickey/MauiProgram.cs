@@ -2,7 +2,11 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using sidestep.quickey.Services;
-
+#if WINDOWS
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
+#endif
 namespace sidestep.quickey
 {
     public static class MauiProgram
@@ -16,18 +20,16 @@ namespace sidestep.quickey
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.ConfigureLifecycleEvents(AppLifecycle =>
-            {
+//            builder.ConfigureLifecycleEvents(AppLifecycle =>
+//            {
 
-#if WINDOWS
-                AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
-                {
-                    window.ExtendsContentIntoTitleBar = false;
-                    //window.Title = "Test";
-                   
-                }));
-#endif
-            });
+//#if WINDOWS
+//                AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
+//                {
+//                    window.ExtendsContentIntoTitleBar = true;
+//                }));
+//#endif
+//            });
             builder.UseMauiCommunityToolkit();
             builder.Services.AddSingleton<AuthenticationPage>();
             builder.Services.AddSingleton<AuthService>();

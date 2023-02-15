@@ -4,7 +4,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
 x:Class="sidestep.quickey.AuthenticationPage"
              Shell.NavBarIsVisible="True"
-             Shell.BackgroundColor="Navy" 
 ios:Page.ModalPresentationStyle="PageSheet">
 
 

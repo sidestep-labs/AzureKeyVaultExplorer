@@ -7,21 +7,15 @@ public partial class App : Application
         InitializeComponent();
 
         MainPage = new AppShell();
-
     }
 
     protected override Window CreateWindow(IActivationState activationState)
     {
         var window = base.CreateWindow(activationState);
-        window.Title= "KeyVault Explorer";
-        const int newWidth = 900;
-        const int newHeight = 650;
-
-        window.Width = newWidth;
-        window.Height = newHeight;
+        window.Title = "KeyVault Explorer";
+        window.Width = 900; window.Height = 650;
+ 
 
         return window;
     }
-
-   
 }

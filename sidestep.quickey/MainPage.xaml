@@ -49,6 +49,15 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="Go"
                 HorizontalOptions="Center" />
+
+                    <Button
+                x:Name="newWindow"
+                Text="New Window"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="newWindow_Clicked"
+                HorizontalOptions="Center" />
+
+
                 </VerticalStackLayout>
             </ScrollView>
         </VerticalStackLayout>

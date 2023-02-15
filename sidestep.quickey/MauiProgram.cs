@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using sidestep.quickey.Services;
+
 #if WINDOWS
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 #endif
+
 namespace sidestep.quickey
 {
     public static class MauiProgram
@@ -20,23 +22,31 @@ namespace sidestep.quickey
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-//            builder.ConfigureLifecycleEvents(AppLifecycle =>
-//            {
+            builder.ConfigureLifecycleEvents(AppLifecycle =>
+            {
+#if WINDOWS
+                AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
+                {
+                    window.ExtendsContentIntoTitleBar = false;
+                    var uiSettings = new Windows.UI.ViewManagement.UISettings();
+                    var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
+                    Microsoft.UI.Xaml.Window xwindow = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
+                    //get the current window on the windows platform
+                    IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(xwindow);
+                    Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+                    Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+                    Microsoft.UI.Windowing.AppWindowTitleBar titlebar = appWindow.TitleBar;
+                    titlebar.ExtendsContentIntoTitleBar = true;
+                    //You may need to uncomment the line above
+                    titlebar.BackgroundColor = color;
+                
+                }));
+#endif
+            });
 
-//#if WINDOWS
-//                AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
-//                {
-//                    window.ExtendsContentIntoTitleBar = true;
-//                }));
-//#endif
-//            });
             builder.UseMauiCommunityToolkit();
             builder.Services.AddSingleton<AuthenticationPage>();
             builder.Services.AddSingleton<AuthService>();
-
-            builder.ConfigureLifecycleEvents(lifecycle =>
-            {
-            });
 
 #if DEBUG
             builder.Logging.AddDebug();

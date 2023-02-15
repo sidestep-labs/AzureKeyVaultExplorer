@@ -12,7 +12,8 @@ public partial class App : Application
     protected override Window CreateWindow(IActivationState activationState)
     {
         var window = base.CreateWindow(activationState);
-        window.Title = "KeyVault Explorer";
+        var name = Preferences.Get("username", "");
+        window.Title = "KeyVault Explorer" + $"- {name}"; 
         window.Width = 900; window.Height = 650;
  
 

@@ -38,9 +38,11 @@ namespace sidestep.quickey
                     Microsoft.UI.Windowing.AppWindowTitleBar titlebar = appWindow.TitleBar;
                     //titlebar.ExtendsContentIntoTitleBar = true;
                     //You may need to uncomment the line above
+                   //TODO: Get this from config
                     titlebar.BackgroundColor = color;
                     titlebar.InactiveBackgroundColor = color;
                     titlebar.ButtonBackgroundColor = color;
+                    titlebar.ButtonInactiveBackgroundColor = color;
                 }));
 #endif
             });

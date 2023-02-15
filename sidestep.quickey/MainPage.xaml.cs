@@ -35,6 +35,14 @@ public partial class MainPage : ContentPage
 
         secondWindow.MaximumWidth = 400;
         secondWindow.MaximumHeight = 500;
+
+        Dispatcher.Dispatch(() =>
+        {
+            Window.MinimumWidth = 400;
+            Window.MaximumWidth = double.PositiveInfinity;
+            Window.MinimumHeight = 400;
+            Window.MaximumHeight = double.PositiveInfinity;
+        });
         Application.Current.OpenWindow(secondWindow);
     }
 }

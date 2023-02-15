@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="sidestep.quickey.Controls.CustomNavigationBar">
+    
+    <ContentView.Content>
+        <StackLayout
+            Orientation="Horizontal"
+            HeightRequest="50"
+            MaximumHeightRequest="50">
+            <ImageButton
+                x:Name="btnBack"
+                Clicked="btnBack_Clicked"
+                Source="azure.png"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                MaximumHeightRequest="50"
+                MaximumWidthRequest="50"
+                Aspect="AspectFit"/>
+            <Image
+                Source="azure.png"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                MaximumHeightRequest="50"
+                MaximumWidthRequest="50"
+                Aspect="AspectFit"/>
+            <Label
+                x:Name="lblBarTitle"
+                TextColor="White"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center"
+                FontSize="Title"
+                BackgroundColor="Transparent"/>
+            <ImageButton
+                x:Name="btnHome"
+                Clicked="btnHome_Clicked"
+                Source="azure.png"
+                BackgroundColor="Transparent"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                MaximumHeightRequest="40"
+                MaximumWidthRequest="40"
+                Aspect="AspectFit"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 using sidestep.quickey.Services;
 
 namespace sidestep.quickey
@@ -14,18 +15,26 @@ namespace sidestep.quickey
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            builder.UseMauiCommunityToolkit();
 
+            builder.ConfigureLifecycleEvents(AppLifecycle =>
+            {
+
+#if WINDOWS
+                AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
+                {
+                    window.ExtendsContentIntoTitleBar = false;
+                    //window.Title = "Test";
+                   
+                }));
+#endif
+            });
+            builder.UseMauiCommunityToolkit();
             builder.Services.AddSingleton<AuthenticationPage>();
-            //builder.Services.AddTransient<SecretsPage>();
             builder.Services.AddSingleton<AuthService>();
 
-            //builder.Services.AddSingleton<HttpClientFactory>();
-
-            //builder.Services.AddHttpClient("ClientName", (opt) =>
-            //        opt.BaseAddress = new Uri("<Add your API URL here>"))
-            //.AddHttpMessageHandler((s) => s.GetService<AuthHandler>());
-
+            builder.ConfigureLifecycleEvents(lifecycle =>
+            {
+            });
 
 #if DEBUG
             builder.Logging.AddDebug();

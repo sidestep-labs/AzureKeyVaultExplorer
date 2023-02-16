@@ -33,7 +33,7 @@ public partial class MainPage : ContentPage
      
         secondWindow.MinimumWidth = 700;
         secondWindow.MaximumWidth = 700;
-        Window.Title = "new window";
+        secondWindow.Title = "new window";
         secondWindow.MinimumHeight = 500;
         secondWindow.MaximumHeight = 500;
 
@@ -45,7 +45,6 @@ public partial class MainPage : ContentPage
             Window.MaximumWidth = double.PositiveInfinity;
             Window.MinimumHeight = 0;
             Window.MaximumHeight = double.PositiveInfinity;
-
         });
 
 #endif

@@ -1,6 +1,4 @@
-﻿using Xamarin.KotlinX.Coroutines;
-
-namespace sidestep.quickey;
+﻿namespace sidestep.quickey;
 
 public partial class MainPage : ContentPage
 {
@@ -32,24 +30,14 @@ public partial class MainPage : ContentPage
     private void newWindow_Clicked(object sender, EventArgs e)
     {
         Window secondWindow = new Window(new MainPage());
-        //secondWindow.MaximumWidth = 100;
-        //secondWindow.MaximumWidth = 100;
-
-        //secondWindow.Dispatcher.Dispatch(() =>
-        //{
-        //    secondWindow.Width = 400;
-        //    secondWindow.MaximumWidth = double.PositiveInfinity;
-        //    secondWindow.Height = 400;
-        //    secondWindow.MaximumHeight = double.PositiveInfinity;
-        //    Application.Current.OpenWindow(secondWindow);
-
-        //});
+     
         secondWindow.MinimumWidth = 700;
         secondWindow.MaximumWidth = 700;
-
+        Window.Title = "new window";
         secondWindow.MinimumHeight = 500;
         secondWindow.MaximumHeight = 500;
 
+#if MACCATALYST
         // dispatcher is used to give the window time to actually resize
         Dispatcher.Dispatch(() =>
         {
@@ -58,18 +46,14 @@ public partial class MainPage : ContentPage
             Window.MinimumHeight = 0;
             Window.MaximumHeight = double.PositiveInfinity;
 
-
-        secondWindow.Dispatcher.Dispatch(() =>
-        {
-            secondWindow.Width = 400;
-            secondWindow.MaximumWidth = double.PositiveInfinity;
-            secondWindow.Height = 400;
-            secondWindow.MaximumHeight = double.PositiveInfinity;
+            Window.Title = "new window";
+            Window.Width = 200;
+            Window.Height = 250;
 
         });
 
-
-              //    Application.Current.OpenWindow(secondWindow);
+#endif
+        Application.Current.OpenWindow(secondWindow);
 
 
     }

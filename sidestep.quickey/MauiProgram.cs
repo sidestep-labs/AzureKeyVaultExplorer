@@ -28,6 +28,8 @@ namespace sidestep.quickey
                 AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
                 {
                     window.ExtendsContentIntoTitleBar = false;
+                    window.SetTitleBar(Controls.CustomNavigationBar);
+
                     var uiSettings = new Windows.UI.ViewManagement.UISettings();
                     var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
                     Microsoft.UI.Xaml.Window _window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;

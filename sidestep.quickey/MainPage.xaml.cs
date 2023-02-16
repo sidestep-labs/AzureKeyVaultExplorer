@@ -46,10 +46,6 @@ public partial class MainPage : ContentPage
             Window.MinimumHeight = 0;
             Window.MaximumHeight = double.PositiveInfinity;
 
-            Window.Title = "new window";
-            Window.Width = 200;
-            Window.Height = 250;
-
         });
 
 #endif

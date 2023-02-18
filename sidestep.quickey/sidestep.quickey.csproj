@@ -94,13 +94,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\CustomNavigationBar.xaml.cs">
-	    <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
+	  <Compile Update="Controls\CustomMenuBar.xaml.cs">
+	    <DependentUpon>CustomMenuBar.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Controls\CustomNavigationBar.xaml">
+	  <MauiXaml Update="Controls\CustomMenuBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

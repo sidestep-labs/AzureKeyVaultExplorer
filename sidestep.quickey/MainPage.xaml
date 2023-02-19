@@ -7,9 +7,16 @@
     Shell.NavBarIsVisible="False">
     <!--<ContentPage.Content>-->
 
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="OnCounterClicked" Text="Add" />
+        <ToolbarItem Clicked="OnCounterClicked" Text="Save" />
+    </ContentPage.ToolbarItems>
+
     <VerticalStackLayout>
         <Grid
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*,2*"
             IsVisible="{OnPlatform false,
                                    WinUI=true,
                                    MacCatalyst=true}"
@@ -94,10 +101,59 @@
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
+        <ScrollView>
 
-        <!--  NAVIGATION BAR  -->
+            <VerticalStackLayout
+                Padding="30,0"
+                IsVisible="{OnPlatform false,
+                                       iOS=true,
+                                       Android=true}"
+                Spacing="25"
+                VerticalOptions="Center">
 
-        <!--  place here you other stuff of your page....  -->
+                <Image
+                    HeightRequest="200"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                    Source="dotnet_bot.png" />
+
+                <Label
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    SemanticProperties.HeadingLevel="Level1"
+                    Text="Hello, World!" />
+
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                    SemanticProperties.HeadingLevel="Level2"
+                    Text="Welcome to .NET Multi-platform App UI" />
+
+                <Button
+                    x:Name="CounterBtnx"
+                    Clicked="OnCounterClicked"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="Click me" />
+                <Button
+                    x:Name="GoTobtnx"
+                    Clicked="Go"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="GoToLogin" />
+
+                <Button
+                    x:Name="newWindowx"
+                    Clicked="newWindow_Clicked"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="New Window" />
+
+
+            </VerticalStackLayout>
+        </ScrollView>
+
 
     </VerticalStackLayout>
     <!--</ContentPage.Content>-->

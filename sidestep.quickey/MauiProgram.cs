@@ -28,7 +28,7 @@ namespace sidestep.quickey
                 AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
                 {
                    
-                 window.ExtendsContentIntoTitleBar = false;
+                window.ExtendsContentIntoTitleBar = false;
 
                 var uiSettings = new Windows.UI.ViewManagement.UISettings();
                 var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
@@ -38,9 +38,6 @@ namespace sidestep.quickey
                 var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
                 var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
                 var titlebar = appWindow.TitleBar;
-
-                ////titlebar.ExtendsContentIntoTitleBar = true;
-                //You may need to uncomment the line above
 
                 //TODO: Get this from config
                 titlebar.BackgroundColor = color;

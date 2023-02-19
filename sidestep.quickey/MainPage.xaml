@@ -22,6 +22,7 @@
                                    MacCatalyst=true}"
             RowDefinitions="50,2*">
             <BoxView Color="Green" />
+
             <Label
                 HorizontalOptions="Center"
                 Text="Row 0, Column 0"
@@ -38,10 +39,22 @@
                 Text="Row 0, Column 1"
                 VerticalOptions="Center" />
 
-            <BoxView
-                Grid.Row="1"
-                Grid.Column="0"
-                Color="PowderBlue" />
+
+
+            <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                <Label
+                    BackgroundColor="Gray"
+                    HorizontalOptions="Start"
+                    Text="Filter" />
+
+                <Entry
+                    BackgroundColor="{Binding}"
+                    ClearButtonVisibility="WhileEditing"
+                    HorizontalOptions="FillAndExpand"
+                    InputTransparent="False" />
+            </VerticalStackLayout>
+
+
             <Label
                 Grid.Row="1"
                 Grid.Column="0"

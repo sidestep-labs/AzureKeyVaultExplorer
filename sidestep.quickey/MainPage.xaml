@@ -8,107 +8,97 @@
     <!--<ContentPage.Content>-->
 
     <VerticalStackLayout>
-        <Grid IsVisible="{OnPlatform false, WinUI=true, MacCatalyst=true}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition />
-                <RowDefinition Height="100" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+        <Grid
+            ColumnDefinitions="*,*"
+            IsVisible="{OnPlatform false,
+                                   WinUI=true,
+                                   MacCatalyst=true}"
+            RowDefinitions="50,2*">
             <BoxView Color="Green" />
             <Label
                 HorizontalOptions="Center"
                 Text="Row 0, Column 0"
                 VerticalOptions="Center" />
-            <BoxView Grid.Column="1" Color="Blue" />
+            <BoxView
+                Grid.Row="0"
+                Grid.Column="1"
+                Color="Blue" />
+
+
             <Label
                 Grid.Column="1"
                 HorizontalOptions="Center"
                 Text="Row 0, Column 1"
                 VerticalOptions="Center" />
-            <BoxView Grid.Row="1" Color="Teal" />
+
+            <BoxView
+                Grid.Row="1"
+                Grid.Column="0"
+                Color="PowderBlue" />
             <Label
                 Grid.Row="1"
+                Grid.Column="0"
                 HorizontalOptions="Center"
                 Text="Row 1, Column 0"
                 VerticalOptions="Center" />
-            <BoxView
+            <ScrollView
                 Grid.Row="1"
-                Grid.Column="1"
-                Color="Purple" />
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                HorizontalOptions="Center"
-                Text="Row1, Column 1"
-                VerticalOptions="Center" />
-            <BoxView
-                Grid.Row="2"
-                Grid.ColumnSpan="2"
-                Color="Red" />
-            <Label
-                Grid.Row="2"
-                Grid.ColumnSpan="2"
-                HorizontalOptions="Center"
-                Text="Row 2, Columns 0 and 1"
-                VerticalOptions="Center" />
+                Grid.RowSpan="2"
+                Grid.Column="1">
+
+                <VerticalStackLayout
+                    Padding="30,0"
+                    Spacing="25"
+                    VerticalOptions="Center">
+
+                    <Image
+                        HeightRequest="200"
+                        HorizontalOptions="Center"
+                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                        Source="dotnet_bot.png" />
+
+                    <Label
+                        FontSize="32"
+                        HorizontalOptions="Center"
+                        SemanticProperties.HeadingLevel="Level1"
+                        Text="Hello, World!" />
+
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                        SemanticProperties.HeadingLevel="Level2"
+                        Text="Welcome to .NET Multi-platform App UI" />
+
+                    <Button
+                        x:Name="CounterBtn"
+                        Clicked="OnCounterClicked"
+                        HorizontalOptions="Center"
+                        SemanticProperties.Hint="Counts the number of times you click"
+                        Text="Click me" />
+                    <Button
+                        x:Name="GoTobtn"
+                        Clicked="Go"
+                        HorizontalOptions="Center"
+                        SemanticProperties.Hint="Counts the number of times you click"
+                        Text="GoToLogin" />
+
+                    <Button
+                        x:Name="newWindow"
+                        Clicked="newWindow_Clicked"
+                        HorizontalOptions="Center"
+                        SemanticProperties.Hint="Counts the number of times you click"
+                        Text="New Window" />
+
+
+                </VerticalStackLayout>
+            </ScrollView>
         </Grid>
 
         <!--  NAVIGATION BAR  -->
 
         <!--  place here you other stuff of your page....  -->
-        <ScrollView>
 
-            <VerticalStackLayout
-                Padding="30,0"
-                Spacing="25"
-                VerticalOptions="Center">
-
-                <Image
-                    HeightRequest="200"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                    Source="dotnet_bot.png" />
-
-                <Label
-                    FontSize="32"
-                    HorizontalOptions="Center"
-                    SemanticProperties.HeadingLevel="Level1"
-                    Text="Hello, World!" />
-
-                <Label
-                    FontSize="18"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                    SemanticProperties.HeadingLevel="Level2"
-                    Text="Welcome to .NET Multi-platform App UI" />
-
-                <Button
-                    x:Name="CounterBtn"
-                    Clicked="OnCounterClicked"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="Click me" />
-                <Button
-                    x:Name="GoTobtn"
-                    Clicked="Go"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="GoToLogin" />
-
-                <Button
-                    x:Name="newWindow"
-                    Clicked="newWindow_Clicked"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="New Window" />
-
-
-            </VerticalStackLayout>
-        </ScrollView>
     </VerticalStackLayout>
     <!--</ContentPage.Content>-->
 </ContentPage>

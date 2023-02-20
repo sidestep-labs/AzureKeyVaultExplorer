@@ -24,128 +24,71 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
-    <VerticalStackLayout>
-        <Grid
-            ColumnDefinitions=".3*,.7*"
-            IsVisible="{OnPlatform false,
-                                   WinUI=true,
-                                   MacCatalyst=true}"
-            RowDefinitions="100, Auto, *">
 
-            <StackLayout
+    <Grid
+        ColumnDefinitions=".3*,.7*"
+        IsVisible="{OnPlatform false,
+                               WinUI=true,
+                               MacCatalyst=true}"
+        RowDefinitions="100, Auto, *">
+
+        <StackLayout Grid.Row="0" Padding="10,0,0,0">
+
+            <Label
                 Grid.Row="0"
-                Padding="10,0,0,0"
-                Orientation="Vertical">
+                HorizontalOptions="Start"
+                Text="Filter" />
+            <Entry
+                Grid.Row="0"
+                ClearButtonVisibility="WhileEditing"
+                Placeholder="Search" />
 
-                <Label
-                    Grid.Row="0"
-                    HorizontalOptions="Start"
-                    Text="Filter" />
-                <Entry
-                    Grid.Row="0"
-                    ClearButtonVisibility="WhileEditing"
-                    Placeholder="Search" />
+            <CollectionView
+                HeightRequest="350"
+                ItemsLayout="VerticalList"
+                VerticalScrollBarVisibility="Always">
 
-                <CollectionView
-                    HeightRequest="350"
-                    ItemsLayout="VerticalList"
-                    VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="0,0,0,0"
+                            Padding="5,5"
+                            CornerRadius="5">
+                            <Label FontSize="12" Text="{Binding .}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame
-                                Margin="0,0,0,0"
-                                Padding="2,0,0,0"
-                                CornerRadius="5"
-                                HeightRequest="20">
-                                <Label FontSize="12" Text="{Binding .}" />
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-
-                    <CollectionView.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>apple-vault</x:String>
-                            <x:String>windows-vault</x:String>
-                            <x:String>prod-vault</x:String>
-                            <x:String>dev-vault</x:String>
-                            <x:String>android-vault</x:String>
-                            <x:String>walledgarden-vault</x:String>
-                            <x:String>mac-vault</x:String>
-                            <x:String>apple-vault</x:String>
-                            <x:String>windows-vault</x:String>
-                            <x:String>prod-vault</x:String>
-                            <x:String>dev-vault</x:String>
-                            <x:String>android-vault</x:String>
-                            <x:String>walledgarden-vault</x:String>
-                            <x:String>mac-vault</x:String>
-                        </x:Array>
-                    </CollectionView.ItemsSource>
-                </CollectionView>
-            </StackLayout>
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>apple-vault</x:String>
+                        <x:String>windows-vault</x:String>
+                        <x:String>prod-vault</x:String>
+                        <x:String>dev-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
+                        <x:String>apple-vault</x:String>
+                        <x:String>windows-vault</x:String>
+                        <x:String>prod-vault</x:String>
+                        <x:String>dev-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+            </CollectionView>
+        </StackLayout>
 
 
 
-            <ScrollView
-                Grid.Row="1"
-                Grid.RowSpan="2"
-                Grid.Column="1">
-
-                <VerticalStackLayout
-                    Padding="30,0"
-                    Spacing="25"
-                    VerticalOptions="Center">
-
-                    <Image
-                        HeightRequest="200"
-                        HorizontalOptions="Center"
-                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                        Source="dotnet_bot.png" />
-
-                    <Label
-                        FontSize="32"
-                        HorizontalOptions="Center"
-                        SemanticProperties.HeadingLevel="Level1"
-                        Text="Hello, World!" />
-
-                    <Label
-                        FontSize="18"
-                        HorizontalOptions="Center"
-                        SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                        SemanticProperties.HeadingLevel="Level2"
-                        Text="Welcome to .NET Multi-platform App UI" />
-
-                    <Button
-                        x:Name="CounterBtn"
-                        Clicked="OnCounterClicked"
-                        HorizontalOptions="Center"
-                        SemanticProperties.Hint="Counts the number of times you click"
-                        Text="Click me" />
-                    <Button
-                        x:Name="GoTobtn"
-                        Clicked="Go"
-                        HorizontalOptions="Center"
-                        SemanticProperties.Hint="Counts the number of times you click"
-                        Text="GoToLogin" />
-
-                    <Button
-                        x:Name="newWindow"
-                        Clicked="newWindow_Clicked"
-                        HorizontalOptions="Center"
-                        SemanticProperties.Hint="Counts the number of times you click"
-                        Text="New Window" />
-
-
-                </VerticalStackLayout>
-            </ScrollView>
-        </Grid>
-        <ScrollView>
+        <ScrollView
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1">
 
             <VerticalStackLayout
                 Padding="30,0"
-                IsVisible="{OnPlatform false,
-                                       iOS=true,
-                                       Android=true}"
                 Spacing="25"
                 VerticalOptions="Center">
 
@@ -169,20 +112,20 @@
                     Text="Welcome to .NET Multi-platform App UI" />
 
                 <Button
-                    x:Name="CounterBtnx"
+                    x:Name="CounterBtn"
                     Clicked="OnCounterClicked"
                     HorizontalOptions="Center"
                     SemanticProperties.Hint="Counts the number of times you click"
                     Text="Click me" />
                 <Button
-                    x:Name="GoTobtnx"
+                    x:Name="GoTobtn"
                     Clicked="Go"
                     HorizontalOptions="Center"
                     SemanticProperties.Hint="Counts the number of times you click"
                     Text="GoToLogin" />
 
                 <Button
-                    x:Name="newWindowx"
+                    x:Name="newWindow"
                     Clicked="newWindow_Clicked"
                     HorizontalOptions="Center"
                     SemanticProperties.Hint="Counts the number of times you click"
@@ -191,8 +134,60 @@
 
             </VerticalStackLayout>
         </ScrollView>
+    </Grid>
+    <!--<ScrollView>
+
+        <VerticalStackLayout
+            Padding="30,0"
+            IsVisible="{OnPlatform false,
+                                   iOS=true,
+                                   Android=true}"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <Image
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                Source="dotnet_bot.png" />
+
+            <Label
+                FontSize="32"
+                HorizontalOptions="Center"
+                SemanticProperties.HeadingLevel="Level1"
+                Text="Hello, World!" />
+
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                SemanticProperties.HeadingLevel="Level2"
+                Text="Welcome to .NET Multi-platform App UI" />
+
+            <Button
+                x:Name="CounterBtnx"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="Click me" />
+            <Button
+                x:Name="GoTobtnx"
+                Clicked="Go"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="GoToLogin" />
+
+            <Button
+                x:Name="newWindowx"
+                Clicked="newWindow_Clicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="New Window" />
 
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>-->
+
+
     <!--</ContentPage.Content>-->
 </ContentPage>

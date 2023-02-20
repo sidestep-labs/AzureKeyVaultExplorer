@@ -3,64 +3,78 @@
     x:Class="sidestep.quickey.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:sidestep.quickey.Controls"
-    Shell.NavBarIsVisible="False">
+    xmlns:controls="clr-namespace:sidestep.quickey.Controls">
     <!--<ContentPage.Content>-->
 
-
-
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Clicked="OnCounterClicked" Text="Add" />
         <ToolbarItem Clicked="OnCounterClicked" Text="Save" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
+
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Vaults" />
+        <MenuBarItem Text="User">
+            <MenuFlyoutItem Text="Logout" />
+            <MenuFlyoutItem Text="View Tenant" />
+        </MenuBarItem>
+        <MenuBarItem Text="View">
+            <MenuFlyoutItem Text="Refresh" />
+            <MenuFlyoutItem Text="Change Theme" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
 
     <VerticalStackLayout>
         <Grid
-            ColumnDefinitions="*,2*"
+            ColumnDefinitions=".3*,.7*"
             IsVisible="{OnPlatform false,
                                    WinUI=true,
                                    MacCatalyst=true}"
-            RowDefinitions="50,2*">
-            <BoxView Color="Green" />
+            RowDefinitions="100, Auto, *">
 
-            <Label
-                HorizontalOptions="Center"
-                Text="Row 0, Column 0"
-                VerticalOptions="Center" />
-            <BoxView
+            <StackLayout
                 Grid.Row="0"
-                Grid.Column="1"
-                Color="Blue" />
+                Padding="10,0,0,0"
+                Orientation="Vertical">
 
-
-            <Label
-                Grid.Column="1"
-                HorizontalOptions="Center"
-                Text="Row 0, Column 1"
-                VerticalOptions="Center" />
-
-
-
-            <VerticalStackLayout Grid.Row="1" Grid.Column="0">
                 <Label
-                    BackgroundColor="Gray"
+                    Grid.Row="0"
                     HorizontalOptions="Start"
                     Text="Filter" />
-
                 <Entry
-                    BackgroundColor="{Binding}"
+                    Grid.Row="0"
                     ClearButtonVisibility="WhileEditing"
-                    HorizontalOptions="FillAndExpand"
-                    InputTransparent="False" />
-            </VerticalStackLayout>
+                    Placeholder="Search" />
+
+                <ScrollView>
+                    <CollectionView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0,10,20,10">
+                                    <Frame Padding="10,0,0,0" CornerRadius="6">
+                                        <Label FontSize="12" Text="{Binding .}" />
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                        <CollectionView.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>apple-vault</x:String>
+                                <x:String>windows-vault</x:String>
+                                <x:String>prod-vault</x:String>
+                                <x:String>dev-vault</x:String>
+                                <x:String>android-vault</x:String>
+                                <x:String>walledgarden-vault</x:String>
+                                <x:String>mac-vault</x:String>
+                            </x:Array>
+                        </CollectionView.ItemsSource>
+                    </CollectionView>
+                </ScrollView>
+            </StackLayout>
 
 
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                HorizontalOptions="Center"
-                Text="Row 1, Column 0"
-                VerticalOptions="Center" />
+
             <ScrollView
                 Grid.Row="1"
                 Grid.RowSpan="2"

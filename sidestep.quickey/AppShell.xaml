@@ -7,9 +7,10 @@
 
 
     <ShellContent
-      Title="Home"
-      ContentTemplate="{DataTemplate local:MainPage}"
-      Route="MainPage" />
+        Title=""
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage"
+        Shell.NavBarHasShadow="True" />
 
 
 </Shell>

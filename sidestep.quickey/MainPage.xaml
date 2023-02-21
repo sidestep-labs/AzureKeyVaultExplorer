@@ -30,36 +30,26 @@
         IsVisible="{OnPlatform false,
                                WinUI=true,
                                MacCatalyst=true}"
-        RowDefinitions="100, Auto, *">
+        RowDefinitions="20,40, Auto, *">
 
-        <StackLayout Grid.Row="0" Padding="10,0,0,0">
 
             <Label
                 Grid.Row="0"
                 HorizontalOptions="Start"
                 Text="Filter" />
             <Entry
-                Grid.Row="0"
+                Grid.Row="1"
                 ClearButtonVisibility="WhileEditing"
                 Placeholder="Search" />
 
-            <CollectionView
-                HeightRequest="350"
-                ItemsLayout="VerticalList"
-                VerticalScrollBarVisibility="Always">
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame
-                            Margin="0,0,0,0"
-                            Padding="5,5"
-                            CornerRadius="5">
-                            <Label FontSize="12" Text="{Binding .}" />
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+            <ListView HorizontalScrollBarVisibility="Always"
+                      Grid.Row="2"
+                      Grid.RowSpan="2"
+                      VerticalOptions="FillAndExpand"
+                      >
 
-                <CollectionView.ItemsSource>
+                <ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>apple-vault</x:String>
                         <x:String>windows-vault</x:String>
@@ -75,10 +65,20 @@
                         <x:String>android-vault</x:String>
                         <x:String>walledgarden-vault</x:String>
                         <x:String>mac-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>           <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>           <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>           <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
                     </x:Array>
-                </CollectionView.ItemsSource>
-            </CollectionView>
-        </StackLayout>
+                </ListView.ItemsSource>
+
+            </ListView>
+
 
 
 

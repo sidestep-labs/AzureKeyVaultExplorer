@@ -33,51 +33,59 @@
         RowDefinitions="20,40, Auto, *">
 
 
-            <Label
-                Grid.Row="0"
-                HorizontalOptions="Start"
-                Text="Filter" />
-            <Entry
-                Grid.Row="1"
-                ClearButtonVisibility="WhileEditing"
-                Placeholder="Search" />
+        <Label
+            Grid.Row="0"
+            HorizontalOptions="Start"
+            Text="Filter" />
+        <Entry
+            Grid.Row="1"
+            ClearButtonVisibility="WhileEditing"
+            Placeholder="Search" />
 
 
-            <ListView HorizontalScrollBarVisibility="Always"
-                      Grid.Row="2"
-                      Grid.RowSpan="2"
-                      VerticalOptions="FillAndExpand"
-                      >
-
-                <ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>apple-vault</x:String>
-                        <x:String>windows-vault</x:String>
-                        <x:String>prod-vault</x:String>
-                        <x:String>dev-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                        <x:String>apple-vault</x:String>
-                        <x:String>windows-vault</x:String>
-                        <x:String>prod-vault</x:String>
-                        <x:String>dev-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>           <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>           <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>           <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                    </x:Array>
-                </ListView.ItemsSource>
-
-            </ListView>
+        <ListView
+            x:Name="vaaultlist"
+            Grid.Row="2"
+            Grid.RowSpan="1"
+            HorizontalScrollBarVisibility="Always"
+            SelectionMode="None"
+            VerticalOptions="FillAndExpand">
+            <ListView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>apple-vault</x:String>
+                    <x:String>windows-vault</x:String>
+                    <x:String>prod-vault</x:String>
+                    <x:String>dev-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>apple-vault</x:String>
+                    <x:String>windows-vault</x:String>
+                    <x:String>prod-vault</x:String>
+                    <x:String>dev-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                </x:Array>
+            </ListView.ItemsSource>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding .}" TextColor="Red" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
 
 

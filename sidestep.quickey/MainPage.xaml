@@ -30,26 +30,32 @@
         IsVisible="{OnPlatform false,
                                WinUI=true,
                                MacCatalyst=true}"
-        RowDefinitions="20,40, Auto, *">
+        RowDefinitions="25,25, Auto, *"
+        RowSpacing="5">
 
 
         <Label
             Grid.Row="0"
+                 HeightRequest="25"
+            MinimumHeightRequest="25"
             HorizontalOptions="Start"
             Text="Filter" />
         <Entry
             Grid.Row="1"
             ClearButtonVisibility="WhileEditing"
+            FontSize="12"
+            HeightRequest="35"
+            MinimumHeightRequest="35"
             Placeholder="Search" />
 
 
         <ListView
-            x:Name="vaaultlist"
             Grid.Row="2"
-            Grid.RowSpan="1"
+            Grid.RowSpan="2"
+            Footer="vault list end"
             HorizontalScrollBarVisibility="Always"
             SelectionMode="None"
-            VerticalOptions="FillAndExpand">
+            SeparatorColor="Gray">
             <ListView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>apple-vault</x:String>
@@ -74,6 +80,7 @@
                     <x:String>mac-vault</x:String>
                     <x:String>android-vault</x:String>
                     <x:String>walledgarden-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
                     <x:String>mac-vault</x:String>
                     <x:String>android-vault</x:String>
                     <x:String>walledgarden-vault</x:String>
@@ -82,7 +89,14 @@
             </ListView.ItemsSource>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding .}" TextColor="Red" />
+                    <ViewCell>
+                        <Grid Padding="5">
+                            <Label
+                                FontSize="12"
+                                Text="{Binding .}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

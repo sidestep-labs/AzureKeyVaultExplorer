@@ -11,16 +11,29 @@
         <ToolbarItem Clicked="OnCounterClicked" Text="Save" />
     </ContentPage.ToolbarItems>-->
 
+    <Shell.TitleView>
+
+        <StackLayout HorizontalOptions="CenterAndExpand">
+            <Label Text="Title" />
+            <Label Text="Title" />
+            <Label Text="Title" />
+            <Label Text="Title" />
+        </StackLayout>
+    </Shell.TitleView>
 
     <ContentPage.MenuBarItems>
-        <MenuBarItem Text="Vaults" />
-        <MenuBarItem Text="User">
+        <MenuBarItem Text="File">
+            <MenuFlyoutItem Text="Login" />
             <MenuFlyoutItem Text="Logout" />
             <MenuFlyoutItem Text="View Tenant" />
         </MenuBarItem>
         <MenuBarItem Text="View">
             <MenuFlyoutItem Text="Refresh" />
+            <MenuFlyoutSeparator />
             <MenuFlyoutItem Text="Change Theme" />
+        </MenuBarItem>
+        <MenuBarItem Text="Help">
+            <MenuFlyoutItem Text="Report a bug" />
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
@@ -32,14 +45,14 @@
                                MacCatalyst=true}"
         RowDefinitions="25,25, Auto, *"
         RowSpacing="5">
-
+        <!--<controls:CustomNavigationBar Grid.Row="0" TitleText="{Binding Settings}" />-->
 
         <Label
             Grid.Row="0"
-                 HeightRequest="25"
-            MinimumHeightRequest="25"
+            HeightRequest="25"
             HorizontalOptions="Start"
-            Text="Filter" />
+            MinimumHeightRequest="25"
+            Text="Explorer" />
         <Entry
             Grid.Row="1"
             ClearButtonVisibility="WhileEditing"
@@ -47,6 +60,7 @@
             HeightRequest="35"
             MinimumHeightRequest="35"
             Placeholder="Search" />
+
 
 
         <ListView
@@ -156,6 +170,10 @@
 
             </VerticalStackLayout>
         </ScrollView>
+
+
+
+
     </Grid>
     <!--<ScrollView>
 

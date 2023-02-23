@@ -9,8 +9,7 @@
     <ShellContent
         Title=""
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage"
-        Shell.NavBarHasShadow="True" />
+        Route="MainPage" />
 
 
 </Shell>

@@ -31,7 +31,7 @@ namespace sidestep.quickey
                 window.ExtendsContentIntoTitleBar = false;
 
                 var uiSettings = new Windows.UI.ViewManagement.UISettings();
-                var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Complement);
+                var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
                 var _window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
 
                 var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(_window);

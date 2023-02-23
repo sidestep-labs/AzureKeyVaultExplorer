@@ -3,7 +3,8 @@
     x:Class="sidestep.quickey.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:sidestep.quickey.Controls">
+    xmlns:controls="clr-namespace:sidestep.quickey.Controls"
+    Padding="10">
     <!--<ContentPage.Content>-->
 
     <!--<ContentPage.ToolbarItems>
@@ -11,18 +12,8 @@
         <ToolbarItem Clicked="OnCounterClicked" Text="Save" />
     </ContentPage.ToolbarItems>-->
 
-    <Shell.TitleView>
-
-        <StackLayout HorizontalOptions="CenterAndExpand">
-            <Label Text="Title" />
-            <Label Text="Title" />
-            <Label Text="Title" />
-            <Label Text="Title" />
-        </StackLayout>
-    </Shell.TitleView>
-
     <ContentPage.MenuBarItems>
-        <MenuBarItem Text="File">
+        <MenuBarItem AbsoluteLayout.LayoutFlags="PositionProportional" Text="File">
             <MenuFlyoutItem Text="Login" />
             <MenuFlyoutItem Text="Logout" />
             <MenuFlyoutItem Text="View Tenant" />
@@ -69,7 +60,7 @@
             Footer="vault list end"
             HorizontalScrollBarVisibility="Always"
             SelectionMode="None"
-            SeparatorColor="Gray">
+            SeparatorVisibility="Default">
             <ListView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>apple-vault</x:String>

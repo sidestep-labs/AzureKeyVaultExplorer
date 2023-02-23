@@ -38,9 +38,12 @@ namespace sidestep.quickey
                 var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
                 var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
                 var titlebar = appWindow.TitleBar;
-
+                color.A = 1;
+                color.B = 33;
+                color.G = 33;
+                color.R =33;
                 //TODO: Get this from config
-                titlebar.BackgroundColor = color;
+                titlebar.BackgroundColor =color;
                 titlebar.InactiveBackgroundColor = color;
                 titlebar.ButtonBackgroundColor = color;
                 titlebar.ButtonInactiveBackgroundColor = color;

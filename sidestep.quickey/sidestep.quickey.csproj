@@ -86,7 +86,8 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.50.0" />
 		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.26.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.1" />
+		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="20.4.51" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
 	</ItemGroup>
 
 	<ItemGroup>

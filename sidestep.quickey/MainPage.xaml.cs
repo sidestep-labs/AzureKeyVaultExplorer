@@ -12,7 +12,7 @@ public partial class MainPage : ContentPage
     private async void Go(object sender, EventArgs e)
     {
         //if (Preferences.Get("is_authenticated", false) == false)
-       await Shell.Current.GoToAsync(nameof(AuthenticationPage));
+        await Shell.Current.GoToAsync(nameof(AuthenticationPage));
     }
 
     private void OnCounterClicked(object sender, EventArgs e)
@@ -27,15 +27,31 @@ public partial class MainPage : ContentPage
         SemanticScreenReader.Announce(CounterBtn.Text);
     }
 
+    private void Toggle_Thene(object sender, EventArgs e)
+    {
+        var currentTheme = Application.Current.UserAppTheme;
+        // || Application.Current.RequestedTheme == AppTheme.Light
+        if (currentTheme == AppTheme.Light || currentTheme == AppTheme.Unspecified)
+        {
+            Application.Current.UserAppTheme = AppTheme.Dark;
+            Preferences.Set("preferred_theme", "dark");
+        }
+        else
+        {
+            Application.Current.UserAppTheme = AppTheme.Light;
+            Preferences.Set("preferred_theme", "light");
+        }
+    }
+
     private void newWindow_Clicked(object sender, EventArgs e)
     {
         Window secondWindow = new Window(new MainPage());
-     
-        secondWindow.MinimumWidth = 700;
-        secondWindow.MaximumWidth = 700;
+
+        //secondWindow.MinimumWidth = 700;
+        //secondWindow.MaximumWidth = 700;
         secondWindow.Title = "new window";
-        secondWindow.MinimumHeight = 500;
-        secondWindow.MaximumHeight = 500;
+        secondWindow.Width = 500;
+        secondWindow.Height = 500;
 
 #if MACCATALYST
         // dispatcher is used to give the window time to actually resize
@@ -49,7 +65,5 @@ public partial class MainPage : ContentPage
 
 #endif
         Application.Current.OpenWindow(secondWindow);
-
-
     }
 }

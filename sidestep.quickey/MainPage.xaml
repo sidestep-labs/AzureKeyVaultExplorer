@@ -12,6 +12,8 @@
         <ToolbarItem Clicked="OnCounterClicked" Text="Save" />
     </ContentPage.ToolbarItems>-->
 
+
+
     <ContentPage.MenuBarItems>
         <MenuBarItem AbsoluteLayout.LayoutFlags="PositionProportional" Text="File">
             <MenuFlyoutItem Text="Login" />
@@ -21,7 +23,7 @@
         <MenuBarItem Text="View">
             <MenuFlyoutItem Text="Refresh" />
             <MenuFlyoutSeparator />
-            <MenuFlyoutItem Text="Change Theme" />
+            <MenuFlyoutItem Clicked="Toggle_Thene" Text="Change Theme" />
         </MenuBarItem>
         <MenuBarItem Text="Help">
             <MenuFlyoutItem Text="Report a bug" />
@@ -35,8 +37,10 @@
                                WinUI=true,
                                MacCatalyst=true}"
         RowDefinitions="25,25, Auto, *"
-        RowSpacing="5">
+        RowSpacing="5"
+        VerticalOptions="Fill">
         <!--<controls:CustomNavigationBar Grid.Row="0" TitleText="{Binding Settings}" />-->
+
 
         <Label
             Grid.Row="0"
@@ -60,7 +64,8 @@
             Footer="vault list end"
             HorizontalScrollBarVisibility="Always"
             SelectionMode="None"
-            SeparatorVisibility="Default">
+            SeparatorVisibility="Default"
+            VerticalOptions="StartAndExpand">
             <ListView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>apple-vault</x:String>

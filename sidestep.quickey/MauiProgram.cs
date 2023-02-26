@@ -21,7 +21,7 @@ namespace sidestep.quickey
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+       
             builder.ConfigureLifecycleEvents(AppLifecycle =>
             {
 #if WINDOWS
@@ -38,10 +38,10 @@ namespace sidestep.quickey
                 var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
                 var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
                 var titlebar = appWindow.TitleBar;
-                color.A = 1;
-                color.B = 33;
-                color.G = 33;
-                color.R =33;
+                //if(Application.Current.RequestedTheme == AppTheme.Dark)
+                //{
+                //    color.A = 1; color.B = 33; color.G = 33; color.R =33;
+                //}
                 //TODO: Get this from config
                 titlebar.BackgroundColor =color;
                 titlebar.InactiveBackgroundColor = color;

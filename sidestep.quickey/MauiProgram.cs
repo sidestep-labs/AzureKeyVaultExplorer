@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using sidestep.quickey.Services;
-using Syncfusion.Maui.Core.Hosting;
 
 #if WINDOWS
 using Microsoft.UI;
@@ -22,13 +21,12 @@ namespace sidestep.quickey
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-       
+
             builder.ConfigureLifecycleEvents(AppLifecycle =>
             {
 #if WINDOWS
                 AppLifecycle.AddWindows(windows => windows.OnWindowCreated((window) =>
                 {
-                   
                 window.ExtendsContentIntoTitleBar = false;
 
                 var uiSettings = new Windows.UI.ViewManagement.UISettings();
@@ -52,8 +50,6 @@ namespace sidestep.quickey
 #endif
             });
 
-
-            builder.ConfigureSyncfusionCore();
             builder.UseMauiCommunityToolkit();
             builder.Services.AddSingleton<AuthenticationPage>();
             builder.Services.AddSingleton<AuthService>();

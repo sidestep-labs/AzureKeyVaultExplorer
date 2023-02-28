@@ -16,7 +16,6 @@
     </ContentPage.ToolbarItems>-->
 
 
-
     <ContentPage.MenuBarItems>
         <MenuBarItem AbsoluteLayout.LayoutFlags="PositionProportional" Text="File">
             <MenuFlyoutItem Text="Login" />
@@ -33,9 +32,8 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
-
     <Grid
-        ColumnDefinitions=".3*,.7*"
+        ColumnDefinitions=".25*,.37*,.37*"
         IsVisible="{OnPlatform false,
                                WinUI=true,
                                MacCatalyst=true}"
@@ -44,22 +42,18 @@
         VerticalOptions="Fill">
         <!--<controls:CustomNavigationBar Grid.Row="0" TitleText="{Binding Settings}" />-->
 
-
         <Label
             Grid.Row="0"
             HeightRequest="25"
             HorizontalOptions="Start"
             MinimumHeightRequest="25"
             Text="Explorer" />
-        <Entry
+        <SearchBar
             Grid.Row="1"
-            ClearButtonVisibility="WhileEditing"
             FontSize="12"
             HeightRequest="35"
             MinimumHeightRequest="35"
-            Placeholder="Search" />
-
-
+            Placeholder="Find a Vault" />
 
         <ListView
             Grid.Row="2"
@@ -114,61 +108,95 @@
             </ListView.ItemTemplate>
         </ListView>
 
-
-
-
-        <ScrollView
+        <SearchBar
+            Grid.Row="0"
+            Grid.Column="3"
+            FontSize="12"
+            HeightRequest="35"
+            MinimumHeightRequest="35"
+            Placeholder="Filter" />
+        <StackLayout
             Grid.Row="1"
-            Grid.RowSpan="2"
-            Grid.Column="1">
+            Grid.RowSpan="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="3">
 
-            <VerticalStackLayout
-                Padding="30,0"
-                Spacing="25"
-                VerticalOptions="Center">
+            <CollectionView
+                Footer="Secrets"
+                SelectionMode="None"
+                VerticalOptions="StartAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>ETL Secret</x:String>
+                        <x:String>Windows Password</x:String>
+                        <x:String>SyncfusionKey</x:String>
+                        <x:String>Apple Dev Key</x:String>
+                        <x:String>Box API SAS Token</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="5"
+                            Padding="5"
+                            HeightRequest="50">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=".5*" />
+                                    <ColumnDefinition Width=".5*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding .}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    FontAttributes="Italic"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding .}"
+                                    VerticalOptions="End" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                <Image
-                    HeightRequest="200"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                    Source="dotnet_bot.png" />
 
-                <Label
-                    FontSize="32"
-                    HorizontalOptions="Center"
-                    SemanticProperties.HeadingLevel="Level1"
-                    Text="Hello, World!" />
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                SemanticProperties.Description="Secrets and Keys"
+                SemanticProperties.HeadingLevel="Level2"
+                Text="Secrets and Keys" />
 
-                <Label
-                    FontSize="18"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                    SemanticProperties.HeadingLevel="Level2"
-                    Text="Welcome to .NET Multi-platform App UI" />
-
-                <Button
-                    x:Name="CounterBtn"
-                    Clicked="OnCounterClicked"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="Click me" />
-                <Button
-                    x:Name="GoTobtn"
-                    Clicked="Go"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="GoToLogin" />
-
-                <Button
-                    x:Name="newWindow"
-                    Clicked="newWindow_Clicked"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="New Window" />
-
-
-            </VerticalStackLayout>
-        </ScrollView>
+            <Button
+                x:Name="CounterBtn"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="Click me" />
+            <Button
+                x:Name="GoTobtn"
+                Clicked="Go"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="GoToLogin" />
+            <Button
+                x:Name="newWindow"
+                Clicked="newWindow_Clicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="New Window" />
+        </StackLayout>
 
 
 
@@ -222,11 +250,8 @@
                 HorizontalOptions="Center"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Text="New Window" />
-
-
         </VerticalStackLayout>
     </ScrollView>-->
-
 
     <!--</ContentPage.Content>-->
 </ContentPage>

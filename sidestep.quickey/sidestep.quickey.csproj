@@ -38,6 +38,7 @@
 	  <AdditionalArgs />
 	  <CreatePackage>false</CreatePackage>
 	  <CodesignKey>Apple Development: cricketsk8@gmail.com (8ZGKXLQ7SM)</CodesignKey>
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
@@ -45,6 +46,7 @@
 	  <AdditionalArgs />
 	  <CreatePackage>false</CreatePackage>
 	  <CodesignKey>iPhone Developer</CodesignKey>
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
 	</PropertyGroup>
 
 
@@ -54,6 +56,7 @@
 	  <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
 	  <EnableCodeSigning>False</EnableCodeSigning>
 	  <MtouchLink>None</MtouchLink>
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
 	  <CreatePackage>true</CreatePackage>
@@ -61,6 +64,19 @@
 	  <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
 	  <EnableCodeSigning>False</EnableCodeSigning>
 	  <MtouchLink>None</MtouchLink>
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationTitle>KeyVault Explorer</ApplicationTitle>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -82,15 +98,17 @@
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.4.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.50.0" />
 		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.26.0" />
-		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="20.4.51" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Models\" />
 	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 
@@ -105,11 +123,14 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-
 	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="appsettings.*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<DependentUpon>appsettings.json</DependentUpon>
+		</Content>
 	</ItemGroup>
 
 </Project>

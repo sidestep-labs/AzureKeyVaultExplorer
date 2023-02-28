@@ -71,6 +71,7 @@ public partial class AuthenticationPage : ContentPage
     private async void Logout_Button(object sender, EventArgs e)
     {
         await _auth.Logout();
+        await Toast.Make("Logged out.").Show();
     }
     private async void AzToken_Button(object sender, EventArgs e)
     {

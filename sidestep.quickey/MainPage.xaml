@@ -140,17 +140,17 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame
-                            Margin="5"
-                            Padding="5"
-                            HeightRequest="50">
+                            Margin="4"
+                            Padding="2"
+                            HeightRequest="45">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="20" />
+                                    <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=".5*" />
-                                    <ColumnDefinition Width=".5*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Label
                                     Grid.Column="0"

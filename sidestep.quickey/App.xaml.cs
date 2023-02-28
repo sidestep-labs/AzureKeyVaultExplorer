@@ -16,8 +16,8 @@ public partial class App : Application
         var window = base.CreateWindow(activationState);
         var name = Preferences.Get("username", null) ?? Preferences.Get("name", null);
         window.Title = "KeyVault Explorer" + (name != null ? $" — {name}" : ""); 
-        window.Width = 900;
-        window.Height = 650;
+        window.Width = 780;
+        window.Height = 560;
 
 
         return window;

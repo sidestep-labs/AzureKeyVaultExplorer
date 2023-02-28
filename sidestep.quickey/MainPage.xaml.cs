@@ -1,4 +1,8 @@
-﻿namespace sidestep.quickey;
+﻿using CommunityToolkit.Maui.Alerts;
+using sidestep.quickey.Services;
+using sidestep.quickey.Views;
+
+namespace sidestep.quickey;
 
 public partial class MainPage : ContentPage
 {
@@ -45,7 +49,7 @@ public partial class MainPage : ContentPage
 
     private void newWindow_Clicked(object sender, EventArgs e)
     {
-        Window secondWindow = new Window(new MainPage());
+        Window secondWindow = new Window(new WelcomePage());
 
         //secondWindow.MinimumWidth = 700;
         //secondWindow.MaximumWidth = 700;

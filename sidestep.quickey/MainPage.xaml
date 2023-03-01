@@ -6,15 +6,12 @@
     xmlns:controls="clr-namespace:sidestep.quickey.Controls"
     xmlns:viewmodel="clr-namespace:sidestep.quickey.ViewModel"
     Padding="10"
-    x:DataType="viewmodel:MainPageViewModel"
-    Shell.NavBarIsVisible="{OnPlatform false,
-                                       MacCatalyst=false,
-                                       WinUI=true}">
+    x:DataType="viewmodel:MainPageViewModel">
 
 
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="Options">
-            <MenuFlyoutItem Command="{Binding ToggleFlyoutCommand}" Text="Change Vault" />
+            <!--<MenuFlyoutItem Command="{Binding ToggleFlyoutCommand}" Text="Change Vault" />-->
             <MenuFlyoutItem Text="Login" />
             <MenuFlyoutItem Command="{Binding LogoutCommand}" Text="Logout" />
             <MenuFlyoutItem Text="View Tenant" />
@@ -43,61 +40,28 @@
 
         <VerticalStackLayout Grid.Column="0">
             <Label Text="Type" />
-
+            <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
 
             <!--  Tab Control  -->
             <Grid Grid.Row="1">
-                <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
-                <HorizontalStackLayout
-                    RadioButtonGroup.GroupName="MenuCategories"
-                    RadioButtonGroup.SelectedValue="{Binding Category}"
-                    Spacing="20">
-                    <BindableLayout.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Secrets</x:String>
-                            <x:String>Certificates</x:String>
-                            <x:String>Keys</x:String>
-                        </x:Array>
-                    </BindableLayout.ItemsSource>
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton Content="{Binding .}" Value="{Binding .}">
-                                <RadioButton.ControlTemplate>
-                                    <ControlTemplate>
-                                        <Grid RowDefinitions="30,4">
-                                            <Label x:Name="TextLabel" Text="{TemplateBinding Content}" />
-                                            <BoxView
-                                                x:Name="Indicator"
-                                                Grid.Row="1"
-                                                Color="Transparent" />
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroupList>
-                                                    <VisualStateGroup x:Name="CheckedStates">
-                                                        <VisualState x:Name="Checked">
-                                                            <VisualState.Setters>
-                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
-                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
+                <Frame>
+                    <StackLayout RadioButtonGroup.GroupName="{Binding Category}" RadioButtonGroup.SelectedValue="{Binding Category}">
 
-                                                        <VisualState x:Name="Unchecked">
-                                                            <VisualState.Setters>
-                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
-                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateGroupList>
-                                            </VisualStateManager.VisualStateGroups>
-                                        </Grid>
-                                    </ControlTemplate>
+                        <RadioButton Content="Keys" Value="Keys" />
+                        <RadioButton Content="Secrets" Value="Secrets" />
+                        <RadioButton Content="Certificates" Value="Certificates" />
 
-                                </RadioButton.ControlTemplate>
-                            </RadioButton>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </HorizontalStackLayout>
+                        <Label x:Name="animalLabel">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="You have chosen: " />
+                                    <Span Text="{Binding Category}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
+                    </StackLayout>
+                </Frame>
 
             </Grid>
 

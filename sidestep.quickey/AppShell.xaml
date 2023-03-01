@@ -4,9 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:sidestep.quickey"
-    Shell.FlyoutBehavior="Flyout"
-    Shell.NavBarIsVisible="False"
-    TabBarTitleColor="AntiqueWhite">
+    FlyoutBehavior="Disabled">
+
 
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
@@ -39,10 +38,6 @@
             VerticalOptions="StartAndExpand">
             <ListView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
-                    <x:String>apple-vault</x:String>
-                    <x:String>windows-vault</x:String>
-                    <x:String>prod-vault</x:String>
-                    <x:String>dev-vault</x:String>
                     <x:String>android-vault</x:String>
                     <x:String>walledgarden-vault</x:String>
                     <x:String>mac-vault</x:String>
@@ -63,9 +58,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Padding="10">
+                        <Grid Margin="10" Padding="10">
                             <Label
-                                FontSize="13"
+                                FontSize="12"
                                 Text="{Binding .}"
                                 VerticalOptions="Center" />
                         </Grid>

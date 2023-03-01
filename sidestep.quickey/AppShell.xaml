@@ -58,7 +58,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Margin="10" Padding="10">
+                        <Grid Margin="5" Padding="8">
                             <Label
                                 FontSize="12"
                                 Text="{Binding .}"

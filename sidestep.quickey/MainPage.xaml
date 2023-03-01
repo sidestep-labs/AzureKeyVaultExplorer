@@ -42,8 +42,10 @@
             <Label Text="Type" />
             <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
 
-            <!--  Tab Control  -->
-            <Grid Grid.Row="1">
+
+
+
+            <!--<Grid Grid.Row="1">
                 <Frame>
                     <StackLayout RadioButtonGroup.GroupName="{Binding Category}" RadioButtonGroup.SelectedValue="{Binding Category}">
 
@@ -63,26 +65,79 @@
                     </StackLayout>
                 </Frame>
 
-            </Grid>
+            </Grid>-->
 
 
         </VerticalStackLayout>
+        <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
 
-        <Label
-            Grid.Row="0"
-            Grid.Column="2"
-            FontSize="18"
-            HorizontalOptions="End"
-            SemanticProperties.Description="Secrets and Keys"
-            SemanticProperties.HeadingLevel="Level2"
-            Text="Secrets and Keys" />
+            <Label
+                FontSize="18"
+                HorizontalOptions="End"
+                SemanticProperties.Description="Secrets and Keys"
+                SemanticProperties.HeadingLevel="Level2"
+                Text="{Binding Category}" />
+            <Grid Grid.Row="1" Grid.Column="2">
+                <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
+                <HorizontalStackLayout
+                    RadioButtonGroup.GroupName="MenuCategories"
+                    RadioButtonGroup.SelectedValue="{Binding Category}"
+                    Spacing="20">
+                    <BindableLayout.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Secrets</x:String>
+                            <x:String>Certificates</x:String>
+                            <x:String>Keys</x:String>
+                        </x:Array>
+                    </BindableLayout.ItemsSource>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="{Binding .}" Value="{Binding .}">
+                                <RadioButton.ControlTemplate>
+                                    <ControlTemplate>
+                                        <Grid RowDefinitions="30,4">
+                                            <Label x:Name="TextLabel" Text="{TemplateBinding Content}" />
+                                            <BoxView
+                                                x:Name="Indicator"
+                                                Grid.Row="1"
+                                                Color="Transparent" />
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroupList>
+                                                    <VisualStateGroup x:Name="CheckedStates">
+                                                        <VisualState x:Name="Checked">
+                                                            <VisualState.Setters>
+                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+
+                                                        <VisualState x:Name="Unchecked">
+                                                            <VisualState.Setters>
+                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
+                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateGroupList>
+                                            </VisualStateManager.VisualStateGroups>
+                                        </Grid>
+                                    </ControlTemplate>
+
+                                </RadioButton.ControlTemplate>
+                            </RadioButton>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </Grid>
+        </HorizontalStackLayout>
+
         <SearchBar
             Grid.Row="2"
             Grid.Column="3"
             FontSize="12"
             HeightRequest="35"
             MinimumHeightRequest="35"
-            Placeholder="Filter" />
+            Placeholder="{Binding Source={x:Reference Category}, Path=Category, StringFormat='Filter {0:F2}'}" />
         <Line
             Grid.Row="2"
             Grid.Column="1"

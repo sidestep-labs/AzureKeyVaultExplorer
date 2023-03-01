@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using sidestep.quickey.Services;
+using sidestep.quickey.ViewModel;
 
 #if WINDOWS
 using Microsoft.UI;
@@ -51,6 +52,8 @@ namespace sidestep.quickey
             });
 
             builder.UseMauiCommunityToolkit();
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<MainPageViewModel>();
             builder.Services.AddSingleton<AuthenticationPage>();
             builder.Services.AddSingleton<AuthService>();
 

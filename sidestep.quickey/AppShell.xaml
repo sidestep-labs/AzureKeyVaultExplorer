@@ -4,26 +4,75 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:sidestep.quickey"
-    FlowDirection="RightToLeft"
     Shell.FlyoutBehavior="Flyout"
-    Shell.FlyoutHeight="200"
-    Shell.FlyoutWidth="50"
+    Shell.NavBarIsVisible="False"
     TabBarTitleColor="AntiqueWhite">
 
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
-    <TabBar>
-        <Tab Title="Domestic">
-            <ShellContent
-                Title="Cats"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="MainPage" />
-        </Tab>
-        <Tab Title="Test">
-            <ShellContent ContentTemplate="{DataTemplate local:AuthenticationPage}" />
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout>
 
-        </Tab>
-    </TabBar>
+            <Label
+                Grid.Row="0"
+                HeightRequest="25"
+                HorizontalOptions="Start"
+                MinimumHeightRequest="25"
+                Text="Explorer" />
+            <Entry
+                Grid.Row="1"
+                ClearButtonVisibility="WhileEditing"
+                FontSize="12"
+                HeightRequest="35"
+                MinimumHeightRequest="35"
+                Placeholder="Find a Vault" />
 
+        </VerticalStackLayout>
+
+    </Shell.FlyoutHeader>
+    <Shell.FlyoutContent>
+
+        <ListView
+            HorizontalScrollBarVisibility="Always"
+            SelectionMode="None"
+            SeparatorVisibility="Default"
+            VerticalOptions="StartAndExpand">
+            <ListView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>apple-vault</x:String>
+                    <x:String>windows-vault</x:String>
+                    <x:String>prod-vault</x:String>
+                    <x:String>dev-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>apple-vault</x:String>
+                    <x:String>superlongnameazure key vault vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                    <x:String>mac-vault</x:String>
+                    <x:String>android-vault</x:String>
+                    <x:String>walledgarden-vault</x:String>
+                </x:Array>
+            </ListView.ItemsSource>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Label
+                                FontSize="13"
+                                Text="{Binding .}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Shell.FlyoutContent>
 
 </Shell>

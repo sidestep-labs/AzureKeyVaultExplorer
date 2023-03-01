@@ -4,16 +4,19 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:sidestep.quickey.Controls"
+    xmlns:viewmodel="clr-namespace:sidestep.quickey.ViewModel"
     Padding="10"
+    x:DataType="viewmodel:MainPageViewModel"
     Shell.NavBarIsVisible="{OnPlatform false,
                                        MacCatalyst=false,
                                        WinUI=true}">
 
 
     <ContentPage.MenuBarItems>
-        <MenuBarItem AbsoluteLayout.LayoutFlags="PositionProportional" Text="File">
+        <MenuBarItem Text="Options">
+            <MenuFlyoutItem Command="{Binding ToggleFlyoutCommand}" Text="Change Vault" />
             <MenuFlyoutItem Text="Login" />
-            <MenuFlyoutItem Text="Logout" />
+            <MenuFlyoutItem Command="{Binding LogoutCommand}" Text="Logout" />
             <MenuFlyoutItem Text="View Tenant" />
         </MenuBarItem>
         <MenuBarItem Text="View">
@@ -26,6 +29,7 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
+
     <Grid
         ColumnDefinitions=".25*,.37*,.37*"
         ColumnSpacing="10"
@@ -36,71 +40,70 @@
         RowSpacing="5"
         VerticalOptions="Fill">
 
-        <Label
-            Grid.Row="0"
-            HeightRequest="25"
-            HorizontalOptions="Start"
-            MinimumHeightRequest="25"
-            Text="Explorer" />
-        <Entry
-            Grid.Row="1"
-            ClearButtonVisibility="WhileEditing"
-            FontSize="12"
-            HeightRequest="35"
-            MinimumHeightRequest="35"
-            Placeholder="Find a Vault" />
 
-        <ListView
-            Grid.Row="2"
-            Grid.RowSpan="2"
-            Footer="vault list end"
-            HorizontalScrollBarVisibility="Always"
-            SelectionMode="None"
-            SeparatorVisibility="Default"
-            VerticalOptions="StartAndExpand">
-            <ListView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>apple-vault</x:String>
-                    <x:String>windows-vault</x:String>
-                    <x:String>prod-vault</x:String>
-                    <x:String>dev-vault</x:String>
-                    <x:String>android-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
-                    <x:String>mac-vault</x:String>
-                    <x:String>apple-vault</x:String>
-                    <x:String>superlongnameazure key vault vault</x:String>
-                    <x:String>mac-vault</x:String>
-                    <x:String>android-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
-                    <x:String>mac-vault</x:String>
-                    <x:String>android-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
-                    <x:String>mac-vault</x:String>
-                    <x:String>android-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
-                    <x:String>mac-vault</x:String>
-                </x:Array>
-            </ListView.ItemsSource>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10">
-                            <Label
-                                FontSize="13"
-                                Text="{Binding .}"
-                                VerticalOptions="Center" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Line
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            BackgroundColor="Red"
-            HorizontalOptions="EndAndExpand"
-            VerticalOptions="EndAndExpand" />
+        <VerticalStackLayout Grid.Column="0">
+            <Label Text="Type" />
+
+
+            <!--  Tab Control  -->
+            <Grid Grid.Row="1">
+                <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
+                <HorizontalStackLayout
+                    RadioButtonGroup.GroupName="MenuCategories"
+                    RadioButtonGroup.SelectedValue="{Binding Category}"
+                    Spacing="20">
+                    <BindableLayout.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Secrets</x:String>
+                            <x:String>Certificates</x:String>
+                            <x:String>Keys</x:String>
+                        </x:Array>
+                    </BindableLayout.ItemsSource>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="{Binding .}" Value="{Binding .}">
+                                <RadioButton.ControlTemplate>
+                                    <ControlTemplate>
+                                        <Grid RowDefinitions="30,4">
+                                            <Label x:Name="TextLabel" Text="{TemplateBinding Content}" />
+                                            <BoxView
+                                                x:Name="Indicator"
+                                                Grid.Row="1"
+                                                Color="Transparent" />
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroupList>
+                                                    <VisualStateGroup x:Name="CheckedStates">
+                                                        <VisualState x:Name="Checked">
+                                                            <VisualState.Setters>
+                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+
+                                                        <VisualState x:Name="Unchecked">
+                                                            <VisualState.Setters>
+                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
+                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateGroupList>
+                                            </VisualStateManager.VisualStateGroups>
+                                        </Grid>
+                                    </ControlTemplate>
+
+                                </RadioButton.ControlTemplate>
+                            </RadioButton>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+
+
+            </Grid>
+
+
+        </VerticalStackLayout>
+
         <Label
             Grid.Row="0"
             Grid.Column="2"

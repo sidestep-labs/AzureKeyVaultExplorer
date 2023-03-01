@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using sidestep.quickey.Services;
+using sidestep.quickey.ViewModel;
 using sidestep.quickey.Views;
 
 namespace sidestep.quickey;
@@ -8,9 +9,10 @@ public partial class MainPage : ContentPage
 {
     private int count = 0;
 
-    public MainPage()
+    public MainPage(MainPageViewModel vm)
     {
         InitializeComponent();
+        BindingContext = vm;
     }
 
     private async void Go(object sender, EventArgs e)

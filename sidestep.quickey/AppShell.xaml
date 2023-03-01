@@ -4,7 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:sidestep.quickey"
-    FlyoutBehavior="Locked">
+    FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="{OnPlatform Default=False,
+                                       MacCatalyst=False,
+                                       WinUI=True}">
 
 
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />

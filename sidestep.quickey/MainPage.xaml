@@ -29,17 +29,12 @@
         ColumnDefinitions=".25*,.37*,.37*"
         ColumnSpacing="10"
         RowDefinitions=".15*,Auto, Auto, *"
-        VerticalOptions="Fill">
-
-
-
+        VerticalOptions="Start">
 
         <Label
             Grid.Row="0"
-            HeightRequest="25"
-            HorizontalOptions="Start"
-            MinimumHeightRequest="25"
-            Text="Explorer" />
+            Text="Explorer"
+            VerticalOptions="Start" />
         <Entry
             Grid.Row="1"
             ClearButtonVisibility="WhileEditing"

@@ -3,13 +3,27 @@
     x:Class="sidestep.quickey.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:sidestep.quickey">
+    xmlns:local="clr-namespace:sidestep.quickey"
+    FlowDirection="RightToLeft"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutHeight="200"
+    Shell.FlyoutWidth="50"
+    TabBarTitleColor="AntiqueWhite">
 
 
-    <ShellContent
-        Title=""
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Domestic">
+            <ShellContent
+                Title="Cats"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="MainPage" />
+        </Tab>
+        <Tab Title="Test">
+            <ShellContent ContentTemplate="{DataTemplate local:AuthenticationPage}" />
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+
+        </Tab>
+    </TabBar>
 
 
 </Shell>

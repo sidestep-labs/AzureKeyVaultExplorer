@@ -8,12 +8,6 @@
     Shell.NavBarIsVisible="{OnPlatform false,
                                        MacCatalyst=false,
                                        WinUI=true}">
-    <!--<ContentPage.Content>-->
-
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="OnCounterClicked" Text="Add" />
-        <ToolbarItem Clicked="OnCounterClicked" Text="Save" />
-    </ContentPage.ToolbarItems>-->
 
 
     <ContentPage.MenuBarItems>
@@ -34,13 +28,13 @@
 
     <Grid
         ColumnDefinitions=".25*,.37*,.37*"
+        ColumnSpacing="10"
         IsVisible="{OnPlatform false,
                                WinUI=true,
                                MacCatalyst=true}"
         RowDefinitions="25,25, Auto, *"
         RowSpacing="5"
         VerticalOptions="Fill">
-        <!--<controls:CustomNavigationBar Grid.Row="0" TitleText="{Binding Settings}" />-->
 
         <Label
             Grid.Row="0"
@@ -48,8 +42,9 @@
             HorizontalOptions="Start"
             MinimumHeightRequest="25"
             Text="Explorer" />
-        <SearchBar
+        <Entry
             Grid.Row="1"
+            ClearButtonVisibility="WhileEditing"
             FontSize="12"
             HeightRequest="35"
             MinimumHeightRequest="35"
@@ -73,14 +68,7 @@
                     <x:String>walledgarden-vault</x:String>
                     <x:String>mac-vault</x:String>
                     <x:String>apple-vault</x:String>
-                    <x:String>windows-vault</x:String>
-                    <x:String>prod-vault</x:String>
-                    <x:String>dev-vault</x:String>
-                    <x:String>android-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
-                    <x:String>mac-vault</x:String>
-                    <x:String>android-vault</x:String>
-                    <x:String>walledgarden-vault</x:String>
+                    <x:String>superlongnameazure key vault vault</x:String>
                     <x:String>mac-vault</x:String>
                     <x:String>android-vault</x:String>
                     <x:String>walledgarden-vault</x:String>
@@ -97,9 +85,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Padding="5">
+                        <Grid Padding="10">
                             <Label
-                                FontSize="12"
+                                FontSize="13"
                                 Text="{Binding .}"
                                 VerticalOptions="Center" />
                         </Grid>
@@ -107,16 +95,36 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <SearchBar
+        <Line
             Grid.Row="0"
+            Grid.RowSpan="3"
+            BackgroundColor="Red"
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="EndAndExpand" />
+        <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            FontSize="18"
+            HorizontalOptions="End"
+            SemanticProperties.Description="Secrets and Keys"
+            SemanticProperties.HeadingLevel="Level2"
+            Text="Secrets and Keys" />
+        <SearchBar
+            Grid.Row="2"
             Grid.Column="3"
             FontSize="12"
             HeightRequest="35"
             MinimumHeightRequest="35"
             Placeholder="Filter" />
+        <Line
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="1,50,0,0"
+            BackgroundColor="SlateGray"
+            HeightRequest="1" />
         <StackLayout
-            Grid.Row="1"
+            Grid.Row="3"
             Grid.RowSpan="5"
             Grid.Column="1"
             Grid.ColumnSpan="3">
@@ -125,9 +133,9 @@
                 Footer="Secrets"
                 SelectionMode="None"
                 VerticalOptions="StartAndExpand">
-                <CollectionView.ItemsLayout>
+                <!--<CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="2" />
-                </CollectionView.ItemsLayout>
+                </CollectionView.ItemsLayout>-->
                 <CollectionView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>ETL Secret</x:String>
@@ -135,6 +143,9 @@
                         <x:String>SyncfusionKey</x:String>
                         <x:String>Apple Dev Key</x:String>
                         <x:String>Box API SAS Token</x:String>
+                        <x:String>Facset API Key</x:String>
+                        <x:String>Salesforce Creds</x:String>
+                        <x:String>Prod Sql Login</x:String>
                     </x:Array>
                 </CollectionView.ItemsSource>
                 <CollectionView.ItemTemplate>
@@ -150,7 +161,9 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width=".33" />
+                                    <ColumnDefinition Width=".33" />
+
                                 </Grid.ColumnDefinitions>
                                 <Label
                                     Grid.Column="0"
@@ -162,7 +175,20 @@
                                     Grid.Column="1"
                                     FontAttributes="Italic"
                                     LineBreakMode="TailTruncation"
-                                    Text="{Binding .}"
+                                    Text="Expires in 10 days"
+                                    VerticalOptions="End" />
+                                <Line
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="2"
+                                    BackgroundColor="Red"
+                                    Y1="100" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    FontAttributes="Italic"
+                                    LineBreakMode="TailTruncation"
+                                    Text="Edit"
                                     VerticalOptions="End" />
                             </Grid>
                         </Frame>
@@ -171,31 +197,31 @@
             </CollectionView>
 
 
-            <Label
-                FontSize="18"
-                HorizontalOptions="Center"
-                SemanticProperties.Description="Secrets and Keys"
-                SemanticProperties.HeadingLevel="Level2"
-                Text="Secrets and Keys" />
 
-            <Button
-                x:Name="CounterBtn"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me" />
-            <Button
-                x:Name="GoTobtn"
-                Clicked="Go"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="GoToLogin" />
-            <Button
-                x:Name="newWindow"
-                Clicked="newWindow_Clicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="New Window" />
+            <StackLayout
+                HorizontalOptions="End"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
+
+                <Button
+                    x:Name="CounterBtn"
+                    Clicked="OnCounterClicked"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="Click me" />
+                <Button
+                    x:Name="GoTobtn"
+                    Clicked="Go"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="GoToLogin" />
+                <Button
+                    x:Name="newWindow"
+                    Clicked="newWindow_Clicked"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="New Window" />
+            </StackLayout>
         </StackLayout>
 
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="sidestep.quickey.Controls.SegmentedTab"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ContentView.Content>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
+            <HorizontalStackLayout
+                RadioButtonGroup.GroupName="MenuCategories"
+                RadioButtonGroup.SelectedValue="{Binding Category}"
+                Spacing="20">
+                <BindableLayout.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Secrets</x:String>
+                        <x:String>Certificates</x:String>
+                        <x:String>Keys</x:String>
+                    </x:Array>
+                </BindableLayout.ItemsSource>
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding .}" Value="{Binding .}">
+                            <RadioButton.ControlTemplate>
+                                <ControlTemplate>
+                                    <Grid RowDefinitions="30,4">
+                                        <Label x:Name="TextLabel" Text="{TemplateBinding Content}" />
+                                        <BoxView
+                                            x:Name="Indicator"
+                                            Grid.Row="1"
+                                            Color="Transparent" />
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CheckedStates">
+                                                    <VisualState x:Name="Checked">
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                                            <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+
+                                                    <VisualState x:Name="Unchecked">
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
+                                                            <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Grid>
+                                </ControlTemplate>
+                            </RadioButton.ControlTemplate>
+                        </RadioButton>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

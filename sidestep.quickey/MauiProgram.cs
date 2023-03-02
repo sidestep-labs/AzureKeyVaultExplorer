@@ -40,7 +40,7 @@ namespace sidestep.quickey
                 var titlebar = appWindow.TitleBar;
                 if(Application.Current.RequestedTheme == AppTheme.Dark)
                 {
-                    color.A = 1; color.B = 33; color.G = 33; color.R =33;
+                    color.A = 1; color.B = 16; color.G = 16; color.R =19;
                 }
                 //TODO: Get this from config
                 titlebar.BackgroundColor =color;

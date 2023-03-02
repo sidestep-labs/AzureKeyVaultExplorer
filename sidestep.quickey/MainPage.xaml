@@ -4,8 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:sidestep.quickey.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:sidestep.quickey.ViewModel"
-    Padding="10"
     x:DataType="viewmodel:MainPageViewModel">
 
     <ContentPage.MenuBarItems>
@@ -30,7 +30,6 @@
         ColumnSpacing="10"
         RowDefinitions=".15*,Auto, Auto, *"
         VerticalOptions="Start">
-
         <Label
             Grid.Row="0"
             Text="Explorer"
@@ -39,10 +38,9 @@
             Grid.Row="1"
             ClearButtonVisibility="WhileEditing"
             FontSize="12"
-            HeightRequest="35"
-            MinimumHeightRequest="35"
+            HeightRequest="30"
+            MinimumHeightRequest="30"
             Placeholder="Find a Vault" />
-
 
 
         <ListView
@@ -92,13 +90,10 @@
         </ListView>
 
 
-
-
-
-
-
-        <HorizontalStackLayout Grid.Row="0" Grid.Column="2">
-
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Grid.Column="2"
+            HorizontalOptions="End">
             <Grid Grid.Row="1" Grid.Column="2">
                 <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
                 <HorizontalStackLayout
@@ -223,8 +218,16 @@
                                     Grid.Row="0"
                                     Grid.RowSpan="2"
                                     Grid.Column="2"
-                                    Source="azure.png"
-                                    VerticalOptions="FillAndExpand" />
+                                    BackgroundColor="Transparent"
+                                    SemanticProperties.Hint="View Details"
+                                    Source="right_chevron.png"
+                                    VerticalOptions="FillAndExpand">
+
+                                    <ImageButton.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                                    </ImageButton.Behaviors>
+                                </ImageButton>
+
 
 
                             </Grid>
@@ -233,31 +236,36 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <StackLayout
-                HorizontalOptions="End"
-                Orientation="Horizontal"
-                VerticalOptions="Center">
-                <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
-                <Button
-                    x:Name="CounterBtn"
-                    Clicked="OnCounterClicked"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="Click me" />
-                <Button
-                    x:Name="GoTobtn"
-                    Clicked="Go"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="GoToLogin" />
-                <Button
-                    x:Name="newWindow"
-                    Clicked="newWindow_Clicked"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="New Window" />
-            </StackLayout>
         </StackLayout>
+
+        <HorizontalStackLayout
+            Grid.Row="4"
+            Grid.Column="2"
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="EndAndExpand">
+
+
+            <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
+            <Button
+                x:Name="CounterBtn"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="Click me" />
+            <Button
+                x:Name="GoTobtn"
+                Clicked="Go"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="GoToLogin" />
+            <Button
+                x:Name="newWindow"
+                Clicked="newWindow_Clicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="New Window" />
+        </HorizontalStackLayout>
+
     </Grid>
     <!--<ScrollView>
 
@@ -310,3 +318,32 @@
         </VerticalStackLayout>
     </ScrollView>-->
 </ContentPage>
+
+<!--<Grid RowDefinitions="Auto,*,Auto">
+
+-->
+<!--  Row 1 : Header  -->
+<!--
+    <Grid>
+-->
+<!--  header content  -->
+<!--
+    </Grid>
+
+-->
+<!--  Row 2 : Content  -->
+<!--
+    <Grid Grid.Row="1"
+              Name="PrimaryPageLayout">
+    </Grid>
+
+-->
+<!--  Row 3 : Footer  -->
+<!--
+    <Grid Grid.Row="2">
+-->
+<!--  footer content  -->
+<!--
+    </Grid>
+
+</Grid>-->

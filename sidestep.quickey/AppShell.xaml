@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:sidestep.quickey"
-    FlyoutBehavior="Disabled"
+    FlyoutWidth="200"
     Shell.NavBarIsVisible="{OnPlatform Default=False,
                                        MacCatalyst=False,
                                        WinUI=True}">
@@ -14,12 +14,9 @@
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout>
-
             <Label
                 Grid.Row="0"
-                HeightRequest="25"
                 HorizontalOptions="Start"
-                MinimumHeightRequest="25"
                 Text="Explorer" />
             <Entry
                 Grid.Row="1"
@@ -28,13 +25,13 @@
                 HeightRequest="35"
                 MinimumHeightRequest="35"
                 Placeholder="Find a Vault" />
-
         </VerticalStackLayout>
 
     </Shell.FlyoutHeader>
     <Shell.FlyoutContent>
 
         <ListView
+            Footer="end"
             HorizontalScrollBarVisibility="Always"
             SelectionMode="None"
             SeparatorVisibility="Default"

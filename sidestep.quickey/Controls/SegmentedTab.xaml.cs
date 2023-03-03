@@ -7,7 +7,7 @@ public partial class SegmentedTab : ContentView
         InitializeComponent();
     }
 
-    public static readonly BindableProperty SelectedValueProperty = BindableProperty.Create(nameof(SelectedValue), typeof(string), typeof(SegmentedTab), propertyChanged: OnSelectedValuePropertyChanged);
+    public static readonly BindableProperty SelectedValueProperty = BindableProperty.Create(nameof(SelectedValue), typeof(string), typeof(SegmentedTab), defaultBindingMode: BindingMode.TwoWay, propertyChanged: OnSelectedValuePropertyChanged);
 
     public string SelectedValue
     {

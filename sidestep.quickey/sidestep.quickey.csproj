@@ -93,6 +93,7 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Primeng Interface Icons Collection - PAGE 2 - SVG Repo.url" />
 	  <None Remove="Resources\Images\azure.png" />
 	  <None Remove="Resources\Images\Primeng Interface Icons Collection - PAGE 2 - SVG Repo.url" />
 	</ItemGroup>

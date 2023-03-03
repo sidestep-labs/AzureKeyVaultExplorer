@@ -25,7 +25,209 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
-    <Grid
+    <toolkit:DockLayout>
+        <Grid
+            toolkit:DockLayout.DockPosition="Left"
+            ColumnDefinitions="200"
+            RowDefinitions=".15*,Auto, Auto, *"
+            VerticalOptions="Start">
+
+            <Label
+                Grid.Row="0"
+                Text="Explorer"
+                VerticalOptions="Start" />
+            <Entry
+                Grid.Row="1"
+                ClearButtonVisibility="WhileEditing"
+                FontSize="12"
+                HeightRequest="30"
+                MinimumHeightRequest="30"
+                Placeholder="Find a Vault" />
+
+
+            <ListView
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Footer="vault list end"
+                HorizontalScrollBarVisibility="Always"
+                SelectionMode="None"
+                SeparatorVisibility="Default"
+                VerticalOptions="StartAndExpand">
+                <ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>apple-vault</x:String>
+                        <x:String>windows-vault</x:String>
+                        <x:String>prod-vault</x:String>
+                        <x:String>dev-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
+                        <x:String>apple-vault</x:String>
+                        <x:String>superlongnameazure key vault vault</x:String>
+                        <x:String>mac-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
+                        <x:String>android-vault</x:String>
+                        <x:String>walledgarden-vault</x:String>
+                        <x:String>mac-vault</x:String>
+                    </x:Array>
+                </ListView.ItemsSource>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Label
+                                    FontSize="13"
+                                    Text="{Binding .}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </Grid>
+
+        <Grid
+            toolkit:DockLayout.DockPosition="None"
+            ColumnDefinitions="*,*,*,*,*"
+            RowDefinitions=".15*,Auto, Auto, Auto">
+
+            <HorizontalStackLayout
+                  Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                >
+                <controls:SegmentedTab SelectedValue="{Binding Category}">
+                    <controls:SegmentedTab.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Secrets</x:String>
+                            <x:String>Certificates</x:String>
+                            <x:String>Keys</x:String>
+                        </x:Array>
+                    </controls:SegmentedTab.ItemsSource>
+                </controls:SegmentedTab>
+            </HorizontalStackLayout>
+
+            <SearchBar
+                Grid.Row="2"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                FontSize="12"
+                HeightRequest="35"
+                MinimumHeightRequest="35"
+                Placeholder="{Binding Category, StringFormat='Filter {0:F2}'}" />
+
+            <StackLayout
+                Grid.Row="3"
+                Grid.RowSpan="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="5">
+
+                <CollectionView
+                    Footer="Secrets"
+                    SelectionMode="None"
+                    VerticalOptions="StartAndExpand">
+                    <CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>ETL Secret</x:String>
+                            <x:String>Windows Password</x:String>
+                            <x:String>SyncfusionKey</x:String>
+                            <x:String>Apple Dev Key</x:String>
+                            <x:String>Box API SAS Token</x:String>
+                            <x:String>Facset API Key</x:String>
+                            <x:String>Salesforce Creds</x:String>
+                            <x:String>Prod Sql Login</x:String>
+                        </x:Array>
+                    </CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame
+                                Margin="1"
+                                Padding="2"
+                                HeightRequest="45"
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="StartAndExpand">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width=".10*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding .}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        FontAttributes="Italic"
+                                        LineBreakMode="TailTruncation"
+                                        Text="Expires in 10 days" />
+                                    <ImageButton
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        BackgroundColor="Transparent"
+                                        SemanticProperties.Hint="View Details"
+                                        Source="right_chevron.png"
+                                        VerticalOptions="FillAndExpand">
+
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="Red" />
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
+
+
+
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </StackLayout>
+        </Grid>
+        <HorizontalStackLayout
+            toolkit:DockLayout.DockPosition="Bottom"
+            HeightRequest="45"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="EndAndExpand">
+            <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
+            <Button
+                x:Name="CounterBtn"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="Click me" />
+            <Button
+                x:Name="GoTobtn"
+                Clicked="Go"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="GoToLogin" />
+            <Button
+                x:Name="newWindow"
+                Clicked="newWindow_Clicked"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="New Window" />
+        </HorizontalStackLayout>
+    </toolkit:DockLayout>
+
+
+    <!--<Grid
         ColumnDefinitions=".25*,.37*,.37*"
         ColumnSpacing="10"
         RowDefinitions=".15*,Auto, Auto, *"
@@ -90,8 +292,8 @@
         </ListView>
 
 
-
-        <HorizontalStackLayout
+    -->
+    <!--<HorizontalStackLayout
             Grid.Row="1"
             Grid.Column="2"
             HorizontalOptions="End">
@@ -108,57 +310,6 @@
                     </x:Array>
                 </controls:SegmentedTab.ItemsSource>
             </controls:SegmentedTab>
-            <!--<Grid Grid.Row="1" Grid.Column="2">
-                <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
-                <HorizontalStackLayout
-                    RadioButtonGroup.GroupName="MenuCategories"
-                    RadioButtonGroup.SelectedValue="{Binding Category}"
-                    Spacing="20">
-                    <BindableLayout.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Secrets</x:String>
-                            <x:String>Certificates</x:String>
-                            <x:String>Keys</x:String>
-                        </x:Array>
-                    </BindableLayout.ItemsSource>
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton Content="{Binding .}" Value="{Binding .}">
-                                <RadioButton.ControlTemplate>
-                                    <ControlTemplate>
-                                        <Grid RowDefinitions="30,4">
-                                            <Label x:Name="TextLabel" Text="{TemplateBinding Content}" />
-                                            <BoxView
-                                                x:Name="Indicator"
-                                                Grid.Row="1"
-                                                Color="Transparent" />
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroupList>
-                                                    <VisualStateGroup x:Name="CheckedStates">
-                                                        <VisualState x:Name="Checked">
-                                                            <VisualState.Setters>
-                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
-                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-
-                                                        <VisualState x:Name="Unchecked">
-                                                            <VisualState.Setters>
-                                                                <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
-                                                                <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateGroupList>
-                                            </VisualStateManager.VisualStateGroups>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </RadioButton.ControlTemplate>
-                            </RadioButton>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </HorizontalStackLayout>
-            </Grid>-->
         </HorizontalStackLayout>
 
         <SearchBar
@@ -250,37 +401,10 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-        </StackLayout>
+        </StackLayout>-->
+    <!--
 
-        <HorizontalStackLayout
-            Grid.Row="4"
-            Grid.Column="2"
-            HorizontalOptions="EndAndExpand"
-            VerticalOptions="EndAndExpand">
-
-
-            <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
-            <Button
-                x:Name="CounterBtn"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me" />
-            <Button
-                x:Name="GoTobtn"
-                Clicked="Go"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="GoToLogin" />
-            <Button
-                x:Name="newWindow"
-                Clicked="newWindow_Clicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="New Window" />
-        </HorizontalStackLayout>
-
-    </Grid>
+    </Grid>-->
     <!--<ScrollView>
 
         <VerticalStackLayout

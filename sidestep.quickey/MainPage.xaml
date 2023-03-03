@@ -96,6 +96,7 @@
 
         <Grid
             toolkit:DockLayout.DockPosition="None"
+            RowSpacing="4"
             ColumnDefinitions="*,*,*,*,*"
             RowDefinitions=".15*,Auto, Auto, Auto">
 

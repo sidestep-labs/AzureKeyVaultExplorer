@@ -7,34 +7,25 @@ public partial class SegmentedTab : ContentView
         InitializeComponent();
     }
 
-    void btnBack_Clicked(System.Object sender, System.EventArgs e)
+    public static readonly BindableProperty SelectedValueProperty = BindableProperty.Create(nameof(SelectedValue), typeof(string), typeof(SegmentedTab), propertyChanged: OnSelectedValuePropertyChanged);
+
+    public string SelectedValue
     {
-        Navigation.PopAsync();
+        get => (string)GetValue(SelectedValueProperty);
+        set => SetValue(SelectedValueProperty, value);
     }
 
-    void btnHome_Clicked(System.Object sender, System.EventArgs e)
+    private static void OnSelectedValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
     {
-        Navigation.PopToRootAsync();
+        var control = (SegmentedTab)bindable;
+        //Do your logic here
     }
 
-    public static readonly BindableProperty TitleTextProperty = BindableProperty.Create(
-    nameof(TitleText),
-    typeof(string),
-    typeof(CustomNavigationBar),
-    defaultValue: string.Empty,
-    BindingMode.OneWay,
-    propertyChanged: titleBindablePropertyChanged);
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(string[]), typeof(SegmentedTab));
 
-    private static void titleBindablePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    public string[] ItemsSource
     {
-        var control = (CustomNavigationBar)bindable;
-        control.lblBarTitle.Text = newValue.ToString();
-        //throw new NotImplementedException();
-    }
-
-    public string TitleText
-    {
-        get { return base.GetValue(TitleTextProperty).ToString(); }
-        set { base.SetValue(TitleTextProperty, value); }
+        get => (string[])GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
     }
 }

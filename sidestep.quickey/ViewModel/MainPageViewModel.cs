@@ -18,15 +18,6 @@ public partial class MainPageViewModel : ObservableObject
     private string category;
 
 
-
-
-
-
-
-
-
-
-
     [RelayCommand]
      void ToggleFlyout()
     {

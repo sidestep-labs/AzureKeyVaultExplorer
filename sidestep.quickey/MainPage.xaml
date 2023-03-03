@@ -90,11 +90,25 @@
         </ListView>
 
 
+
         <HorizontalStackLayout
             Grid.Row="1"
             Grid.Column="2"
             HorizontalOptions="End">
-            <Grid Grid.Row="1" Grid.Column="2">
+            <controls:SegmentedTab
+                Grid.Row="1"
+                Grid.Column="2"
+                HorizontalOptions="End"
+                SelectedValue="{Binding Category}">
+                <controls:SegmentedTab.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Secrets</x:String>
+                        <x:String>Certificates</x:String>
+                        <x:String>Keys</x:String>
+                    </x:Array>
+                </controls:SegmentedTab.ItemsSource>
+            </controls:SegmentedTab>
+            <!--<Grid Grid.Row="1" Grid.Column="2">
                 <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
                 <HorizontalStackLayout
                     RadioButtonGroup.GroupName="MenuCategories"
@@ -144,7 +158,7 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </HorizontalStackLayout>
-            </Grid>
+            </Grid>-->
         </HorizontalStackLayout>
 
         <SearchBar
@@ -319,29 +333,21 @@
     </ScrollView>-->
 </ContentPage>
 
-<!--<Grid RowDefinitions="Auto,*,Auto">
-
--->
+<!--<Grid RowDefinitions="Auto,*,Auto">-->
 <!--  Row 1 : Header  -->
 <!--
-    <Grid>
--->
+    <Grid>-->
 <!--  header content  -->
 <!--
-    </Grid>
-
--->
+    </Grid>-->
 <!--  Row 2 : Content  -->
 <!--
     <Grid Grid.Row="1"
               Name="PrimaryPageLayout">
-    </Grid>
-
--->
+    </Grid>-->
 <!--  Row 3 : Footer  -->
 <!--
-    <Grid Grid.Row="2">
--->
+    <Grid Grid.Row="2">-->
 <!--  footer content  -->
 <!--
     </Grid>

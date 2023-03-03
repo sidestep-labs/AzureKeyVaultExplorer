@@ -2,22 +2,17 @@
 <ContentView
     x:Class="sidestep.quickey.Controls.SegmentedTab"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="this">
 
     <ContentView.Content>
         <Grid Grid.Row="1" Grid.Column="2">
             <BoxView Margin="0,31,0,0" VerticalOptions="Start" />
             <HorizontalStackLayout
+                BindableLayout.ItemsSource="{Binding Source={x:Reference this}, Path=ItemsSource}"
                 RadioButtonGroup.GroupName="MenuCategories"
-                RadioButtonGroup.SelectedValue="{Binding Category}"
+                RadioButtonGroup.SelectedValue="{Binding Source={x:Reference this}, Path=SelectedValue}"
                 Spacing="20">
-                <BindableLayout.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Secrets</x:String>
-                        <x:String>Certificates</x:String>
-                        <x:String>Keys</x:String>
-                    </x:Array>
-                </BindableLayout.ItemsSource>
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <RadioButton Content="{Binding .}" Value="{Binding .}">

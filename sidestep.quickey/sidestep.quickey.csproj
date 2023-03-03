@@ -110,13 +110,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\CustomNavigationBar.xaml.cs">
-	    <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
+	  <Compile Update="Controls\CustomNavigationBar - Copy.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\SegmentedTab.xaml.cs">
+	    <DependentUpon>SegmentedTab.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Controls\CustomNavigationBar.xaml">
+	  <MauiXaml Update="Controls\CustomNavigationBar - Copy.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\SegmentedTab.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\WelcomePage.xaml">

@@ -104,7 +104,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.50.0" />
 		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.26.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />

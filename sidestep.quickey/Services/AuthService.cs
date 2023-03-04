@@ -3,6 +3,7 @@ using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Principal;
 using System.Text.Json;
 
 namespace sidestep.quickey.Services;
@@ -89,6 +90,7 @@ public class AuthService
         var account = accounts.First();
         Preferences.Set("name", account.Username);
         Preferences.Set("email", account.Username);
+        Preferences.Set("username", account.Username);
         Preferences.Set("is_authenticated", !string.IsNullOrEmpty(account.Username));
 
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
@@ -124,8 +126,9 @@ public class AuthService
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
     }
 
-    public async Task Logout()
+    public async Task RemoveAccount()
     {
+        await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
     }
@@ -174,6 +177,7 @@ public class AuthService
                 var name = token.Claims.First(c => c.Type == "name").Value;
                 Preferences.Set("name", name);
                 Preferences.Set("email", email);
+                Preferences.Set("username", name);
                 Preferences.Set("is_authenticated", !string.IsNullOrEmpty(authResult.IdToken));
             }
         }

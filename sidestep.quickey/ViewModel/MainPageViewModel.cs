@@ -9,13 +9,18 @@ public partial class MainPageViewModel : ObservableObject
     private readonly AuthService _auth;
     public MainPageViewModel(AuthService auth)
     {
-        category = "Secrets";
         _auth = auth;
+        username = Preferences.Get("username", null);
+        category = "Secrets";
     }
 
 
     [ObservableProperty]
     private string category;
+
+
+    [ObservableProperty]
+    private string username;
 
 
     [RelayCommand]
@@ -28,7 +33,7 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     async void Logout()
     {
-       await _auth.Logout();
+       await _auth.RemoveAccount();
     }
 
 }

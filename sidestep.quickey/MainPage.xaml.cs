@@ -36,8 +36,7 @@ public partial class MainPage : ContentPage
     private void Toggle_Thene(object sender, EventArgs e)
     {
         var currentTheme = Application.Current.UserAppTheme;
-        // || Application.Current.RequestedTheme == AppTheme.Light
-        if (currentTheme == AppTheme.Light || currentTheme == AppTheme.Unspecified)
+        if (currentTheme == AppTheme.Light || Application.Current.RequestedTheme == AppTheme.Light)
         {
             Application.Current.UserAppTheme = AppTheme.Dark;
             Preferences.Set("preferred_theme", "dark");

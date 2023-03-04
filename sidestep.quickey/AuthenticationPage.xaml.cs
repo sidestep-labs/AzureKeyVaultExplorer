@@ -18,7 +18,6 @@ public partial class AuthenticationPage : ContentPage
         _auth = auth;
     }
 
-    //public AuthService authService => new AuthService();
 
     private async void OnLoginClicked(object sender, EventArgs e)
     {
@@ -70,7 +69,7 @@ public partial class AuthenticationPage : ContentPage
 
     private async void Logout_Button(object sender, EventArgs e)
     {
-        await _auth.Logout();
+        await _auth.RemoveAccount();
         await Toast.Make("Logged out.").Show();
     }
     private async void AzToken_Button(object sender, EventArgs e)

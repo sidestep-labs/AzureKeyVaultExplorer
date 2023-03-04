@@ -25,25 +25,80 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
+
+
+
     <toolkit:DockLayout>
+        <StackLayout
+            toolkit:DockLayout.DockPosition="Bottom"
+            Background="{StaticResource Primary}"
+            HeightRequest="25"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="End">
+
+            <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="*">
+
+                <Label Grid.Column="0" Text="new window">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Clicked="newWindow_Clicked" />
+                        <TapGestureRecognizer Tapped="newWindow_Clicked" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label Grid.Column="1" Text="open">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
+                        <TapGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label
+                    x:Name="CounterBtn"
+                    Grid.Column="2"
+                    FontSize="10"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="click me">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Clicked="OnCounterClicked" />
+                        <TapGestureRecognizer Tapped="OnCounterClicked" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label
+                    x:Name="GoToLogin"
+                    Grid.Column="3"
+                    HorizontalOptions="Center"
+                    Text="Login">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Clicked="Go" />
+                        <TapGestureRecognizer Tapped="Go" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label
+                    Grid.Column="4"
+                    FontSize="12"
+                    HorizontalOptions="StartAndExpand"
+                    Text="{Binding Username}" />
+
+            </Grid>
+
+        </StackLayout>
+
         <Grid
             toolkit:DockLayout.DockPosition="Left"
-            ColumnDefinitions="200"
-            RowDefinitions=".15*,Auto, Auto, *"
-            VerticalOptions="Start">
+            ColumnDefinitions="Auto"
+            RowDefinitions="Auto,Auto, *"
+            VerticalOptions="StartAndExpand">
 
-            <Label
-                Grid.Row="0"
-                Text="Explorer"
-                VerticalOptions="Start" />
-            <Entry
-                Grid.Row="1"
-                ClearButtonVisibility="WhileEditing"
-                FontSize="12"
-                HeightRequest="30"
-                MinimumHeightRequest="30"
-                Placeholder="Find a Vault" />
-
+            <VerticalStackLayout Grid.Row="0">
+                <Label Text="Explorer" />
+                <Entry
+                    ClearButtonVisibility="WhileEditing"
+                    FontSize="12"
+                    HeightRequest="30"
+                    MinimumHeightRequest="30"
+                    Placeholder="Find a Vault" />
+            </VerticalStackLayout>
 
             <ListView
                 Grid.Row="2"
@@ -51,8 +106,7 @@
                 Footer="vault list end"
                 HorizontalScrollBarVisibility="Always"
                 SelectionMode="None"
-                SeparatorVisibility="Default"
-                VerticalOptions="StartAndExpand">
+                SeparatorVisibility="Default">
                 <ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>apple-vault</x:String>
@@ -94,17 +148,18 @@
 
         </Grid>
 
+
         <Grid
             toolkit:DockLayout.DockPosition="None"
-            RowSpacing="4"
             ColumnDefinitions="*,*,*,*,*"
-            RowDefinitions=".15*,Auto, Auto, Auto">
+            RowDefinitions=".15*,Auto, Auto, Auto"
+            RowSpacing="4"
+            VerticalOptions="StartAndExpand">
 
             <HorizontalStackLayout
-                  Grid.Row="2"
+                Grid.Row="2"
                 Grid.Column="1"
-                Grid.ColumnSpan="2"
-                >
+                Grid.ColumnSpan="2">
                 <controls:SegmentedTab SelectedValue="{Binding Category}">
                     <controls:SegmentedTab.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -200,32 +255,12 @@
 
             </StackLayout>
         </Grid>
-        <HorizontalStackLayout
-            toolkit:DockLayout.DockPosition="Bottom"
-            HeightRequest="45"
-            HorizontalOptions="CenterAndExpand"
-            VerticalOptions="EndAndExpand">
-            <Button Command="{Binding ToggleFlyoutCommand}" Text="Switch Vault" />
-            <Button
-                x:Name="CounterBtn"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me" />
-            <Button
-                x:Name="GoTobtn"
-                Clicked="Go"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="GoToLogin" />
-            <Button
-                x:Name="newWindow"
-                Clicked="newWindow_Clicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="New Window" />
-        </HorizontalStackLayout>
+
     </toolkit:DockLayout>
+
+
+
+
 
 
     <!--<Grid
@@ -457,24 +492,3 @@
         </VerticalStackLayout>
     </ScrollView>-->
 </ContentPage>
-
-<!--<Grid RowDefinitions="Auto,*,Auto">-->
-<!--  Row 1 : Header  -->
-<!--
-    <Grid>-->
-<!--  header content  -->
-<!--
-    </Grid>-->
-<!--  Row 2 : Content  -->
-<!--
-    <Grid Grid.Row="1"
-              Name="PrimaryPageLayout">
-    </Grid>-->
-<!--  Row 3 : Footer  -->
-<!--
-    <Grid Grid.Row="2">-->
-<!--  footer content  -->
-<!--
-    </Grid>
-
-</Grid>-->

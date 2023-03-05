@@ -29,64 +29,79 @@
 
 
     <toolkit:DockLayout>
-        <StackLayout
+
+        <!--  bottom bar  -->
+        <Grid
             toolkit:DockLayout.DockPosition="Bottom"
             Background="{StaticResource Primary}"
+            ColumnDefinitions="*,*,*,*,*"
             HeightRequest="25"
             HorizontalOptions="FillAndExpand"
+            RowDefinitions="*"
             VerticalOptions="End">
 
-            <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="*">
+            <Label
+                Grid.Column="0"
+                FontSize="12"
+                Text="new window"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <ClickGestureRecognizer Clicked="newWindow_Clicked" />
+                    <TapGestureRecognizer Tapped="newWindow_Clicked" />
+                </Label.GestureRecognizers>
+            </Label>
 
-                <Label Grid.Column="0" Text="new window">
-                    <Label.GestureRecognizers>
-                        <ClickGestureRecognizer Clicked="newWindow_Clicked" />
-                        <TapGestureRecognizer Tapped="newWindow_Clicked" />
-                    </Label.GestureRecognizers>
-                </Label>
+            <Label
+                Grid.Column="1"
+                FontSize="12"
+                Text="open"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <ClickGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
+                    <TapGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                x:Name="CounterBtn"
+                Grid.Column="2"
+                FontSize="10"
+                HorizontalOptions="Center"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Text="click me"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <ClickGestureRecognizer Clicked="OnCounterClicked" />
+                    <TapGestureRecognizer Tapped="OnCounterClicked" />
+                </Label.GestureRecognizers>
+            </Label>
 
-                <Label Grid.Column="1" Text="open">
-                    <Label.GestureRecognizers>
-                        <ClickGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
-                        <TapGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label
-                    x:Name="CounterBtn"
-                    Grid.Column="2"
-                    FontSize="10"
-                    HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="click me">
-                    <Label.GestureRecognizers>
-                        <ClickGestureRecognizer Clicked="OnCounterClicked" />
-                        <TapGestureRecognizer Tapped="OnCounterClicked" />
-                    </Label.GestureRecognizers>
-                </Label>
+            <Label
+                x:Name="GoToLogin"
+                Grid.Column="3"
+                FontSize="12"
+                HorizontalOptions="Center"
+                Text="Login"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <ClickGestureRecognizer Clicked="Go" />
+                    <TapGestureRecognizer Tapped="Go" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                Grid.Column="4"
+                FontSize="12"
+                HorizontalOptions="StartAndExpand"
+                Text="{Binding Username}"
+                VerticalOptions="Center" />
 
-                <Label
-                    x:Name="GoToLogin"
-                    Grid.Column="3"
-                    HorizontalOptions="Center"
-                    Text="Login">
-                    <Label.GestureRecognizers>
-                        <ClickGestureRecognizer Clicked="Go" />
-                        <TapGestureRecognizer Tapped="Go" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label
-                    Grid.Column="4"
-                    FontSize="12"
-                    HorizontalOptions="StartAndExpand"
-                    Text="{Binding Username}" />
+        </Grid>
 
-            </Grid>
-
-        </StackLayout>
+        <!--  sidebar  -->
 
         <Grid
             toolkit:DockLayout.DockPosition="Left"
-            ColumnDefinitions="Auto"
+            ColumnDefinitions="200"
+            HorizontalOptions="FillAndExpand"
             RowDefinitions="Auto,Auto, *"
             VerticalOptions="StartAndExpand">
 
@@ -148,11 +163,12 @@
 
         </Grid>
 
+        <!--  center  -->
 
         <Grid
             toolkit:DockLayout.DockPosition="None"
             ColumnDefinitions="*,*,*,*,*"
-            RowDefinitions=".15*,Auto, Auto, Auto"
+            RowDefinitions="*,Auto, Auto, Auto"
             RowSpacing="4"
             VerticalOptions="StartAndExpand">
 

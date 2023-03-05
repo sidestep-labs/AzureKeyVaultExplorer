@@ -135,12 +135,15 @@ public class AuthService
 
     public async Task<AuthenticationResult> GetAzureArmTokenSilent()
     {
+        await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.FirstOrDefault()).ExecuteAsync();
     }
 
     public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
+
+        await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         var res = await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
         var tokenCredential = new CustomTokenCredential(res);

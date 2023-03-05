@@ -151,5 +151,8 @@
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\Primeng Interface Icons Collection - PAGE 2 - SVG Repo.url" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Services\NewFolder\" />
+	</ItemGroup>
 
 </Project>

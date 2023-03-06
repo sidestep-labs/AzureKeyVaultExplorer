@@ -8,10 +8,10 @@ public class CustomTokenCredential : TokenCredential
 {
     private readonly string _token;
     private readonly DateTimeOffset _expiresOn;
-    public CustomTokenCredential(AuthenticationResult access)
+    public CustomTokenCredential(AuthenticationResult accessResult)
     {
-        _expiresOn = access.ExpiresOn;
-        _token = access.AccessToken;
+        _expiresOn = accessResult.ExpiresOn;
+        _token = accessResult.AccessToken;
     }
     public override AccessToken GetToken(TokenRequestContext requestContext, CancellationToken cancellationToken)
     {

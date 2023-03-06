@@ -64,7 +64,6 @@
             <Label
                 x:Name="CounterBtn"
                 Grid.Column="2"
-                FontSize="10"
                 HorizontalOptions="Center"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Text="click me"

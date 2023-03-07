@@ -17,13 +17,21 @@ public partial class MainPageViewModel : ObservableObject
         _vaultSerivce = vaultService;
         username = Preferences.Get("username", null);
         category = "Secrets";
+        isBusy = false;
         VaultList = new ObservableCollection<KeyVaultData>();
     }
 
-    private bool InitialLoad { get; set; } = true;
+
 
     [ObservableProperty]
     private ObservableCollection<KeyVaultData> vaultList;
+
+    [ObservableProperty]
+    private KeyVaultData selectedVault;
+
+
+
+
 
     //[ObservableProperty]
     //private ObservableCollection<KeyVaultData> secretList;
@@ -34,12 +42,19 @@ public partial class MainPageViewModel : ObservableObject
     //[ObservableProperty]
     //private ObservableCollection<KeyVaultData> certificateList;
 
-
     [ObservableProperty]
     private string category;
 
     [ObservableProperty]
     private string username;
+
+
+    private bool InitialLoad { get; set; } = true;
+
+    [ObservableProperty]
+    private bool isBusy;
+
+
 
     [RelayCommand]
     private void ToggleFlyout()
@@ -54,6 +69,7 @@ public partial class MainPageViewModel : ObservableObject
         {
             if (InitialLoad)
             {
+                IsBusy = true;
                 var keyVaultResources = _vaultSerivce.GetKeyVaultResources();
                 await foreach (var kv in keyVaultResources)
                 {
@@ -65,6 +81,10 @@ public partial class MainPageViewModel : ObservableObject
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

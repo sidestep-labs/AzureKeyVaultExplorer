@@ -1,15 +1,10 @@
-﻿using Azure.ResourceManager.Resources;
-using Azure.ResourceManager;
-using Azure.Security.KeyVault.Secrets;
+﻿using Azure.Security.KeyVault.Secrets;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Principal;
 using System.Text.Json;
-using Azure.ResourceManager.Resources;
-using Azure.ResourceManager;
-using Azure.ResourceManager.KeyVault;
+
 namespace sidestep.quickey.Services;
 
 public class AuthService
@@ -146,7 +141,6 @@ public class AuthService
 
     public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
-
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         var res = await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
@@ -237,13 +231,4 @@ public class AuthService
     }
 
     #endregion MacCatalyst We bAuth Microsoft Identity Platform
-
-
-
-  
-
-
-
-
-
 }

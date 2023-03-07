@@ -37,6 +37,7 @@
 
         <!--  bottom bar  -->
         <Grid
+            Padding="1"
             toolkit:DockLayout.DockPosition="Bottom"
             Background="{StaticResource Primary}"
             ColumnDefinitions="*,*,*,*,*"
@@ -66,7 +67,7 @@
                     <TapGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />
                 </Label.GestureRecognizers>
             </Label>
-            <Label
+            <!--<Label
                 x:Name="CounterBtn"
                 Grid.Column="2"
                 HorizontalOptions="Center"
@@ -77,11 +78,11 @@
                     <ClickGestureRecognizer Clicked="OnCounterClicked" />
                     <TapGestureRecognizer Tapped="OnCounterClicked" />
                 </Label.GestureRecognizers>
-            </Label>
+            </Label>-->
 
             <Label
                 x:Name="GoToLogin"
-                Grid.Column="3"
+                Grid.Column="2"
                 FontSize="12"
                 HorizontalOptions="Center"
                 Text="Login"
@@ -92,9 +93,10 @@
                 </Label.GestureRecognizers>
             </Label>
             <Label
-                Grid.Column="4"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
                 FontSize="12"
-                HorizontalOptions="StartAndExpand"
+                HorizontalOptions="EndAndExpand"
                 Text="{Binding Username}"
                 VerticalOptions="Center" />
 
@@ -144,10 +146,11 @@
 
         <!--  center  -->
 
+
         <Grid
             toolkit:DockLayout.DockPosition="None"
             ColumnDefinitions="*,*,*,*,*"
-            RowDefinitions="*,Auto, Auto, Auto"
+            RowDefinitions="*,Auto, Auto, 0*"
             RowSpacing="4"
             VerticalOptions="StartAndExpand">
 
@@ -175,81 +178,82 @@
                 MinimumHeightRequest="35"
                 Placeholder="{Binding Category, StringFormat='Filter {0:F2}'}" />
 
-            <StackLayout
-                Grid.Row="3"
-                Grid.RowSpan="4"
+
+            <CollectionView
+                Grid.Row="4"
                 Grid.Column="0"
-                Grid.ColumnSpan="5">
+                Grid.ColumnSpan="6"
+                Footer="Secrets"
+                SelectionMode="None"
+                VerticalOptions="Center"
+                VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>ETL Secret</x:String>
+                        <x:String>Windows Password</x:String>
+                        <x:String>SyncfusionKey</x:String>
+                        <x:String>Apple Dev Key</x:String>
+                        <x:String>Box API SAS Token</x:String>
+                        <x:String>Facset API Key</x:String>
+                        <x:String>Salesforce Creds</x:String>
+                        <x:String>Prod Sql Login</x:String>
+                        <x:String>Box API SAS Token</x:String>
+                        <x:String>Facset API Key</x:String>
+                        <x:String>Salesforce Creds</x:String>
+                        <x:String>Prod Sql Login</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="2"
+                            Background="{AppThemeBinding Dark={StaticResource Black750},
+                                                         Light=White}"
+                            HeightRequest="45"
+                            Stroke="White"
+                            StrokeShape="RoundRectangle 5"
+                            StrokeThickness=".25">
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="Gray"
+                                    Opacity=".25"
+                                    Offset="10,.50" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions=".10*, Auto,Auto" RowDefinitions="*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding .}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    FontAttributes="Italic"
+                                    LineBreakMode="TailTruncation"
+                                    Text="Expires in 10 days" />
+                                <ImageButton
+                                    Grid.Row="0"
+                                    Grid.RowSpan="4"
+                                    Grid.Column="1"
+                                    SemanticProperties.Hint="View Details"
+                                    Source="right_chevron.png"
+                                    VerticalOptions="StartAndExpand">
 
-                <CollectionView
-                    Footer="Secrets"
-                    SelectionMode="None"
-                    VerticalOptions="StartAndExpand">
-                    <CollectionView.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>ETL Secret</x:String>
-                            <x:String>Windows Password</x:String>
-                            <x:String>SyncfusionKey</x:String>
-                            <x:String>Apple Dev Key</x:String>
-                            <x:String>Box API SAS Token</x:String>
-                            <x:String>Facset API Key</x:String>
-                            <x:String>Salesforce Creds</x:String>
-                            <x:String>Prod Sql Login</x:String>
-                        </x:Array>
-                    </CollectionView.ItemsSource>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame
-                                Margin="1"
-                                Padding="2"
-                                HeightRequest="45"
-                                HorizontalOptions="StartAndExpand"
-                                VerticalOptions="StartAndExpand">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".10*" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label
-                                        Grid.Column="0"
-                                        FontAttributes="Bold"
-                                        LineBreakMode="TailTruncation"
-                                        Text="{Binding .}" />
-                                    <Label
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        FontAttributes="Italic"
-                                        LineBreakMode="TailTruncation"
-                                        Text="Expires in 10 days" />
-                                    <ImageButton
-                                        Grid.Row="0"
-                                        Grid.RowSpan="2"
-                                        Grid.Column="2"
-                                        BackgroundColor="Transparent"
-                                        SemanticProperties.Hint="View Details"
-                                        Source="right_chevron.png"
-                                        VerticalOptions="FillAndExpand">
-
-                                        <ImageButton.Behaviors>
-                                            <toolkit:IconTintColorBehavior TintColor="Red" />
-                                        </ImageButton.Behaviors>
-                                    </ImageButton>
+                                    <ImageButton.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                                    </ImageButton.Behaviors>
+                                </ImageButton>
 
 
 
-                                </Grid>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-            </StackLayout>
         </Grid>
+
 
     </toolkit:DockLayout>
 

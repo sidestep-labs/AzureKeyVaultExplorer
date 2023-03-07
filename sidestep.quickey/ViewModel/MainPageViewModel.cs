@@ -25,6 +25,16 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<KeyVaultData> vaultList;
 
+    //[ObservableProperty]
+    //private ObservableCollection<KeyVaultData> secretList;
+
+    //[ObservableProperty]
+    //private ObservableCollection<KeyVaultData> keyList;
+
+    //[ObservableProperty]
+    //private ObservableCollection<KeyVaultData> certificateList;
+
+
     [ObservableProperty]
     private string category;
 

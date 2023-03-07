@@ -120,7 +120,6 @@
                     MinimumHeightRequest="30"
                     Placeholder="Find a Vault" />
             </VerticalStackLayout>
-
             <ListView
                 Grid.Row="2"
                 Grid.RowSpan="2"
@@ -142,6 +141,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
         </Grid>
 
         <!--  center  -->

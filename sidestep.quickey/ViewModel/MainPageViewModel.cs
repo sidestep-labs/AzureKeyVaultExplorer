@@ -17,8 +17,10 @@ public partial class MainPageViewModel : ObservableObject
         _vaultSerivce = vaultService;
         username = Preferences.Get("username", null);
         category = "Secrets";
-        VaultList = new ObservableCollection<KeyVaultData>(); 
+        VaultList = new ObservableCollection<KeyVaultData>();
     }
+
+    private bool InitialLoad { get; set; } = true;
 
     [ObservableProperty]
     private ObservableCollection<KeyVaultData> vaultList;
@@ -40,10 +42,14 @@ public partial class MainPageViewModel : ObservableObject
     {
         try
         {
-            var keyVaultResources = _vaultSerivce.GetKeyVaultResources();
-            await foreach (var kv in keyVaultResources)
+            if (InitialLoad)
             {
-                VaultList.Add(kv.Data);
+                var keyVaultResources = _vaultSerivce.GetKeyVaultResources();
+                await foreach (var kv in keyVaultResources)
+                {
+                    VaultList.Add(kv.Data);
+                }
+                InitialLoad = false;
             }
         }
         catch (Exception ex)

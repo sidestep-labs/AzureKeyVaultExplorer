@@ -56,6 +56,8 @@ namespace sidestep.quickey
             builder.Services.AddSingleton<MainPageViewModel>();
             builder.Services.AddSingleton<AuthenticationPage>();
             builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddSingleton<VaultService>();
+
 
 #if DEBUG
             builder.Logging.AddDebug();

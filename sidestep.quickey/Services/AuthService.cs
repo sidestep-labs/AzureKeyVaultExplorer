@@ -240,26 +240,7 @@ public class AuthService
 
 
 
-
-
-
-    public async Task NewAzARMClient()
-    {
-
-        var armResult = await GetAzureArmTokenSilent();
-        var token = new CustomTokenCredential(armResult);
-        var armClient = new ArmClient(token);
-        SubscriptionResource subscription = await armClient.GetDefaultSubscriptionAsync();
-        var kvResources = subscription.GetKeyVaults(10);
-
-        foreach(var kvResource in kvResources)
-        {
-
-            //var resource = armClient.GetKeyVaultResource(kvResource.Id);
-            await Console.Out.WriteLineAsync(kvResource.Data.Name);
-
-        }
-    }
+  
 
 
 

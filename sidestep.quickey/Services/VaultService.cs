@@ -12,6 +12,20 @@ public class VaultService
         _authService = authService;
     }
 
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResources()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+        SubscriptionResource subscription = await armClient.GetDefaultSubscriptionAsync();
+        var kvResources = subscription.GetKeyVaultsAsync();
+
+        await foreach (var kvResource in kvResources)
+        {
+            await Console.Out.WriteLineAsync(kvResource.Data.Name);
+            yield return kvResource;
+        }
+    }
+
 
 
 

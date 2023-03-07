@@ -3,10 +3,12 @@
     x:Class="sidestep.quickey.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:az="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
     xmlns:controls="clr-namespace:sidestep.quickey.Controls"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:sidestep.quickey.ViewModel"
-    x:DataType="viewmodel:MainPageViewModel">
+    x:DataType="viewmodel:MainPageViewModel"
+    BindingContext="{Binding Source={RelativeSource Self}, Path=MainPageViewModel}">
 
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="Options">
@@ -25,7 +27,10 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
-
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+        <!--<mct:EventToCommandBehavior Command="{Binding DisappearingCommand}" EventName="Disappearing" />-->
+    </ContentPage.Behaviors>
 
 
     <toolkit:DockLayout>
@@ -119,47 +124,22 @@
                 Grid.RowSpan="2"
                 Footer="vault list end"
                 HorizontalScrollBarVisibility="Always"
+                ItemsSource="{Binding VaultList}"
                 SelectionMode="None"
                 SeparatorVisibility="Default">
-                <ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>apple-vault</x:String>
-                        <x:String>windows-vault</x:String>
-                        <x:String>prod-vault</x:String>
-                        <x:String>dev-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                        <x:String>apple-vault</x:String>
-                        <x:String>superlongnameazure key vault vault</x:String>
-                        <x:String>mac-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                        <x:String>android-vault</x:String>
-                        <x:String>walledgarden-vault</x:String>
-                        <x:String>mac-vault</x:String>
-                    </x:Array>
-                </ListView.ItemsSource>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell x:DataType="az:KeyVaultData">
                             <Grid Padding="10">
                                 <Label
                                     FontSize="13"
-                                    Text="{Binding .}"
+                                    Text="{Binding Name}"
                                     VerticalOptions="Center" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
-
         </Grid>
 
         <!--  center  -->

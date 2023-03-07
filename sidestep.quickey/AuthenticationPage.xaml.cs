@@ -77,7 +77,5 @@ public partial class AuthenticationPage : ContentPage
         var a = await _auth.GetAzureArmTokenSilent();
         var k = await _auth.GetAzureKeyVaultTokenSilent();
         Debug.WriteLine(k.AccessToken);
-
-        await _auth.NewAzARMClient();
     }
 }

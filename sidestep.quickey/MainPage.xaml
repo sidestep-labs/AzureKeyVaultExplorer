@@ -104,51 +104,55 @@
         </Grid>
 
         <!--  sidebar  -->
-
-        <Grid
+        <Border
             toolkit:DockLayout.DockPosition="Left"
-            ColumnDefinitions="200"
-            HorizontalOptions="FillAndExpand"
-            RowDefinitions="Auto,Auto, *"
-            VerticalOptions="StartAndExpand">
+            Background="{AppThemeBinding Light={StaticResource OffWhite},
+                                         Dark={StaticResource Black750}}"
+            StrokeThickness="0">
 
-            <VerticalStackLayout Grid.Row="0">
-                <Label Text="Explorer" />
-                <Entry
-                    x:Name="VaultListFilterEntry"
-                    ClearButtonVisibility="WhileEditing"
-                    FontSize="12"
-                    HeightRequest="30"
-                    MinimumHeightRequest="30"
-                    Placeholder="Find a Vault"
-                    Text="{Binding VaultListFilter}"
-                    TextChanged="VaultListFilterEntry_TextChanged" />
-            </VerticalStackLayout>
-            <ListView
-                Grid.Row="2"
-                Grid.RowSpan="2"
-                Footer="vault list end"
-                HorizontalScrollBarVisibility="Always"
-                ItemsSource="{Binding VaultList}"
-                SelectedItem="{Binding SelectedVault}"
-                SelectionMode="Single"
-                SeparatorVisibility="Default">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell x:DataType="az:KeyVaultData">
-                            <Grid Padding="10">
-                                <Label
-                                    FontSize="13"
-                                    Text="{Binding Name}"
-                                    VerticalOptions="Center" />
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid
+                ColumnDefinitions="200"
+                HorizontalOptions="FillAndExpand"
+                RowDefinitions="Auto,Auto, *"
+                VerticalOptions="StartAndExpand">
 
-        </Grid>
+                <VerticalStackLayout Grid.Row="0">
+                    <Label Text="Explorer" />
+                    <Entry
+                        x:Name="VaultListFilterEntry"
+                        ClearButtonVisibility="WhileEditing"
+                        FontSize="12"
+                        HeightRequest="30"
+                        MinimumHeightRequest="30"
+                        Placeholder="Find a Vault"
+                        Text="{Binding VaultListFilter}"
+                        TextChanged="VaultListFilterEntry_TextChanged" />
+                </VerticalStackLayout>
+                <ListView
+                    Grid.Row="2"
+                    Grid.RowSpan="2"
+                    Footer="vault list end"
+                    HorizontalScrollBarVisibility="Always"
+                    ItemsSource="{Binding VaultList}"
+                    SelectedItem="{Binding SelectedVault}"
+                    SelectionMode="Single"
+                    SeparatorVisibility="Default">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell x:DataType="az:KeyVaultData">
+                                <Grid Padding="10">
+                                    <Label
+                                        FontSize="13"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
+            </Grid>
+        </Border>
         <!--  center  -->
 
 

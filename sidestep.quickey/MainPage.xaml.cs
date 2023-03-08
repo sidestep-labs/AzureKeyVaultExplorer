@@ -8,11 +8,12 @@ namespace sidestep.quickey;
 public partial class MainPage : ContentPage
 {
     private int count = 0;
-
+    MainPageViewModel _viewModel;
     public MainPage(MainPageViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;
+        _viewModel = vm;
     }
 
     private async void Go(object sender, EventArgs e)
@@ -74,5 +75,10 @@ public partial class MainPage : ContentPage
 
 #endif
         Application.Current.OpenWindow(secondWindow);
+    }
+
+    private void VaultListFilterEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        _viewModel.FilterVaultListCommand.Execute(null);
     }
 }

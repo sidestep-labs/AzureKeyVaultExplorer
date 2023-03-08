@@ -98,6 +98,7 @@
                 FontSize="12"
                 HorizontalOptions="EndAndExpand"
                 Text="{Binding Username}"
+                TextColor="{StaticResource OffWhite}"
                 VerticalOptions="Center" />
 
         </Grid>
@@ -114,11 +115,14 @@
             <VerticalStackLayout Grid.Row="0">
                 <Label Text="Explorer" />
                 <Entry
+                    x:Name="VaultListFilterEntry"
                     ClearButtonVisibility="WhileEditing"
                     FontSize="12"
                     HeightRequest="30"
                     MinimumHeightRequest="30"
-                    Placeholder="Find a Vault" />
+                    Placeholder="Find a Vault"
+                    Text="{Binding VaultListFilter}"
+                    TextChanged="VaultListFilterEntry_TextChanged" />
             </VerticalStackLayout>
             <ListView
                 Grid.Row="2"

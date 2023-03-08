@@ -15,23 +15,19 @@ public partial class MainPageViewModel : ObservableObject
     {
         _auth = auth;
         _vaultSerivce = vaultService;
-        username = Preferences.Get("username", null);
-        category = "Secrets";
-        isBusy = false;
+        Username = Preferences.Get("username", null);
+        Category = "Secrets";
+        IsBusy = false;
         VaultList = new ObservableCollection<KeyVaultData>();
     }
 
-
+    List<KeyVaultData> _vaultList  = new List<KeyVaultData>() { };
 
     [ObservableProperty]
     private ObservableCollection<KeyVaultData> vaultList;
 
     [ObservableProperty]
     private KeyVaultData selectedVault;
-
-
-
-
 
     //[ObservableProperty]
     //private ObservableCollection<KeyVaultData> secretList;
@@ -48,13 +44,13 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private string username;
 
+    [ObservableProperty]
+    private string vaultListFilter;
 
     private bool InitialLoad { get; set; } = true;
 
     [ObservableProperty]
     private bool isBusy;
-
-
 
     [RelayCommand]
     private void ToggleFlyout()
@@ -76,6 +72,7 @@ public partial class MainPageViewModel : ObservableObject
                     VaultList.Add(kv.Data);
                 }
                 InitialLoad = false;
+                _vaultList.AddRange(VaultList);
             }
         }
         catch (Exception ex)
@@ -85,6 +82,7 @@ public partial class MainPageViewModel : ObservableObject
         finally
         {
             IsBusy = false;
+
         }
     }
 
@@ -92,5 +90,12 @@ public partial class MainPageViewModel : ObservableObject
     private async void Logout()
     {
         await _auth.RemoveAccount();
+    }
+
+    [RelayCommand]
+    private async void FilterVaultList()
+    {
+        var list = VaultList.Where(v => v.Name.Contains(vaultListFilter));
+        await Console.Out.WriteLineAsync(VaultListFilter);
     }
 }

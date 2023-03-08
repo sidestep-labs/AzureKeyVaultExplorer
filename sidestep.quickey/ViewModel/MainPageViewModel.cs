@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using sidestep.quickey.Services;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace sidestep.quickey.ViewModel;
 
@@ -95,7 +96,9 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     private async void FilterVaultList()
     {
-        var list = VaultList.Where(v => v.Name.Contains(vaultListFilter));
-        await Console.Out.WriteLineAsync(VaultListFilter);
+        string query = VaultListFilter.Trim().ToLowerInvariant();
+        //if (!string.IsNullOrWhiteSpace(query))
+        var list = _vaultList.Where(v => v.Name.ToLowerInvariant().Contains(query));
+        VaultList = new ObservableCollection<KeyVaultData>(list);
     }
 }

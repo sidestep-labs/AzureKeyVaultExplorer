@@ -130,7 +130,8 @@
                 Footer="vault list end"
                 HorizontalScrollBarVisibility="Always"
                 ItemsSource="{Binding VaultList}"
-                SelectionMode="None"
+                SelectedItem="{Binding SelectedVault}"
+                SelectionMode="Single"
                 SeparatorVisibility="Default">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -1,16 +1,12 @@
-﻿namespace sidestep.quickey
+﻿namespace sidestep.quickey;
+
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            Routing.RegisterRoute(nameof(AuthenticationPage), typeof(AuthenticationPage));
-            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
-
-        }
-
-
+        Routing.RegisterRoute(nameof(AuthenticationPage), typeof(AuthenticationPage));
+        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 }

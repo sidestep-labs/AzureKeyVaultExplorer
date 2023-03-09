@@ -21,5 +21,8 @@ public class AuthenticationResponse
 
     [JsonPropertyName("id_token")]
     public string IdToken { get; set; }
+
+    public DateTimeOffset? ExpiryDateTime { get => DateTime.Now.AddSeconds(ExpiresIn);  }
+
 }
 

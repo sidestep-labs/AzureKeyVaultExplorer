@@ -1,13 +1,10 @@
-﻿using Azure;
-using Azure.Core;
-using Azure.Security.KeyVault.Secrets;
+﻿using Azure.Security.KeyVault.Secrets;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
+
 namespace sidestep.quickey.Services;
 
 public class AuthService
@@ -83,10 +80,18 @@ public class AuthService
         AuthenticationResult authenticationResult;
 
         var accounts = await authenticationClient.GetAccountsAsync();
+
         if (!accounts.Any())
         {
             return null;
         }
+
+        var account = accounts.First();
+        Preferences.Set("name", account.Username);
+        Preferences.Set("email", account.Username);
+        Preferences.Set("username", account.Username);
+        Preferences.Set("is_authenticated", !string.IsNullOrEmpty(account.Username));
+
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
 
         return authenticationResult;
@@ -120,72 +125,62 @@ public class AuthService
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
     }
 
-    public async Task Logout()
+    public async Task RemoveAccount()
     {
+        await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
     }
 
     public async Task<AuthenticationResult> GetAzureArmTokenSilent()
     {
+        await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.FirstOrDefault()).ExecuteAsync();
     }
 
-
-    public class CustomTokenCredential : TokenCredential
-    {
-        private readonly string _token;
-        private readonly DateTimeOffset _expiresOn;
-        public CustomTokenCredential(AuthenticationResult access)
-        {
-            _expiresOn = access.ExpiresOn;
-            _token = access.AccessToken;
-        }
-        public override AccessToken GetToken(TokenRequestContext requestContext, CancellationToken cancellationToken)
-        {
-            return new AccessToken(_token, _expiresOn);
-        }
-
-        public override ValueTask<AccessToken> GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
-        {
-            return ValueTask.FromResult(new AccessToken(_token, _expiresOn));
-        }
-    }
-
     public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
+        await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
-        var res =  await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
+        var res = await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
         var tokenCredential = new CustomTokenCredential(res);
 
         var x = new SecretClient(new Uri("https://kv-quickey.vault.azure.net/"), tokenCredential); ;
         var test = x.GetSecret("test");
         return res;
-
-
     }
 
-    #region MacCatalystWebAuth
+    #region MacCatalyst We bAuth Microsoft Identity Platform
+
     /// <summary>
     /// this is to be used for mac catalyst only
     /// </summary>
     /// <returns></returns>
-    public  async Task WebLoginAsync()
+    public async Task WebLoginAsync()
     {
         try
-        { //https://youtu.be/gQoqg4P-uJ0?t=129
-            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
+        {
+            if (Preferences.Get("is_authenticated", false) == true)
+            {
+                await RefreshAccessTokenForAuthCodeFlow();
+            }
+            else
+            {
+                //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
+                WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.AuthCodeFlowUri,
                 new Uri($"msauth.com.company.sidestep.quickey://auth")
             );
+                await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
 
-
-            await GetAccessTokenForAuthCodeFlow(authResult.Properties["code"]);
-            //WebAuthenticator.Default.
-            string accessToken = authResult?.AccessToken;
-            // Do something with the token
-
+                var token = new JwtSecurityToken(jwtEncodedString: authResult.IdToken);
+                var email = token.Claims.First(c => c.Type == "email").Value;
+                var name = token.Claims.First(c => c.Type == "name").Value;
+                Preferences.Set("name", name);
+                Preferences.Set("email", email);
+                Preferences.Set("username", name);
+                Preferences.Set("is_authenticated", !string.IsNullOrEmpty(authResult.IdToken));
+            }
         }
         catch (TaskCanceledException e)
         {
@@ -194,64 +189,46 @@ public class AuthService
         }
     }
 
-    /// <summary>
-    /// mac catalyst specific
-    /// </summary>
-    /// <returns></returns>
-    public async Task<string> GetAccessTokenForScopeAsync(IEnumerable<string> Scopes)
-    {
-        try
-        { //https://youtu.be/gQoqg4P-uJ0?t=129
-            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-7.0&tabs=ios
-            WebAuthenticatorResult authResult = await WebAuthenticator.AuthenticateAsync(Constants.Url,
-                new Uri($"msauth.com.company.sidestep.quickey://auth")
-            );
-            string accessToken = authResult?.AccessToken;
-            // Do something with the token
-
-            // TODO: cache this token.
-
-            return accessToken;
-        }
-        catch (TaskCanceledException e)
-        {
-            Debug.WriteLine(e.Message);
-            throw;
-        }
-    }
-
-
     public async Task GetAccessTokenForAuthCodeFlow(string code)
     {
-        //using var httpClient = new HttpClient();
-
-            //_httpClient.DefaultRequestHeaders.Authorization =
-            //    new AuthenticationHeaderValue("Bearer", bearerToken);
-
         var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
 
-        var queryString = new Dictionary<string,string>
+        var queryString = new Dictionary<string, string>
         {
             { "client_id", Constants.ClientId },
-            { "scope", String.Join(" ",scopes) },
+            { "scope", String.Join(" ", scopes) },
             { "code", code },
             { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
             { "grant_type", "authorization_code" },
             //{ "code_verifier", "authorization_code" },
          };
 
-
-        Debug.WriteLine(queryString.ToString());
-
         var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token",
             new FormUrlEncodedContent(queryString));
         //https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
-
-        var xxx = await request.Content.ReadAsStringAsync();
-
         var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        Preferences.Default.Set("oauth_authentication_response", await request.Content.ReadAsStringAsync());
 
-        Debug.WriteLine(request.IsSuccessStatusCode);
+        await RefreshAccessTokenForAuthCodeFlow();
     }
-    #endregion
+
+    public async Task RefreshAccessTokenForAuthCodeFlow()
+    {
+        var scopes = new string[] { "https://vault.azure.net/.default", "openid", "offline_access", "profile", "email" };
+        var cachedOAuth = Preferences.Default.Get("oauth_authentication_response", "");
+        var auth = JsonSerializer.Deserialize<AuthenticationResponse>(cachedOAuth);
+        var queryString = new Dictionary<string, string>
+        {
+            { "client_id", Constants.ClientId },
+            { "scope", String.Join(" ",scopes) },
+            { "refresh_token", auth.RefreshToken },
+            { "redirect_uri", "msauth.com.company.sidestep.quickey://auth"},
+            { "grant_type", "refresh_token" },
+         };
+        var request = await _httpClient.PostAsync("https://login.microsoftonline.com/common/oauth2/v2.0/token", new FormUrlEncodedContent(queryString));
+        var response = await JsonSerializer.DeserializeAsync<AuthenticationResponse>(await request.Content.ReadAsStreamAsync());
+        Preferences.Default.Set("oauth_authentication_response", await request.Content.ReadAsStringAsync());
+    }
+
+    #endregion MacCatalyst We bAuth Microsoft Identity Platform
 }

@@ -118,6 +118,9 @@
 	  <Compile Update="Controls\CustomNavigationBar - Copy.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
+	  <Compile Update="Controls\Tabs.xaml.cs">
+	    <DependentUpon>Tabs.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Controls\SegmentedTab.xaml.cs">
 	    <DependentUpon>SegmentedTab.xaml</DependentUpon>
 	  </Compile>
@@ -125,6 +128,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Controls\CustomNavigationBar - Copy.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\Tabs.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\SegmentedTab.xaml">
@@ -154,6 +160,11 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\Primeng Interface Icons Collection - PAGE 2 - SVG Repo.url" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Resources\AppIcon\kvicon.svg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

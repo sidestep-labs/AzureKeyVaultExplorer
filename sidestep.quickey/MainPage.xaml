@@ -106,7 +106,7 @@
         <!--  sidebar  -->
         <Border
             toolkit:DockLayout.DockPosition="Left"
-            Background="{AppThemeBinding Light={StaticResource OffWhite},
+            Background="{AppThemeBinding Light={StaticResource Gray200},
                                          Dark={StaticResource Black750}}"
             StrokeThickness="0">
 
@@ -131,8 +131,6 @@
                 <ListView
                     Grid.Row="2"
                     Grid.RowSpan="2"
-                    Footer="vault list end"
-                    HorizontalScrollBarVisibility="Always"
                     ItemsSource="{Binding VaultList}"
                     SelectedItem="{Binding SelectedVault}"
                     SelectionMode="Single"
@@ -157,6 +155,7 @@
 
 
         <Grid
+            Margin="15,0,0,0"
             toolkit:DockLayout.DockPosition="None"
             ColumnDefinitions="*,*,*,*,*"
             RowDefinitions="*,Auto, Auto, 0*"
@@ -164,8 +163,8 @@
             VerticalOptions="StartAndExpand">
 
             <HorizontalStackLayout
-                Grid.Row="2"
-                Grid.Column="1"
+                Grid.Row="1"
+                Grid.Column="0"
                 Grid.ColumnSpan="2">
                 <controls:SegmentedTab SelectedValue="{Binding Category}">
                     <controls:SegmentedTab.ItemsSource>
@@ -217,14 +216,16 @@
                         <Border
                             Margin="2"
                             Background="{AppThemeBinding Dark={StaticResource Black750},
-                                                         Light=White}"
+                                                         Light={StaticResource Gray100}}"
                             HeightRequest="45"
-                            Stroke="White"
-                            StrokeShape="RoundRectangle 5"
+                            Stroke="{AppThemeBinding Dark=White,
+                                                     Light={StaticResource Gray900}}"
+                            StrokeShape="RoundRectangle 2"
                             StrokeThickness=".25">
                             <Border.Shadow>
                                 <Shadow
-                                    Brush="Gray"
+                                    Brush="{AppThemeBinding Dark={StaticResource Black750},
+                                                            Light={StaticResource White}}"
                                     Opacity=".25"
                                     Offset="10,.50" />
                             </Border.Shadow>
@@ -240,20 +241,42 @@
                                     FontAttributes="Italic"
                                     LineBreakMode="TailTruncation"
                                     Text="Expires in 10 days" />
-                                <ImageButton
+
+
+                                <HorizontalStackLayout
                                     Grid.Row="0"
                                     Grid.RowSpan="4"
-                                    Grid.Column="1"
-                                    SemanticProperties.Hint="View Details"
-                                    Source="right_chevron.png"
-                                    VerticalOptions="StartAndExpand">
+                                    Grid.Column="1">
+                                    <ImageButton
+                                        BorderWidth="1"
+                                        CornerRadius="5"
+                                        SemanticProperties.Hint="View Details"
+                                        WidthRequest="2">
+                                        <ImageButton.Source>
+                                            <FontImageSource
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Glyph="&#xE8C8;"
+                                                Size="Micro"
+                                                Color="{AppThemeBinding Dark=White,
+                                                                        Light=Black}" />
+                                        </ImageButton.Source>
+                                    </ImageButton>
 
-                                    <ImageButton.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Red" />
-                                    </ImageButton.Behaviors>
-                                </ImageButton>
-
-
+                                    <ImageButton
+                                        BorderWidth="1"
+                                        CornerRadius="5"
+                                        SemanticProperties.Hint="View Details"
+                                        WidthRequest="2">
+                                        <ImageButton.Source>
+                                            <FontImageSource
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Glyph="&#xED25;"
+                                                Size="Micro"
+                                                Color="{AppThemeBinding Dark=White,
+                                                                        Light=Black}" />
+                                        </ImageButton.Source>
+                                    </ImageButton>
+                                </HorizontalStackLayout>
 
                             </Grid>
                         </Border>

@@ -1,6 +1,5 @@
 ﻿using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
-using Azure.ResourceManager.Resources;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
@@ -20,13 +19,14 @@ public class VaultService
     {
         var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
         var armClient = new ArmClient(token);
-        SubscriptionResource subscription = await armClient.GetDefaultSubscriptionAsync();
-        var kvResources = subscription.GetKeyVaultsAsync();
-
-        await foreach (var kvResource in kvResources)
+        //SubscriptionResource subscription = await armClient.GetDefaultSubscriptionAsync();
+        var subscriptions = armClient.GetSubscriptions().ToArray();
+        foreach (var subscription in subscriptions)
         {
-            await Console.Out.WriteLineAsync(kvResource.Data.Name);
-            yield return kvResource;
+            await foreach (var kvResource in subscription.GetKeyVaultsAsync())
+            {
+                yield return kvResource;
+            }
         }
     }
 

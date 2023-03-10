@@ -1,4 +1,6 @@
 ﻿using Azure.ResourceManager.KeyVault;
+using Azure.Security.KeyVault.Keys;
+using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using sidestep.quickey.Services;
@@ -20,6 +22,8 @@ public partial class MainPageViewModel : ObservableObject
         Category = "Secrets";
         IsBusy = false;
         VaultList = new ObservableCollection<KeyVaultData>();
+        SecretList = new ObservableCollection<SecretProperties>();
+
     }
 
     List<KeyVaultData> _vaultList  = new List<KeyVaultData>() { };
@@ -30,14 +34,17 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private KeyVaultData selectedVault;
 
-    //[ObservableProperty]
-    //private ObservableCollection<KeyVaultData> secretList;
+    [ObservableProperty]
+    private bool isSelected;
+
+    [ObservableProperty]
+    private ObservableCollection<SecretProperties> secretList;
 
     //[ObservableProperty]
-    //private ObservableCollection<KeyVaultData> keyList;
+    //private ObservableCollection<KeyProperties> keyList;
 
     //[ObservableProperty]
-    //private ObservableCollection<KeyVaultData> certificateList;
+    //private ObservableCollection<CertificateProperties> certificateList;
 
     [ObservableProperty]
     private string category;
@@ -86,6 +93,18 @@ public partial class MainPageViewModel : ObservableObject
 
         }
     }
+
+
+    [RelayCommand]
+    private async void VaultSelected()
+    {
+        var vault = _vaultSerivce.GetVaultAssociatedSecrets(SelectedVault.Properties.VaultUri);
+        await foreach (var secret in vault)
+        {
+            SecretList.Add(secret);
+        }
+    }
+
 
     [RelayCommand]
     private async void Logout()

@@ -19,7 +19,7 @@ public partial class MainPage : ContentPage
     private async void Go(object sender, EventArgs e)
     {
         //if (Preferences.Get("is_authenticated", false) == false)
-        await Shell.Current.GoToAsync(nameof(AuthenticationPage));
+        await Shell.Current.GoToAsync(nameof(AuthenticationPage), animate: false);
     }
 
 
@@ -80,5 +80,10 @@ public partial class MainPage : ContentPage
     private void VaultListFilterEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         _viewModel.FilterVaultListCommand.Execute(null);
+    }
+
+    private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        _viewModel.VaultSelectedCommand.Execute(null);
     }
 }

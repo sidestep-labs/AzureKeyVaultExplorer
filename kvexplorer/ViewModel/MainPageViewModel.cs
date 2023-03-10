@@ -98,6 +98,7 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     private async void VaultSelected()
     {
+        if (SelectedVault == null) return;
         var vault = _vaultSerivce.GetVaultAssociatedSecrets(SelectedVault.Properties.VaultUri);
         await foreach (var secret in vault)
         {

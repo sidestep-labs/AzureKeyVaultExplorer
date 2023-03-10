@@ -110,13 +110,13 @@
             StrokeThickness="0">
 
             <Grid
-                ColumnDefinitions="200"
+                ColumnDefinitions="220"
                 HorizontalOptions="FillAndExpand"
                 RowDefinitions="Auto,Auto, *"
                 VerticalOptions="StartAndExpand">
 
-                <VerticalStackLayout Grid.Row="0">
-                    <Label Text="Explorer" />
+                <VerticalStackLayout Grid.Row="0" Margin="5,5,5,5">
+                    <Label HorizontalOptions="StartAndExpand" Text="Explorer" />
                     <Entry
                         x:Name="VaultListFilterEntry"
                         ClearButtonVisibility="WhileEditing"
@@ -130,6 +130,7 @@
                 <ListView
                     Grid.Row="2"
                     Grid.RowSpan="2"
+                    Background="Transparent"
                     ItemSelected="ListView_ItemSelected"
                     ItemsSource="{Binding VaultList}"
                     SelectedItem="{Binding SelectedVault}"
@@ -140,7 +141,7 @@
                             <ViewCell x:DataType="az:KeyVaultData">
                                 <Grid Padding="10">
                                     <Label
-                                        FontSize="13"
+                                        FontSize="12"
                                         Text="{Binding Name}"
                                         VerticalOptions="Center" />
                                 </Grid>
@@ -185,46 +186,52 @@
                 MinimumHeightRequest="35"
                 Placeholder="{Binding Category, StringFormat='Filter {0:F2}'}" />
 
-            <CollectionView
+            <ListView
                 Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="6"
+                BackgroundColor="{AppThemeBinding Dark={StaticResource Black750},
+                                                  Light={StaticResource Gray200}}"
                 Footer="Secrets"
                 ItemsSource="{Binding SecretList}"
                 SelectionMode="None"
                 VerticalOptions="Center"
                 VerticalScrollBarVisibility="Always">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="azsk:SecretProperties">
+                        <ViewCell>
+                            <!--<Border
+                                Margin="2"
 
-                x:DataType="azsk:SecretProperties">
-                        <Border
-                            Margin="2"
-                            Background="{AppThemeBinding Dark={StaticResource Black750},
-                                                         Light={StaticResource Gray100}}"
-                            HeightRequest="45"
-                            Stroke="{AppThemeBinding Dark=White,
-                                                     Light={StaticResource Gray900}}"
-                            StrokeShape="RoundRectangle 2"
-                            StrokeThickness=".25">
-                            <Border.Shadow>
-                                <Shadow
-                                    Brush="{AppThemeBinding Dark={StaticResource Black750},
-                                                            Light={StaticResource White}}"
-                                    Opacity=".25"
-                                    Offset="10,.50" />
-                            </Border.Shadow>
+                                HeightRequest="45"
+                                Stroke="{AppThemeBinding Dark=White,
+                                                         Light={StaticResource Gray900}}"
+                                StrokeShape="RoundRectangle 2"
+                                StrokeThickness=".25">
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="{AppThemeBinding Dark={StaticResource Black750},
+                                                                Light={StaticResource White}}"
+                                        Opacity=".25"
+                                        Offset="10,.50" />
+                                </Border.Shadow>-->
                             <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="*,*">
                                 <Label
                                     Grid.Column="0"
                                     FontAttributes="Bold"
+                                    HorizontalOptions="StartAndExpand"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding Name}" />
+
                                 <Label
-                                    Grid.Row="1"
+                                    Grid.Row="0"
                                     Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Text="{Binding Id}" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
                                     FontAttributes="Italic"
-                                    LineBreakMode="TailTruncation"
                                     Text="{Binding ExpiresOn}" />
 
                                 <HorizontalStackLayout
@@ -263,10 +270,11 @@
                                     </ImageButton>
                                 </HorizontalStackLayout>
                             </Grid>
-                        </Border>
+                            <!--</Border>-->
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </toolkit:DockLayout>
 </ContentPage>

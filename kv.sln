@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer", "kvexplorer-maui\kvexplorer.csproj", "{DFFA4840-CF63-4095-B0E2-61456F27977E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "maui.kvexplorer", "kvexplorer-maui\maui.kvexplorer.csproj", "{DFFA4840-CF63-4095-B0E2-61456F27977E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kvexplorer-av", "kvexplorer-av\kvexplorer-av.csproj", "{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "avalon.kvexplorer", "kvexplorer-av\avalon.kvexplorer.csproj", "{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

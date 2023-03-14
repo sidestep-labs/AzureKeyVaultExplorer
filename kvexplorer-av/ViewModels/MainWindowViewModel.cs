@@ -16,7 +16,13 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private async void Login()
     {
-        await _authService.LoginAsync(CancellationToken.None);
+        var cancellation = new CancellationToken();
+        var account = await _authService.RefreshTokenAsync(cancellation);
+        if(account == null)
+        {
+            await _authService.LoginAsync(cancellation);
+        }
+
     }
 
     public string Greeting => "Welcome to Avalonia!";

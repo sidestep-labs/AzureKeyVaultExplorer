@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer", "kvexplorer-maui\kvexplorer.csproj", "{DFFA4840-CF63-4095-B0E2-61456F27977E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kvexplorer-av", "kvexplorer-av\kvexplorer-av.csproj", "{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

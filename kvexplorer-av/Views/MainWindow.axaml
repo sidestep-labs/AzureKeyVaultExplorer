@@ -6,13 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:kvexplorer_av.ViewModels"
     Title="kvexplorer_av"
-    d:DesignHeight="450"
+    Width="890"
+    Height="600"
+    d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    Background="Transparent"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
-    TransparencyLevelHint="None"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -24,17 +24,77 @@
     </Design.DataContext>
 
 
-    <StackPanel>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Text="{Binding Greeting}" />
-        <Button
-            Name="button"
-            Click="button_Click"
-            Command="{Binding LoginCommand}">
-            Click Me!
-        </Button>
-        <TextBox Watermark="Enter some text" />
-    </StackPanel>
+
+    <DockPanel>
+
+        <Menu
+            Margin="0,18"
+            Padding="5,0,0,0"
+            Background="Red"
+            DockPanel.Dock="Top">
+            <MenuItem CornerRadius="5" Header="_Options">
+                <MenuItem Margin="5" Header="_Open..." />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem CornerRadius="5" Header="_User">
+                <MenuItem Header="Copy" />
+                <MenuItem Header="Paste" />
+                <Separator />
+                <MenuItem
+                    Padding="10"
+                    CornerRadius="5"
+                    Header="_Select All" />
+            </MenuItem>
+            <MenuItem CornerRadius="5" Header="_View">
+                <MenuItem Header="_Status Bar">
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="True" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem CornerRadius="5" Header="_Help">
+                <MenuItem CornerRadius="5" Header="_About" />
+            </MenuItem>
+        </Menu>
+        <StackPanel Width="200" DockPanel.Dock="Left">
+            <ListBox>
+                <ListBoxItem>Item 1</ListBoxItem>
+                <ListBoxItem>Item 2</ListBoxItem>
+                <ListBoxItem>Item 3</ListBoxItem>
+                <ListBoxItem>Item 4</ListBoxItem>
+                <ListBoxItem>Item 5</ListBoxItem>
+                <ListBoxItem>Item 6</ListBoxItem>
+                <ListBoxItem>Item 7</ListBoxItem>
+                <ListBoxItem>Item 8</ListBoxItem>
+                <ListBoxItem>Item 9</ListBoxItem>
+                <ListBoxItem>Item 10</ListBoxItem>
+                <ListBoxItem>Item 11</ListBoxItem>
+                <ListBoxItem>Item 12</ListBoxItem>
+            </ListBox>
+
+
+        </StackPanel>
+
+        <Grid Background="AntiqueWhite">
+            <DataGrid
+                Name="MyDataGrid"
+                AutoGenerateColumns="True"
+                Items="{Binding Data}" />
+        </Grid>
+        <!--<StatusBar DockPanel.Dock="Bottom">
+			<StatusBarItem>
+				<TextBlock Text="Ready" />
+			</StatusBarItem>
+		</StatusBar>-->
+    </DockPanel>
+
+
+
+
+
+
+
+
+
 </Window>

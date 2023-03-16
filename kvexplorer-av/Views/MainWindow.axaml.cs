@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using kvexplorer_av.Services;
-using kvexplorer_av.ViewModels;
+using System.Collections.Generic;
 
 namespace kvexplorer_av.Views;
 
@@ -12,6 +12,14 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private AuthService _authService;
+
+
+    public MainWindow(AuthService authService)
+    {
+        _authService = authService;
+      
+    }
 
     public void button_Click(object sender, RoutedEventArgs e)
     {
@@ -21,6 +29,4 @@ public partial class MainWindow : Window
 
         button.Content = "Hello, Avalonia!";
     }
-
-
 }

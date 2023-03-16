@@ -13,6 +13,7 @@
     x:DataType="vm:MainWindowViewModel"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
+    TransparencyLevelHint="Blur"
     mc:Ignorable="d">
 
     <Design.DataContext>

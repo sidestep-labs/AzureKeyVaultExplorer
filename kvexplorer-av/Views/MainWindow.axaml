@@ -29,12 +29,11 @@
     <DockPanel>
 
         <Menu
-            Margin="0,18"
-            Padding="5,0,0,0"
-            Background="Red"
+            Margin="0,15"
+            Padding="0,10,0,0"
             DockPanel.Dock="Top">
             <MenuItem CornerRadius="5" Header="_Options">
-                <MenuItem Margin="5" Header="_Open..." />
+                <MenuItem Header="_Open..." />
                 <Separator />
                 <MenuItem Header="_Exit" />
             </MenuItem>
@@ -43,7 +42,6 @@
                 <MenuItem Header="Paste" />
                 <Separator />
                 <MenuItem
-                    Padding="10"
                     CornerRadius="5"
                     Header="_Select All" />
             </MenuItem>
@@ -58,7 +56,15 @@
                 <MenuItem CornerRadius="5" Header="_About" />
             </MenuItem>
         </Menu>
+        <StackPanel
+            Height="20"
+            Background="red"
+            DockPanel.Dock="Bottom"
+            Orientation="Horizontal">
+            <TextBlock>username</TextBlock>
+        </StackPanel>
         <StackPanel Width="200" DockPanel.Dock="Left">
+            <TextBox CornerRadius="6" />
             <ListBox>
                 <ListBoxItem>Item 1</ListBoxItem>
                 <ListBoxItem>Item 2</ListBoxItem>
@@ -77,17 +83,18 @@
 
         </StackPanel>
 
-        <Grid Background="AntiqueWhite">
+
+        <Grid>
             <DataGrid
                 Name="MyDataGrid"
                 AutoGenerateColumns="True"
                 Items="{Binding Data}" />
+
+
+
         </Grid>
-        <!--<StatusBar DockPanel.Dock="Bottom">
-			<StatusBarItem>
-				<TextBlock Text="Ready" />
-			</StatusBarItem>
-		</StatusBar>-->
+
+
     </DockPanel>
 
 

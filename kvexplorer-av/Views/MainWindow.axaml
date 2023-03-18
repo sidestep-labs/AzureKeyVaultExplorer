@@ -30,77 +30,80 @@
 
 
 
-	<NativeMenu.Menu>
-		<NativeMenu>
-			<NativeMenuItem Header="File">
-				<NativeMenuItem.Menu>
-					<NativeMenu>
-						<NativeMenuItem Header="Open"/>
-						<NativeMenuItem Header="Recent">
-							<NativeMenuItem.Menu>
-								<NativeMenu/>
-							</NativeMenuItem.Menu>
-						</NativeMenuItem>
-						<NativeMenuItem Header="Quit Avalonia"
-										Gesture="CTRL+Q"
-									/>
-					</NativeMenu>
-				</NativeMenuItem.Menu>
-			</NativeMenuItem>
-			<NativeMenuItem Header="Edit">
-				<NativeMenuItem.Menu>
-					<NativeMenu>
-						<NativeMenuItem Header="Copy"/>
-						<NativeMenuItem Header="Paste"/>
-					</NativeMenu>
-				</NativeMenuItem.Menu>
-			</NativeMenuItem>
-		</NativeMenu>
-	</NativeMenu.Menu>
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="File">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Open" />
+                        <NativeMenuItem Header="Recent">
+                            <NativeMenuItem.Menu>
+                                <NativeMenu />
+                            </NativeMenuItem.Menu>
+                        </NativeMenuItem>
+                        <NativeMenuItem Gesture="CTRL+Q" Header="Quit Avalonia" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Edit">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Copy" />
+                        <NativeMenuItem Header="Paste" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
 
 
 
-	<DockPanel>
+    <DockPanel>
 
 
 
+		<OnPlatform>
+			
+			<OnPlatform.Windows>
+				<StackPanel DockPanel.Dock="Top">
 
-        <StackPanel DockPanel.Dock="Top">
-
-            <Panel HorizontalAlignment="Left">
-                <Image Width="10" Source="/Assets/avalonia-logo.ico" />
-            </Panel>
-
-            <Menu
-                Width="200"
-                Margin="0,0"
-                HorizontalAlignment="Left">
+					<Panel HorizontalAlignment="Left">
+						<Image Width="10" Source="/Assets/avalonia-logo.ico" />
+					</Panel>
+					<Menu
+                        Width="200"
+                        Margin="0,0"
+                        HorizontalAlignment="Left">
 
 
-                <MenuItem CornerRadius="5" Header="_Options">
-                    <MenuItem Header="_Open..." />
-                    <Separator />
-                    <MenuItem Header="_Exit" />
-                </MenuItem>
-                <MenuItem CornerRadius="5" Header="_User">
-                    <MenuItem Header="Copy" />
-                    <MenuItem Header="Paste" />
-                    <Separator />
-                    <MenuItem CornerRadius="5" Header="_Select All" />
-                </MenuItem>
-                <MenuItem CornerRadius="5" Header="_View">
-                    <MenuItem
-                        Margin="10"
-                        Padding="10"
-                        Header="_Status Bar">
-                        <CheckBox IsChecked="True" />
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem CornerRadius="5" Header="_Help">
-                    <MenuItem CornerRadius="5" Header="_About" />
-                </MenuItem>
-            </Menu>
-        </StackPanel>
+						<MenuItem CornerRadius="5" Header="_Options">
+							<MenuItem Header="_Open..." />
+							<Separator />
+							<MenuItem Header="_Exit" />
+						</MenuItem>
+						<MenuItem CornerRadius="5" Header="_User">
+							<MenuItem Header="Copy" />
+							<MenuItem Header="Paste" />
+							<Separator />
+							<MenuItem CornerRadius="5" Header="_Select All" />
+						</MenuItem>
+						<MenuItem CornerRadius="5" Header="_View">
+							<MenuItem
+                                Margin="10"
+                                Padding="10"
+                                Header="_Status Bar">
+								<CheckBox IsChecked="True" />
+							</MenuItem>
+						</MenuItem>
+						<MenuItem CornerRadius="5" Header="_Help">
+							<MenuItem CornerRadius="5" Header="_About" />
+						</MenuItem>
+					</Menu>
+
+				</StackPanel>
+
+			</OnPlatform.Windows>
+		</OnPlatform>
 
         <StackPanel
             Height="20"

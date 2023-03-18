@@ -62,14 +62,15 @@
 
 
 
-		<OnPlatform>
-			
-			<OnPlatform.Windows>
+
 				<StackPanel DockPanel.Dock="Top">
+	
 
 					<Panel HorizontalAlignment="Left">
 						<Image Width="10" Source="/Assets/avalonia-logo.ico" />
 					</Panel>
+	<OnPlatform>
+			<OnPlatform.Windows>
 					<Menu
                         Width="200"
                         Margin="0,0"
@@ -99,11 +100,13 @@
 							<MenuItem CornerRadius="5" Header="_About" />
 						</MenuItem>
 					</Menu>
+			</OnPlatform.Windows>
+
+	</OnPlatform>
 
 				</StackPanel>
 
-			</OnPlatform.Windows>
-		</OnPlatform>
+	
 
         <StackPanel
             Height="20"

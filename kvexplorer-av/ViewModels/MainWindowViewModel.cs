@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using kvexplorer_av.Services;
+using avalon.kvexplorer.Services;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace kvexplorer_av.ViewModels;
+namespace avalon.kvexplorer.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {

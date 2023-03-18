@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace kvexplorer_av.Services;
+namespace avalon.kvexplorer.Services;
 
 public class AuthService
 {

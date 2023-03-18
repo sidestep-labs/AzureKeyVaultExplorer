@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Azure.Core;
 using Microsoft.Identity.Client;
 
-namespace kvexplorer_av.Services;
+namespace avalon.kvexplorer.Services;
 
 public class CustomTokenCredential : TokenCredential
 {

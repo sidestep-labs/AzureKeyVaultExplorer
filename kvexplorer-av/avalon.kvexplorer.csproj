@@ -26,8 +26,11 @@
     <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.5.0" />
     <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.5.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <PackageReference Include="FluentAvalonia.UI.Windowing" Version="2.0.0-preview5" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.51.0" />
     <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.26.0" />
+    <PackageReference Include="Semi.Avalonia" Version="0.1.0-preview5.3" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="0.1.0-preview5.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>

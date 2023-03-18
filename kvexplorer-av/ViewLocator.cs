@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using kvexplorer_av.ViewModels;
+using avalon.kvexplorer.ViewModels;
 using System;
 
-namespace kvexplorer_av
+namespace avalon.kvexplorer
 {
     public class ViewLocator : IDataTemplate
     {

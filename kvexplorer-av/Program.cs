@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace kvexplorer_av
+namespace avalon.kvexplorer
 {
     internal class Program
     {

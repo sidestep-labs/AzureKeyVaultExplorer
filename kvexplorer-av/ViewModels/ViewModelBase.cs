@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace kvexplorer_av.ViewModels
+namespace avalon.kvexplorer.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {

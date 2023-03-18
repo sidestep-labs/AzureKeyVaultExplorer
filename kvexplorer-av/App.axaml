@@ -1,8 +1,9 @@
 <Application
-    x:Class="kvexplorer_av.App"
+    x:Class="avalon.kvexplorer.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:kvexplorer_av"
+    xmlns:local="using:avalon.kvexplorer"
+    xmlns:sty="using:FluentAvalonia.Styling"
     RequestedThemeVariant="Default">
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 
@@ -14,6 +15,9 @@
     <Application.Styles>
         <!--<FluentTheme />-->
         <SimpleTheme />
+        <!--<sty:FluentAvaloniaTheme />-->
+
+
         <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />
 

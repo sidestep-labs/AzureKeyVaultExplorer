@@ -3,11 +3,11 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using kvexplorer_av.Services;
-using kvexplorer_av.ViewModels;
-using kvexplorer_av.Views;
+using avalon.kvexplorer.Services;
+using avalon.kvexplorer.ViewModels;
+using avalon.kvexplorer.Views;
 
-namespace kvexplorer_av
+namespace avalon.kvexplorer
 {
     public partial class App : Application
     {

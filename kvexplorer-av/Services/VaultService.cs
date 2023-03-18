@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace kvexplorer_av.Services;
+namespace avalon.kvexplorer.Services;
 
 public class VaultService
 {

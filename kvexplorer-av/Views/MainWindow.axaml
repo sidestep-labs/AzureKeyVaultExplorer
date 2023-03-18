@@ -1,19 +1,23 @@
 <Window
-    x:Class="kvexplorer_av.Views.MainWindow"
+    x:Class="avalon.kvexplorer.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:kvexplorer_av.ViewModels"
-    Title="kvexplorer_av"
-    Width="890"
-    Height="600"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+    xmlns:vm="using:avalon.kvexplorer.ViewModels"
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    Title="avalon.kvexplorer"
+    Width="640"
+    Height="420"
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
     TransparencyLevelHint="Blur"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -26,36 +30,78 @@
 
 
 
-    <DockPanel>
+	<NativeMenu.Menu>
+		<NativeMenu>
+			<NativeMenuItem Header="File">
+				<NativeMenuItem.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Open"/>
+						<NativeMenuItem Header="Recent">
+							<NativeMenuItem.Menu>
+								<NativeMenu/>
+							</NativeMenuItem.Menu>
+						</NativeMenuItem>
+						<NativeMenuItem Header="Quit Avalonia"
+										Gesture="CTRL+Q"
+									/>
+					</NativeMenu>
+				</NativeMenuItem.Menu>
+			</NativeMenuItem>
+			<NativeMenuItem Header="Edit">
+				<NativeMenuItem.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Copy"/>
+						<NativeMenuItem Header="Paste"/>
+					</NativeMenu>
+				</NativeMenuItem.Menu>
+			</NativeMenuItem>
+		</NativeMenu>
+	</NativeMenu.Menu>
 
-        <Menu
-            Margin="0,15"
-            Padding="0,10,0,0"
-            DockPanel.Dock="Top">
-            <MenuItem CornerRadius="5" Header="_Options">
-                <MenuItem Header="_Open..." />
-                <Separator />
-                <MenuItem Header="_Exit" />
-            </MenuItem>
-            <MenuItem CornerRadius="5" Header="_User">
-                <MenuItem Header="Copy" />
-                <MenuItem Header="Paste" />
-                <Separator />
-                <MenuItem
-                    CornerRadius="5"
-                    Header="_Select All" />
-            </MenuItem>
-            <MenuItem CornerRadius="5" Header="_View">
-                <MenuItem Header="_Status Bar">
-                    <MenuItem.Icon>
-                        <CheckBox IsChecked="True" />
-                    </MenuItem.Icon>
+
+
+	<DockPanel>
+
+
+
+
+        <StackPanel DockPanel.Dock="Top">
+
+            <Panel HorizontalAlignment="Left">
+                <Image Width="10" Source="/Assets/avalonia-logo.ico" />
+            </Panel>
+
+            <Menu
+                Width="200"
+                Margin="0,0"
+                HorizontalAlignment="Left">
+
+
+                <MenuItem CornerRadius="5" Header="_Options">
+                    <MenuItem Header="_Open..." />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
                 </MenuItem>
-            </MenuItem>
-            <MenuItem CornerRadius="5" Header="_Help">
-                <MenuItem CornerRadius="5" Header="_About" />
-            </MenuItem>
-        </Menu>
+                <MenuItem CornerRadius="5" Header="_User">
+                    <MenuItem Header="Copy" />
+                    <MenuItem Header="Paste" />
+                    <Separator />
+                    <MenuItem CornerRadius="5" Header="_Select All" />
+                </MenuItem>
+                <MenuItem CornerRadius="5" Header="_View">
+                    <MenuItem
+                        Margin="10"
+                        Padding="10"
+                        Header="_Status Bar">
+                        <CheckBox IsChecked="True" />
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem CornerRadius="5" Header="_Help">
+                    <MenuItem CornerRadius="5" Header="_About" />
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+
         <StackPanel
             Height="20"
             Background="red"
@@ -65,44 +111,55 @@
         </StackPanel>
         <StackPanel Width="200" DockPanel.Dock="Left">
             <TextBox CornerRadius="6" />
-            <ListBox>
-                <ListBoxItem>Item 1</ListBoxItem>
-                <ListBoxItem>Item 2</ListBoxItem>
-                <ListBoxItem>Item 3</ListBoxItem>
-                <ListBoxItem>Item 4</ListBoxItem>
-                <ListBoxItem>Item 5</ListBoxItem>
-                <ListBoxItem>Item 6</ListBoxItem>
-                <ListBoxItem>Item 7</ListBoxItem>
-                <ListBoxItem>Item 8</ListBoxItem>
-                <ListBoxItem>Item 9</ListBoxItem>
-                <ListBoxItem>Item 10</ListBoxItem>
-                <ListBoxItem>Item 11</ListBoxItem>
-                <ListBoxItem>Item 12</ListBoxItem>
-            </ListBox>
 
-
+            <ScrollViewer Width="200">
+                <ListBox>
+                    <ListBoxItem>Item 1</ListBoxItem>
+                    <ListBoxItem>Item 2</ListBoxItem>
+                    <ListBoxItem>Item 3</ListBoxItem>
+                    <ListBoxItem>Item 4</ListBoxItem>
+                    <ListBoxItem>Item 5</ListBoxItem>
+                    <ListBoxItem>Item 6</ListBoxItem>
+                    <ListBoxItem>Item 7</ListBoxItem>
+                    <ListBoxItem>Item 8</ListBoxItem>
+                    <ListBoxItem>Item 9</ListBoxItem>
+                    <ListBoxItem>Item 10</ListBoxItem>
+                    <ListBoxItem>Item 11</ListBoxItem>
+                    <ListBoxItem>Item 12</ListBoxItem>
+                    <ListBoxItem>Item 12</ListBoxItem>
+                    <ListBoxItem>Item 12</ListBoxItem>
+                    <ListBoxItem>Item 12</ListBoxItem>
+                    <ListBoxItem>Item 12</ListBoxItem>
+                    <ListBoxItem>Item 12</ListBoxItem>
+                </ListBox>
+            </ScrollViewer>
         </StackPanel>
 
+        <Grid
+            Margin="4"
+            ColumnDefinitions="100,1.5*,4*"
+            RowDefinitions="Auto,Auto,*">
 
-        <Grid>
+            <Button
+                x:Name="OpenWindowButton"
+                Grid.Row="0"
+                Click="OpenWindowButton_Click"
+                Content="Open Window" />
+            <CheckBox
+                Grid.Row="0"
+                Grid.Column="2"
+                Width="50"
+                Height="50"
+                IsChecked="True" />
             <DataGrid
                 Name="MyDataGrid"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 AutoGenerateColumns="True"
+                GridLinesVisibility="All"
                 Items="{Binding Data}" />
-
-
-
         </Grid>
-
-
     </DockPanel>
-
-
-
-
-
-
-
-
-
 </Window>

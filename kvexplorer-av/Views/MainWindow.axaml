@@ -14,7 +14,8 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    ExtendClientAreaToDecorationsHint="True"
+    ExtendClientAreaToDecorationsHint="{OnPlatform True,
+                                                   macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     TransparencyLevelHint="Blur"
     WindowStartupLocation="CenterScreen"
@@ -27,8 +28,6 @@
         -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
-
-
 
     <NativeMenu.Menu>
         <NativeMenu>
@@ -53,60 +52,61 @@
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
+
+            <NativeMenuItem Header="Options">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Open" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Exit" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="About" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Report a bug" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="View">
+                <NativeMenu>
+                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
+                        <NativeMenu>
+                            <NativeMenuItem Header="Option 1" />
+                            <NativeMenuItem Header="Option 2" />
+                            <NativeMenuItem Header="Option 3" />
+                        </NativeMenu>
+                    </NativeMenuItem>
+                </NativeMenu>
+            </NativeMenuItem>
+
+
         </NativeMenu>
     </NativeMenu.Menu>
 
-
-
     <DockPanel>
 
+       <NativeMenuBar
+                Name="SeamlessMenuBar"
+                Width="200"
+				Background="Red"
+                HorizontalAlignment="Left"
+                DockPanel.Dock="Top" />
+            <Image
+                Name="WindowIcon"
+                Width="20"
+                Height="20"
+                Margin="5,0,3,0"
+                VerticalAlignment="Center"
+                Source="/Assets/avalonia-logo.ico" />
+           
+       
 
-
-
-				<StackPanel DockPanel.Dock="Top">
-	
-
-					<Panel HorizontalAlignment="Left">
-						<Image Width="10" Source="/Assets/avalonia-logo.ico" />
-					</Panel>
-	<OnPlatform>
-			<OnPlatform.Windows>
-					<Menu
-                        Width="200"
-                        Margin="0,0"
-                        HorizontalAlignment="Left">
-
-
-						<MenuItem CornerRadius="5" Header="_Options">
-							<MenuItem Header="_Open..." />
-							<Separator />
-							<MenuItem Header="_Exit" />
-						</MenuItem>
-						<MenuItem CornerRadius="5" Header="_User">
-							<MenuItem Header="Copy" />
-							<MenuItem Header="Paste" />
-							<Separator />
-							<MenuItem CornerRadius="5" Header="_Select All" />
-						</MenuItem>
-						<MenuItem CornerRadius="5" Header="_View">
-							<MenuItem
-                                Margin="10"
-                                Padding="10"
-                                Header="_Status Bar">
-								<CheckBox IsChecked="True" />
-							</MenuItem>
-						</MenuItem>
-						<MenuItem CornerRadius="5" Header="_Help">
-							<MenuItem CornerRadius="5" Header="_About" />
-						</MenuItem>
-					</Menu>
-			</OnPlatform.Windows>
-
-	</OnPlatform>
-
-				</StackPanel>
-
-	
 
         <StackPanel
             Height="20"
@@ -167,5 +167,6 @@
                 GridLinesVisibility="All"
                 Items="{Binding Data}" />
         </Grid>
-    </DockPanel>
+   
+	</DockPanel>
 </Window>

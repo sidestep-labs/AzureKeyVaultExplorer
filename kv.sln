@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "maui.kvexplorer", "kvexplorer-maui\maui.kvexplorer.csproj", "{DFFA4840-CF63-4095-B0E2-61456F27977E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "avalon.kvexplorer", "avalon.kvexplorer\avalon.kvexplorer.csproj", "{562C84F5-A2AC-48B3-B816-8D46409CA339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "avalon.kvexplorer", "kvexplorer-av\avalon.kvexplorer.csproj", "{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "maui.kvexplorer", "maui.kvexplorer\maui.kvexplorer.csproj", "{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,16 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFFA4840-CF63-4095-B0E2-61456F27977E}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCADEBE0-4E0D-4EF5-B8D8-4E70326BB015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{562C84F5-A2AC-48B3-B816-8D46409CA339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562C84F5-A2AC-48B3-B816-8D46409CA339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562C84F5-A2AC-48B3-B816-8D46409CA339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562C84F5-A2AC-48B3-B816-8D46409CA339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{463D63C9-22C6-4EB2-B4BF-8AAC6C5A7C74}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

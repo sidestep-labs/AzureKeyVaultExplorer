@@ -31,24 +31,11 @@
 
     <NativeMenu.Menu>
         <NativeMenu>
-            <NativeMenuItem Header="File">
+            <NativeMenuItem Header="User">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Open" />
-                        <NativeMenuItem Header="Recent">
-                            <NativeMenuItem.Menu>
-                                <NativeMenu />
-                            </NativeMenuItem.Menu>
-                        </NativeMenuItem>
-                        <NativeMenuItem Gesture="CTRL+Q" Header="Quit Avalonia" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-            <NativeMenuItem Header="Edit">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Copy" />
-                        <NativeMenuItem Header="Paste" />
+                        <NativeMenuItem Header="Login" />
+                        <NativeMenuItem Header="Logout" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
@@ -102,8 +89,8 @@
 
             <NativeMenuBar
                 Name="SeamlessMenuBar"
-                Width="200"
-                Height="20"
+                Width="260"
+                Height="30"
                 HorizontalAlignment="Left"
                 Background="Red" />
         </StackPanel>
@@ -171,7 +158,7 @@
 
         <Grid
             Margin="4"
-            ColumnDefinitions="100,1.5*,4*"
+            ColumnDefinitions="Auto, Auto, Auto"
             RowDefinitions="Auto,Auto,*">
 
             <Button
@@ -181,7 +168,7 @@
                 Content="Open Window" />
             <CheckBox
                 Grid.Row="0"
-                Grid.Column="2"
+                Grid.Column="1"
                 Width="50"
                 Height="50"
                 IsChecked="True" />

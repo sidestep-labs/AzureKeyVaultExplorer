@@ -2,7 +2,5 @@
     x:Class="kvexplorer.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:kvexplorer.WinUI">
-
-</maui:MauiWinUIApplication>
+    xmlns:local="using:kvexplorer.WinUI"
+    xmlns:maui="using:Microsoft.Maui" />

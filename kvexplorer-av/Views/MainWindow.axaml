@@ -110,6 +110,29 @@
 
 
 
+        <StackPanel
+            Name="MacTitleBar"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsHitTestVisible="False"
+            IsVisible="{OnPlatform True,
+                                   Windows=False}"
+            Orientation="Horizontal"
+            Spacing="6">
+            <StackPanel.RenderTransform>
+                <TranslateTransform X="-33" Y="0" />
+            </StackPanel.RenderTransform>
+            <Image
+                Width="25"
+                Height="25"
+                Source="/Assets/avalonia-logo.ico" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="Custom TitleBar Demo" />
+        </StackPanel>
+
+
 
 
 

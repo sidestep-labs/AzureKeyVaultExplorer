@@ -84,28 +84,33 @@
                     </NativeMenuItem>
                 </NativeMenu>
             </NativeMenuItem>
-
-
         </NativeMenu>
     </NativeMenu.Menu>
 
     <DockPanel>
 
-       <NativeMenuBar
-                Name="SeamlessMenuBar"
-                Width="200"
-				Background="Red"
-                HorizontalAlignment="Left"
-                DockPanel.Dock="Top" />
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Image
                 Name="WindowIcon"
-                Width="20"
-                Height="20"
+                Width="25"
+                Height="25"
                 Margin="5,0,3,0"
                 VerticalAlignment="Center"
+                IsVisible="{OnPlatform False,
+                                       Windows=True}"
                 Source="/Assets/avalonia-logo.ico" />
-           
-       
+
+            <NativeMenuBar
+                Name="SeamlessMenuBar"
+                Width="200"
+                Height="20"
+                HorizontalAlignment="Left"
+                Background="Red" />
+        </StackPanel>
+
+
+
+
 
 
         <StackPanel
@@ -167,6 +172,6 @@
                 GridLinesVisibility="All"
                 Items="{Binding Data}" />
         </Grid>
-   
-	</DockPanel>
+
+    </DockPanel>
 </Window>

@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using avalon.kvexplorer.Services;
 using avalon.kvexplorer.ViewModels;
 using avalon.kvexplorer.Views;
+using Avalonia.Controls.Notifications;
 
 namespace avalon.kvexplorer
 {
@@ -21,6 +22,7 @@ namespace avalon.kvexplorer
             //initialize dependencies 
             var authService = new AuthService();
             var mainViewModel = new MainWindowViewModel(authService);
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Line below is needed to remove Avalonia data validation.

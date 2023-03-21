@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using avalon.kvexplorer.Services;
+using Avalonia.Controls.Notifications;
 
 namespace avalon.kvexplorer.Views;
 
@@ -12,7 +13,6 @@ public partial class MainWindow : Window
     }
 
     private AuthService _authService;
-
     public MainWindow(AuthService authService)
     {
         _authService = authService;
@@ -36,7 +36,16 @@ public partial class MainWindow : Window
     public void button_Click(object sender, RoutedEventArgs e)
     {
         // Change button text when button is clicked.
-
+        var not = new Notification("Test", "this is a test notification message", NotificationType.Warning);
+        var nm = new WindowNotificationManager(this)
+        {
+            Position = NotificationPosition.BottomRight,
+            MaxItems = 1
+        };
+        nm.TemplateApplied += (sender, args) =>
+        {
+            nm.Show(not);
+        };
         var button = (Button)sender;
 
         button.Content = "Hello, Avalonia!";

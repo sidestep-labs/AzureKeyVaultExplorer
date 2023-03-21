@@ -15,13 +15,9 @@
     <Application.Styles>
         <!--<FluentTheme />-->
         <!--<SimpleTheme />-->
-
-
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-
-		<sty:FluentAvaloniaTheme />
-
-		<!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />-->
+        <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />
+        <sty:FluentAvaloniaTheme />
 
     </Application.Styles>
 </Application>

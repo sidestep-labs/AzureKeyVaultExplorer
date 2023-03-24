@@ -34,7 +34,7 @@
             <NativeMenuItem Header="User">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Login" />
+                        <NativeMenuItem Command="{Binding LoginCommand}" Header="Login" />
                         <NativeMenuItem Header="Logout" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>
@@ -89,7 +89,7 @@
 
             <NativeMenuBar
                 Name="SeamlessMenuBar"
-                Width="260"
+                Width="280"
                 Height="30"
                 HorizontalAlignment="Left"
                 Background="Red" />
@@ -159,13 +159,19 @@
         <Grid
             Margin="4"
             ColumnDefinitions="Auto, Auto, Auto"
-            RowDefinitions="Auto,Auto,*">
+            RowDefinitions="Auto,Auto,Auto,*">
 
             <Button
                 x:Name="OpenWindowButton"
                 Grid.Row="0"
                 Click="OpenWindowButton_Click"
                 Content="Open Window" />
+
+            <Button
+                x:Name="ShowNoticiation"
+                Grid.Row="1"
+                Click="button_Click"
+                Content="ShowNoticiation" />
             <CheckBox
                 Grid.Row="0"
                 Grid.Column="1"
@@ -174,7 +180,7 @@
                 IsChecked="True" />
             <DataGrid
                 Name="MyDataGrid"
-                Grid.Row="1"
+                Grid.Row="3"
                 Grid.RowSpan="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"

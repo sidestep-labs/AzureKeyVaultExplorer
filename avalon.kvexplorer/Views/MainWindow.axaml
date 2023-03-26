@@ -14,10 +14,15 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
+    Background="{x:Null}"
+    ExtendClientAreaChromeHints="PreferSystemChrome"
+    ExtendClientAreaTitleBarHeightHint="-1"
     ExtendClientAreaToDecorationsHint="{OnPlatform True,
                                                    macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
-    TransparencyLevelHint="Blur"
+    SystemDecorations="Full"
+    Topmost="True"
+    TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 

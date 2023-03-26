@@ -3,7 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:avalon.kvexplorer"
-    xmlns:sty="using:FluentAvalonia.Styling"
     RequestedThemeVariant="Default">
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 
@@ -14,10 +13,14 @@
 
     <Application.Styles>
         <!--<FluentTheme />-->
-        <!--<SimpleTheme />-->
-        <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
+        <SimpleTheme />
+
+
+        <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+		<sty:FluentAvaloniaTheme />-->
+
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />
-        <sty:FluentAvaloniaTheme />
 
     </Application.Styles>
 </Application>

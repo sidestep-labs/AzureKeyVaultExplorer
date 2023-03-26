@@ -18,6 +18,7 @@
     <PackageReference Include="Avalonia" Version="11.0.0-preview6" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview6" />
     <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview6" />
+	<PackageReference Include="Avalonia.Themes.Simple" Version="11.0.0-preview6" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview6" />
     <PackageReference Include="Azure.ResourceManager.KeyVault" Version="1.1.0" />
@@ -27,8 +28,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.51.0" />
     <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.27.0" />
-    <PackageReference Include="Semi.Avalonia" Version="0.1.0-preview6" />
-    <PackageReference Include="Semi.Avalonia.DataGrid" Version="0.1.0-preview6" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
   </ItemGroup>
 </Project>

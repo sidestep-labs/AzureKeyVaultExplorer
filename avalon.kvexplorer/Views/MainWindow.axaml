@@ -14,15 +14,11 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    Background="{x:Null}"
     ExtendClientAreaChromeHints="PreferSystemChrome"
-    ExtendClientAreaTitleBarHeightHint="-1"
     ExtendClientAreaToDecorationsHint="{OnPlatform True,
                                                    macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
-    Topmost="True"
-    TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
@@ -100,8 +96,6 @@
                 Background="Red" />
         </StackPanel>
 
-
-
         <StackPanel
             Name="MacTitleBar"
             HorizontalAlignment="Center"
@@ -123,10 +117,6 @@
                 FontSize="20"
                 Text="Custom TitleBar Demo" />
         </StackPanel>
-
-
-
-
 
         <StackPanel
             Height="20"
@@ -173,6 +163,12 @@
                 Content="Open Window" />
 
             <Button
+                x:Name="xxxx"
+                Grid.Row="0"
+                Grid.Column="2"
+                Command="{Binding LoginCommand}"
+                Content="login" />
+            <Button
                 x:Name="ShowNoticiation"
                 Grid.Row="1"
                 Click="button_Click"
@@ -193,6 +189,5 @@
                 GridLinesVisibility="All"
                 Items="{Binding Data}" />
         </Grid>
-
     </DockPanel>
 </Window>

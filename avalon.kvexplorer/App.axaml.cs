@@ -1,17 +1,34 @@
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
-using Avalonia.Data.Core.Plugins;
-using Avalonia.Markup.Xaml;
 using avalon.kvexplorer.Services;
 using avalon.kvexplorer.ViewModels;
 using avalon.kvexplorer.Views;
-using Avalonia.Controls.Notifications;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core.Plugins;
+using Avalonia.Markup.Xaml;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace avalon.kvexplorer
 {
     public partial class App : Application
     {
+        public App()
+        {
+        }
+
+        public static void ConfigureDefaultServices()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+
+            // Services
+            serviceCollection.AddSingleton<AuthService, AuthService>();
+            serviceCollection.AddSingleton<VaultService, VaultService>();
+
+            // ViewModels
+            serviceCollection.AddTransient<MainWindowViewModel>();
+
+            Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
+        }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -19,9 +36,9 @@ namespace avalon.kvexplorer
 
         public override void OnFrameworkInitializationCompleted()
         {
-            //initialize dependencies 
-            var authService = new AuthService();
-            var mainViewModel = new MainWindowViewModel(authService);
+            //initialize dependencies
+            //var authService = new AuthService();
+            //var mainViewModel = new MainWindowViewModel(authService);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
@@ -30,12 +47,9 @@ namespace avalon.kvexplorer
                 BindingPlugins.DataValidators.RemoveAt(0);
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = mainViewModel
-                   
+                    DataContext = Defaults.Locator.GetService<MainWindowViewModel>()
                 };
-
             }
-
 
             base.OnFrameworkInitializationCompleted();
         }

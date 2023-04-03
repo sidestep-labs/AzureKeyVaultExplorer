@@ -1,10 +1,13 @@
 ﻿using Azure.ResourceManager.KeyVault;
+using System.Collections.ObjectModel;
 
 namespace avalon.kvexplorer.Models;
 
-public class KeyVaultTreeModel
+public class KeyVaultModel
 {
-    public string SubscriptionName { get; set; }
+    public string SubscriptionDisplayName { get; set; }
 
-    public KeyVaultResource[] KeyVaultResources { get; set; }
+    public string SubscriptionId { get; set; }
+
+    public ObservableCollection<KeyVaultResource> KeyVaultResources { get; }  = new ObservableCollection<KeyVaultResource>();
 }

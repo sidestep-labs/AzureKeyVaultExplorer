@@ -1,4 +1,5 @@
-﻿using Azure.ResourceManager;
+﻿using avalon.kvexplorer.Models;
+using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
@@ -18,18 +19,47 @@ public class VaultService
         _authService = authService;
     }
 
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResource()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+        var subscription = await armClient.GetDefaultSubscriptionAsync();
+        await foreach (var kvResource in subscription.GetKeyVaultsAsync())
+        {
+            yield return kvResource;
+        }
+    }
+
     public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResources()
     {
         var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
         var armClient = new ArmClient(token);
-        //SubscriptionResource subscription = await armClient.GetDefaultSubscriptionAsync();
-        var subscriptions = armClient.GetSubscriptions().ToArray();
-        foreach (var subscription in subscriptions)
+        foreach (var subscription in armClient.GetSubscriptions().ToArray())
         {
             await foreach (var kvResource in subscription.GetKeyVaultsAsync())
             {
                 yield return kvResource;
             }
+        }
+    }
+
+    public async IAsyncEnumerable<KeyVaultModel> GetKeyVaultResourceBySubscriptionAndResourceGroup()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+        foreach (var subscription in armClient.GetSubscriptions().ToArray())
+        {
+            var resource = new KeyVaultModel
+            {
+                SubscriptionDisplayName = subscription.Data.DisplayName,
+                SubscriptionId = subscription.Data.Id
+            };
+            await foreach (var kvResource in subscription.GetKeyVaultsAsync())
+            {
+                resource.KeyVaultResources.Add(kvResource);
+            }
+
+            yield return resource;
         }
     }
 

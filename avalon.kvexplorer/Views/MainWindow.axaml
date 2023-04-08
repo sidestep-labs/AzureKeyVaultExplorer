@@ -2,8 +2,10 @@
     x:Class="avalon.kvexplorer.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:avalon.kvexplorer.Models;assembly=avalon.kvexplorer"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
     xmlns:vm="using:avalon.kvexplorer.ViewModels"
@@ -153,33 +155,64 @@
 
         <Grid
             Margin="4"
-            ColumnDefinitions="Auto, Auto, Auto"
+            ColumnDefinitions="Auto, Auto, *"
             RowDefinitions="Auto,Auto,Auto,*">
 
-            <Button
+            <!--<Button
                 x:Name="OpenWindowButton"
                 Grid.Row="0"
                 Click="OpenWindowButton_Click"
-                Content="Open Window" />
-
-            <Button
+                Content="Open Window" />-->
+            <!--<Button
                 x:Name="xxxx"
                 Grid.Row="0"
                 Grid.Column="2"
                 Command="{Binding LoginCommand}"
-                Content="login" />
-            <Button
+                Content="login" />-->
+            <!--<Button
                 x:Name="ShowNoticiation"
                 Grid.Row="1"
                 Click="button_Click"
-                Content="ShowNoticiation" />
-            <CheckBox
+                Content="ShowNoticiation" />-->
+
+            <Button
+                x:Name="GetKvButton"
                 Grid.Row="0"
                 Grid.Column="1"
-                Width="50"
-                Height="50"
-                IsChecked="True" />
-            <DataGrid
+                Command="{Binding GetAvailableKeyVaultsCommand}"
+                Content="GetAvailableKeyVaults" />
+
+            <!--<treeview
+
+                background="red"
+                items="{binding vaulttreelist}">
+                <treeview.datatemplates>
+                    <treedatatemplate datatype="models:keyvaultmodel" itemssource="{binding keyvaultresources}">
+                        <textblock foreground="red" text="{binding subscriptionid}" />
+                    </treedatatemplate>
+                    <datatemplate datatype="armmodels:keyvaultresource">
+                        <textblock text="{binding data}" />
+                    </datatemplate>
+                </treeview.datatemplates>
+            </treeview>-->
+
+
+            <TreeView
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Background="AntiqueWhite"
+                Items="{Binding VaultTreeList}">
+                <TreeView.DataTemplates>
+                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                        <TextBlock Foreground="Red" Text="{Binding SubscriptionDisplayName}" />
+                    </TreeDataTemplate>
+                    <DataTemplate DataType="armmodels:KeyVaultResource">
+                        <TextBlock Text="{Binding Id}" />
+                    </DataTemplate>
+                </TreeView.DataTemplates>
+            </TreeView>
+            <!--<DataGrid
                 Name="MyDataGrid"
                 Grid.Row="3"
                 Grid.RowSpan="2"
@@ -187,7 +220,7 @@
                 Grid.ColumnSpan="2"
                 AutoGenerateColumns="True"
                 GridLinesVisibility="All"
-                Items="{Binding ListOfPeople}" />
+                Items="{Binding ListOfPeople}" />-->
         </Grid>
     </DockPanel>
 </Window>

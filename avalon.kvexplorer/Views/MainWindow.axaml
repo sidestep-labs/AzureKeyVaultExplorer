@@ -131,31 +131,26 @@
             <TextBox CornerRadius="6" />
 
             <ScrollViewer Width="200">
-                <ListBox>
-                    <ListBoxItem>Item 1</ListBoxItem>
-                    <ListBoxItem>Item 2</ListBoxItem>
-                    <ListBoxItem>Item 3</ListBoxItem>
-                    <ListBoxItem>Item 4</ListBoxItem>
-                    <ListBoxItem>Item 5</ListBoxItem>
-                    <ListBoxItem>Item 6</ListBoxItem>
-                    <ListBoxItem>Item 7</ListBoxItem>
-                    <ListBoxItem>Item 8</ListBoxItem>
-                    <ListBoxItem>Item 9</ListBoxItem>
-                    <ListBoxItem>Item 10</ListBoxItem>
-                    <ListBoxItem>Item 11</ListBoxItem>
-                    <ListBoxItem>Item 12</ListBoxItem>
-                    <ListBoxItem>Item 12</ListBoxItem>
-                    <ListBoxItem>Item 12</ListBoxItem>
-                    <ListBoxItem>Item 12</ListBoxItem>
-                    <ListBoxItem>Item 12</ListBoxItem>
-                    <ListBoxItem>Item 12</ListBoxItem>
-                </ListBox>
+                <TreeView
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Items="{Binding VaultTreeList}">
+                    <TreeView.DataTemplates>
+                        <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                            <TextBlock Foreground="Red" Text="{Binding SubscriptionDisplayName}" />
+                        </TreeDataTemplate>
+                        <DataTemplate DataType="armmodels:KeyVaultResource">
+                            <TextBlock Text="{Binding Data.Name}" />
+                        </DataTemplate>
+                    </TreeView.DataTemplates>
+                </TreeView>
             </ScrollViewer>
         </StackPanel>
 
         <Grid
             Margin="4"
-            ColumnDefinitions="Auto, Auto, *"
+            ColumnDefinitions="Auto, Auto, *,*"
             RowDefinitions="Auto,Auto,Auto,*">
 
             <!--<Button
@@ -182,45 +177,16 @@
                 Command="{Binding GetAvailableKeyVaultsCommand}"
                 Content="GetAvailableKeyVaults" />
 
-            <!--<treeview
 
-                background="red"
-                items="{binding vaulttreelist}">
-                <treeview.datatemplates>
-                    <treedatatemplate datatype="models:keyvaultmodel" itemssource="{binding keyvaultresources}">
-                        <textblock foreground="red" text="{binding subscriptionid}" />
-                    </treedatatemplate>
-                    <datatemplate datatype="armmodels:keyvaultresource">
-                        <textblock text="{binding data}" />
-                    </datatemplate>
-                </treeview.datatemplates>
-            </treeview>-->
-
-
-            <TreeView
-                Grid.Row="2"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Background="AntiqueWhite"
-                Items="{Binding VaultTreeList}">
-                <TreeView.DataTemplates>
-                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                        <TextBlock Foreground="Red" Text="{Binding SubscriptionDisplayName}" />
-                    </TreeDataTemplate>
-                    <DataTemplate DataType="armmodels:KeyVaultResource">
-                        <TextBlock Text="{Binding Id}" />
-                    </DataTemplate>
-                </TreeView.DataTemplates>
-            </TreeView>
-            <!--<DataGrid
+            <DataGrid
                 Name="MyDataGrid"
                 Grid.Row="3"
                 Grid.RowSpan="2"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
+                Grid.ColumnSpan="3"
                 AutoGenerateColumns="True"
                 GridLinesVisibility="All"
-                Items="{Binding ListOfPeople}" />-->
+                Items="{Binding ListOfPeople}" />
         </Grid>
     </DockPanel>
 </Window>

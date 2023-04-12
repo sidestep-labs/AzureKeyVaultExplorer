@@ -21,7 +21,7 @@
                                                    macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
-    WindowStartupLocation="CenterScreen"
+    WindowStartupLocation=""
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -138,7 +138,7 @@
                     Items="{Binding VaultTreeList}">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                            <TextBlock Foreground="Red" Text="{Binding SubscriptionDisplayName}" />
+                            <TextBlock Text="{Binding SubscriptionDisplayName}" />
                         </TreeDataTemplate>
                         <DataTemplate DataType="armmodels:KeyVaultResource">
                             <TextBlock Text="{Binding Data.Name}" />

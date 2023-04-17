@@ -4,23 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:avalon.kvexplorer"
     RequestedThemeVariant="Default">
-    <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
+    <!--
+        xmlns:sty="using:FluentAvalonia.Styling"
+        xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+        "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.
+    -->
 
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
 
-
     <Application.Styles>
-        <!--<FluentTheme />-->
         <SimpleTheme />
-
-
-        <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-
-		<sty:FluentAvaloniaTheme />-->
-
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />
-
+        <!--<sty:FluentAvaloniaTheme />-->
+        <StyleInclude Source="/Resources/Styles.axaml" />
+        <!--<StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml" />-->
+        <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
     </Application.Styles>
 </Application>

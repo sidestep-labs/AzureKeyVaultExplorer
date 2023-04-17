@@ -93,7 +93,7 @@
             <NativeMenuBar
                 Name="SeamlessMenuBar"
                 Width="280"
-                Height="30"
+                Height="35"
                 HorizontalAlignment="Left"
                 Background="Red" />
         </StackPanel>
@@ -170,14 +170,69 @@
                 Click="button_Click"
                 Content="ShowNoticiation" />-->
 
-            <Button
+            <!--<Button
                 x:Name="GetKvButton"
                 Grid.Row="0"
                 Grid.Column="1"
                 Command="{Binding GetAvailableKeyVaultsCommand}"
-                Content="GetAvailableKeyVaults" />
+                Content="GetAvailableKeyVaults" />-->
 
 
+            <TabControl
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3">
+                <TabItem VerticalContentAlignment="Center" Header="Circle">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="I am in the circle page !" />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock VerticalAlignment="Center">Triangle</TextBlock>
+                    </TabItem.Header>
+                    <StackPanel>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="I am in the triangle page ! I'll put a button to show you that each page contains what you want." />
+                        <Button>A button in the triangle page !</Button>
+                    </StackPanel>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock VerticalAlignment="Center">Square</TextBlock>
+                    </TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="Square : " />
+                        <Rectangle
+                            Width="63"
+                            Height="41"
+                            Fill="Blue" />
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
+            <!--<TreeDataGrid
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Source="{Binding Source}">
+
+
+                <TreeDataGrid.Styles>
+                    <Style Selector="TreeDataGrid TreeDataGridRow:nth-child(2n)">
+                        <Setter Property="Background" Value="lightgray" />
+                    </Style>
+                </TreeDataGrid.Styles>
+
+            </TreeDataGrid>-->
             <DataGrid
                 Name="MyDataGrid"
                 Grid.Row="3"
@@ -187,6 +242,8 @@
                 AutoGenerateColumns="True"
                 GridLinesVisibility="All"
                 Items="{Binding ListOfPeople}" />
+
+
         </Grid>
     </DockPanel>
 </Window>

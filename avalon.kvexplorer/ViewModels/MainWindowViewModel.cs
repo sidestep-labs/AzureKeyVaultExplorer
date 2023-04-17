@@ -1,8 +1,11 @@
 ﻿using avalon.kvexplorer.Models;
 using avalon.kvexplorer.Services;
+using Avalonia.Controls.Models.TreeDataGrid;
+using Avalonia.Controls;
 using Azure.ResourceManager.KeyVault;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -23,6 +26,25 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     public ObservableCollection<KeyVaultModel> vaultTreeList;
+
+    public class Person
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public int Age { get; set; }
+    }
+
+    //[ObservableProperty]
+    //public FlatTreeDataGridSource<Person> _source;
+
+
+    private ObservableCollection<Person> _people = new()
+    {
+        new Person { FirstName = "Eleanor", LastName = "Pope", Age = 32 },
+        new Person { FirstName = "Jeremy", LastName = "Navarro", Age = 74 },
+        new Person { FirstName = "Lailah ", LastName = "Velazquez", Age = 16 },
+        new Person { FirstName = "Jazmine", LastName = "Schroeder", Age = 52 },
+    };
 
     public MainWindowViewModel(AuthService authService, VaultService vaultService)
     {
@@ -49,6 +71,16 @@ public partial class MainWindowViewModel : ViewModelBase
             new MyData { Name = "Bob Smith", Age = 27, Address = "789 Elm St." }
         };
 
+        //Source = new FlatTreeDataGridSource<Person>(_people)
+        //{
+        //    Columns =
+        //    {
+        //        new TextColumn<Person, string>("First Name", x => x.FirstName),
+        //        new TextColumn<Person, string>("Last Name", x => x.LastName),
+        //        new TextColumn<Person, int>("Age", x => x.Age),
+        //    },
+        //};
+
         Task.Run(async () =>
         {
             GetAvailableKeyVaults();
@@ -62,6 +94,15 @@ public partial class MainWindowViewModel : ViewModelBase
             new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
             new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
             new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
+            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
+            new KeyVaultModel { SubscriptionDisplayName = "Dev", SubscriptionId = "1" },
+            new KeyVaultModel { SubscriptionDisplayName = "Staging", SubscriptionId = "7" },
+            new KeyVaultModel { SubscriptionDisplayName = "Testing", SubscriptionId = "9" },
+            new KeyVaultModel { SubscriptionDisplayName = "UAT", SubscriptionId = "2" },
+            new KeyVaultModel { SubscriptionDisplayName = "Demo", SubscriptionId = "4" },
+            new KeyVaultModel { SubscriptionDisplayName = "Marketing", SubscriptionId = "6" },
+            new KeyVaultModel { SubscriptionDisplayName = "Finance", SubscriptionId = "8" },
+            new KeyVaultModel { SubscriptionDisplayName = "Security", SubscriptionId = "10" }
         };
 
         listOfPeople = new List<MyData>
@@ -70,6 +111,16 @@ public partial class MainWindowViewModel : ViewModelBase
             new MyData { Name = "Jane Doe", Age = 39, Address = "456 Oak St." },
             new MyData { Name = "Bob Smith", Age = 27, Address = "789 Elm St." }
         };
+        //Source = new FlatTreeDataGridSource<Person>(_people)
+        //{
+        //    Columns =
+        //    {
+        //        new TextColumn<Person, string>("First Name", x => x.FirstName),
+        //        new TextColumn<Person, string>("Last Name", x => x.LastName),
+        //        new TextColumn<Person, int>("Age", x => x.Age),
+        //    },
+        //};
+ 
     }
 
     [RelayCommand]

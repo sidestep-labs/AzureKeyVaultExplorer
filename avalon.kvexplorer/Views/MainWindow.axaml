@@ -177,13 +177,14 @@
                 Command="{Binding GetAvailableKeyVaultsCommand}"
                 Content="GetAvailableKeyVaults" />-->
 
-
             <TabControl
                 Grid.Row="0"
-                Grid.RowSpan="2"
+                Grid.RowSpan="5"
                 Grid.Column="0"
-                Grid.ColumnSpan="3">
-                <TabItem VerticalContentAlignment="Center" Header="Circle">
+                Grid.ColumnSpan="5"
+                TabStripPlacement="Top">
+
+                <TabItem VerticalContentAlignment="Top" Header="Circle">
                     <TextBlock
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -191,7 +192,7 @@
                 </TabItem>
                 <TabItem>
                     <TabItem.Header>
-                        <TextBlock VerticalAlignment="Center">Triangle</TextBlock>
+                        <TextBlock VerticalAlignment="Top">Triangle</TextBlock>
                     </TabItem.Header>
                     <StackPanel>
                         <TextBlock
@@ -203,17 +204,14 @@
                 </TabItem>
                 <TabItem>
                     <TabItem.Header>
-                        <TextBlock VerticalAlignment="Center">Square</TextBlock>
+                        <TextBlock VerticalAlignment="Top">Square</TextBlock>
                     </TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Text="Square : " />
-                        <Rectangle
-                            Width="63"
-                            Height="41"
-                            Fill="Blue" />
+                            Text="" />
+
                     </StackPanel>
                 </TabItem>
             </TabControl>

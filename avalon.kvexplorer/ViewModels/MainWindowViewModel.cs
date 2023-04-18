@@ -1,11 +1,8 @@
 ﻿using avalon.kvexplorer.Models;
 using avalon.kvexplorer.Services;
-using Avalonia.Controls.Models.TreeDataGrid;
-using Avalonia.Controls;
 using Azure.ResourceManager.KeyVault;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -36,7 +33,6 @@ public partial class MainWindowViewModel : ViewModelBase
 
     //[ObservableProperty]
     //public FlatTreeDataGridSource<Person> _source;
-
 
     private ObservableCollection<Person> _people = new()
     {
@@ -120,7 +116,6 @@ public partial class MainWindowViewModel : ViewModelBase
         //        new TextColumn<Person, int>("Age", x => x.Age),
         //    },
         //};
- 
     }
 
     [RelayCommand]

@@ -78,7 +78,6 @@
     </NativeMenu.Menu>
 
     <DockPanel>
-
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Image
                 Name="WindowIcon"
@@ -92,10 +91,9 @@
 
             <NativeMenuBar
                 Name="SeamlessMenuBar"
-                Width="280"
                 Height="35"
-                HorizontalAlignment="Left"
-                Background="Red" />
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
         </StackPanel>
 
         <StackPanel
@@ -120,13 +118,19 @@
                 Text="Custom TitleBar Demo" />
         </StackPanel>
 
+
         <StackPanel
-            Height="20"
-            Background="red"
+            Height="22"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            Background="Gainsboro"
             DockPanel.Dock="Bottom"
             Orientation="Horizontal">
             <TextBlock>username</TextBlock>
         </StackPanel>
+
+
+
         <StackPanel Width="200" DockPanel.Dock="Left">
             <TextBox CornerRadius="6" />
 
@@ -177,6 +181,7 @@
                 Command="{Binding GetAvailableKeyVaultsCommand}"
                 Content="GetAvailableKeyVaults" />-->
 
+
             <TabControl
                 Grid.Row="0"
                 Grid.RowSpan="5"
@@ -185,10 +190,17 @@
                 TabStripPlacement="Top">
 
                 <TabItem VerticalContentAlignment="Top" Header="Circle">
-                    <TextBlock
+                    <DataGrid
+                        Name="MyDataGrid"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Text="I am in the circle page !" />
+                        AutoGenerateColumns="True"
+                        Items="{Binding ListOfPeople}">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                                <Setter Property="Background" Value="lightgray" />
+                            </Style>
+                        </DataGrid.Styles>
+                    </DataGrid>
                 </TabItem>
                 <TabItem>
                     <TabItem.Header>
@@ -216,32 +228,11 @@
                 </TabItem>
             </TabControl>
 
-            <!--<TreeDataGrid
-                Grid.Row="3"
-                Grid.RowSpan="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                Source="{Binding Source}">
-
-
-                <TreeDataGrid.Styles>
-                    <Style Selector="TreeDataGrid TreeDataGridRow:nth-child(2n)">
-                        <Setter Property="Background" Value="lightgray" />
-                    </Style>
-                </TreeDataGrid.Styles>
-
-            </TreeDataGrid>-->
-            <DataGrid
-                Name="MyDataGrid"
-                Grid.Row="3"
-                Grid.RowSpan="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                AutoGenerateColumns="True"
-                GridLinesVisibility="All"
-                Items="{Binding ListOfPeople}" />
 
 
         </Grid>
     </DockPanel>
+
+
+
 </Window>

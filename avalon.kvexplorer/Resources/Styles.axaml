@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <TabControl>
+        <!--<TabControl>
             <TabItem VerticalContentAlignment="Center" Header="Circle">
                 <TextBlock
                     HorizontalAlignment="Left"
@@ -34,9 +34,29 @@
                         Fill="Blue" />
                 </StackPanel>
             </TabItem>
-        </TabControl>
+        </TabControl>-->
+
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Copy" />
+                <MenuItem Header="Paste" />
+            </MenuItem>
+        </Menu>
+
+
     </Design.PreviewWith>
 
+    <Style Selector="MenuItem">
+        <Setter Property="Margin" Value="5" />
 
-
+    </Style>
+    <Style Selector="TextBlock.h1">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 </Styles>

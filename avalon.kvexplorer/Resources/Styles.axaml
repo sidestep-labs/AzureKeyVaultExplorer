@@ -53,8 +53,8 @@
 
     <Style Selector="MenuItem">
 
-        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-        <Setter Property="Margin" Value="4" />
+        <!--<Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="Margin" Value="4" />-->
     </Style>
 
     <Style Selector="TextBlock.h1">

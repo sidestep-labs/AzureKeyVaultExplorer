@@ -33,78 +33,13 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <NativeMenu.Menu>
-        <NativeMenu>
-            <NativeMenuItem Header="User">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Command="{Binding LoginCommand}" Header="Login" />
-                        <NativeMenuItem Header="Logout" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
 
-            <NativeMenuItem Header="Options">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Open" />
-                        <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Exit" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="Help">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="About" />
-                        <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Report a bug" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="View">
-                <NativeMenu>
-                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
-                        <NativeMenu>
-                            <NativeMenuItem Header="Option 1" />
-                            <NativeMenuItem Header="Option 2" />
-                            <NativeMenuItem Header="Option 3" />
-                        </NativeMenu>
-                    </NativeMenuItem>
-                </NativeMenu>
-            </NativeMenuItem>
-        </NativeMenu>
-    </NativeMenu.Menu>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-
-            <custom:TitleBarControl />
-
+            <custom:TitleBarControl MaxHeight="30" />
         </StackPanel>
 
-        <StackPanel
-            Name="MacTitleBar"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            IsHitTestVisible="False"
-            IsVisible="{OnPlatform True,
-                                   Windows=False}"
-            Orientation="Horizontal"
-            Spacing="6">
-            <StackPanel.RenderTransform>
-                <TranslateTransform X="-33" Y="0" />
-            </StackPanel.RenderTransform>
-            <Image
-                Width="25"
-                Height="25"
-                Source="/Assets/avalonia-logo.ico" />
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="20"
-                Text="Custom TitleBar Demo" />
-        </StackPanel>
+
 
 
         <StackPanel

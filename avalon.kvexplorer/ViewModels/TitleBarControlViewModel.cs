@@ -23,6 +23,7 @@ public partial class TitleBarViewModel : ViewModelBase
 
     public TitleBarViewModel()
     {
+        _authService = new AuthService();
     }
 
     [RelayCommand]

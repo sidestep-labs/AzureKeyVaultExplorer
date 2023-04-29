@@ -23,7 +23,7 @@
         <vm:TitleBarViewModel />
     </Design.DataContext>
 
-    <StackPanel Orientation="Horizontal">
+    <StackPanel IsVisible="{OnPlatform False, Windows=True}" Orientation="Horizontal">
         <Grid>
             <DockPanel Name="TitleBar">
                 <StackPanel
@@ -37,8 +37,6 @@
                         Height="25"
                         Margin="5,0,3,0"
                         VerticalAlignment="Center"
-                        IsVisible="{OnPlatform False,
-                                               Windows=True}"
                         Source="/Assets/avalonia-logo.ico" />
                 </StackPanel>
             </DockPanel>
@@ -46,8 +44,11 @@
         </Grid>
         <Menu>
             <MenuItem Header="User">
-                <MenuItem Command="{Binding LoginCommand}" Header="Login" />
-                <MenuItem Header="Logout" />
+                <MenuItem
+                    Command="{Binding LoginCommand}"
+                    Header="Login"
+                    Icon="&#xe774;" />
+                <MenuItem Command="{Binding LoginCommand}" Header="Logout" />
             </MenuItem>
 
             <MenuItem Header="Options">

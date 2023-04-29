@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <!--<TabControl>
+        <!--  <TabControl>
             <TabItem VerticalContentAlignment="Center" Header="Circle">
                 <TextBlock
                     HorizontalAlignment="Left"
@@ -36,27 +36,67 @@
             </TabItem>
         </TabControl>-->
 
-        <Menu>
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open..." />
-                <Separator />
-                <MenuItem Header="_Exit" />
-            </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem Header="Copy" />
-                <MenuItem Header="Paste" />
-            </MenuItem>
-        </Menu>
-
-
+        <StackPanel Width="200" Height="200">
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open..." Icon="&#xE8C8;" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="Copy" />
+                    <MenuItem Header="Paste" />
+                </MenuItem>
+            </Menu>
+        </StackPanel>
     </Design.PreviewWith>
 
     <Style Selector="MenuItem">
-        <Setter Property="Margin" Value="5" />
 
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="Margin" Value="4" />
     </Style>
+
     <Style Selector="TextBlock.h1">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector="TabControl">
+        <Setter Property="Background" Value="#F0F0F0" />
+        <Setter Property="Height" Value="120" />
+    </Style>
+    <Style Selector="TabControl WrapPanel">
+        <Setter Property="Background" Value="#2B579A" />
+    </Style>
+
+    <Style Selector="TabItem">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="#2B579A" />
+        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Margin" Value="0 0 0 0" />
+        <Setter Property="Padding" Value="10 0" />
+    </Style>
+    <Style Selector="TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#124078" />
+    </Style>
+
+    <Style Selector="TabItem:focus">
+        <Setter Property="Foreground" Value="#2B579A" />
+        <Setter Property="Margin" Value="0 0 0 0" />
+        <Setter Property="Padding" Value="10 0" />
+    </Style>
+    <Style Selector="TabItem:focus /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#f0f0f0" />
+    </Style>
+
+    <Style Selector="TabItem:selected">
+        <Setter Property="Foreground" Value="#2B579A" />
+        <Setter Property="Margin" Value="0 0 0 0" />
+        <Setter Property="Padding" Value="10 0" />
+    </Style>
+    <Style Selector="TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#f0f0f0" />
     </Style>
 </Styles>

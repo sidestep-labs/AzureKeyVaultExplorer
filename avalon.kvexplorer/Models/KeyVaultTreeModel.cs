@@ -1,7 +1,5 @@
 ﻿using Azure.ResourceManager.KeyVault;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace avalon.kvexplorer.Models;
 
@@ -11,10 +9,8 @@ public class KeyVaultModel
 
     public string? SubscriptionId { get; set; }
 
-    public List<KeyVaultResource> KeyVaultResources { get; set; }  = new List<KeyVaultResource>();
+    public List<KeyVaultResource> KeyVaultResources { get; set; } = new List<KeyVaultResource>();
 }
-
-
 
 public class MyData
 {

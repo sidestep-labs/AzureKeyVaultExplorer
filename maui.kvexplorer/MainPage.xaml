@@ -61,6 +61,7 @@
                 Grid.Column="1"
                 FontSize="12"
                 Text="open"
+                
                 VerticalOptions="Center">
                 <Label.GestureRecognizers>
                     <ClickGestureRecognizer Command="{Binding ToggleFlyoutCommand}" />

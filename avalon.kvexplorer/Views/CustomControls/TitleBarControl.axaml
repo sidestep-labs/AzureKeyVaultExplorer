@@ -1,0 +1,109 @@
+<UserControl
+    x:Class="avalon.kvexplorer.Views.CustomControls.TitleBarControl"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:avalon.kvexplorer.Models;assembly=avalon.kvexplorer"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+    xmlns:vm="using:avalon.kvexplorer.ViewModels"
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:TitleBarViewModel"
+    DockPanel.Dock="Top"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:TitleBarViewModel />
+    </Design.DataContext>
+
+    <StackPanel Orientation="Horizontal">
+        <Grid>
+            <DockPanel Name="TitleBar">
+                <StackPanel
+                    DockPanel.Dock="Left"
+                    Orientation="Horizontal"
+                    Spacing="0">
+
+                    <Image
+                        Name="WindowIcon"
+                        Width="25"
+                        Height="25"
+                        Margin="5,0,3,0"
+                        VerticalAlignment="Center"
+                        IsVisible="{OnPlatform False,
+                                               Windows=True}"
+                        Source="/Assets/avalonia-logo.ico" />
+                </StackPanel>
+            </DockPanel>
+
+        </Grid>
+        <Menu>
+            <MenuItem Header="User">
+                <MenuItem Command="{Binding LoginCommand}" Header="Login" />
+                <MenuItem Header="Logout" />
+            </MenuItem>
+
+            <MenuItem Header="Options">
+                <MenuItem Header="Open" />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+
+            <MenuItem Header="Help">
+                <MenuItem Header="About" />
+                <MenuItem Header="Report a bug" />
+            </MenuItem>
+        </Menu>
+    </StackPanel>
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="User">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Command="{Binding LoginCommand}" Header="Login" />
+                        <NativeMenuItem Header="Logout" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Options">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Open" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Exit" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="About" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Report a bug" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="View">
+                <NativeMenu>
+                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
+                        <NativeMenu>
+                            <NativeMenuItem Header="Option 1" />
+                            <NativeMenuItem Header="Option 2" />
+                            <NativeMenuItem Header="Option 3" />
+                        </NativeMenu>
+                    </NativeMenuItem>
+                </NativeMenu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+</UserControl>

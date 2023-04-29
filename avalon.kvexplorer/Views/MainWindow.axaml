@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:custom="clr-namespace:avalon.kvexplorer.Views.CustomControls;assembly=avalon.kvexplorer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:avalon.kvexplorer.Models;assembly=avalon.kvexplorer"
@@ -21,7 +22,7 @@
                                                    macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
-    WindowStartupLocation=""
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -76,24 +77,11 @@
             </NativeMenuItem>
         </NativeMenu>
     </NativeMenu.Menu>
-
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Image
-                Name="WindowIcon"
-                Width="25"
-                Height="25"
-                Margin="5,0,3,0"
-                VerticalAlignment="Center"
-                IsVisible="{OnPlatform False,
-                                       Windows=True}"
-                Source="/Assets/avalonia-logo.ico" />
 
-            <NativeMenuBar
-                Name="SeamlessMenuBar"
-                Height="35"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch" />
+            <custom:TitleBarControl />
+
         </StackPanel>
 
         <StackPanel
@@ -120,10 +108,10 @@
 
 
         <StackPanel
-            Height="22"
+            Height="20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
-            Background="Gainsboro"
+            Background="{StaticResource ThemeForegroundLowBrush}"
             DockPanel.Dock="Bottom"
             Orientation="Horizontal">
             <TextBlock>username</TextBlock>
@@ -139,7 +127,7 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    Items="{Binding VaultTreeList}">
+                    ItemsSource="{Binding VaultTreeList}">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
                             <TextBlock Text="{Binding SubscriptionDisplayName}" />
@@ -194,10 +182,10 @@
                         Name="MyDataGrid"
                         HorizontalAlignment="Left"
                         AutoGenerateColumns="True"
-                        Items="{Binding ListOfPeople}">
+                        ItemsSource="{Binding ListOfPeople}">
                         <DataGrid.Styles>
                             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                                <Setter Property="Background" Value="lightgray" />
+                                <Setter Property="Background" Value="whitesmoke" />
                             </Style>
                         </DataGrid.Styles>
                     </DataGrid>

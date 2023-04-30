@@ -14,8 +14,6 @@ public partial class TitleBarViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
 
-    public string Greeting => "Welcome to Avalonia!";
-
     public TitleBarViewModel(AuthService authService, VaultService vaultService)
     {
         _authService = authService;
@@ -27,12 +25,16 @@ public partial class TitleBarViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async void Login()
+    private async void Signin()
     {
         var cancellation = new CancellationToken();
         var account = await _authService.RefreshTokenAsync(cancellation);
         if (account == null)
             await _authService.LoginAsync(cancellation);
     }
-
+    [RelayCommand]
+    private async void Signout()
+    {
+       await _authService.RemoveAccount();
+    }
 }

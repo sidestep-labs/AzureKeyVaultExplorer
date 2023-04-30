@@ -45,10 +45,10 @@
         <Menu>
             <MenuItem Header="User">
                 <MenuItem
-                    Command="{Binding LoginCommand}"
+                    Command="{Binding SigninCommand}"
                     Header="Login"
                     Icon="&#xe774;" />
-                <MenuItem Command="{Binding LoginCommand}" Header="Logout" />
+                <MenuItem Command="{Binding SignoutCommand}" Header="Logout" />
             </MenuItem>
 
             <MenuItem Header="Options">
@@ -68,7 +68,7 @@
             <NativeMenuItem Header="User">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Command="{Binding LoginCommand}" Header="Login" />
+                        <NativeMenuItem Command="{Binding SigninCommand}" Header="Login" />
                         <NativeMenuItem Header="Logout" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>

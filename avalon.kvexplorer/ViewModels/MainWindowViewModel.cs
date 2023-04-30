@@ -41,11 +41,13 @@ public partial class MainWindowViewModel : ViewModelBase
         new Person { FirstName = "Lailah ", LastName = "Velazquez", Age = 16 },
         new Person { FirstName = "Jazmine", LastName = "Schroeder", Age = 52 },
     };
+    public TitleBarViewModel TitleBarViewModel { get; set; }
 
-    public MainWindowViewModel(AuthService authService, VaultService vaultService)
+    public MainWindowViewModel(AuthService authService, VaultService vaultService, TitleBarViewModel titleBarViewModel)
     {
         _authService = authService;
         _vaultService = vaultService;
+        TitleBarViewModel= titleBarViewModel;
         vaultList = new List<KeyVaultResource>();
         //vaultTreeList = new ObservableCollection<KeyVaultModel>();
 

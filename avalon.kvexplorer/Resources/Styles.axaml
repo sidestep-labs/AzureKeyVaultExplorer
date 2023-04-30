@@ -39,7 +39,11 @@
         <StackPanel Width="200" Height="200">
             <Menu>
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Open..." Icon="&#xE8C8;" />
+                    <MenuItem Height="40" Header="_Open...">
+                        <MenuItem.Icon>
+                            <Label Content="&#xe774;" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
@@ -52,10 +56,12 @@
     </Design.PreviewWith>
 
     <Style Selector="MenuItem">
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="Icon" Value="12" />
 
-        <!--<Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-        <Setter Property="Margin" Value="4" />-->
     </Style>
+
 
     <Style Selector="TextBlock.h1">
         <Setter Property="FontSize" Value="24" />

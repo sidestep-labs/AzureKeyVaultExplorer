@@ -31,16 +31,15 @@
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
         -->
         <vm:MainWindowViewModel />
+
     </Design.DataContext>
 
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <custom:TitleBarControl MaxHeight="30" />
-        </StackPanel>
 
 
 
+        <custom:TitleBarControl DataContext="{Binding TitleBarViewModel}" DockPanel.Dock="Top" />
 
         <StackPanel
             Height="20"

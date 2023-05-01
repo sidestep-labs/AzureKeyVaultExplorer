@@ -17,14 +17,14 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    ExtendClientAreaChromeHints="PreferSystemChrome"
-    ExtendClientAreaToDecorationsHint="{OnPlatform True,
-                                                   macOS=False}"
+
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-
+    <!--ExtendClientAreaChromeHints="PreferSystemChrome"
+    ExtendClientAreaToDecorationsHint="{OnPlatform True,
+                                                   macOS=False}"-->
     <Design.DataContext>
         <!--
             This only sets the DataContext for the previewer in an IDE,

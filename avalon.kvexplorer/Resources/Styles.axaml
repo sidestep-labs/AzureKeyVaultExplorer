@@ -36,12 +36,16 @@
             </TabItem>
         </TabControl>-->
 
-        <StackPanel Width="200" Height="200">
+        <StackPanel Width="200" Height="500">
             <Menu>
                 <MenuItem Header="_File">
-                    <MenuItem Height="40" Header="_Open...">
+                    <MenuItem
+                        MinWidth="15"
+                        MinHeight="15"
+                        Clip="20"
+                        Header="Open...">
                         <MenuItem.Icon>
-                            <Label Content="&#xe774;" />
+                            <Image ClipToBounds="False" Source="/Assets/globe.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
@@ -56,10 +60,7 @@
     </Design.PreviewWith>
 
     <Style Selector="MenuItem">
-        <Setter Property="Margin" Value="2" />
-        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-        <Setter Property="Icon" Value="12" />
-
+        <Setter Property="ClipToBounds" Value="False" />
     </Style>
 
 

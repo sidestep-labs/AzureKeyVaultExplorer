@@ -127,6 +127,11 @@ public class AuthService
     {
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
+        if (!accounts.Any())
+        {
+            await LoginAsync(CancellationToken.None);
+            accounts = await authenticationClient.GetAccountsAsync();
+        }
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.FirstOrDefault()).ExecuteAsync();
     }
 

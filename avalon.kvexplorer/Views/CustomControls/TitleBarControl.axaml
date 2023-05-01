@@ -44,10 +44,14 @@
         </Grid>
         <Menu>
             <MenuItem Header="User">
-                <MenuItem
-                    Command="{Binding SigninCommand}"
-                    Header="Login"
-                    Icon="&#xe774;" />
+                <MenuItem Command="{Binding SigninCommand}" Header="Login">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/login.png" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
+
+
                 <MenuItem Command="{Binding SignoutCommand}" Header="Logout" />
             </MenuItem>
 

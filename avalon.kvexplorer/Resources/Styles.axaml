@@ -36,19 +36,18 @@
             </TabItem>
         </TabControl>-->
 
-        <StackPanel Width="200" Height="500">
-            <Menu>
-                <MenuItem Header="_File">
-                    <MenuItem
-                        MinWidth="15"
-                        MinHeight="15"
-                        Clip="20"
-                        Header="Open...">
+        <StackPanel Width="200" Height="200">
+            <Menu Padding="10">
+                <MenuItem ClipToBounds="False" Header="_File">
+                    <MenuItem>
+
+                        <MenuItem.Header>
+                            <TextBlock ClipToBounds="False" Text="Open" />
+                        </MenuItem.Header>
                         <MenuItem.Icon>
                             <Image ClipToBounds="False" Source="/Assets/globe.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
                 <MenuItem Header="_Edit">
@@ -59,6 +58,9 @@
         </StackPanel>
     </Design.PreviewWith>
 
+    <Style Selector="Menu">
+        <Setter Property="ClipToBounds" Value="False" />
+    </Style>
     <Style Selector="MenuItem">
         <Setter Property="ClipToBounds" Value="False" />
     </Style>

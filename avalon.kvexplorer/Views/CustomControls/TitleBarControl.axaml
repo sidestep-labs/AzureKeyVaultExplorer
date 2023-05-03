@@ -45,14 +45,21 @@
         <Menu>
             <MenuItem Header="User">
                 <MenuItem Command="{Binding SigninCommand}" Header="Login">
+                    <MenuItem.Header>
+                        <TextBlock ClipToBounds="False" Text="Login" />
+                    </MenuItem.Header>
                     <MenuItem.Icon>
                         <Image Source="/Assets/login.png" />
                     </MenuItem.Icon>
-
                 </MenuItem>
-
-
-                <MenuItem Command="{Binding SignoutCommand}" Header="Logout" />
+                <MenuItem Command="{Binding SignoutCommand}" Header="Logout">
+                    <MenuItem.Header>
+                        <TextBlock ClipToBounds="False" Text="Logout" />
+                    </MenuItem.Header>
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/logout.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Header="Options">
@@ -62,7 +69,15 @@
 
             <MenuItem Header="Help">
                 <MenuItem Header="About" />
-                <MenuItem Header="Report a bug" />
+                <MenuItem Header="Report a bug">
+                    <MenuItem.Header>
+                        <TextBlock ClipToBounds="False" Text="Report a bug" />
+                    </MenuItem.Header>
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/link.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
             </MenuItem>
         </Menu>
     </StackPanel>

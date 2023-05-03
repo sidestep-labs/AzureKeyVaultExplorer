@@ -17,14 +17,15 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-
+    ExtendClientAreaChromeHints="{OnPlatform Default, Windows=PreferSystemChrome, macOS=OSXThickTitleBar,}"
+    ExtendClientAreaToDecorationsHint="{OnPlatform True,
+                                                   macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <!--ExtendClientAreaChromeHints="PreferSystemChrome"
-    ExtendClientAreaToDecorationsHint="{OnPlatform True,
-                                                   macOS=False}"-->
+    <!--
+    -->
     <Design.DataContext>
         <!--
             This only sets the DataContext for the previewer in an IDE,
@@ -36,12 +37,15 @@
 
 
     <DockPanel>
-
-
-
         <custom:TitleBarControl DataContext="{Binding TitleBarViewModel}" DockPanel.Dock="Top" />
 
+
+
+
+
         <StackPanel
+            Grid.Row="3"
+            Grid.Column="1"
             Height="20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
@@ -52,11 +56,13 @@
         </StackPanel>
 
 
-
-        <StackPanel Width="200" DockPanel.Dock="Left">
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="200"
+            DockPanel.Dock="Left">
             <TextBox CornerRadius="6" />
-
-            <ScrollViewer Width="200">
+            <ScrollViewer Width="200" Height="500">
                 <TreeView
                     Grid.Row="2"
                     Grid.Column="1"
@@ -74,41 +80,18 @@
             </ScrollViewer>
         </StackPanel>
 
+
+
         <Grid
             Margin="4"
-            ColumnDefinitions="Auto, Auto, *,*"
-            RowDefinitions="Auto,Auto,Auto,*">
-
-            <!--<Button
-                x:Name="OpenWindowButton"
-                Grid.Row="0"
-                Click="OpenWindowButton_Click"
-                Content="Open Window" />-->
-            <!--<Button
-                x:Name="xxxx"
-                Grid.Row="0"
-                Grid.Column="2"
-                Command="{Binding LoginCommand}"
-                Content="login" />-->
-            <!--<Button
-                x:Name="ShowNoticiation"
-                Grid.Row="1"
-                Click="button_Click"
-                Content="ShowNoticiation" />-->
-
-            <!--<Button
-                x:Name="GetKvButton"
-                Grid.Row="0"
-                Grid.Column="1"
-                Command="{Binding GetAvailableKeyVaultsCommand}"
-                Content="GetAvailableKeyVaults" />-->
-
+            ColumnDefinitions="Auto,*"
+            RowDefinitions="Auto,Auto,*">
 
             <TabControl
                 Grid.Row="0"
-                Grid.RowSpan="5"
+                Grid.RowSpan="1"
                 Grid.Column="0"
-                Grid.ColumnSpan="5"
+                Grid.ColumnSpan="2"
                 TabStripPlacement="Top">
 
                 <TabItem VerticalContentAlignment="Top" Header="Circle">
@@ -149,6 +132,38 @@
                     </StackPanel>
                 </TabItem>
             </TabControl>
+
+        </Grid>
+
+        <Grid
+            Margin="2"
+            ColumnDefinitions="Auto, *"
+            RowDefinitions="Auto,*">
+
+            <!--<Button
+                x:Name="OpenWindowButton"
+                Grid.Row="0"
+                Click="OpenWindowButton_Click"
+                Content="Open Window" />-->
+            <!--<Button
+                x:Name="xxxx"
+                Grid.Row="0"
+                Grid.Column="2"
+                Command="{Binding LoginCommand}"
+                Content="login" />-->
+            <!--<Button
+                x:Name="ShowNoticiation"
+                Grid.Row="1"
+                Click="button_Click"
+                Content="ShowNoticiation" />-->
+
+            <!--<Button
+                x:Name="GetKvButton"
+                Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding GetAvailableKeyVaultsCommand}"
+                Content="GetAvailableKeyVaults" />-->
+
 
 
 

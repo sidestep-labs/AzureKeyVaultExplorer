@@ -3,6 +3,7 @@
 namespace avalon.kvexplorer.ViewModels
 {
     public class ViewModelBase : ObservableObject
+    //  ObservableRecipient,
     {
     }
 }

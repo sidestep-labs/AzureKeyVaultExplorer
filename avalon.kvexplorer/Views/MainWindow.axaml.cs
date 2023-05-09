@@ -3,24 +3,28 @@ using Avalonia.Interactivity;
 using avalon.kvexplorer.Services;
 using Avalonia.Controls.Notifications;
 using avalon.kvexplorer.ViewModels;
+using System;
+using System.ComponentModel;
+using Azure.ResourceManager.KeyVault;
 
 namespace avalon.kvexplorer.Views;
 
 public partial class MainWindow : Window
 {
+    private MainWindowViewModel _mainWindowViewModel;
+    private AuthService _authService;
     public MainWindow()
     {
         InitializeComponent();
+        _mainWindowViewModel = new MainWindowViewModel();
+
+
     }
 
-    private MainWindowViewModel _mainWindowViewModel;
-
-    private AuthService _authService;
     public MainWindow(AuthService authService, MainWindowViewModel mainWindowViewModel)
     {
         _authService = authService;
         _mainWindowViewModel = mainWindowViewModel;
-
     }
 
 
@@ -58,7 +62,18 @@ public partial class MainWindow : Window
     }
 
 
+    //private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    //{
+    //    if (e.PropertyName == nameof(MainWindowViewModel.SelectedTreeItem))
+    //    {
+    //        // Do something when MyProperty changes
 
+    //         _mainWindowViewModel.VaultSelected();
+    //    }
+    //}
 
-
+  
+   
 }
+
+

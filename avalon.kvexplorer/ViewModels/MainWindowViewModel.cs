@@ -1,12 +1,18 @@
 ﻿using avalon.kvexplorer.Models;
 using avalon.kvexplorer.Services;
+using Avalonia.Controls;
 using Azure.ResourceManager.KeyVault;
+using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace avalon.kvexplorer.ViewModels;
 
@@ -14,15 +20,25 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
+    public TitleBarViewModel TitleBarViewModel { get; set; }
 
     [ObservableProperty]
     public List<MyData> listOfPeople;
 
+
     [ObservableProperty]
-    public List<KeyVaultResource> vaultList;
+    public string searchQuery;
+    //[ObservableProperty]
+    //public List<KeyVaultResource> vaultList;
 
     [ObservableProperty]
     public ObservableCollection<KeyVaultModel> vaultTreeList;
+
+    [ObservableProperty]
+    public KeyVaultResource selectedTreeItem;
+
+    [ObservableProperty]
+    private ObservableCollection<SecretProperties> secretList;
 
     public class Person
     {
@@ -31,9 +47,6 @@ public partial class MainWindowViewModel : ViewModelBase
         public int Age { get; set; }
     }
 
-    //[ObservableProperty]
-    //public FlatTreeDataGridSource<Person> _source;
-
     private ObservableCollection<Person> _people = new()
     {
         new Person { FirstName = "Eleanor", LastName = "Pope", Age = 32 },
@@ -41,16 +54,17 @@ public partial class MainWindowViewModel : ViewModelBase
         new Person { FirstName = "Lailah ", LastName = "Velazquez", Age = 16 },
         new Person { FirstName = "Jazmine", LastName = "Schroeder", Age = 52 },
     };
-    public TitleBarViewModel TitleBarViewModel { get; set; }
 
     public MainWindowViewModel(AuthService authService, VaultService vaultService, TitleBarViewModel titleBarViewModel)
     {
         _authService = authService;
         _vaultService = vaultService;
-        TitleBarViewModel= titleBarViewModel;
-        vaultList = new List<KeyVaultResource>();
-        //vaultTreeList = new ObservableCollection<KeyVaultModel>();
+        TitleBarViewModel = titleBarViewModel;
 
+        SecretList = new ObservableCollection<SecretProperties>();
+        PropertyChanged += OnMyViewModelPropertyChanged;
+
+        //vaultList = new List<KeyVaultResource>();
         vaultTreeList = new ObservableCollection<KeyVaultModel>
         {
             new KeyVaultModel {
@@ -68,16 +82,8 @@ public partial class MainWindowViewModel : ViewModelBase
             new MyData { Name = "Jane Doe", Age = 39, Address = "456 Oak St." },
             new MyData { Name = "Bob Smith", Age = 27, Address = "789 Elm St." }
         };
+        
 
-        //Source = new FlatTreeDataGridSource<Person>(_people)
-        //{
-        //    Columns =
-        //    {
-        //        new TextColumn<Person, string>("First Name", x => x.FirstName),
-        //        new TextColumn<Person, string>("Last Name", x => x.LastName),
-        //        new TextColumn<Person, int>("Age", x => x.Age),
-        //    },
-        //};
 
         Task.Run(async () =>
         {
@@ -93,14 +99,6 @@ public partial class MainWindowViewModel : ViewModelBase
             new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
             new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
             new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
-            new KeyVaultModel { SubscriptionDisplayName = "Dev", SubscriptionId = "1" },
-            new KeyVaultModel { SubscriptionDisplayName = "Staging", SubscriptionId = "7" },
-            new KeyVaultModel { SubscriptionDisplayName = "Testing", SubscriptionId = "9" },
-            new KeyVaultModel { SubscriptionDisplayName = "UAT", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "Demo", SubscriptionId = "4" },
-            new KeyVaultModel { SubscriptionDisplayName = "Marketing", SubscriptionId = "6" },
-            new KeyVaultModel { SubscriptionDisplayName = "Finance", SubscriptionId = "8" },
-            new KeyVaultModel { SubscriptionDisplayName = "Security", SubscriptionId = "10" }
         };
 
         listOfPeople = new List<MyData>
@@ -109,15 +107,6 @@ public partial class MainWindowViewModel : ViewModelBase
             new MyData { Name = "Jane Doe", Age = 39, Address = "456 Oak St." },
             new MyData { Name = "Bob Smith", Age = 27, Address = "789 Elm St." }
         };
-        //Source = new FlatTreeDataGridSource<Person>(_people)
-        //{
-        //    Columns =
-        //    {
-        //        new TextColumn<Person, string>("First Name", x => x.FirstName),
-        //        new TextColumn<Person, string>("Last Name", x => x.LastName),
-        //        new TextColumn<Person, int>("Age", x => x.Age),
-        //    },
-        //};
     }
 
     [RelayCommand]
@@ -140,5 +129,35 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public string Greeting => "Welcome to Avalonia!";
+
+        //if (SelectedTreeViewItems == null) return;
+
+        //var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeViewItems);
+        //await foreach (var secret in vault)
+        //{
+        //    SecretList.Add(secret);
+        //}
+
+
+
+    private async void OnSelectedTreeItemChanged(object value)
+    {
+        // Handle the SelectedTreeItem property change event here
+        if (SelectedTreeItem == null) return;
+        var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeItem.Data.Properties.VaultUri);
+        await foreach (var secret in vault)
+        {
+            SecretList.Add(secret);
+            Debug.WriteLine($"value, {value}");
+        }
+
+    }
+    private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SelectedTreeItem))
+        {
+            // Handle changes to the SelectedTreeItem property here
+            OnSelectedTreeItemChanged("test");
+        }
+    }
 }

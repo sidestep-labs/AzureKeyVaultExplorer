@@ -23,7 +23,12 @@
         <vm:TitleBarViewModel />
     </Design.DataContext>
 
-    <StackPanel IsVisible="{OnPlatform False, Windows=True}" Orientation="Horizontal">
+    <StackPanel
+        MaxHeight="200"
+        VerticalAlignment="Top"
+        IsVisible="{OnPlatform False,
+                               Windows=True}"
+        Orientation="Horizontal">
         <Grid>
             <DockPanel Name="TitleBar">
                 <StackPanel

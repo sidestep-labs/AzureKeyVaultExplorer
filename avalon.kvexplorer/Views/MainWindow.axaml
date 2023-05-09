@@ -41,8 +41,6 @@
 
 
 
-
-
         <StackPanel
             Grid.Row="3"
             Grid.Column="1"
@@ -51,7 +49,8 @@
             VerticalAlignment="Bottom"
             Background="{StaticResource ThemeForegroundLowBrush}"
             DockPanel.Dock="Bottom"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            ZIndex="999">
             <TextBlock>username</TextBlock>
         </StackPanel>
 
@@ -61,19 +60,26 @@
             Grid.Column="0"
             Width="200"
             DockPanel.Dock="Left">
-            <TextBox CornerRadius="6" />
+            <TextBox Text="{Binding SearchQuery, Mode=TwoWay}" />
+
             <ScrollViewer Width="200" Height="500">
+
+
                 <TreeView
                     Grid.Row="2"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    ItemsSource="{Binding VaultTreeList}">
+                    AutoScrollToSelectedItem="True"
+                    ItemsSource="{Binding VaultTreeList}"
+                    SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                    SelectionMode="Single">
+
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
                             <TextBlock Text="{Binding SubscriptionDisplayName}" />
                         </TreeDataTemplate>
                         <DataTemplate DataType="armmodels:KeyVaultResource">
-                            <TextBlock Text="{Binding Data.Name}" />
+                            <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
                         </DataTemplate>
                     </TreeView.DataTemplates>
                 </TreeView>
@@ -99,7 +105,7 @@
                         Name="MyDataGrid"
                         HorizontalAlignment="Left"
                         AutoGenerateColumns="True"
-                        ItemsSource="{Binding ListOfPeople}">
+                        ItemsSource="{Binding SecretList}">
                         <DataGrid.Styles>
                             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
                                 <Setter Property="Background" Value="whitesmoke" />

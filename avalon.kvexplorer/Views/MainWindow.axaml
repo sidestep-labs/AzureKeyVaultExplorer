@@ -17,12 +17,11 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    ExtendClientAreaChromeHints="{OnPlatform Default, Windows=PreferSystemChrome, macOS=OSXThickTitleBar,}"
-    ExtendClientAreaToDecorationsHint="{OnPlatform True,
-                                                   macOS=False}"
+    ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
+    ExtendClientAreaToDecorationsHint="True"
+	TransparencyLevelHint="Blur"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
-    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <!--
     -->
@@ -39,15 +38,13 @@
     <DockPanel>
         <custom:TitleBarControl DataContext="{Binding TitleBarViewModel}" DockPanel.Dock="Top" />
 
-
-
         <StackPanel
             Grid.Row="3"
             Grid.Column="1"
             Height="20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
-            Background="{StaticResource ThemeForegroundLowBrush}"
+            Background="Gray"
             DockPanel.Dock="Bottom"
             Orientation="Horizontal"
             ZIndex="999">
@@ -62,30 +59,59 @@
             DockPanel.Dock="Left">
             <TextBox Text="{Binding SearchQuery, Mode=TwoWay}" />
 
-            <ScrollViewer Width="200" Height="500">
 
 
-                <TreeView
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    AutoScrollToSelectedItem="True"
-                    ItemsSource="{Binding VaultTreeList}"
-                    SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
-                    SelectionMode="Single">
+            <TreeView
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                AutoScrollToSelectedItem="True"
+                ItemsSource="{Binding VaultTreeList}"
+                SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                SelectionMode="Single">
 
-                    <TreeView.DataTemplates>
-                        <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                            <TextBlock Text="{Binding SubscriptionDisplayName}" />
-                        </TreeDataTemplate>
-                        <DataTemplate DataType="armmodels:KeyVaultResource">
-                            <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
-                        </DataTemplate>
-                    </TreeView.DataTemplates>
-                </TreeView>
-            </ScrollViewer>
+                <TreeView.DataTemplates>
+                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                        <TextBlock Text="{Binding SubscriptionDisplayName}" />
+                    </TreeDataTemplate>
+                    <DataTemplate DataType="armmodels:KeyVaultResource">
+                        <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
+                    </DataTemplate>
+                </TreeView.DataTemplates>
+            </TreeView>
         </StackPanel>
 
+
+
+        <!--/// <summary>
+			/// Gets the secret identifier.
+			///
+		</summary>
+		public Uri Id { get; internal set; }
+
+		/// <summary>
+			/// Gets the Key Vault base <see cref="Uri"/>.
+			///
+		</summary>
+		public Uri VaultUri { get; internal set; }
+
+		/// <summary>
+			/// Gets the name of the secret.
+			///
+		</summary>
+		public string Name { get; internal set; }
+
+		/// <summary>
+			/// Gets the version of the secret.
+			///
+		</summary>
+		public string Version { get; internal set; }
+
+		/// <summary>
+			/// Gets or sets the content type of the secret value such as "text/plain" for a password.
+			///
+		</summary>
+		public string ContentType { get; set; }-->
 
 
         <Grid
@@ -97,45 +123,80 @@
                 Grid.Row="0"
                 Grid.RowSpan="1"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
                 TabStripPlacement="Top">
 
-                <TabItem VerticalContentAlignment="Top" Header="Circle">
+                <TabItem Grid.ColumnSpan="1" Header="Circle">
                     <DataGrid
                         Name="MyDataGrid"
-                        HorizontalAlignment="Left"
-                        AutoGenerateColumns="True"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        CanUserReorderColumns="True"
                         ItemsSource="{Binding SecretList}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                            <DataGridTextColumn Binding="{Binding Version}" Header="Version" />
+                            <DataGridTextColumn Binding="{Binding VaultUri}" Header="VaultUri" />
+                            <DataGridTextColumn Binding="{Binding ContentType}" Header="ContentType" />
+                        </DataGrid.Columns>
                         <DataGrid.Styles>
-                            <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                            <!--<Style Selector="DataGrid DataGridRow:nth-child(2n)">
                                 <Setter Property="Background" Value="whitesmoke" />
-                            </Style>
+                            </Style>-->
                         </DataGrid.Styles>
                     </DataGrid>
                 </TabItem>
-                <TabItem>
-                    <TabItem.Header>
-                        <TextBlock VerticalAlignment="Top">Triangle</TextBlock>
-                    </TabItem.Header>
-                    <StackPanel>
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="I am in the triangle page ! I'll put a button to show you that each page contains what you want." />
-                        <Button>A button in the triangle page !</Button>
-                    </StackPanel>
-                </TabItem>
+
                 <TabItem>
                     <TabItem.Header>
                         <TextBlock VerticalAlignment="Top">Square</TextBlock>
                     </TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="" />
 
-                    </StackPanel>
+                    <Border
+                        Padding="15"
+                        Background="LightBlue"
+                        BorderBrush="Black"
+                        BorderThickness="2">
+                        <Grid Background="White" ShowGridLines="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                FontSize="18">
+                                VerticalAlignment Sample
+                            </TextBlock>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Top">
+                                Button 1 (Top)
+                            </Button>
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Bottom">
+                                Button 2 (Bottom)
+                            </Button>
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                VerticalAlignment="Center">
+                                Button 3 (Center)
+                            </Button>
+                            <Button
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                VerticalAlignment="Stretch">
+                                Button 4 (Stretch)
+                            </Button>
+                        </Grid>
+                    </Border>
                 </TabItem>
             </TabControl>
 

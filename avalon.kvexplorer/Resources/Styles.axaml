@@ -58,15 +58,8 @@
         </StackPanel>
     </Design.PreviewWith>
 
-    <Style Selector="Menu">
-        <Setter Property="ClipToBounds" Value="False" />
-    </Style>
-    <Style Selector="MenuItem">
-        <Setter Property="ClipToBounds" Value="False" />
-    </Style>
 
-
-    <Style Selector="TextBlock.h1">
+    <!--<Style Selector="TextBlock.h1">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
@@ -107,5 +100,21 @@
     </Style>
     <Style Selector="TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="#f0f0f0" />
+    </Style>-->
+
+
+    <Style Selector="TreeView">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+
+    </Style>
+
+    <Style Selector="TreeViewItem">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+
+
     </Style>
 </Styles>

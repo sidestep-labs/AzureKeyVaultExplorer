@@ -1,6 +1,6 @@
 ﻿using Microsoft.Identity.Client.Extensions.Msal;
 
-namespace avalon.kvexplorer;
+namespace kvexplorer;
 
 public static class Constants
 {

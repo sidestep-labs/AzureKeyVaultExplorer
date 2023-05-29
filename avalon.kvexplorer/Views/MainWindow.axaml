@@ -23,6 +23,7 @@
     ExtendClientAreaToDecorationsHint="{OnPlatform True,
                                                    macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
+    RequestedThemeVariant="Dark"
     SystemDecorations="Full"
     mc:Ignorable="d">
     <!--
@@ -50,9 +51,7 @@
             DockPanel.Dock="Bottom"
             Orientation="Horizontal"
             ZIndex="999">
-
-            <TextBlock Foreground="WhiteSmoke">Username</TextBlock>
-
+            <TextBlock Foreground="WhiteSmoke">username</TextBlock>
         </StackPanel>
 
 
@@ -98,35 +97,37 @@
 
 
             <TabControl
-                Grid.Row="1"
-                Grid.RowSpan="2"
+                Grid.Row="0"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 TabStripPlacement="Top">
 
                 <TabControl.Styles>
-                    <Style Selector="TabControl">
-                        <Setter Property="Background" Value="#F0F0F0" />
-                        <Setter Property="Height" Value="120" />
-                    </Style>
-                    <Style Selector="TabControl WrapPanel">
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
 
-                        <Setter Property="Background" Value="#2B579A" />
-                    </Style>
-
-                    <Style Selector="TabItem:selected/template/ ContentPresenter">
-                        <Setter Property="Background" Value="Gold" />
+                    <Style Selector="TabItem">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Background" Value="Transparent" />
                     </Style>
                 </TabControl.Styles>
 
-                <TabItem Grid.ColumnSpan="1" Header="Circle">
+                <TabItem Grid.ColumnSpan="1" Header="Secrets">
                     <DataGrid
                         Name="MyDataGrid"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+						Height="500"
                         CanUserReorderColumns="True"
                         ItemsSource="{Binding SecretList}">
+                        <DataGrid.Styles>
+
+
+                            <Style Selector="DataGridRow">
+                                <Setter Property="FontSize" Value="5" />
+                                <Setter Property="Padding" Value="5" />
+
+                            </Style>
+                        </DataGrid.Styles>
+
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                             <DataGridTextColumn Binding="{Binding Version}" Header="Version" />
@@ -134,9 +135,9 @@
                             <DataGridTextColumn Binding="{Binding ContentType}" Header="ContentType" />
                         </DataGrid.Columns>
                         <DataGrid.Styles>
-                            <!--<Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                                <Setter Property="Background" Value="whitesmoke" />
-                            </Style>-->
+                            <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                                <Setter Property="Background" Value="{StaticResource SystemAccentColorDark1}" />
+                            </Style>
                         </DataGrid.Styles>
                     </DataGrid>
                 </TabItem>

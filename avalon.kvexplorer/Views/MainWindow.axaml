@@ -20,7 +20,8 @@
     ExtendClientAreaChromeHints="{OnPlatform PreferSystemChrome,
                                              Windows=PreferSystemChrome,
                                              macOS=OSXThickTitleBar}"
-    ExtendClientAreaToDecorationsHint="True"
+    ExtendClientAreaToDecorationsHint="{OnPlatform True,
+                                                   macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
     mc:Ignorable="d">

@@ -29,10 +29,13 @@
         IsVisible="{OnPlatform False,
                                Windows=True}"
         Orientation="Horizontal">
-        <!--<Grid>
+        <Grid RowDefinitions="*,*">
             <DockPanel Name="TitleBar">
                 <StackPanel
+                    Grid.Row="1"
+                    Margin="1"
                     DockPanel.Dock="Left"
+                    IsHitTestVisible="False"
                     Orientation="Horizontal"
                     Spacing="0">
 
@@ -43,58 +46,66 @@
                         Margin="5,0,3,0"
                         VerticalAlignment="Center"
                         Source="/Assets/avalonia-logo.ico" />
+
+                    <TextBlock
+                        Margin="7"
+                        FontSize="12"
+                        Text="Key Vault Explorer" />
                 </StackPanel>
             </DockPanel>
+            <Menu Grid.Row="1">
+                <Menu.Styles>
 
-        </Grid>-->
-        <Menu>
-            <Menu.Styles>
-                <Style Selector="Menu">
-                    <Setter Property="Padding" Value="3" />
-                    <Setter Property="HorizontalAlignment" Value="Stretch" />
-                </Style>
-                <Style Selector="MenuItem">
-                    <Setter Property="FontSize" Value="13" />
-                    <Setter Property="Padding" Value="4" />
-                </Style>
-            </Menu.Styles>
-            <MenuItem Padding="2,0,2,0" Header="Settings">
-                <MenuItem Command="{Binding SigninCommand}" Header="Login">
-                    <MenuItem.Header>
-                        <TextBlock ClipToBounds="False" Text="Login" />
-                    </MenuItem.Header>
-                    <MenuItem.Icon>
-                        <Image Source="/Assets/login.png" />
-                    </MenuItem.Icon>
+                    <Style Selector="Menu">
+                        <Setter Property="Padding" Value="3" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    </Style>
+
+                    <Style Selector="MenuItem">
+                        <Setter Property="FontSize" Value="13" />
+                        <Setter Property="Padding" Value="4" />
+                    </Style>
+                </Menu.Styles>
+
+                <MenuItem Padding="2,0,2,0" Header="Settings">
+                    <MenuItem Command="{Binding SigninCommand}" Header="Login">
+                        <MenuItem.Header>
+                            <TextBlock ClipToBounds="False" Text="Login" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/login.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Command="{Binding SignoutCommand}" Header="Logout">
+                        <MenuItem.Header>
+                            <TextBlock ClipToBounds="False" Text="Logout" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/logout.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
                 </MenuItem>
-                <MenuItem Command="{Binding SignoutCommand}" Header="Logout">
-                    <MenuItem.Header>
-                        <TextBlock ClipToBounds="False" Text="Logout" />
-                    </MenuItem.Header>
-                    <MenuItem.Icon>
-                        <Image Source="/Assets/logout.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-
-            <MenuItem Padding="2,0,2,0" Header="Options">
-                <MenuItem Header="Open" />
-                <MenuItem Header="Exit" />
-            </MenuItem>
-
-            <MenuItem Padding="2,0,2,0" Header="Help">
-                <MenuItem Header="About" />
-                <MenuItem Header="Report a bug">
-                    <MenuItem.Header>
-                        <TextBlock ClipToBounds="False" Text="Report a bug" />
-                    </MenuItem.Header>
-                    <MenuItem.Icon>
-                        <Image Source="/Assets/link.png" />
-                    </MenuItem.Icon>
+                <MenuItem Padding="2,0,2,0" Header="Options">
+                    <MenuItem Header="Open" />
+                    <MenuItem Header="Exit" />
                 </MenuItem>
 
-            </MenuItem>
-        </Menu>
+                <MenuItem Padding="2,0,2,0" Header="Help">
+                    <MenuItem Header="About" />
+                    <MenuItem Header="Report a bug">
+                        <MenuItem.Header>
+                            <TextBlock ClipToBounds="False" Text="Report a bug" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/link.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                </MenuItem>
+            </Menu>
+        </Grid>
+
     </StackPanel>
 
     <NativeMenu.Menu>

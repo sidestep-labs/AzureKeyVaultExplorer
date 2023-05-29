@@ -18,10 +18,11 @@
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
     ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
-    ExtendClientAreaToDecorationsHint="False"
+    ExtendClientAreaToDecorationsHint="True"
+    TransparencyLevelHint="AcrylicBlur"
+	
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
-    TransparencyLevelHint="Blur"
     mc:Ignorable="d">
     <!--
     -->
@@ -81,24 +82,30 @@
             </TreeView>
         </StackPanel>
 
-		<Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto"  Margin="4">
+        <Grid
+            Margin="4"
+            ColumnDefinitions="*"
+            RowDefinitions="Auto,Auto,Auto">
 
-    
+
 
             <TabControl
-             Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
                 TabStripPlacement="Top">
 
                 <TabControl.Styles>
-					<Style Selector="TabControl">
-						<Setter Property="Background" Value="#F0F0F0"/>
-						<Setter Property="Height" Value="120"/>
-					</Style>
-					<Style Selector="TabControl WrapPanel">
-						<Setter Property="HorizontalAlignment" Value="Stretch"/>
-						
-						<Setter Property="Background" Value="#2B579A"/>
-					</Style>
+                    <Style Selector="TabControl">
+                        <Setter Property="Background" Value="#F0F0F0" />
+                        <Setter Property="Height" Value="120" />
+                    </Style>
+                    <Style Selector="TabControl WrapPanel">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+
+                        <Setter Property="Background" Value="#2B579A" />
+                    </Style>
 
                     <Style Selector="TabItem:selected/template/ ContentPresenter">
                         <Setter Property="Background" Value="Gold" />

@@ -17,8 +17,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         _mainWindowViewModel = new MainWindowViewModel();
-
-
     }
 
     public MainWindow(AuthService authService, MainWindowViewModel mainWindowViewModel)

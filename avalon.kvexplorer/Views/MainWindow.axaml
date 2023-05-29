@@ -17,7 +17,9 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
+    ExtendClientAreaChromeHints="{OnPlatform Default,
+                                             Windows=PreferSystemChrome,
+                                             macOS=OSXThickTitleBar}"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"

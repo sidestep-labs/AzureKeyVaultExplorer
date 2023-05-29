@@ -49,7 +49,9 @@ public partial class App : Application
             {
                 DataContext = Defaults.Locator.GetService<MainWindowViewModel>()
             };
+
         }
+
 
         base.OnFrameworkInitializationCompleted();
     }

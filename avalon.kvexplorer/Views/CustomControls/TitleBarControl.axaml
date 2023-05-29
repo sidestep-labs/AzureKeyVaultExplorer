@@ -29,7 +29,7 @@
         IsVisible="{OnPlatform False,
                                Windows=True}"
         Orientation="Horizontal">
-        <Grid>
+        <!--<Grid>
             <DockPanel Name="TitleBar">
                 <StackPanel
                     DockPanel.Dock="Left"
@@ -46,9 +46,19 @@
                 </StackPanel>
             </DockPanel>
 
-        </Grid>
+        </Grid>-->
         <Menu>
-            <MenuItem Header="User">
+            <Menu.Styles>
+                <Style Selector="Menu">
+                    <Setter Property="Padding" Value="3" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                </Style>
+                <Style Selector="MenuItem">
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="Padding" Value="4" />
+                </Style>
+            </Menu.Styles>
+            <MenuItem Padding="2,0,2,0" Header="Settings">
                 <MenuItem Command="{Binding SigninCommand}" Header="Login">
                     <MenuItem.Header>
                         <TextBlock ClipToBounds="False" Text="Login" />
@@ -67,12 +77,12 @@
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Header="Options">
+            <MenuItem Padding="2,0,2,0" Header="Options">
                 <MenuItem Header="Open" />
                 <MenuItem Header="Exit" />
             </MenuItem>
 
-            <MenuItem Header="Help">
+            <MenuItem Padding="2,0,2,0" Header="Help">
                 <MenuItem Header="About" />
                 <MenuItem Header="Report a bug">
                     <MenuItem.Header>

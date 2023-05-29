@@ -18,10 +18,10 @@
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
     ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
-    ExtendClientAreaToDecorationsHint="True"
-	TransparencyLevelHint="Blur"
+    ExtendClientAreaToDecorationsHint="False"
     Icon="/Assets/avalonia-logo.ico"
     SystemDecorations="Full"
+    TransparencyLevelHint="Blur"
     mc:Ignorable="d">
     <!--
     -->
@@ -81,49 +81,29 @@
             </TreeView>
         </StackPanel>
 
+		<Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto"  Margin="4">
 
-
-        <!--/// <summary>
-			/// Gets the secret identifier.
-			///
-		</summary>
-		public Uri Id { get; internal set; }
-
-		/// <summary>
-			/// Gets the Key Vault base <see cref="Uri"/>.
-			///
-		</summary>
-		public Uri VaultUri { get; internal set; }
-
-		/// <summary>
-			/// Gets the name of the secret.
-			///
-		</summary>
-		public string Name { get; internal set; }
-
-		/// <summary>
-			/// Gets the version of the secret.
-			///
-		</summary>
-		public string Version { get; internal set; }
-
-		/// <summary>
-			/// Gets or sets the content type of the secret value such as "text/plain" for a password.
-			///
-		</summary>
-		public string ContentType { get; set; }-->
-
-
-        <Grid
-            Margin="4"
-            ColumnDefinitions="Auto,*"
-            RowDefinitions="Auto,Auto,*">
+    
 
             <TabControl
-                Grid.Row="0"
-                Grid.RowSpan="1"
-                Grid.Column="0"
+             Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
                 TabStripPlacement="Top">
+
+                <TabControl.Styles>
+					<Style Selector="TabControl">
+						<Setter Property="Background" Value="#F0F0F0"/>
+						<Setter Property="Height" Value="120"/>
+					</Style>
+					<Style Selector="TabControl WrapPanel">
+						<Setter Property="HorizontalAlignment" Value="Stretch"/>
+						
+						<Setter Property="Background" Value="#2B579A"/>
+					</Style>
+
+                    <Style Selector="TabItem:selected/template/ ContentPresenter">
+                        <Setter Property="Background" Value="Gold" />
+                    </Style>
+                </TabControl.Styles>
 
                 <TabItem Grid.ColumnSpan="1" Header="Circle">
                     <DataGrid

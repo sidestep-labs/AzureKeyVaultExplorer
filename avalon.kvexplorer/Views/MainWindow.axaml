@@ -17,7 +17,7 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    ExtendClientAreaChromeHints="{OnPlatform Default,
+    ExtendClientAreaChromeHints="{OnPlatform PreferSystemChrome,
                                              Windows=PreferSystemChrome,
                                              macOS=OSXThickTitleBar}"
     ExtendClientAreaToDecorationsHint="True"

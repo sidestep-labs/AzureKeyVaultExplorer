@@ -113,18 +113,20 @@
                 <TabItem Grid.ColumnSpan="1" Header="Secrets">
                     <DataGrid
                         Name="MyDataGrid"
+                        Height="500"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-						Height="500"
                         CanUserReorderColumns="True"
                         ItemsSource="{Binding SecretList}">
                         <DataGrid.Styles>
 
 
                             <Style Selector="DataGridRow">
-                                <Setter Property="FontSize" Value="5" />
-                                <Setter Property="Padding" Value="5" />
-
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                            <Style Selector="DataGridColumnHeader">
+                                <Setter Property="Margin" Value="0" />
                             </Style>
                         </DataGrid.Styles>
 

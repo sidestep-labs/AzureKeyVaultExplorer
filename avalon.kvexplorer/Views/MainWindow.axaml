@@ -24,7 +24,7 @@
                                                    macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     RequestedThemeVariant="Dark"
-    SystemDecorations="Full"
+    SystemDecorations="BorderOnly"
     mc:Ignorable="d">
     <!--
     -->

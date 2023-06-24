@@ -38,7 +38,7 @@
     </Design.DataContext>
 
 
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         <custom:TitleBarControl DataContext="{Binding TitleBarViewModel}" DockPanel.Dock="Top" />
 
 
@@ -53,67 +53,78 @@
             ZIndex="999">
             <TextBlock Foreground="WhiteSmoke">username</TextBlock>
         </StackPanel>
+        <Grid Margin="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LeftColumn" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
 
-
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="0"
-            Width="200"
-            DockPanel.Dock="Left">
-
-            <TextBox
-                Margin="1"
-                Text="{Binding SearchQuery, Mode=TwoWay}"
-                Watermark="Filter Vaults" />
-
-
-
-            <TreeView
-                Grid.Row="2"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                AutoScrollToSelectedItem="True"
-                ItemsSource="{Binding VaultTreeList}"
-                SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
-                SelectionMode="Single">
-
-                <TreeView.DataTemplates>
-                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                        <TextBlock Text="{Binding SubscriptionDisplayName}" />
-                    </TreeDataTemplate>
-                    <DataTemplate DataType="armmodels:KeyVaultResource">
-                        <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
-                    </DataTemplate>
-                </TreeView.DataTemplates>
-            </TreeView>
-        </StackPanel>
-
-        <Grid
-            Margin="4"
-            ColumnDefinitions="*"
-            RowDefinitions="Auto,Auto,Auto">
-
-
-
-            <TabControl
+            <StackPanel
                 Grid.Row="0"
+                Grid.Column="0"
+                Width="200"
+                DockPanel.Dock="Left">
+
+                <TextBox
+                    Margin="1"
+                    Text="{Binding SearchQuery, Mode=TwoWay}"
+                    Watermark="Filter Vaults" />
+
+                <ScrollViewer
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    VerticalScrollBarVisibility="Auto">
+
+                    <TreeView
+                        AutoScrollToSelectedItem="True"
+                        ItemsSource="{Binding VaultTreeList}"
+                        SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                        SelectionMode="Single">
+
+                        <TreeView.DataTemplates>
+                            <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                                <TextBlock Text="{Binding SubscriptionDisplayName}" />
+                            </TreeDataTemplate>
+                            <DataTemplate DataType="armmodels:KeyVaultResource">
+                                <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
+                            </DataTemplate>
+                        </TreeView.DataTemplates>
+                    </TreeView>
+
+                </ScrollViewer>
+            </StackPanel>
+
+            <Grid
+                Grid.Row="0"
+                Grid.RowSpan="2"
                 Grid.Column="1"
-                Grid.ColumnSpan="2"
-                TabStripPlacement="Top">
+                Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <TabControl.Styles>
 
-                    <Style Selector="TabItem">
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="Background" Value="Transparent" />
-                    </Style>
-                </TabControl.Styles>
 
-                <TabItem Grid.ColumnSpan="1" Header="Secrets">
+
+
+                <ScrollViewer
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    VerticalScrollBarVisibility="Auto">
                     <DataGrid
                         Name="MyDataGrid"
-                        Height="500"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         CanUserReorderColumns="True"
@@ -138,101 +149,57 @@
                         </DataGrid.Columns>
                         <DataGrid.Styles>
                             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                                <Setter Property="Background" Value="{StaticResource SystemAccentColorDark1}" />
+                                <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
                             </Style>
                         </DataGrid.Styles>
                     </DataGrid>
-                </TabItem>
 
-                <TabItem>
-                    <TabItem.Header>
-                        <TextBlock VerticalAlignment="Top">Square</TextBlock>
-                    </TabItem.Header>
+                </ScrollViewer>
 
-                    <Border
-                        Padding="15"
-                        Background="LightBlue"
-                        BorderBrush="Black"
-                        BorderThickness="2">
-                        <Grid Background="White" ShowGridLines="True">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                HorizontalAlignment="Center"
-                                FontSize="18">
-                                VerticalAlignment Sample
-                            </TextBlock>
-                            <Button
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                VerticalAlignment="Top">
-                                Button 1 (Top)
-                            </Button>
-                            <Button
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                VerticalAlignment="Bottom">
-                                Button 2 (Bottom)
-                            </Button>
-                            <Button
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                VerticalAlignment="Center">
-                                Button 3 (Center)
-                            </Button>
-                            <Button
-                                Grid.Row="4"
-                                Grid.Column="0"
-                                VerticalAlignment="Stretch">
-                                Button 4 (Stretch)
-                            </Button>
-                        </Grid>
-                    </Border>
-                </TabItem>
-            </TabControl>
 
-        </Grid>
+            </Grid>
 
-        <Grid
-            Margin="2"
-            ColumnDefinitions="Auto, *"
-            RowDefinitions="Auto,*">
+            <!--<Grid
+                Margin="2"
+                ColumnDefinitions="Auto, *"
+                RowDefinitions="Auto,*">
 
+            -->
             <!--<Button
                 x:Name="OpenWindowButton"
                 Grid.Row="0"
                 Click="OpenWindowButton_Click"
                 Content="Open Window" />-->
+            <!--
+            -->
             <!--<Button
                 x:Name="xxxx"
                 Grid.Row="0"
                 Grid.Column="2"
                 Command="{Binding LoginCommand}"
                 Content="login" />-->
+            <!--
+            -->
             <!--<Button
                 x:Name="ShowNoticiation"
                 Grid.Row="1"
                 Click="button_Click"
                 Content="ShowNoticiation" />-->
-
+            <!--
+            -->
             <!--<Button
                 x:Name="GetKvButton"
                 Grid.Row="0"
                 Grid.Column="1"
                 Command="{Binding GetAvailableKeyVaultsCommand}"
                 Content="GetAvailableKeyVaults" />-->
-
+            <!--
+            </Grid>-->
 
 
 
         </Grid>
+
     </DockPanel>
 
 

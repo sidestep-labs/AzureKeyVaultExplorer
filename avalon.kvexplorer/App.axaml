@@ -18,7 +18,7 @@
 
     <Application.Styles>
         <!--<FluentTheme DensityStyle="Compact" />-->
-        <sty:FluentAvaloniaTheme />
+        <sty:FluentAvaloniaTheme PreferUserAccentColor="True" UseSystemFontOnWindows="True" />
         <StyleInclude Source="/Resources/Styles.axaml" />
         <!--<StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml" />-->
         <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->

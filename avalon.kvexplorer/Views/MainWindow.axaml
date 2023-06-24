@@ -17,19 +17,20 @@
     d:DesignHeight="500"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
-    ExtendClientAreaChromeHints="{OnPlatform PreferSystemChrome,
-                                             Windows=PreferSystemChrome,
-                                             macOS=OSXThickTitleBar}"
-    ExtendClientAreaToDecorationsHint="{OnPlatform True,
-                                                   macOS=False}"
     Icon="/Assets/avalonia-logo.ico"
     RequestedThemeVariant="Dark"
-    SystemDecorations="BorderOnly"
+    SystemDecorations="Full"
     mc:Ignorable="d">
     <!--
     -->
     <Design.DataContext>
         <!--
+            Background="#512bd4"
+            ExtendClientAreaChromeHints="{OnPlatform PreferSystemChrome,
+            Windows=PreferSystemChrome,
+            macOS=OSXThickTitleBar}"
+            ExtendClientAreaToDecorationsHint="{OnPlatform True,
+            macOS=False}"
             This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
         -->
@@ -42,12 +43,11 @@
         <custom:TitleBarControl DataContext="{Binding TitleBarViewModel}" DockPanel.Dock="Top" />
 
 
-
         <StackPanel
             Height="22"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
-            Background="#512bd4"
+            Background="{DynamicResource SystemAccentColor}"
             DockPanel.Dock="Bottom"
             Orientation="Horizontal"
             ZIndex="999">
@@ -59,46 +59,42 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="LeftColumn" />
+                <ColumnDefinition Width="200" SharedSizeGroup="LeftColumn" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
 
-            <StackPanel
+            <TextBox
                 Grid.Row="0"
                 Grid.Column="0"
-                Width="200"
-                DockPanel.Dock="Left">
+                Margin="1"
+                Text="{Binding SearchQuery, Mode=TwoWay}"
+                Watermark="Filter Vaults" />
 
-                <TextBox
-                    Margin="1"
-                    Text="{Binding SearchQuery, Mode=TwoWay}"
-                    Watermark="Filter Vaults" />
+            <ScrollViewer
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="1"
+                VerticalScrollBarVisibility="Visible">
 
-                <ScrollViewer
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    VerticalScrollBarVisibility="Auto">
 
-                    <TreeView
-                        AutoScrollToSelectedItem="True"
-                        ItemsSource="{Binding VaultTreeList}"
-                        SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
-                        SelectionMode="Single">
+                <TreeView
+                    AutoScrollToSelectedItem="True"
+                    ItemsSource="{Binding VaultTreeList}"
+                    SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                    SelectionMode="Single">
 
-                        <TreeView.DataTemplates>
-                            <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                                <TextBlock Text="{Binding SubscriptionDisplayName}" />
-                            </TreeDataTemplate>
-                            <DataTemplate DataType="armmodels:KeyVaultResource">
-                                <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
-                            </DataTemplate>
-                        </TreeView.DataTemplates>
-                    </TreeView>
+                    <TreeView.DataTemplates>
+                        <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                            <TextBlock Text="{Binding SubscriptionDisplayName}" />
+                        </TreeDataTemplate>
+                        <DataTemplate DataType="armmodels:KeyVaultResource">
+                            <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
+                        </DataTemplate>
+                    </TreeView.DataTemplates>
+                </TreeView>
 
-                </ScrollViewer>
-            </StackPanel>
+            </ScrollViewer>
 
             <Grid
                 Grid.Row="0"
@@ -122,7 +118,7 @@
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Grid.Column="1"
-                    VerticalScrollBarVisibility="Auto">
+                    VerticalScrollBarVisibility="Hidden">
                     <DataGrid
                         Name="MyDataGrid"
                         HorizontalAlignment="Stretch"
@@ -142,10 +138,25 @@
                         </DataGrid.Styles>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                            <DataGridTextColumn Binding="{Binding Version}" Header="Version" />
-                            <DataGridTextColumn Binding="{Binding VaultUri}" Header="VaultUri" />
-                            <DataGridTextColumn Binding="{Binding ContentType}" Header="ContentType" />
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Name}"
+                                Header="Name"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding Version}"
+                                Header="Version"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="1*"
+                                Binding="{Binding VaultUri}"
+                                Header="VaultUri"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding ContentType}"
+                                Header="ContentType"
+                                IsReadOnly="True" />
                         </DataGrid.Columns>
                         <DataGrid.Styles>
                             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
@@ -159,42 +170,6 @@
 
             </Grid>
 
-            <!--<Grid
-                Margin="2"
-                ColumnDefinitions="Auto, *"
-                RowDefinitions="Auto,*">
-
-            -->
-            <!--<Button
-                x:Name="OpenWindowButton"
-                Grid.Row="0"
-                Click="OpenWindowButton_Click"
-                Content="Open Window" />-->
-            <!--
-            -->
-            <!--<Button
-                x:Name="xxxx"
-                Grid.Row="0"
-                Grid.Column="2"
-                Command="{Binding LoginCommand}"
-                Content="login" />-->
-            <!--
-            -->
-            <!--<Button
-                x:Name="ShowNoticiation"
-                Grid.Row="1"
-                Click="button_Click"
-                Content="ShowNoticiation" />-->
-            <!--
-            -->
-            <!--<Button
-                x:Name="GetKvButton"
-                Grid.Row="0"
-                Grid.Column="1"
-                Command="{Binding GetAvailableKeyVaultsCommand}"
-                Content="GetAvailableKeyVaults" />-->
-            <!--
-            </Grid>-->
 
 
 

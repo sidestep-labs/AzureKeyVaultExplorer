@@ -6,10 +6,11 @@ using avalon.kvexplorer.ViewModels;
 using System;
 using System.ComponentModel;
 using Azure.ResourceManager.KeyVault;
+using FluentAvalonia.UI.Windowing;
 
 namespace avalon.kvexplorer.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindow : AppWindow
 {
     private MainWindowViewModel _mainWindowViewModel;
     private AuthService _authService;

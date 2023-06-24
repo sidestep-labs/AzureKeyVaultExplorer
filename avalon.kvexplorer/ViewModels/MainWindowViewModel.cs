@@ -15,21 +15,19 @@ namespace avalon.kvexplorer.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    private readonly AuthService _authService;
-    private readonly VaultService _vaultService;
-    public TitleBarViewModel TitleBarViewModel { get; set; }
 
-    [ObservableProperty]
-    public List<MyData> listOfPeople;
 
     [ObservableProperty]
     public string searchQuery;
 
     [ObservableProperty]
-    public ObservableCollection<KeyVaultModel> vaultTreeList;
+    public KeyVaultResource selectedTreeItem;
 
     [ObservableProperty]
-    public KeyVaultResource selectedTreeItem;
+    public ObservableCollection<KeyVaultModel> vaultTreeList;
+
+    private readonly AuthService _authService;
+    private readonly VaultService _vaultService;
 
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
@@ -53,22 +51,30 @@ public partial class MainWindowViewModel : ViewModelBase
                 KeyVaultResources = new List<KeyVaultResource>{ }
             },
 
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "123" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "123" },
+            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
+            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
+            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
+            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
+            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
+            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
+            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
+            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
+            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1"  },
+            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
+            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
+            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
         };
 
-        listOfPeople = new List<MyData>
-        {
-            new MyData { Name = "John Doe", Age = 42, Address = "123 Main St." },
-            new MyData { Name = "Jane Doe", Age = 39, Address = "456 Oak St." },
-            new MyData { Name = "Bob Smith", Age = 27, Address = "789 Elm St." }
-        };
+ 
         secretList = new()
             {
-                new SecretProperties("azure secret"),
-                new SecretProperties("facebook key"),
-                new SecretProperties("google password"),
-                new SecretProperties("amazon key"),
+                new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("AMEX Card") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("shared dev key") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationpassword") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("YoutubeAPIKey") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
             };
 
         Task.Run(() =>
@@ -85,31 +91,36 @@ public partial class MainWindowViewModel : ViewModelBase
             new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
             new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
             new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
+            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
+            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
+            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
+            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
+            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1"  },
+            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
+            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
+            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
         };
-
-        listOfPeople = new List<MyData>
-        {
-            new MyData { Name = "John Doe", Age = 42, Address = "123 Main St." },
-            new MyData { Name = "Jane Doe", Age = 39, Address = "456 Oak St." },
-            new MyData { Name = "Bob Smith", Age = 27, Address = "789 Elm St." }
-        };
+       
         secretList = new()
             {
-                new SecretProperties("azure secret"),
-                new SecretProperties("facebook key"),
-                new SecretProperties("google password"),
-                new SecretProperties("amazon key"),
+                new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("AMEX Card") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("shared dev key") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationpassword") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("YoutubeAPIKey") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("shared dev key") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("SnowflakeIntegrationpassword") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
+                new SecretProperties("YoutubeAPIKey") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
             };
     }
 
-    [RelayCommand]
-    private async void Login()
-    {
-        var cancellation = new CancellationToken();
-        var account = await _authService.RefreshTokenAsync(cancellation);
-        if (account == null)
-            await _authService.LoginAsync(cancellation);
-    }
+    public TitleBarViewModel TitleBarViewModel { get; set; }
 
     [RelayCommand]
     private async void GetAvailableKeyVaults()
@@ -122,6 +133,15 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    private async void Login()
+    {
+        var cancellation = new CancellationToken();
+        var account = await _authService.RefreshTokenAsync(cancellation);
+        if (account == null)
+            await _authService.LoginAsync(cancellation);
+    }
+
     //if (SelectedTreeViewItems == null) return;
 
     //var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeViewItems);
@@ -129,6 +149,15 @@ public partial class MainWindowViewModel : ViewModelBase
     //{
     //    SecretList.Add(secret);
     //}
+
+    private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SelectedTreeItem))
+        {
+            // Handle changes to the SelectedTreeItem property here
+            OnSelectedTreeItemChanged("test");
+        }
+    }
 
     private async void OnSelectedTreeItemChanged(object value)
     {
@@ -139,15 +168,6 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             SecretList.Add(secret);
             Debug.WriteLine($"value, {value}");
-        }
-    }
-
-    private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SelectedTreeItem))
-        {
-            // Handle changes to the SelectedTreeItem property here
-            OnSelectedTreeItemChanged("test");
         }
     }
 }

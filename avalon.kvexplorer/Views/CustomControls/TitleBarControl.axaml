@@ -30,7 +30,7 @@
                                Windows=True}"
         Orientation="Horizontal">
         <Grid RowDefinitions="*,*">
-            <DockPanel Name="TitleBar">
+            <!--<DockPanel Name="TitleBar">
                 <StackPanel
                     Grid.Row="1"
                     Margin="1"
@@ -52,8 +52,8 @@
                         FontSize="12"
                         Text="Key Vault Explorer" />
                 </StackPanel>
-            </DockPanel>
-            <Menu Grid.Row="1">
+            </DockPanel>-->
+            <Menu Grid.Row="0">
                 <Menu.Styles>
 
                     <Style Selector="Menu">

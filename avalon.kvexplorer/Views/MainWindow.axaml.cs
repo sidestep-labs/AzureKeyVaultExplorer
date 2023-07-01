@@ -1,11 +1,9 @@
-using Avalonia.Controls;
-using Avalonia.Interactivity;
 using avalon.kvexplorer.Services;
-using Avalonia.Controls.Notifications;
 using avalon.kvexplorer.ViewModels;
-using System;
-using System.ComponentModel;
-using Azure.ResourceManager.KeyVault;
+using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Interactivity;
+using Avalonia.Media;
 using FluentAvalonia.UI.Windowing;
 
 namespace avalon.kvexplorer.Views;
@@ -14,18 +12,24 @@ public partial class MainWindow : AppWindow
 {
     private MainWindowViewModel _mainWindowViewModel;
     private AuthService _authService;
+    private AppWindow _appWindowTitleBar;
+
+
     public MainWindow()
     {
         InitializeComponent();
         _mainWindowViewModel = new MainWindowViewModel();
+        TitleBar.ExtendsContentIntoTitleBar = true;
+        TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
     }
+
+    
 
     public MainWindow(AuthService authService, MainWindowViewModel mainWindowViewModel)
     {
         _authService = authService;
         _mainWindowViewModel = mainWindowViewModel;
     }
-
 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
     {
@@ -60,7 +64,6 @@ public partial class MainWindow : AppWindow
         button.Content = "Hello, Avalonia!";
     }
 
-
     //private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     //{
     //    if (e.PropertyName == nameof(MainWindowViewModel.SelectedTreeItem))
@@ -70,9 +73,4 @@ public partial class MainWindow : AppWindow
     //         _mainWindowViewModel.VaultSelected();
     //    }
     //}
-
-  
-   
 }
-
-

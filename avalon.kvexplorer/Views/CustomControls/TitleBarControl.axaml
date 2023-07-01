@@ -54,7 +54,7 @@
                 </StackPanel>
             </DockPanel>-->
             <Menu Grid.Row="0">
-                <Menu.Styles>
+                <!--<Menu.Styles>
 
                     <Style Selector="Menu">
                         <Setter Property="Padding" Value="3" />
@@ -65,9 +65,9 @@
                         <Setter Property="FontSize" Value="13" />
                         <Setter Property="Padding" Value="4" />
                     </Style>
-                </Menu.Styles>
+                </Menu.Styles>-->
 
-                <MenuItem Padding="2,0,2,0" Header="Settings">
+                <MenuItem Header="Settings">
                     <MenuItem Command="{Binding SigninCommand}" Header="Login">
                         <MenuItem.Header>
                             <TextBlock ClipToBounds="False" Text="Login" />
@@ -86,12 +86,12 @@
                     </MenuItem>
 
                 </MenuItem>
-                <MenuItem Padding="2,0,2,0" Header="Options">
+                <MenuItem Header="Options">
                     <MenuItem Header="Open" />
                     <MenuItem Header="Exit" />
                 </MenuItem>
 
-                <MenuItem Padding="2,0,2,0" Header="Help">
+                <MenuItem Header="Help">
                     <MenuItem Header="About" />
                     <MenuItem Header="Report a bug">
                         <MenuItem.Header>

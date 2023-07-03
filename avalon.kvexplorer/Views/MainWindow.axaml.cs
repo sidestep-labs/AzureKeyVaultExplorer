@@ -19,7 +19,7 @@ public partial class MainWindow : AppWindow
     {
         InitializeComponent();
         _mainWindowViewModel = new MainWindowViewModel();
-        TitleBar.ExtendsContentIntoTitleBar = true;
+        //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
     }
 

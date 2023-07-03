@@ -53,19 +53,24 @@
                         Text="Key Vault Explorer" />
                 </StackPanel>
             </DockPanel>-->
+
             <Menu Grid.Row="0">
-                <!--<Menu.Styles>
+                <Menu.Styles>
 
                     <Style Selector="Menu">
                         <Setter Property="Padding" Value="3" />
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
+
                     </Style>
 
-                    <Style Selector="MenuItem">
-                        <Setter Property="FontSize" Value="13" />
-                        <Setter Property="Padding" Value="4" />
+                    <Style Selector="Menu.MenuFlyout">
+                        <Setter Property="BorderBrush" Value="#8e56a0" />
+                        <Setter Property="BorderThickness" Value="0 10 10 0" />
                     </Style>
-                </Menu.Styles>-->
+
+
+
+                </Menu.Styles>
 
                 <MenuItem Header="Settings">
                     <MenuItem Command="{Binding SigninCommand}" Header="Login">
@@ -73,7 +78,7 @@
                             <TextBlock ClipToBounds="False" Text="Login" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <Image Source="/Assets/login.png" />
+                            <ui:SymbolIcon Symbol="Go" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Command="{Binding SignoutCommand}" Header="Logout">
@@ -81,16 +86,20 @@
                             <TextBlock ClipToBounds="False" Text="Logout" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <Image Source="/Assets/logout.png" />
+                            <ui:SymbolIcon Symbol="LeaveChat" />
                         </MenuItem.Icon>
                     </MenuItem>
 
                 </MenuItem>
+
                 <MenuItem Header="Options">
+
+
                     <MenuItem Header="Open" />
                     <MenuItem Header="Exit" />
-                </MenuItem>
 
+
+                </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Header="About" />
                     <MenuItem Header="Report a bug">
@@ -98,12 +107,13 @@
                             <TextBlock ClipToBounds="False" Text="Report a bug" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <Image Source="/Assets/link.png" />
+                            <ui:SymbolIcon Symbol="Link" />
                         </MenuItem.Icon>
                     </MenuItem>
 
                 </MenuItem>
             </Menu>
+
         </Grid>
 
     </StackPanel>

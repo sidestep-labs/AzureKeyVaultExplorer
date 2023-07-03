@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace avalon.kvexplorer.Services;
+namespace kvexplorer.shared;
 
 public class AuthenticationResponse
 {

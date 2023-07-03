@@ -1,10 +1,10 @@
-using avalon.kvexplorer.Services;
 using avalon.kvexplorer.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using FluentAvalonia.UI.Windowing;
+using kvexplorer.shared;
 
 namespace avalon.kvexplorer.Views;
 

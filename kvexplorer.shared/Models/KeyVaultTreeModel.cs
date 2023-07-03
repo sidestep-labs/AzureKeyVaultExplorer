@@ -1,7 +1,7 @@
 ﻿using Azure.ResourceManager.KeyVault;
 using System.Collections.Generic;
 
-namespace avalon.kvexplorer.Models;
+namespace kvexplorer.shared.Models;
 
 public class KeyVaultModel
 {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace avalon.kvexplorer;
+namespace kvexplorer.shared;
 
 public static class Constants
 {

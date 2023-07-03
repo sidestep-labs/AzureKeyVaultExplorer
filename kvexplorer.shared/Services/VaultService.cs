@@ -1,4 +1,4 @@
-﻿using avalon.kvexplorer.Models;
+﻿using kvexplorer.shared.Models;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Certificates;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace avalon.kvexplorer.Services;
+namespace kvexplorer.shared;
 
 public class VaultService
 {

@@ -1,4 +1,4 @@
-using avalon.kvexplorer.Services;
+using kvexplorer.shared;
 using avalon.kvexplorer.ViewModels;
 using avalon.kvexplorer.Views;
 using Avalonia;

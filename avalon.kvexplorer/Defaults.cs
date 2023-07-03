@@ -1,5 +1,4 @@
-﻿using avalon.kvexplorer.Services;
-using avalon.kvexplorer.ViewModels;
+﻿using avalon.kvexplorer.ViewModels;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +7,7 @@ namespace avalon.kvexplorer;
 
 public static class Defaults
 {
-    public const string WelcomeMessage = "Azure Keyvault Explorer";
+    public const string WelcomeMessage = "Azure KeyVault Explorer";
 
     public static Ioc Locator = Ioc.Default;
 

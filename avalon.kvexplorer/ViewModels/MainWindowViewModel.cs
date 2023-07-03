@@ -1,9 +1,9 @@
-﻿using avalon.kvexplorer.Models;
-using avalon.kvexplorer.Services;
-using Azure.ResourceManager.KeyVault;
+﻿using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using kvexplorer.shared;
+using kvexplorer.shared.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

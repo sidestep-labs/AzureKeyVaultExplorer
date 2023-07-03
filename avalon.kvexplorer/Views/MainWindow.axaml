@@ -6,7 +6,7 @@
     xmlns:custom="clr-namespace:avalon.kvexplorer.Views.CustomControls;assembly=avalon.kvexplorer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:avalon.kvexplorer.Models;assembly=avalon.kvexplorer"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
     xmlns:vm="using:avalon.kvexplorer.ViewModels"

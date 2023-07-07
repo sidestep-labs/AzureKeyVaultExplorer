@@ -1,4 +1,6 @@
-﻿using Azure.ResourceManager.KeyVault;
+﻿using avalonia.kvexplorer.Views.Pages;
+using Avalonia.Controls;
+using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -6,6 +8,7 @@ using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,10 +16,12 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace avalon.kvexplorer.ViewModels;
+namespace avalonia.kvexplorer.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainViewModel : ViewModelBase
 {
+    public string Greeting => "Welcome to Avalonia!";
+    public TitleBarViewModel TitleBarViewModel { get; set; }
 
     [ObservableProperty]
     public string searchQuery;
@@ -29,16 +34,22 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
-    private readonly INavigationPageFactory _navigationPageFactory;
+
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
 
-    public MainWindowViewModel(AuthService authService, VaultService vaultService, TitleBarViewModel titleBarViewModel, INavigationPageFactory navigationPageFactory)
+
+    public NavigationFactory NavigationFactory { get; }
+
+    public MainViewModel(AuthService authService, VaultService vaultService, TitleBarViewModel titleBarViewModel)
     {
+
+
+        NavigationFactory = new NavigationFactory();
         _authService = authService;
         _vaultService = vaultService;
         TitleBarViewModel = titleBarViewModel;
-        _navigationPageFactory = navigationPageFactory;
+        //TestFrame.Navigate(typeof(SamplePage));
         //SecretList = new ObservableCollection<SecretProperties>();
         PropertyChanged += OnMyViewModelPropertyChanged;
 
@@ -66,7 +77,6 @@ public partial class MainWindowViewModel : ViewModelBase
             new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
         };
 
- 
         secretList = new()
             {
                 new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
@@ -83,9 +93,13 @@ public partial class MainWindowViewModel : ViewModelBase
             GetAvailableKeyVaults();
         });
     }
+   
+    
 
-    public MainWindowViewModel()
+    public MainViewModel()
     {
+
+        NavigationFactory = new NavigationFactory();
         vaultTreeList = new ObservableCollection<KeyVaultModel>
         {
             new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
@@ -101,7 +115,7 @@ public partial class MainWindowViewModel : ViewModelBase
             new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
             new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
         };
-       
+
         secretList = new()
             {
                 new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
@@ -121,7 +135,6 @@ public partial class MainWindowViewModel : ViewModelBase
             };
     }
 
-    public TitleBarViewModel TitleBarViewModel { get; set; }
 
     [RelayCommand]
     private async void GetAvailableKeyVaults()
@@ -143,22 +156,8 @@ public partial class MainWindowViewModel : ViewModelBase
             await _authService.LoginAsync(cancellation);
     }
 
-    //if (SelectedTreeViewItems == null) return;
+    
 
-    //var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeViewItems);
-    //await foreach (var secret in vault)
-    //{
-    //    SecretList.Add(secret);
-    //}
-
-    private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SelectedTreeItem))
-        {
-            // Handle changes to the SelectedTreeItem property here
-            OnSelectedTreeItemChanged("test");
-        }
-    }
 
     private async void OnSelectedTreeItemChanged(object value)
     {
@@ -172,13 +171,59 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SelectedTreeItem))
+        {
+            // Handle changes to the SelectedTreeItem property here
+            OnSelectedTreeItemChanged("test");
+        }
 
+    }
+   
+}
 
+public class NavigationFactory : INavigationPageFactory
+{
+    public NavigationFactory()
+    {
+        Instance = this;
+    }
 
+    private static NavigationFactory? Instance { get; set; }
 
+    // Create a page based on a Type, but you can create it however you want
+    public Control? GetPage(Type srcType)
+    {
+        // Return null here because we won't use this method at all
+        return null;
+    }
 
+    // Create a page based on an object, such as a view model
+    public Control? GetPageFromObject(object target)
+    {
+        return target switch
+        {
+            MainPage => _pages[0],
+            SettingsPage => _pages[1],
+            WelcomePage => _pages[2],
 
+            _ => throw new Exception()
+        };
+    }
 
+    // Do this to avoid needing Activator.CreateInstance to create from type info
+    // and to avoid a ridiculous amount of 'ifs'
+    private readonly Control[] _pages =
+    {
+        new MainPage(),
+        new SettingsPage(),
+        new WelcomePage(),
 
+    };
 
+    public static Control[] GetPages()
+    {
+        return Instance!._pages;
+    }
 }

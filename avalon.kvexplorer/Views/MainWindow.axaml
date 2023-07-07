@@ -14,7 +14,7 @@
     Title="avalon.kvexplorer"
     Width="640"
     Height="420"
-    d:DesignHeight="500"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
     Icon="/Assets/avalonia-logo.ico"
@@ -44,7 +44,7 @@
 
 
         <StackPanel
-            Height="22"
+            Height="52"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
             Background="{DynamicResource SystemAccentColor}"
@@ -52,6 +52,15 @@
             Orientation="Horizontal"
             ZIndex="999">
             <TextBlock Foreground="WhiteSmoke">username</TextBlock>
+
+            <Button
+                Command="{Binding #TestFrame.GoBack}"
+                Content="Go Back"
+                IsEnabled="{Binding #TestFrame.CanGoBack}" />
+            <Button
+                Command="{Binding #TestFrame.GoForward}"
+                Content="Go Forward"
+                IsEnabled="{Binding #TestFrame.CanGoForward}" />
         </StackPanel>
         <Grid Margin="4">
             <Grid.RowDefinitions>
@@ -175,6 +184,9 @@
 
         </Grid>
 
+
+
+        <ui:Frame Name="TestFrame" />
     </DockPanel>
 
 

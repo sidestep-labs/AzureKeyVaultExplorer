@@ -7,7 +7,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
-
+	<PropertyGroup>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+	</PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
@@ -32,13 +34,13 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.0-rc2.2" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-rc2.2" />
+    <PackageReference Include="Avalonia" Version="11.0.0" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0" />
     <!--<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.0-preview6.1" />-->
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-rc2.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-rc2.2" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-rc2.2" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0" />
     <PackageReference Include="Azure.ResourceManager.KeyVault" Version="1.1.0" />
     <PackageReference Include="Azure.Security.KeyVault.Certificates" Version="4.5.1" />
     <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.5.0" />
@@ -109,5 +111,15 @@
     <AvaloniaResource Update="Assets\user.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AvaloniaResource>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Update="Views\Pages\SettingsPage.axaml.cs">
+      <DependentUpon>SettingsPage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\WelcomePage.axaml.cs">
+      <DependentUpon>WelcomePage.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

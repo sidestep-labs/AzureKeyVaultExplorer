@@ -1,0 +1,17 @@
+<Application
+    x:Class="avalonia.kvexplorer.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sty="using:FluentAvalonia.Styling"
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    RequestedThemeVariant="Default">
+    <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
+
+    <Application.Styles>
+        <!--<FluentTheme DensityStyle="Compact" />-->
+        <sty:FluentAvaloniaTheme PreferUserAccentColor="True" UseSystemFontOnWindows="True" />
+        <StyleInclude Source="/Resources/Styles.axaml" />
+        <!--<StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml" />-->
+        <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
+    </Application.Styles>
+</Application>

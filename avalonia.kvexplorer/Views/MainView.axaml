@@ -46,22 +46,17 @@
 
             <ui:NavigationView.MenuItems>
 
-                <ui:NavigationViewItem
-                    Content="Browse"
-                    IconSource="Library"
-                    IsVisible="False"
-                    Tag="SamplePage1" />
            
 
                 <ui:NavigationViewItem
                     Content="Home"
                     IconSource="Home"
-                    Tag="0" />
+                    Tag="MainPage" />
 
                 <ui:NavigationViewItem
                     Content="Bookmarks"
                     IconSource="Bookmarks"
-                    Tag="1" />
+                    Tag="WelcomePage" />
 
             </ui:NavigationView.MenuItems>
 
@@ -71,7 +66,7 @@
                 <ui:NavigationViewItem
                     Content="Settings"
                     IconSource="Settings"
-                    Tag="2" />
+                    Tag="SettingsPage" />
             </ui:NavigationView.FooterMenuItems>
 
             <Panel>

@@ -7,6 +7,7 @@ using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace avalonia.kvexplorer.Views;
@@ -35,9 +36,9 @@ public partial class MainView : UserControl
         base.OnAttachedToVisualTree(e);
 
         var vm = new MainViewModel();
-        var nv = this.FindControl<NavigationView>("NavView");
-        var navViewItems = nv.MenuItems.Cast<NavigationViewItem>();
-        var footerItems = nv.FooterMenuItems.Cast<NavigationViewItem>();
+        _navView = this.FindControl<NavigationView>("NavView");
+        var navViewItems = _navView.MenuItems.Cast<NavigationViewItem>();
+        var footerItems = _navView.FooterMenuItems.Cast<NavigationViewItem>();
 
         DataContext = vm;
         FrameView.NavigationPageFactory = vm.NavigationFactory;
@@ -55,14 +56,14 @@ public partial class MainView : UserControl
 
         //todo remove
         var pages = NavigationFactory.GetPages();
-        navViewItems.ElementAt(1).Tag = pages[0];
-
-        navViewItems.ElementAt(2).Tag = pages[1];
+        navViewItems.ElementAt(0).Tag = pages[0];
+        navViewItems.ElementAt(1).Tag = pages[1];
+        
         footerItems.ElementAt(0).Tag = pages[2];
 
 
-        NavView.MenuItemsSource = GetNavigationViewItems();
-        NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
+        NavView.MenuItemsSource =navViewItems;
+        NavView.FooterMenuItemsSource = footerItems;
 
 
 
@@ -88,18 +89,20 @@ public partial class MainView : UserControl
 
         item.IconSource = t switch
         {
-            MainPage => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value)  ? (IconSource)value! : null,
-            WelcomePage => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
-            SettingsPage => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
+            MainViewModel => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value)  ? (IconSource)value! : null,
+            WelcomePageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
+            SettingsPageViewModel => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };
+
+       Debug.WriteLine(item.IconSource);
     }
 
     private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
     {
         var page = e.Content as Control;
 
-        foreach (NavigationViewItem nvi in NavView.MenuItemsSource)
+        foreach (NavigationViewItem nvi in NavView.MenuItems)
         {
             if (nvi.Tag != null && nvi.Tag.Equals(page))
             {
@@ -155,6 +158,7 @@ public partial class MainView : UserControl
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
+        SetNviIcon((_navView!.SelectedItem as NavigationViewItem)!, false);
 
         if (e.InvokedItemContainer is NavigationViewItem { Tag: Control c })
         {

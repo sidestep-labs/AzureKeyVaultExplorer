@@ -2,6 +2,7 @@
     x:Class="avalonia.kvexplorer.Views.MainView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="using:FluentAvalonia.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
@@ -9,6 +10,8 @@
     xmlns:views="clr-namespace:avalonia.kvexplorer.Views.Pages"
     xmlns:vm="clr-namespace:avalonia.kvexplorer.ViewModels"
     xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
     <Design.DataContext>
@@ -19,14 +22,14 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <UserControl.Styles>
+    <!--<UserControl.Styles>
         <Style Selector="ui|NavigationView.NavView">
             <Setter Property="OpenPaneLength" Value="240" />
         </Style>
         <Style Selector="ui|NavigationView.NavView[IsBackButtonVisible=False] SplitView /template/ ContentPresenter#PART_PanePresenter">
             <Setter Property="Margin" Value="0 10 0 0" />
         </Style>
-    </UserControl.Styles>
+    </UserControl.Styles>-->
 
     <Grid RowDefinitions="Auto, *">
 
@@ -34,53 +37,42 @@
             Name="NavView"
             Grid.Row="0"
             Grid.RowSpan="2"
-            AlwaysShowHeader="True"
+            AlwaysShowHeader="False"
             Classes="NavView"
-            DockPanel.Dock="Left"
-            Header=""
             IsBackButtonVisible="False"
             IsBackEnabled="False"
-            IsSettingsVisible="True"
-            PaneDisplayMode="Left"
-            PaneTitle="">
+            IsSettingsVisible="False"
+            PaneDisplayMode="Left">
+
             <ui:NavigationView.MenuItems>
+
                 <ui:NavigationViewItem
-                    Content="Menu Item1"
-                    IconSource="Play"
+                    Content="Browse"
+                    IconSource="Library"
+                    IsVisible="False"
                     Tag="SamplePage1" />
-                <ui:NavigationViewItemHeader Content="Actions" />
+           
+
                 <ui:NavigationViewItem
-                    Name="MenuItem2"
-                    Content="Menu Item2"
-                    IconSource="Download"
-                    Tag="SamplePage2" />
+                    Content="Home"
+                    IconSource="Home"
+                    Tag="0" />
+
                 <ui:NavigationViewItem
-                    Content="Menu Item3"
-                    IconSource="Refresh"
-                    Tag="WelcomePage" />
+                    Content="Bookmarks"
+                    IconSource="Bookmarks"
+                    Tag="1" />
+
             </ui:NavigationView.MenuItems>
 
-            <ui:NavigationView.AutoCompleteBox>
-                <AutoCompleteBox />
-            </ui:NavigationView.AutoCompleteBox>
 
-            <ui:NavigationView.PaneCustomContent>
-                <TextBlock
-                    Name="PaneHyperlink"
-                    IsVisible="False"
-                    Text="More Info"
-                    TextDecorations="Underline" />
-            </ui:NavigationView.PaneCustomContent>
+            <ui:NavigationView.FooterMenuItems>
 
-            <ui:NavigationView.PaneFooter>
-                <StackPanel
-                    Name="FooterStackPanel"
-                    IsVisible="False"
-                    Orientation="Vertical">
-                    <ui:NavigationViewItem IconSource="Download" />
-                    <ui:NavigationViewItem IconSource="Alert" />
-                </StackPanel>
-            </ui:NavigationView.PaneFooter>
+                <ui:NavigationViewItem
+                    Content="Settings"
+                    IconSource="Settings"
+                    Tag="2" />
+            </ui:NavigationView.FooterMenuItems>
 
             <Panel>
                 <ui:Frame Name="FrameView" />

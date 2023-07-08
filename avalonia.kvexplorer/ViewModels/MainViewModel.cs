@@ -5,7 +5,6 @@ using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Media.Animation;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
 using System;
@@ -38,13 +37,10 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
 
-
     public NavigationFactory NavigationFactory { get; }
 
     public MainViewModel(AuthService authService, VaultService vaultService, TitleBarViewModel titleBarViewModel)
     {
-
-
         NavigationFactory = new NavigationFactory();
         _authService = authService;
         _vaultService = vaultService;
@@ -93,12 +89,9 @@ public partial class MainViewModel : ViewModelBase
             GetAvailableKeyVaults();
         });
     }
-   
-    
 
     public MainViewModel()
     {
-
         NavigationFactory = new NavigationFactory();
         vaultTreeList = new ObservableCollection<KeyVaultModel>
         {
@@ -135,7 +128,6 @@ public partial class MainViewModel : ViewModelBase
             };
     }
 
-
     [RelayCommand]
     private async void GetAvailableKeyVaults()
     {
@@ -156,9 +148,8 @@ public partial class MainViewModel : ViewModelBase
             await _authService.LoginAsync(cancellation);
     }
 
-    
 
-
+ 
     private async void OnSelectedTreeItemChanged(object value)
     {
         // Handle the SelectedTreeItem property change event here
@@ -178,9 +169,7 @@ public partial class MainViewModel : ViewModelBase
             // Handle changes to the SelectedTreeItem property here
             OnSelectedTreeItemChanged("test");
         }
-
     }
-   
 }
 
 public class NavigationFactory : INavigationPageFactory
@@ -196,7 +185,10 @@ public class NavigationFactory : INavigationPageFactory
     public Control? GetPage(Type srcType)
     {
         // Return null here because we won't use this method at all
-        return null;
+        CorePages.TryGetValue(srcType.FullName, out var func);
+        Control page = null;
+        page = func();
+        return page;
     }
 
     // Create a page based on an object, such as a view model
@@ -205,8 +197,8 @@ public class NavigationFactory : INavigationPageFactory
         return target switch
         {
             MainPage => _pages[0],
-            SettingsPage => _pages[1],
-            WelcomePage => _pages[2],
+            WelcomePage => _pages[1],
+            SettingsPage => _pages[2],
 
             _ => throw new Exception()
         };
@@ -216,12 +208,20 @@ public class NavigationFactory : INavigationPageFactory
     // and to avoid a ridiculous amount of 'ifs'
     private readonly Control[] _pages =
     {
-        new MainPage(),
-        new SettingsPage(),
+        new MainPage(), 
         new WelcomePage(),
+        new SettingsPage(),
 
     };
 
+   
+
+    private readonly Dictionary<string, Func<Control>> CorePages = new Dictionary<string, Func<Control>>
+    {
+        { "MainPage", () => new MainPage() },
+        { "WelcomePage", () => new WelcomePage() },
+        { "SettingsPage", () => new SettingsPage() },
+    };
     public static Control[] GetPages()
     {
         return Instance!._pages;

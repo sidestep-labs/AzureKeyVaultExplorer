@@ -2,8 +2,10 @@
 using avalonia.kvexplorer.Views.Pages;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,6 +17,7 @@ public partial class MainView : UserControl
     private NavigationView? _navView;
     public static MainView? Instance { get; private set; }
 
+
     public MainView()
     {
         Instance = this;
@@ -22,7 +25,9 @@ public partial class MainView : UserControl
     }
 
 
-  
+    //var menuItems = new List<NavigationViewItemBase>(4);
+    //var footerItems = new List<NavigationViewItemBase>(2);
+
 
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -30,18 +35,45 @@ public partial class MainView : UserControl
         base.OnAttachedToVisualTree(e);
 
         var vm = new MainViewModel();
+        var nv = this.FindControl<NavigationView>("NavView");
+        var navViewItems = nv.MenuItems.Cast<NavigationViewItem>();
+        var footerItems = nv.FooterMenuItems.Cast<NavigationViewItem>();
+
         DataContext = vm;
         FrameView.NavigationPageFactory = vm.NavigationFactory;
 
         FrameView.Navigated += OnFrameViewNavigated;
         NavView.ItemInvoked += OnNavigationViewItemInvoked;
 
+
+
+        //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
+        //  {
+
+        //      ((NavigationViewItem)nv.FooterMenuItems[i]).Tag = NavigationFactory.GetPages().Last();
+        //  }
+
+        //todo remove
+        var pages = NavigationFactory.GetPages();
+        navViewItems.ElementAt(1).Tag = pages[0];
+
+        navViewItems.ElementAt(2).Tag = pages[1];
+        footerItems.ElementAt(0).Tag = pages[2];
+
+
         NavView.MenuItemsSource = GetNavigationViewItems();
-        NavView.FooterMenuItemsSource = new List<NavigationViewItemBase>(1);
+        NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
+
+
+
+
+        //NavView.MenuItemsSource = GetNavigationViewItems();
+        //NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
         NavView.IsPaneOpen = false;
 
-        var navViewItems = NavView.MenuItemsSource.Cast<NavigationViewItem>();
-        FrameView.NavigateFromObject(navViewItems.ElementAt(0).Tag);
+        //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
+        FrameView.NavigateFromObject(new MainPage());
+
     }
 
     private void SetNviIcon(NavigationViewItem? item, bool selected)
@@ -56,12 +88,9 @@ public partial class MainView : UserControl
 
         item.IconSource = t switch
         {
-            MainPage => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value)
-                ? (IconSource)value!
-                : null,
-            SettingsPage => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value)
-                ? (IconSource)value!
-                : null,
+            MainPage => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value)  ? (IconSource)value! : null,
+            WelcomePage => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
+            SettingsPage => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };
     }
@@ -105,8 +134,7 @@ public partial class MainView : UserControl
             {
                 Content = "Home",
                 Tag = NavigationFactory.GetPages()[0],
-                //IconSource = (IconSource)this.FindResource("HomeIcon")!,
-                Classes = { "SFPAppNav" }
+                IconSource= this.FindResource("HomeIcon") as IconSource
             }
         };
     }
@@ -118,16 +146,16 @@ public partial class MainView : UserControl
             new()
             {
                 Content = "Settings",
-                Tag = NavigationFactory.GetPages()[1],
-                //IconSource = (IconSource)this.FindResource("SettingsIcon")!,
-                IconSource = App.Current.FindResource("SettingsIcon") as IconSource,
-                Classes = { "SFPAppNav" }
+                Tag = NavigationFactory.GetPages()[2],
+                IconSource= this.FindResource("SettingsIcon") as IconSource
+
             }
         };
     }
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
+
         if (e.InvokedItemContainer is NavigationViewItem { Tag: Control c })
         {
             _ = FrameView.NavigateFromObject(c);

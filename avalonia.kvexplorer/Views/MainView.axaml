@@ -40,14 +40,11 @@
             AlwaysShowHeader="False"
             Classes="NavView"
             IsBackButtonVisible="False"
-            IsBackEnabled="False"
+            IsBackEnabled="True"
             IsSettingsVisible="False"
             PaneDisplayMode="Left">
 
             <ui:NavigationView.MenuItems>
-
-           
-
                 <ui:NavigationViewItem
                     Content="Home"
                     IconSource="Home"
@@ -56,7 +53,7 @@
                 <ui:NavigationViewItem
                     Content="Bookmarks"
                     IconSource="Bookmarks"
-                    Tag="WelcomePage" />
+                    Tag="BookmarksPage" />
 
             </ui:NavigationView.MenuItems>
 

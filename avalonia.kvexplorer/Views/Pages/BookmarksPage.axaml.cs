@@ -2,9 +2,9 @@
 
 namespace avalonia.kvexplorer.Views.Pages;
 
-public partial class WelcomePage : UserControl
+public partial class BookmarksPage : UserControl
 {
-    public WelcomePage()
+    public BookmarksPage()
     {
         InitializeComponent();
     }

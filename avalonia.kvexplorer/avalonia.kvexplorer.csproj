@@ -43,11 +43,14 @@
     <Compile Update="Views\CustomControls\TitleBarControl.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+    <Compile Update="Views\Pages\KeyVaultPage.axaml.cs">
+      <DependentUpon>KeyVaultPage.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Pages\SettingsPage.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Pages\WelcomePage.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Views\Pages\BookmarksPage.axaml.cs">
+      <DependentUpon>BookmarksPage.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MainPage.axaml.cs">
       <DependentUpon>MainPage.axaml</DependentUpon>

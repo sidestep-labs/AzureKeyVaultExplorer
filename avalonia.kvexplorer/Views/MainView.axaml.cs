@@ -2,6 +2,7 @@
 using avalonia.kvexplorer.Views.Pages;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Chrome;
 using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
@@ -23,6 +24,7 @@ public partial class MainView : UserControl
     {
         Instance = this;
         InitializeComponent();
+        
     }
 
 
@@ -90,7 +92,7 @@ public partial class MainView : UserControl
         item.IconSource = t switch
         {
             MainViewModel => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value)  ? (IconSource)value! : null,
-            WelcomePageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
+            BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
             SettingsPageViewModel => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };

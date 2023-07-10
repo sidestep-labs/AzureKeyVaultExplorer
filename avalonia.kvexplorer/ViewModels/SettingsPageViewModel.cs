@@ -7,7 +7,7 @@ using System;
 
 namespace avalonia.kvexplorer.ViewModels;
 
-public partial class SettingsPageViewModel : PageViewModelBase
+public partial class SettingsPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
     public SettingsPageViewModel(AuthService authService)
@@ -29,20 +29,6 @@ public partial class SettingsPageViewModel : PageViewModelBase
     /// The content of this page
     /// </summary>
     public string Message => "Press \"Next\" to register yourself.";
-
-    // This is our first page, so we can navigate to the next page in any case
-    public override bool CanNavigateNext
-    {
-        get => true;
-        protected set => throw new NotSupportedException();
-    }
-
-    // You cannot go back from this page
-    public override bool CanNavigatePrevious
-    {
-        get => false;
-        protected set => throw new NotSupportedException();
-    }
 
 
 

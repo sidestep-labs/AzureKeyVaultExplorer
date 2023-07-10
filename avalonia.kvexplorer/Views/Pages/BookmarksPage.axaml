@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="avalonia.kvexplorer.Views.Pages.WelcomePage"
+    x:Class="avalonia.kvexplorer.Views.Pages.BookmarksPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Design.DataContext>
-        <vm:WelcomePageViewModel />
+        <vm:BookmarksPageViewModel />
     </Design.DataContext>
 
     <ScrollViewer>

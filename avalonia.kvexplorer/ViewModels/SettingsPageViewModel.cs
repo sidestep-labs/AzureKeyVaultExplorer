@@ -4,6 +4,7 @@ using kvexplorer.shared;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace avalonia.kvexplorer.ViewModels;
 
@@ -13,23 +14,28 @@ public partial class SettingsPageViewModel : ViewModelBase
     public SettingsPageViewModel(AuthService authService)
     {
         _authService = authService;
-     
     }
 
     public SettingsPageViewModel()
     {
         _authService = new AuthService();
     }
-    /// <summary>
-    /// The Title of this page
-    /// </summary>
-    public string Title => "Welcome to our Wizard-Sample.";
-
-    /// <summary>
-    /// The content of this page
-    /// </summary>
-    public string Message => "Press \"Next\" to register yourself.";
 
 
+
+    [RelayCommand]
+    private async Task SignIn()
+    {
+        var cancellation = new CancellationToken();
+        var account = await _authService.RefreshTokenAsync(cancellation);
+        if (account == null)
+            await _authService.LoginAsync(cancellation);
+    }
+
+    [RelayCommand]
+    private async Task SignOut()
+    {
+        await _authService.RemoveAccount();
+    }
 
 }

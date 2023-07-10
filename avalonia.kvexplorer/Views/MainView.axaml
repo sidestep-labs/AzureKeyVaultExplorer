@@ -66,9 +66,16 @@
                     Tag="SettingsPage" />
             </ui:NavigationView.FooterMenuItems>
 
-            <Panel>
+            <DockPanel LastChildFill="True">
+                <Panel
+                    Height="20"
+                    Background="Transparent"
+                    DockPanel.Dock="Bottom"
+                    ZIndex="999">
+                    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right">cricketthomas@contoso.com</TextBlock>
+                </Panel>
                 <ui:Frame Name="FrameView" />
-            </Panel>
+            </DockPanel>
 
         </ui:NavigationView>
 

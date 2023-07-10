@@ -29,7 +29,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
-    private readonly INavigationPageFactory _navigationPageFactory;
+
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
 
@@ -38,7 +38,6 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         _authService = authService;
         _vaultService = vaultService;
         TitleBarViewModel = titleBarViewModel;
-        _navigationPageFactory = navigationPageFactory;
         //SecretList = new ObservableCollection<SecretProperties>();
         PropertyChanged += OnMyViewModelPropertyChanged;
 

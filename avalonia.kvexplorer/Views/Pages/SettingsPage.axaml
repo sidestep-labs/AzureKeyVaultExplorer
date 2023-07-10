@@ -7,6 +7,7 @@
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -14,62 +15,18 @@
     </Design.DataContext>
 
     <ScrollViewer>
-        <Grid Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
-            <Grid.Resources>
-                <x:Double x:Key="TileHeight">150</x:Double>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
-            <Grid
-                Grid.Row="1"
-                Grid.Column="1"
-                MinHeight="{StaticResource TileHeight}"
-                Margin="6"
-                Background="DarkGray" />
-            <Grid
-                Grid.Row="1"
-                Grid.Column="2"
-                MinHeight="{StaticResource TileHeight}"
-                Margin="6"
-                Background="LightGray" />
-            <Grid
-                Grid.Row="2"
-                Grid.Column="1"
-                MinHeight="{StaticResource TileHeight}"
-                Margin="6"
-                Background="LightGray" />
-            <Grid
-                Grid.Row="2"
-                Grid.Column="2"
-                MinHeight="{StaticResource TileHeight}"
-                Margin="6"
-                Background="DarkGray" />
-            <Grid
-                x:Name="SourceElement"
-                Grid.Row="1"
-                Grid.RowSpan="2"
-                Grid.Column="0"
-                MinWidth="250"
-                MinHeight="{StaticResource TileHeight}"
-                Margin="5"
-                Background="{DynamicResource SystemControlBackgroundAccentBrush}" />
+        <StackPanel Margin="10">
 
-            <Grid
-                Grid.Row="3"
-                Grid.ColumnSpan="3"
-                Margin="6,12">
-                <TextBlock>Settings Page</TextBlock>
-            </Grid>
-        </Grid>
+
+            <TextBlock FontWeight="ExtraBold">User Information</TextBlock>
+
+            <TextBlock>Tenant:</TextBlock>
+            <TextBlock>Subscription:</TextBlock>
+
+            <Button Command="{Binding SignInCommand}">Sign In With Microsoft Account</Button>
+            <Button Command="{Binding SignOutCommand}">Sign out</Button>
+
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

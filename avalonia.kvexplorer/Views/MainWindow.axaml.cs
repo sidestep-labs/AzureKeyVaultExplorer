@@ -11,6 +11,8 @@ namespace avalonia.kvexplorer.Views;
 public partial class MainWindow : AppWindow
 {
     private MainViewModel _mainWindowViewModel;
+    private SettingsPageViewModel _settingsPageViewModel;
+
     private AuthService _authService;
     private AppWindow _appWindowTitleBar;
 
@@ -23,10 +25,11 @@ public partial class MainWindow : AppWindow
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
     }
 
-    public MainWindow(AuthService authService, MainViewModel mainWindowViewModel)
+    public MainWindow(AuthService authService, MainViewModel mainWindowViewModel, SettingsPageViewModel settingsPageViewModel)
     {
         _authService = authService;
         _mainWindowViewModel = mainWindowViewModel;
+        _settingsPageViewModel = settingsPageViewModel;
     }
 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)

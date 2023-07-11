@@ -24,7 +24,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<VaultService, VaultService>();
 
         // ViewModels
-        serviceCollection.AddTransient<TitleBarViewModel>();
+        //serviceCollection.AddTransient<TitleBarViewModel>();
         serviceCollection.AddTransient<MainViewModel>();
 
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());

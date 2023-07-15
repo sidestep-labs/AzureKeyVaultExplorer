@@ -8,7 +8,6 @@ public class AuthService
 {
     public IPublicClientApplication authenticationClient;
     public MsalCacheHelper msalCacheHelper;
-    private static HttpClient _httpClient => new HttpClient();
 
     // Providing the RedirectionUri to receive the token based on success or failure.
 

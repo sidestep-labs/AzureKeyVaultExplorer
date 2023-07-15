@@ -14,15 +14,15 @@
     d:DesignWidth="800"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
-    <Design.DataContext>
-        <!--
+	<Design.DataContext>
+		<!--
             This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
         -->
-        <vm:MainViewModel />
-    </Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
 
-    <!--<UserControl.Styles>
+	<!--<UserControl.Styles>
         <Style Selector="ui|NavigationView.NavView">
             <Setter Property="OpenPaneLength" Value="240" />
         </Style>
@@ -31,9 +31,9 @@
         </Style>
     </UserControl.Styles>-->
 
-    <Grid RowDefinitions="Auto, *">
+	<Grid RowDefinitions="Auto, *">
 
-        <ui:NavigationView
+		<ui:NavigationView
             Name="NavView"
             Grid.Row="0"
             Grid.RowSpan="2"
@@ -44,52 +44,39 @@
             IsSettingsVisible="False"
             PaneDisplayMode="Left">
 
-            <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem
+			<ui:NavigationView.MenuItems>
+				<ui:NavigationViewItem
                     Content="Home"
                     IconSource="Home"
                     Tag="MainPage" />
 
-                <ui:NavigationViewItem
+				<ui:NavigationViewItem
                     Content="Bookmarks"
                     IconSource="Bookmarks"
                     Tag="BookmarksPage" />
+			</ui:NavigationView.MenuItems>
 
-            </ui:NavigationView.MenuItems>
+			<ui:NavigationView.FooterMenuItems>
 
-
-            <ui:NavigationView.FooterMenuItems>
-
-                <ui:NavigationViewItem
+				<ui:NavigationViewItem
                     Content="Settings"
                     IconSource="Settings"
                     Tag="SettingsPage" />
-            </ui:NavigationView.FooterMenuItems>
+			</ui:NavigationView.FooterMenuItems>
 
-            <DockPanel LastChildFill="True">
-                <Panel
+			<DockPanel LastChildFill="True">
+				<Panel
                     Height="20"
                     Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                     DockPanel.Dock="Bottom"
                     ZIndex="999">
-                    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right">cricketthomas@contoso.com</TextBlock>
-
-                    <TextBlock
+					<TextBlock
                         Margin="0,0,5,0"
                         HorizontalAlignment="Right"
-                        x:DataType="vm:SettingsPageViewModel"
-                        Text="{Binding Path=AuthenticatedUserClaims.Username, StringFormat='userName: {0}'}" />
-
-
-                </Panel>
-                <ui:Frame Name="FrameView" />
-            </DockPanel>
-
-        </ui:NavigationView>
-
-
-
-
-    </Grid>
-
+                        Text="{Binding Path=Email, StringFormat='user: {0}'}" />
+				</Panel>
+				<ui:Frame Name="FrameView" />
+			</DockPanel>
+		</ui:NavigationView>
+	</Grid>
 </UserControl>

@@ -13,10 +13,6 @@ namespace avalonia.kvexplorer.Views;
 public partial class MainWindow : AppWindow
 {
     private MainViewModel _mainWindowViewModel;
-    private SettingsPageViewModel _settingsPageViewModel;
-
-    private AuthService _authService;
-    private AppWindow _appWindowTitleBar;
 
 
     public MainWindow()
@@ -29,13 +25,7 @@ public partial class MainWindow : AppWindow
         ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
 
-    public MainWindow(AuthService authService, MainViewModel mainWindowViewModel, SettingsPageViewModel settingsPageViewModel)
-    {
-        _authService = authService;
-        _mainWindowViewModel = mainWindowViewModel;
-        _settingsPageViewModel = settingsPageViewModel;
-    }
-
+ 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
     {
         // Create the window object

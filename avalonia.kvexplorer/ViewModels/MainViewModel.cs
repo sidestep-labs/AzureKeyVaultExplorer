@@ -11,6 +11,10 @@ using kvexplorer.shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Threading;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace avalonia.kvexplorer.ViewModels;
 
@@ -19,10 +23,26 @@ public partial class MainViewModel : ViewModelBase
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
 
+    [ObservableProperty]
+    public string email = "unathenticated";
 
     public MainViewModel()
     {
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
         NavigationFactory = new NavigationFactory();
+
+        Dispatcher.UIThread.InvokeAsync(() => _ = RefreshTokenAndGetAccountInformation());
+    }
+
+    public async Task RefreshTokenAndGetAccountInformation()
+    {
+        var cancellation = new CancellationToken();
+        var account = await _authService.RefreshTokenAsync(cancellation);
+
+        if (account is null)
+            account = await _authService.LoginAsync(cancellation);
+
+        Email = account.ClaimsPrincipal.Identities.FirstOrDefault().FindFirst("email").Value ?? account.Account.Username;
     }
 }
 

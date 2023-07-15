@@ -13,22 +13,20 @@ namespace avalonia.kvexplorer;
 
 public partial class App : Application
 {
-
-    public static void ConfigureDefaultServices()
+    public static void ConfigureDesktopServices()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
 
-
-        // Services
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
 
-        // ViewModels
-        //serviceCollection.AddTransient<TitleBarViewModel>();
+        serviceCollection.AddTransient<SettingsPageViewModel>();
+
         serviceCollection.AddTransient<MainViewModel>();
 
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -36,22 +34,25 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Defaults.Locator.GetService<AuthService>();
+
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
-        BindingPlugins.DataValidators.RemoveAt(0);
+        //BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = Defaults.Locator.GetService<MainViewModel>()
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                //DataContext = new MainViewModel()
+                DataContext = Defaults.Locator.GetService<MainViewModel>()
             };
         }
 

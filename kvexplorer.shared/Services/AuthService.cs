@@ -1,13 +1,6 @@
-﻿using Azure.Security.KeyVault.Secrets;
-using Microsoft.Identity.Client;
+﻿using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace kvexplorer.shared;
 
@@ -48,10 +41,7 @@ public class AuthService
             //.WithSystemWebViewOptions(options)
             //#endif
 
-            result = await authenticationClient
-                    .AcquireTokenInteractive(Constants.Scopes)
-                    .WithExtraScopesToConsent(Constants.AzureRMScope)
-                .ExecuteAsync(cancellationToken);
+            result = await authenticationClient.AcquireTokenInteractive(Constants.Scopes).WithExtraScopesToConsent(Constants.AzureRMScope).ExecuteAsync(cancellationToken);
 
             // set the preferences/settings of the signed in account
             //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
@@ -139,11 +129,6 @@ public class AuthService
     {
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
-        var res = await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
-        var tokenCredential = new CustomTokenCredential(res);
-
-        var x = new SecretClient(new Uri("https://kv-quickey.vault.azure.net/"), tokenCredential); ;
-        var test = x.GetSecret("test");
-        return res;
+        return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.FirstOrDefault()).ExecuteAsync();
     }
 }

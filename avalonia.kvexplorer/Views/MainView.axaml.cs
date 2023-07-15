@@ -19,12 +19,10 @@ public partial class MainView : UserControl
     private NavigationView? _navView;
     public static MainView? Instance { get; private set; }
 
-
     public MainView()
     {
         Instance = this;
         InitializeComponent();
-        
     }
 
 
@@ -49,7 +47,6 @@ public partial class MainView : UserControl
         NavView.ItemInvoked += OnNavigationViewItemInvoked;
 
 
-
         //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
         //  {
 
@@ -60,15 +57,10 @@ public partial class MainView : UserControl
         var pages = NavigationFactory.GetPages();
         navViewItems.ElementAt(0).Tag = pages[0];
         navViewItems.ElementAt(1).Tag = pages[1];
-        
         footerItems.ElementAt(0).Tag = pages[2];
-
 
         NavView.MenuItemsSource =navViewItems;
         NavView.FooterMenuItemsSource = footerItems;
-
-
-
 
         //NavView.MenuItemsSource = GetNavigationViewItems();
         //NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();

@@ -73,6 +73,14 @@
                     DockPanel.Dock="Bottom"
                     ZIndex="999">
                     <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right">cricketthomas@contoso.com</TextBlock>
+
+                    <TextBlock
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        x:DataType="vm:SettingsPageViewModel"
+                        Text="{Binding Path=AuthenticatedUserClaims.Username, StringFormat='userName: {0}'}" />
+
+
                 </Panel>
                 <ui:Frame Name="FrameView" />
             </DockPanel>

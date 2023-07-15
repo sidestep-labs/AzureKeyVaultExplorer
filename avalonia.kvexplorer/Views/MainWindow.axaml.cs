@@ -5,6 +5,8 @@ using FluentAvalonia.UI.Windowing;
 using kvexplorer.shared;
 using Avalonia.Media;
 using Avalonia.Controls.Notifications;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using System;
 
 namespace avalonia.kvexplorer.Views;
 
@@ -23,6 +25,8 @@ public partial class MainWindow : AppWindow
         _mainWindowViewModel = new MainViewModel();
         //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
+        TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
+        ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
 
     public MainWindow(AuthService authService, MainViewModel mainWindowViewModel, SettingsPageViewModel settingsPageViewModel)

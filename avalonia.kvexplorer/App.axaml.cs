@@ -1,11 +1,8 @@
 ﻿using avalonia.kvexplorer.ViewModels;
 using avalonia.kvexplorer.Views;
-
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,9 +16,7 @@ public partial class App : Application
 
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
-
         serviceCollection.AddTransient<SettingsPageViewModel>();
-
         serviceCollection.AddTransient<MainViewModel>();
 
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());

@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:avalonia.kvexplorer.Views.Pages"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <Design.DataContext>
-    </Design.DataContext>
+    <Design.DataContext />
 
     <ScrollViewer>
         <Grid Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
@@ -34,6 +34,7 @@
                 Grid.ColumnSpan="3"
                 Margin="6,12">
                 <TextBlock>Main Page</TextBlock>
+                <pages:KeyVaultViewerPage />
             </Grid>
         </Grid>
     </ScrollViewer>

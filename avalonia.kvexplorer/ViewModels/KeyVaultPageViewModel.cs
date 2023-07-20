@@ -1,9 +1,8 @@
-﻿using Azure.ResourceManager.KeyVault;
+﻿using Avalonia.Threading;
+using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Media.Animation;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ namespace avalonia.kvexplorer.ViewModels;
 
 public partial class KeyVaultPageViewModel : ViewModelBase
 {
-
     [ObservableProperty]
     public string searchQuery;
 
@@ -33,15 +31,12 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
 
-    public KeyVaultPageViewModel(AuthService authService, VaultService vaultService, TitleBarViewModel titleBarViewModel, INavigationPageFactory navigationPageFactory)
+    public KeyVaultPageViewModel()
     {
-        _authService = authService;
-        _vaultService = vaultService;
-        TitleBarViewModel = titleBarViewModel;
-        //SecretList = new ObservableCollection<SecretProperties>();
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
+        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         PropertyChanged += OnMyViewModelPropertyChanged;
 
-        //vaultList = new List<KeyVaultResource>();
         vaultTreeList = new ObservableCollection<KeyVaultModel>
         {
             new KeyVaultModel
@@ -50,74 +45,17 @@ public partial class KeyVaultPageViewModel : ViewModelBase
                 SubscriptionId = "123",
                 KeyVaultResources = new List<KeyVaultResource>{ }
             },
-
-            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
-            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
-            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
-            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
-            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1"  },
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
-            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
+     
         };
 
- 
         secretList = new()
             {
                 new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("AMEX Card") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("shared dev key") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationpassword") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("YoutubeAPIKey") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-            };
-
-        Task.Run(() =>
-        {
-            GetAvailableKeyVaults();
-        });
-    }
-
-    public KeyVaultPageViewModel()
-    {
-        vaultTreeList = new ObservableCollection<KeyVaultModel>
-        {
-            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
-            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
-            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1" },
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
-            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
-            new KeyVaultModel { SubscriptionDisplayName = "Sandbox Subscription", SubscriptionId = "1"  },
-            new KeyVaultModel { SubscriptionDisplayName = "Development", SubscriptionId = "2" },
-            new KeyVaultModel { SubscriptionDisplayName = "QA", SubscriptionId = "3" },
-            new KeyVaultModel { SubscriptionDisplayName = "Production", SubscriptionId = "5" },
         };
-       
-        secretList = new()
-            {
-                new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("AMEX Card") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("shared dev key") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationpassword") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("YoutubeAPIKey") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("shared dev key") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationUsername") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("AzClientID") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("SnowflakeIntegrationpassword") { ContentType = "text", Enabled = true, ExpiresOn = new System.DateTime(), },
-                new SecretProperties("YoutubeAPIKey") { ContentType = "guid", Enabled = true, ExpiresOn = new System.DateTime(), },
-            };
+   
+
+        Dispatcher.UIThread.Post(() =>  GetAvailableKeyVaults());
+
     }
 
     public TitleBarViewModel TitleBarViewModel { get; set; }
@@ -170,14 +108,4 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             Debug.WriteLine($"value, {value}");
         }
     }
-
-
-
-
-
-
-
-
-
-
 }

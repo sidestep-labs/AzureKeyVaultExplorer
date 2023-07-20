@@ -1,30 +1,24 @@
 ﻿using avalonia.kvexplorer.Views.Pages;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using Azure.ResourceManager.KeyVault;
-using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
-using kvexplorer.shared.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Threading;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace avalonia.kvexplorer.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    [ObservableProperty]
+    public string email = "unauthenticated";
+
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
-
-    [ObservableProperty]
-    public string email = "unathenticated";
 
     public MainViewModel()
     {
@@ -42,18 +36,39 @@ public partial class MainViewModel : ViewModelBase
         if (account is null)
             account = await _authService.LoginAsync(cancellation);
 
-        Email = account.ClaimsPrincipal.Identities.FirstOrDefault().FindFirst("email").Value ?? account.Account.Username;
+        Email = account.ClaimsPrincipal.Identities.FirstOrDefault().FindFirst("email").Value?.ToLowerInvariant() ?? account.Account.Username.ToLowerInvariant();
     }
 }
 
 public class NavigationFactory : INavigationPageFactory
 {
+    // Do this to avoid needing Activator.CreateInstance to create from type info
+    // and to avoid a ridiculous amount of 'ifs'
+    private readonly Control[] _pages =
+    {
+        new MainPage(),
+        new BookmarksPage(),
+        new SettingsPage(),
+    };
+
+    private readonly Dictionary<string, Func<Control>> CorePages = new Dictionary<string, Func<Control>>
+    {
+        { "MainPage", () => new MainPage() },
+        { "BookmarksPage", () => new BookmarksPage() },
+        { "SettingsPage", () => new SettingsPage() },
+    };
+
     public NavigationFactory()
     {
         Instance = this;
     }
 
     private static NavigationFactory? Instance { get; set; }
+
+    public static Control[] GetPages()
+    {
+        return Instance!._pages;
+    }
 
     // Create a page based on a Type, but you can create it however you want
     public Control? GetPage(Type srcType)
@@ -76,26 +91,5 @@ public class NavigationFactory : INavigationPageFactory
 
             _ => throw new Exception()
         };
-    }
-
-    // Do this to avoid needing Activator.CreateInstance to create from type info
-    // and to avoid a ridiculous amount of 'ifs'
-    private readonly Control[] _pages =
-    {
-        new MainPage(),
-        new BookmarksPage(),
-        new SettingsPage(),
-    };
-
-    private readonly Dictionary<string, Func<Control>> CorePages = new Dictionary<string, Func<Control>>
-    {
-        { "MainPage", () => new MainPage() },
-        { "BookmarksPage", () => new BookmarksPage() },
-        { "SettingsPage", () => new SettingsPage() },
-    };
-
-    public static Control[] GetPages()
-    {
-        return Instance!._pages;
     }
 }

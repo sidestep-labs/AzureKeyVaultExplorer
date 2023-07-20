@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -18,9 +19,6 @@
 
     <ScrollViewer>
         <Grid Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
-            <Grid.Resources>
-                <x:Double x:Key="TileHeight">250</x:Double>
-            </Grid.Resources>
 
 
             <Grid.RowDefinitions>
@@ -77,6 +75,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
 
@@ -129,36 +128,25 @@
                             </Style>
                         </DataGrid.Styles>
                     </DataGrid>
+
+
+
                 </ScrollViewer>
 
-
-
-
-                <!--
-				
-				<DockPanel LastChildFill="True">
-             <custom:TitleBarControl DataContext="{Binding TitleBarViewModel}" DockPanel.Dock="Top" />
-
-				<StackPanel
-					Height="52"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Top"
-					Background="{DynamicResource SystemAccentColor}"
-					DockPanel.Dock="Bottom"
-					Orientation="Horizontal"
-					ZIndex="999">
-					<TextBlock Foreground="WhiteSmoke">username</TextBlock>
-
-				</StackPanel>
-
-			</DockPanel>-->
-
-
-
+                <ui:TabView
+                    Name="APIInActionTabView"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    CanReorderTabs="True"
+                    CloseButtonOverlayMode="OnPointerOver"
+                    TabStripFooter=""
+                    TabStripHeader="test header"
+                    TabWidthMode="SizeToContent">
+                    <ui:TabViewItem Header="Document 0" IconSource="Document" />
+                    <ui:TabViewItem Header="Document 1" IconSource="Document" />
+                </ui:TabView>
 
             </Grid>
-
-
         </Grid>
     </ScrollViewer>
 </UserControl>

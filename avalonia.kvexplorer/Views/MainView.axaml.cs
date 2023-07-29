@@ -2,11 +2,8 @@
 using avalonia.kvexplorer.Views.Pages;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Chrome;
-using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,11 +22,8 @@ public partial class MainView : UserControl
         InitializeComponent();
     }
 
-
     //var menuItems = new List<NavigationViewItemBase>(4);
     //var footerItems = new List<NavigationViewItemBase>(2);
-
-
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
@@ -46,10 +40,8 @@ public partial class MainView : UserControl
         FrameView.Navigated += OnFrameViewNavigated;
         NavView.ItemInvoked += OnNavigationViewItemInvoked;
 
-
         //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
         //  {
-
         //      ((NavigationViewItem)nv.FooterMenuItems[i]).Tag = NavigationFactory.GetPages().Last();
         //  }
 
@@ -59,7 +51,7 @@ public partial class MainView : UserControl
         navViewItems.ElementAt(1).Tag = pages[1];
         footerItems.ElementAt(0).Tag = pages[2];
 
-        NavView.MenuItemsSource =navViewItems;
+        NavView.MenuItemsSource = navViewItems;
         NavView.FooterMenuItemsSource = footerItems;
 
         //NavView.MenuItemsSource = GetNavigationViewItems();
@@ -68,7 +60,6 @@ public partial class MainView : UserControl
 
         //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
         FrameView.NavigateFromObject(new MainPage());
-
     }
 
     private void SetNviIcon(NavigationViewItem? item, bool selected)
@@ -83,13 +74,13 @@ public partial class MainView : UserControl
 
         item.IconSource = t switch
         {
-            MainViewModel => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value)  ? (IconSource)value! : null,
+            MainViewModel => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value) ? (IconSource)value! : null,
             BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
             SettingsPageViewModel => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };
 
-       Debug.WriteLine(item.IconSource);
+        Debug.WriteLine(item.IconSource);
     }
 
     private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
@@ -145,7 +136,6 @@ public partial class MainView : UserControl
                 Content = "Settings",
                 Tag = NavigationFactory.GetPages()[2],
                 IconSource= this.FindResource("SettingsIcon") as IconSource
-
             }
         };
     }

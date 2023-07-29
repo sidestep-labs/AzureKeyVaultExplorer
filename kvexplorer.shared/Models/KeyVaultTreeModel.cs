@@ -1,5 +1,4 @@
 ﻿using Azure.ResourceManager.KeyVault;
-using System.Collections.Generic;
 
 namespace kvexplorer.shared.Models;
 

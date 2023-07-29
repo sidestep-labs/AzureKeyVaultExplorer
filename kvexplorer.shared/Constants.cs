@@ -1,7 +1,4 @@
 ﻿using Microsoft.Identity.Client.Extensions.Msal;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace kvexplorer.shared;
 
@@ -9,6 +6,7 @@ public static class Constants
 {
     //The Application or Client ID will be generated while registering the app in the Azure portal. Copy and paste the GUID.
     public static readonly string ClientId = "7c09c1d9-3585-403c-834a-53452958e76f";
+
     //public static readonly Uri Url = new Uri($"https://login.microsoftonline.com/common/adminconsent?client_id={ClientId}&state=initlogin&redirect_uri=msauth.com.company.kvexplorer://auth");
 
     //public static readonly Uri Url = new Uri($"https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={ClientId}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&grant_type=client_credentials&redirect_uri=msauth.com.company.kvexplorer://auth");
@@ -28,7 +26,7 @@ public static class Constants
         $"&redirect_uri=msauth.com.company.kvexplorer://auth" +
         $"&response_mode=fragment" +
         $"&scope=openid offline_access profile email" +
-        $"&state=1"+
+        $"&state=1" +
         $"&nonce=1");
 
     //$"&code_challenge=YTFjNjI1OWYzMzA3MTI4ZDY2Njg5M2RkNmVjNDE5YmEyZGRhOGYyM2IzNjdmZWFhMTQ1ODg3NDcxY2Nl" +
@@ -43,22 +41,19 @@ public static class Constants
            $"&state=1" +
            $"&nonce=1");
 
-
     //Leaving the scope to its default values.
-    public static readonly string[] Scopes = new string[] { "openid", "offline_access", "profile", "email",};
+    public static readonly string[] Scopes = new string[] { "openid", "offline_access", "profile", "email", };
 
+    public static readonly string[] AzureRMScope = new string[] { "https://management.core.windows.net//.default" };
 
-    public static readonly string[] AzureRMScope = new string[] { "https://management.core.windows.net//.default"};
+    public static readonly string[] KvScope = new string[] { "https://vault.azure.net/.default" };
 
-    public static readonly string[] KvScope = new string[] {  "https://vault.azure.net/.default" };
-
-    public static readonly string[] AzureScopes = new string[] { "https://management.core.windows.net//.default",  "https://vault.azure.net//.default", "user_impersonation" };
-
+    public static readonly string[] AzureScopes = new string[] { "https://management.core.windows.net//.default", "https://vault.azure.net//.default", "user_impersonation" };
 
     // Cache settings
     public const string CacheFileName = "kvexplorer_msal_cache.txt";
 
-    public readonly static string CacheDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+    public static readonly string CacheDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
     public const string KeyChainServiceName = "kvexplorer_msal_service";
     public const string KeyChainAccountName = "kvexplorer_msal_account";
@@ -68,5 +63,4 @@ public static class Constants
     public const string LinuxKeyRingLabel = "MSAL token cache for all Contoso dev tool apps.";
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr2 = new KeyValuePair<string, string>("ProductGroup", "MyApps");
-
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using avalonia.kvexplorer.ViewModels;
-using Avalonia;
-using kvexplorer.shared;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Avalonia;
+using System;
 
 namespace avalonia.kvexplorer.Desktop;
 

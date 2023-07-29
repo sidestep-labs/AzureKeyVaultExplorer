@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace kvexplorer.shared;
 
@@ -23,7 +22,5 @@ public class AuthenticationResponse
     [JsonPropertyName("id_token")]
     public string IdToken { get; set; }
 
-    public DateTimeOffset? ExpiryDateTime { get => DateTime.Now.AddSeconds(ExpiresIn);  }
-
+    public DateTimeOffset? ExpiryDateTime { get => DateTime.Now.AddSeconds(ExpiresIn); }
 }
-

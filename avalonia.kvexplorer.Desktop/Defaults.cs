@@ -1,7 +1,4 @@
-﻿using avalonia.kvexplorer.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace avalonia.kvexplorer;
 

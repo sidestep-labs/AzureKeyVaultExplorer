@@ -26,9 +26,10 @@ public partial class TitleBarViewModel : ViewModelBase
         if (account == null)
             await _authService.LoginAsync(cancellation);
     }
+
     [RelayCommand]
     private async void Signout()
     {
-       await _authService.RemoveAccount();
+        await _authService.RemoveAccount();
     }
 }

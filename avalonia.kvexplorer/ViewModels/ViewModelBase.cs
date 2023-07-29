@@ -9,5 +9,4 @@ public class ViewModelBase : ObservableObject
     //public string IconKey { get; set; }
 
     //public bool ShowsInFooter { get; set; }
-
 }

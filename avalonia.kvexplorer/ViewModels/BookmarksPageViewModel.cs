@@ -1,25 +1,21 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using kvexplorer.shared;
-using System.Collections.Generic;
-using System.Threading;
-using System;
+﻿using kvexplorer.shared;
 
 namespace avalonia.kvexplorer.ViewModels;
 
 public partial class BookmarksPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
+
     public BookmarksPageViewModel(AuthService authService)
     {
         _authService = authService;
-     
     }
 
     public BookmarksPageViewModel()
     {
         _authService = new AuthService();
     }
+
     /// <summary>
     /// The Title of this page
     /// </summary>
@@ -29,9 +25,4 @@ public partial class BookmarksPageViewModel : ViewModelBase
     /// The content of this page
     /// </summary>
     public string Message => "Press \"Next\" to register yourself.";
-
-   
-
-
-
 }

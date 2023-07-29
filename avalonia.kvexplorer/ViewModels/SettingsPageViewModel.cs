@@ -1,9 +1,7 @@
-﻿using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +21,6 @@ public partial class SettingsPageViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
     }
-
 
     [RelayCommand]
     private async Task SignInOrRefreshTokenAsync()

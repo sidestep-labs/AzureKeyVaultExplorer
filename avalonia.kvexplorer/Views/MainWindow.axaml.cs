@@ -1,11 +1,9 @@
 ﻿using avalonia.kvexplorer.ViewModels;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using FluentAvalonia.UI.Windowing;
-using kvexplorer.shared;
-using Avalonia.Media;
 using Avalonia.Controls.Notifications;
-using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using FluentAvalonia.UI.Windowing;
 using System;
 
 namespace avalonia.kvexplorer.Views;
@@ -13,7 +11,6 @@ namespace avalonia.kvexplorer.Views;
 public partial class MainWindow : AppWindow
 {
     private MainViewModel _mainWindowViewModel;
-
 
     public MainWindow()
     {
@@ -25,7 +22,6 @@ public partial class MainWindow : AppWindow
         ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
 
- 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
     {
         // Create the window object

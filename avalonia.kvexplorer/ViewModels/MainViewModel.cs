@@ -7,6 +7,7 @@ using kvexplorer.shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ public partial class MainViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         NavigationFactory = new NavigationFactory();
 
-        Dispatcher.UIThread.InvokeAsync(() => _ = RefreshTokenAndGetAccountInformation());
+        Dispatcher.UIThread.Post(() => _ = RefreshTokenAndGetAccountInformation());
     }
 
     public async Task RefreshTokenAndGetAccountInformation()
@@ -35,8 +36,10 @@ public partial class MainViewModel : ViewModelBase
 
         if (account is null)
             account = await _authService.LoginAsync(cancellation);
+        //.ClaimsPrincipal.Identities.First().FindFirst("email").Value.ToLowerInvariant();
+        var email = account.ClaimsPrincipal.Identities.First().FindAll("email").First().Value ?? account.Account.Username;
 
-        Email = account.ClaimsPrincipal.Identities.FirstOrDefault().FindFirst("email").Value?.ToLowerInvariant() ?? account.Account.Username.ToLowerInvariant();
+        Email = email.ToLowerInvariant();
     }
 }
 

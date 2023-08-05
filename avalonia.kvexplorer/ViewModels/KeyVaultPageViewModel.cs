@@ -1,5 +1,4 @@
-﻿using Avalonia.Threading;
-using Azure.ResourceManager.KeyVault;
+﻿using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace avalonia.kvexplorer.ViewModels;
 
@@ -52,13 +52,13 @@ public partial class KeyVaultPageViewModel : ViewModelBase
                 new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
         };
 
-        Dispatcher.UIThread.Post(() => GetAvailableKeyVaults());
+        //Dispatcher.UIThread.Post(() => GetAvailableKeyVaults(), DispatcherPriority.Default);
     }
 
     public TitleBarViewModel TitleBarViewModel { get; set; }
 
     [RelayCommand]
-    private async void GetAvailableKeyVaults()
+    public async Task GetAvailableKeyVaults()
     {
         Login();
         var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
@@ -117,7 +117,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     private DocumentItem _keybindingSelectedDocument;
 
     [RelayCommand]
-    private async void Login()
+    private async Task Login()
     {
         var cancellation = new CancellationToken();
         var account = await _authService.RefreshTokenAsync(cancellation);

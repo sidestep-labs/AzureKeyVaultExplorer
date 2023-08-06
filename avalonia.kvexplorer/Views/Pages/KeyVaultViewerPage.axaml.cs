@@ -13,9 +13,9 @@ public partial class KeyVaultViewerPage : UserControl
         var keyVaultPageViewModel =new KeyVaultPageViewModel();
         DataContext = keyVaultPageViewModel;
 
-        //Dispatcher.UIThread.Post(async () =>
-        //{
-        //    await keyVaultPageViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
-        //});
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await keyVaultPageViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
+        }, DispatcherPriority.Background);
     }
 }

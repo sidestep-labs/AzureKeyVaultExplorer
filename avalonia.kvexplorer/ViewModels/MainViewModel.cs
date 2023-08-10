@@ -26,7 +26,7 @@ public partial class MainViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         NavigationFactory = new NavigationFactory();
 
-        Dispatcher.UIThread.Post(() => _ = RefreshTokenAndGetAccountInformation(), DispatcherPriority.Background);
+        Dispatcher.UIThread.Post(() => _ = RefreshTokenAndGetAccountInformation(), DispatcherPriority.Render);
     }
 
     public async Task RefreshTokenAndGetAccountInformation()

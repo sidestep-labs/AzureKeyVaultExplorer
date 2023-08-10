@@ -60,7 +60,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     [RelayCommand]
     public async Task GetAvailableKeyVaults()
     {
-        Login();
+        await Login();
         var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
         await foreach (var item in resource)
         {

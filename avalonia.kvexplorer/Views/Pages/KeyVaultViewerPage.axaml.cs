@@ -10,7 +10,7 @@ public partial class KeyVaultViewerPage : UserControl
     {
         InitializeComponent();
 
-        var keyVaultPageViewModel =new KeyVaultPageViewModel();
+        var keyVaultPageViewModel = new KeyVaultPageViewModel();
         DataContext = keyVaultPageViewModel;
 
         Dispatcher.UIThread.Post(async () =>

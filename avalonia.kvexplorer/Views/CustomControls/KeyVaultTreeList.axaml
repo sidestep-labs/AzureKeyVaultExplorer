@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="avalonia.kvexplorer.Views.CustomControls.KeyVaultTreeList"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:avalonia.kvexplorer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:KeyVaultPageViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:KeyVaultPageViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" SharedSizeGroup="LeftColumn" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="1"
+                Text="{Binding SearchQuery, Mode=TwoWay}"
+                Watermark="Filter key vaults" />
+
+            <ScrollViewer
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="1"
+                VerticalScrollBarVisibility="Visible">
+
+
+                <TreeView
+                    AutoScrollToSelectedItem="True"
+                    ItemsSource="{Binding VaultTreeList}"
+                    PointerPressed="OpenWindowButton_Click"
+                    SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                    SelectionMode="Single">
+
+                    <TreeView.DataTemplates>
+                        <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                            <TextBlock Text="{Binding SubscriptionDisplayName}" />
+                        </TreeDataTemplate>
+                        <DataTemplate DataType="armmodels:KeyVaultResource">
+                            <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
+                        </DataTemplate>
+                    </TreeView.DataTemplates>
+                </TreeView>
+
+            </ScrollViewer>
+
+
+        </Grid>
+    </ScrollViewer>
+</UserControl>

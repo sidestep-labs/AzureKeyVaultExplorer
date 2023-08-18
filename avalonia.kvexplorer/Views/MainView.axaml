@@ -56,6 +56,14 @@
                     Tag="BookmarksPage" />
             </ui:NavigationView.MenuItems>
 
+            <ui:NavigationView.PaneCustomContent>
+                <TextBlock
+                    Name="PaneHyperlink"
+                    Text="More Info"
+                    TextDecorations="Underline" />
+            </ui:NavigationView.PaneCustomContent>
+
+
             <ui:NavigationView.FooterMenuItems>
 
                 <ui:NavigationViewItem

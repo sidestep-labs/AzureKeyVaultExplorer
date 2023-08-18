@@ -29,13 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.2" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.2" />
+    <PackageReference Include="Avalonia" Version="11.0.3" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.3" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 	<PackageReference Include="FluentAvaloniaUI" Version="2.0.1" />
 
 	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-	  <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2" />
+	  <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.3" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
@@ -47,6 +47,9 @@
   <ItemGroup>
     <Compile Update="Views\CustomControls\TitleBarControl.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomControls\KeyVaultTreeList.axaml.cs">
+      <DependentUpon>KeyVaultTreeList.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Pages\KeyVaultViewerPage.axaml.cs">
       <DependentUpon>KeyVaultViewerPage.axaml</DependentUpon>

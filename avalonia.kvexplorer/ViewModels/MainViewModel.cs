@@ -18,6 +18,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     public string email = "unauthenticated";
 
+    [ObservableProperty]
+    public bool isPaneOpen = true;
+
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
 

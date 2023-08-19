@@ -22,11 +22,6 @@ public partial class KeyVaultViewerPage : UserControl
         }, DispatcherPriority.Background);
     }
 
-    //public  void ExpandSubTree(TreeViewItem item)
-    //{
-    //    Console.WriteLine(item);
-    //}
-
     private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)
     {
         if ((sender as TreeView).SelectedItem is not null)
@@ -34,7 +29,4 @@ public partial class KeyVaultViewerPage : UserControl
             Console.WriteLine(sender.ToString());
         }
     }
-
-    
-
 }

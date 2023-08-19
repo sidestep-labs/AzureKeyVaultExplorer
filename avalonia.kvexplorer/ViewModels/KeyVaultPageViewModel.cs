@@ -51,16 +51,16 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         };
 
         secretList = new()
-            {
-                new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
+        {
+            new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
         };
         //foreach (var item in TreeViewList)
         //{
         //    item.PropertyChanged += KeyVaultModel_PropertyChanged;
         //}
-
         // Handle CollectionChanged to attach/detach event handlers for new items
-       TreeViewList.CollectionChanged += TreeViewList_CollectionChanged;
+        TreeViewList.CollectionChanged += TreeViewList_CollectionChanged;
+
         //Dispatcher.UIThread.Post(() => GetAvailableKeyVaults(), DispatcherPriority.Default);
     }
 
@@ -72,6 +72,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
 
         await foreach (var item in resource)
         {
+            item.PropertyChanged += KeyVaultModel_PropertyChanged;
             TreeViewList.Add(item);
         }
     }
@@ -145,6 +146,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             //OnSelectedTreeItemChanged("test");
         }
     }
+
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add)
@@ -155,23 +157,22 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove)
-{
-    foreach (KeyVaultModel oldItem in e.OldItems)
-    {
-        oldItem.PropertyChanged -= KeyVaultModel_PropertyChanged;
-    }
-}
+        {
+            foreach (KeyVaultModel oldItem in e.OldItems)
+            {
+                oldItem.PropertyChanged -= KeyVaultModel_PropertyChanged;
+            }
+        }
     }
 
     private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(KeyVaultModel.IsExpanded))
         {
-            // Handle the expansion change here
             var keyVaultModel = (KeyVaultModel)sender;
             bool isExpanded = keyVaultModel.IsExpanded;
 
-            // Your logic for handling expansion events...
+            // TODO: 
         }
     }
 

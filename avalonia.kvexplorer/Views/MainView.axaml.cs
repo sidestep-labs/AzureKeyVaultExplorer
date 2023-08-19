@@ -31,7 +31,8 @@ public partial class MainView : UserControl
 
         var vm = new MainViewModel();
         _navView = this.FindControl<NavigationView>("NavView");
-        var navViewItems = _navView.MenuItems.Cast<NavigationViewItem>();
+        var navViewItems = _navView.MenuItems;
+        var navMenuItems = navViewItems.TakeLast(2).Cast<NavigationViewItem>();
         var footerItems = _navView.FooterMenuItems.Cast<NavigationViewItem>();
 
         DataContext = vm;
@@ -47,11 +48,12 @@ public partial class MainView : UserControl
 
         //todo remove
         var pages = NavigationFactory.GetPages();
-        navViewItems.ElementAt(0).Tag = pages[0];
-        navViewItems.ElementAt(1).Tag = pages[1];
+        navMenuItems.ElementAt(0).Tag = pages[0];
+        navMenuItems.ElementAt(1).Tag = pages[1];
         footerItems.ElementAt(0).Tag = pages[2];
 
-        NavView.MenuItemsSource = navViewItems;
+        
+        NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
         NavView.FooterMenuItemsSource = footerItems;
 
         //NavView.MenuItemsSource = GetNavigationViewItems();
@@ -87,7 +89,7 @@ public partial class MainView : UserControl
     {
         var page = e.Content as Control;
 
-        foreach (NavigationViewItem nvi in NavView.MenuItems)
+        foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
         {
             if (nvi.Tag != null && nvi.Tag.Equals(page))
             {

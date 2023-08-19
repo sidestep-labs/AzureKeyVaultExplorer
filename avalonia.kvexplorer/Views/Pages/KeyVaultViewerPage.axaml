@@ -47,11 +47,17 @@
 
                 <TreeView
                     AutoScrollToSelectedItem="True"
-                    ItemsSource="{Binding VaultTreeList}"
+                    ItemsSource="{Binding TreeViewList}"
                     SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
                     SelectionMode="Single">
 
+                    <TreeView.Styles>
+                        <Style Selector="TreeViewItem">
+                            <Setter x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        </Style>
+                    </TreeView.Styles>
                     <TreeView.DataTemplates>
+
                         <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
                             <TextBlock Text="{Binding SubscriptionDisplayName}" />
                         </TreeDataTemplate>

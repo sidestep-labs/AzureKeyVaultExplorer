@@ -44,7 +44,7 @@ public class VaultService
     {
         var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
         var armClient = new ArmClient(token);
-        foreach (var subscription in armClient.GetSubscriptions().ToArray())
+        foreach (var subscription in armClient.GetSubscriptions())
         {
             var resource = new KeyVaultModel
             {
@@ -54,6 +54,27 @@ public class VaultService
             await foreach (var kvResource in subscription.GetKeyVaultsAsync())
             {
                 resource.KeyVaultResources.Add(kvResource);
+            }
+
+            yield return resource;
+        }
+    }
+
+    public async IAsyncEnumerable<KeyVaultModel> GetKeyVaultResourceBySubscriptionAndResourceGroupTestBADDD()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+        foreach (var subscription in armClient.GetSubscriptions())
+        {
+            var resource = new KeyVaultModel
+            {
+                SubscriptionDisplayName = subscription.Data.DisplayName,
+                SubscriptionId = subscription.Data.Id
+            };
+            await foreach (var kvResource in subscription.GetKeyVaultsAsync())
+            {
+                resource.KeyVaultResources.Add(kvResource);
+                break;
             }
 
             yield return resource;

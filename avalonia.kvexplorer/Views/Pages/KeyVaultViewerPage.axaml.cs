@@ -1,6 +1,9 @@
 ﻿using avalonia.kvexplorer.ViewModels;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using System;
+using System.ComponentModel;
 
 namespace avalonia.kvexplorer.Views.Pages;
 
@@ -18,4 +21,20 @@ public partial class KeyVaultViewerPage : UserControl
             await keyVaultPageViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
         }, DispatcherPriority.Background);
     }
+
+    //public  void ExpandSubTree(TreeViewItem item)
+    //{
+    //    Console.WriteLine(item);
+    //}
+
+    private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)
+    {
+        if ((sender as TreeView).SelectedItem is not null)
+        {
+            Console.WriteLine(sender.ToString());
+        }
+    }
+
+    
+
 }

@@ -1,12 +1,15 @@
-﻿using Azure.ResourceManager.KeyVault;
+﻿using Avalonia.Controls;
+using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
@@ -23,7 +26,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     public KeyVaultResource selectedTreeItem;
 
     [ObservableProperty]
-    public ObservableCollection<KeyVaultModel> vaultTreeList;
+    public ObservableCollection<KeyVaultModel> treeViewList;
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
@@ -37,7 +40,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         PropertyChanged += OnMyViewModelPropertyChanged;
 
-        vaultTreeList = new ObservableCollection<KeyVaultModel>
+        treeViewList = new ObservableCollection<KeyVaultModel>
         {
             new KeyVaultModel
             {
@@ -51,22 +54,29 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             {
                 new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
         };
+        //foreach (var item in TreeViewList)
+        //{
+        //    item.PropertyChanged += KeyVaultModel_PropertyChanged;
+        //}
 
+        // Handle CollectionChanged to attach/detach event handlers for new items
+       TreeViewList.CollectionChanged += TreeViewList_CollectionChanged;
         //Dispatcher.UIThread.Post(() => GetAvailableKeyVaults(), DispatcherPriority.Default);
     }
-
-    public TitleBarViewModel TitleBarViewModel { get; set; }
 
     [RelayCommand]
     public async Task GetAvailableKeyVaults()
     {
         await Login();
-        var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
+        var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroupTestBADDD();
+
         await foreach (var item in resource)
         {
-            VaultTreeList.Add(item);
+            TreeViewList.Add(item);
         }
     }
+
+    #region later
 
     public ObservableCollection<DocumentItem> Documents { get; }
 
@@ -116,6 +126,8 @@ public partial class KeyVaultPageViewModel : ViewModelBase
 
     private DocumentItem _keybindingSelectedDocument;
 
+    #endregion later
+
     [RelayCommand]
     private async Task Login()
     {
@@ -125,35 +137,53 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             await _authService.LoginAsync(cancellation);
     }
 
-    //if (SelectedTreeViewItems == null) return;
-
-    //var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeViewItems);
-    //await foreach (var secret in vault)
-    //{
-    //    SecretList.Add(secret);
-    //}
-
     private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(SelectedTreeItem))
         {
             // Handle changes to the SelectedTreeItem property here
-            OnSelectedTreeItemChanged("test");
+            //OnSelectedTreeItemChanged("test");
         }
     }
-
-    private async void OnSelectedTreeItemChanged(object value)
+    private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        // Handle the SelectedTreeItem property change event here
-        if (SelectedTreeItem == null) return;
-        var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeItem.Data.Properties.VaultUri);
-        await foreach (var secret in vault)
+        if (e.Action == NotifyCollectionChangedAction.Add)
         {
-            SecretList.Add(secret);
-            Debug.WriteLine($"value, {value}");
+            foreach (KeyVaultModel newItem in e.NewItems)
+            {
+                newItem.PropertyChanged += KeyVaultModel_PropertyChanged;
+            }
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove)
+{
+    foreach (KeyVaultModel oldItem in e.OldItems)
+    {
+        oldItem.PropertyChanged -= KeyVaultModel_PropertyChanged;
+    }
+}
+    }
+
+    private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(KeyVaultModel.IsExpanded))
+        {
+            // Handle the expansion change here
+            var keyVaultModel = (KeyVaultModel)sender;
+            bool isExpanded = keyVaultModel.IsExpanded;
+
+            // Your logic for handling expansion events...
         }
     }
 
-
-
+    //private async void OnSelectedTreeItemChanged(object value)
+    //{
+    //    // Handle the SelectedTreeItem property change event here
+    //    if (SelectedTreeItem == null) return;
+    //    var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeItem.Data.Properties.VaultUri);
+    //    await foreach (var secret in vault)
+    //    {
+    //        SecretList.Add(secret);
+    //        Debug.WriteLine($"value, {value}");
+    //    }
+    //}
 }

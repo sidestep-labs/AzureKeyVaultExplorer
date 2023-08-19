@@ -22,11 +22,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" SharedSizeGroup="LeftColumn" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
 
             <TextBox
                 Grid.Row="0"
@@ -41,12 +43,11 @@
                 Grid.ColumnSpan="1"
                 VerticalScrollBarVisibility="Visible">
 
-
                 <TreeView
                     AutoScrollToSelectedItem="True"
-                    ItemsSource="{Binding VaultTreeList}"
-                    PointerPressed="OpenWindowButton_Click"
+                    ItemsSource="{Binding TreeViewList}"
                     SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                    SelectionChanged="OnTreeListSelectionChangedTest"
                     SelectionMode="Single">
 
                     <TreeView.DataTemplates>

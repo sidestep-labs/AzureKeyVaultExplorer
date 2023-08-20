@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,8 +13,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace avalonia.kvexplorer.ViewModels;
 
@@ -46,7 +49,8 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             {
                 SubscriptionDisplayName = "Sandbox Subscription",
                 SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ }
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
             },
         };
 
@@ -68,8 +72,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     public async Task GetAvailableKeyVaults()
     {
         await Login();
-        var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroupTestBADDD();
-
+        var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
         await foreach (var item in resource)
         {
             item.PropertyChanged += KeyVaultModel_PropertyChanged;
@@ -160,7 +163,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         {
             foreach (KeyVaultModel oldItem in e.OldItems)
             {
-                oldItem.PropertyChanged -= KeyVaultModel_PropertyChanged;
+                oldItem.PropertyChanged -= KeyVaultModel_PropertyRemoved;
             }
         }
     }
@@ -171,20 +174,49 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         {
             var keyVaultModel = (KeyVaultModel)sender;
             bool isExpanded = keyVaultModel.IsExpanded;
+            if (isExpanded) { 
+            Dispatcher.UIThread.Invoke( async () =>
+            {
+                //keyVaultModel.KeyVaultResources.Clear();
+                await foreach (var item in _vaultService.GetWithKeyVaultsBySubscriptionAsync(keyVaultModel))
+                {
+                    keyVaultModel.KeyVaultResources.Add(item);
+                }
 
-            // TODO: 
+            });
+        }
         }
     }
 
-    //private async void OnSelectedTreeItemChanged(object value)
-    //{
-    //    // Handle the SelectedTreeItem property change event here
-    //    if (SelectedTreeItem == null) return;
-    //    var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeItem.Data.Properties.VaultUri);
-    //    await foreach (var secret in vault)
-    //    {
-    //        SecretList.Add(secret);
-    //        Debug.WriteLine($"value, {value}");
-    //    }
-    //}
+
+    private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
+    {
+        
+    }
+
+    /*
+    private async void OnSelectedTreeItemChanged(object value)
+    {
+        // Handle the SelectedTreeItem property change event here
+        if (SelectedTreeItem == null) return;
+        var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeItem.Data.Properties.VaultUri);
+        await foreach (var secret in vault)
+        {
+            SecretList.Add(secret);
+            Debug.WriteLine($"value, {value}");
+        }
+    }
+
+
+       Dispatcher.UIThread.Post(async () =>
+            {
+                var model = TreeViewList.Single(k => k.SubscriptionId == keyVaultModel.SubscriptionId);
+                //keyVaultModel.KeyVaultResources.Clear();
+                await foreach (var item in _vaultService.GetWithKeyVaultsBySubscriptionAsync(keyVaultModel))
+                {
+                    TreeViewList.Single(k => k.SubscriptionId == keyVaultModel.SubscriptionId).KeyVaultResources.Add(item);
+                }
+            });
+
+    */
 }

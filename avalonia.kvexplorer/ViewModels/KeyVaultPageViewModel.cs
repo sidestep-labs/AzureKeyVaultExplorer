@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static kvexplorer.shared.VaultService;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace avalonia.kvexplorer.ViewModels;
@@ -168,22 +169,18 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         }
     }
 
-    private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private  void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(KeyVaultModel.IsExpanded))
         {
             var keyVaultModel = (KeyVaultModel)sender;
             bool isExpanded = keyVaultModel.IsExpanded;
-            if (isExpanded) { 
-            Dispatcher.UIThread.Invoke( async () =>
-            {
-                //keyVaultModel.KeyVaultResources.Clear();
-                await foreach (var item in _vaultService.GetWithKeyVaultsBySubscriptionAsync(keyVaultModel))
-                {
-                    keyVaultModel.KeyVaultResources.Add(item);
-                }
+            if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder))) {
 
-            });
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    _vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel);
+                }, DispatcherPriority.ApplicationIdle);
         }
         }
     }

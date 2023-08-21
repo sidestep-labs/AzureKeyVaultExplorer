@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
@@ -186,10 +187,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     }
 
 
-    private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
-    {
-        
-    }
+    private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e) {  }
 
     /*
     private async void OnSelectedTreeItemChanged(object value)
@@ -203,17 +201,6 @@ public partial class KeyVaultPageViewModel : ViewModelBase
             Debug.WriteLine($"value, {value}");
         }
     }
-
-
-       Dispatcher.UIThread.Post(async () =>
-            {
-                var model = TreeViewList.Single(k => k.SubscriptionId == keyVaultModel.SubscriptionId);
-                //keyVaultModel.KeyVaultResources.Clear();
-                await foreach (var item in _vaultService.GetWithKeyVaultsBySubscriptionAsync(keyVaultModel))
-                {
-                    TreeViewList.Single(k => k.SubscriptionId == keyVaultModel.SubscriptionId).KeyVaultResources.Add(item);
-                }
-            });
 
     */
 }

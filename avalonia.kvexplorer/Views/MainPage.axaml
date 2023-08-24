@@ -13,7 +13,7 @@
     <Design.DataContext />
 
     <ScrollViewer>
-        <Grid Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
+        <Grid>
             <Grid.Resources>
                 <x:Double x:Key="TileHeight">150</x:Double>
             </Grid.Resources>
@@ -32,8 +32,8 @@
             <Grid
                 Grid.Row="3"
                 Grid.ColumnSpan="3"
-                Margin="6,12">
-                <TextBlock>Main Page</TextBlock>
+                Margin="6,12"
+                Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
                 <pages:KeyVaultViewerPage />
             </Grid>
         </Grid>

@@ -79,6 +79,23 @@ public class VaultService
             resource.KeyVaultResources.Add(kvResource);
         }
     }
+    public IEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KeyVaultModel resource)
+    {
+        foreach (var kvResource in resource.Subscription.GetKeyVaults())
+        {
+            yield return kvResource;
+        }
+    }
+
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscriptionAsync( KeyVaultModel resource)
+    {
+        resource.KeyVaultResources.Clear();
+        foreach (var kvResource in resource.Subscription.GetKeyVaults())
+        {
+            yield return kvResource;
+        }
+    }
+
 
 
 

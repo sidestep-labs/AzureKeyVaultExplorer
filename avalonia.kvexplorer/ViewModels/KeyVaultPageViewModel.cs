@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,17 +6,14 @@ using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static kvexplorer.shared.VaultService;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace avalonia.kvexplorer.ViewModels;
 
@@ -170,24 +165,30 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         }
     }
 
-    private  void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(KeyVaultModel.IsExpanded))
         {
             var keyVaultModel = (KeyVaultModel)sender;
             bool isExpanded = keyVaultModel.IsExpanded;
-            if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder))) {
-
+            if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder)))
+            {
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     _vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel);
-                }, DispatcherPriority.ApplicationIdle);
-        }
+                    //keyVaultModel.KeyVaultResources.Clear();
+                    //var vaults = _vaultService.GetKeyVaultsBySubscription(keyVaultModel);
+                    //foreach (var vault in vaults)
+                    //{
+                    //    keyVaultModel.KeyVaultResources.Add(vault);
+                    //}
+                }, DispatcherPriority.ContextIdle);
+            }
         }
     }
 
-
-    private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e) {  }
+    private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
+    { }
 
     /*
     private async void OnSelectedTreeItemChanged(object value)

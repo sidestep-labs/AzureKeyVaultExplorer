@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:con="using:FluentAvalonia.UI.Controls"
+    xmlns:custom="clr-namespace:avalonia.kvexplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
@@ -41,12 +42,12 @@
             Classes="NavView"
             IsBackButtonVisible="False"
             IsBackEnabled="True"
-			PaneDisplayMode="Left"
-            IsSettingsVisible="False">
+            IsSettingsVisible="False"
+            PaneDisplayMode="Left">
 
-			
+
             <ui:NavigationView.MenuItems>
-				<ui:NavigationViewItemHeader Content="Actions" />
+                <ui:NavigationViewItemHeader Content="Actions" />
                 <ui:NavigationViewItem
                     Content="Home"
                     IconSource="Home"
@@ -59,12 +60,10 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.PaneCustomContent>
-				
-                <TextBlock
-                    Name="PaneHyperlink"
-                    IsVisible="{Binding IsPaneOpen}"
-                    Text="More Info"
-                    TextDecorations="Underline" />
+
+                <Panel IsVisible="{Binding #NavView.IsPaneOpen}">
+                    <custom:KeyVaultTreeList />
+                </Panel>
             </ui:NavigationView.PaneCustomContent>
 
 

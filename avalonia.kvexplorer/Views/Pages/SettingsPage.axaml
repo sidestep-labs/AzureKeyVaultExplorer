@@ -23,7 +23,7 @@
             <TextBlock Text="{Binding Path=AuthenticatedUserClaims.TenantId, StringFormat='TenantId: {0}'}" />
             <TextBlock>Subscription:</TextBlock>
 
-            <Button Command="{Binding SignInOrRefreshTokenCommand}">Sign In With Microsoft Account</Button>
+            <Button Command="{Binding SignInOrRefreshTokenCommand}">Sign In with Microsoft Account</Button>
             <Button Command="{Binding SignOutCommand}">Sign out</Button>
 
         </StackPanel>

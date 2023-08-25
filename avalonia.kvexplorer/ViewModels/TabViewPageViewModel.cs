@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using avalonia.kvexplorer.ViewModels;
 using avalonia.kvexplorer.ViewModels.Models;
+using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
@@ -16,7 +17,6 @@ public partial class TabViewPageViewModel : ViewModelBase
         {
             Documents.Add(AddDocument(i));
         }
-
     }
 
     [ObservableProperty]
@@ -30,9 +30,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     //    set => RaiseAndSetIfChanged(ref _keybindingSelectedDocument, value);
     //}
 
-
     public string KeyBindingText { get; set; }
-
 
     [RelayCommand]
     private void AddDocument(object obj)
@@ -41,12 +39,19 @@ public partial class TabViewPageViewModel : ViewModelBase
         Documents.Add(doc);
     }
 
-
     private DocumentItem AddDocument(int index)
     {
         var tab = new DocumentItem
         {
-            Header = $"My document {index}"
+            Header = $"My document {index}",
+            Vault = new Vault("tet"),
+            SecretList = new()
+        {
+            new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("AzureAPIKey" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+        }
         };
 
         switch (index % 3)
@@ -59,6 +64,7 @@ public partial class TabViewPageViewModel : ViewModelBase
             case 1:
                 tab.IconSource = new SymbolIconSource { Symbol = Symbol.Star };
                 tab.Content = "This is another sample document. Switch tabs to view more.";
+
                 break;
 
             case 2:
@@ -69,7 +75,4 @@ public partial class TabViewPageViewModel : ViewModelBase
 
         return tab;
     }
-
 }
-
-

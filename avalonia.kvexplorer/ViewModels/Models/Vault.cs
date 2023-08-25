@@ -2,30 +2,40 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using static kvexplorer.shared.VaultService;
 
 namespace avalonia.kvexplorer.ViewModels.Models;
 
-public partial class Vault : ObservableObject
+public partial class Vault
 {
     //private readonly VaultService _vaultService;
 
-    [ObservableProperty]
-    private ObservableCollection<SecretProperties> secretList;
-
-    [ObservableProperty]
-    private string header;
-
-    [ObservableProperty]
-    public IconSource iconSource;
-
+    private List<SecretProperties> SecretList;
     public Vault()
     {
-       // _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        secretList = new()
+        // _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+        SecretList = new()
         {
             new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("AzureAPIKey" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+
+        };
+    }
+
+    public Vault(string vaultName)
+    {
+        // _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+        SecretList = new()
+        {
+            new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("AzureAPIKey" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+            new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
+
         };
     }
 }

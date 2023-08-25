@@ -45,9 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\CustomControls\VaultItem.axaml.cs">
-      <DependentUpon>VaultItem.axaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\CustomControls\TitleBarControl.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

@@ -2,7 +2,7 @@
     x:Class="avalonia.kvexplorer.Views.Pages.TabViewPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:armmodels="clr-namespace:Azure.Security.KeyVault.Secrets;assembly=Azure.Security.KeyVault.Secrets"
     xmlns:custom="clr-namespace:avalonia.kvexplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -73,21 +73,15 @@
                     </ui:TabViewItem>-->
                     <ui:TabView.TabItemTemplate>
                         <DataTemplate DataType="vmm:DocumentItem">
-                            <ui:TabViewItem
-                                Content="{Binding Content}"
-                                Header="{Binding Header}"
-                                IconSource="{Binding IconSource}">
+                            <ui:TabViewItem Header="{Binding Header}" IconSource="{Binding IconSource}">
 
-                                <!--<ScrollViewer
-                                    Margin="5"
-                                    Padding="5"
-                                    VerticalScrollBarVisibility="Hidden">
+                                <ScrollViewer Margin="5" VerticalScrollBarVisibility="Hidden">
                                     <DataGrid
                                         Name="MyDataGrid"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         CanUserReorderColumns="True"
-                                        ItemsSource="{Binding Vault.SecretList}">
+                                        ItemsSource="{Binding SecretList}">
                                         <DataGrid.Styles>
                                             <Style Selector="DataGridRow">
                                                 <Setter Property="Margin" Value="0" />
@@ -125,7 +119,7 @@
                                             </Style>
                                         </DataGrid.Styles>
                                     </DataGrid>
-                                </ScrollViewer>-->
+                                </ScrollViewer>
                             </ui:TabViewItem>
                         </DataTemplate>
                     </ui:TabView.TabItemTemplate>

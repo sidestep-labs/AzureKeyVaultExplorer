@@ -21,50 +21,32 @@ public partial class TabViewPage : UserControl
         InitializeComponent();
         var vm = new TabViewPageViewModel();
         DataContext = vm;
-       
     }
 
-    private void TabView_AddButtonClick(TabView sender, EventArgs args)
-    {
-        (sender.TabItems as IList).Add(CreateNewTab(sender.TabItems.Count()));
-    }
+    //private void TabView_AddButtonClick(TabView sender, EventArgs args)
+    //{
+    //    (sender.TabItems as IList).Add(CreateNewTab(sender.TabItems.Count()));
+    //}
 
     private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
     {
         (sender.TabItems as IList).Remove(args.Tab);
     }
 
-    private DocumentItem CreateNewTab(int index)
-    {
-        var tvi = new DocumentItem
-        {
-            Header = $"Vault Item {index}",
-            Content = $"Vault Item {index}",
-            IconSource = new SymbolIconSource { Symbol = Symbol.List }
-        };
-
-        switch (index % 3)
-        {
-            case 0:
-                tvi.Vault = new Vault();
-                break;
-
-            case 1:
-                tvi.Vault = new Vault();
-                break;
-
-            case 2:
-                tvi.Vault = new Vault();
-                break;
-        }
-
-        return tvi;
-    }
+    //private DocumentItem CreateNewTab(int index)
+    //{
+    //    var tvi = new DocumentItem
+    //    {
+    //        Header = $"Vault Item {index}",
+    //        Content = $"Vault Item {index}",
+    //        IconSource = new SymbolIconSource { Symbol = Symbol.List },
+    //        Vault = new Vault("tet")
+    //    };
+    //    return tvi;
+    //}
 
     private void BindingTabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
     {
         (DataContext as TabViewPageViewModel).Documents.Remove(args.Item as DocumentItem);
     }
-
-
 }

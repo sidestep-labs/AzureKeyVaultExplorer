@@ -1,4 +1,5 @@
 ﻿using avalonia.kvexplorer.ViewModels;
+using avalonia.kvexplorer.ViewModels.Models;
 using avalonia.kvexplorer.Views.CustomControls;
 using Avalonia;
 using Avalonia.Controls;
@@ -18,10 +19,8 @@ public partial class TabViewPage : UserControl
     public TabViewPage()
     {
         InitializeComponent();
-
         var vm = new TabViewPageViewModel();
         DataContext = vm;
-
        
     }
 
@@ -35,26 +34,27 @@ public partial class TabViewPage : UserControl
         (sender.TabItems as IList).Remove(args.Tab);
     }
 
-    private TabViewItem CreateNewTab(int index)
+    private DocumentItem CreateNewTab(int index)
     {
-        var tvi = new TabViewItem
+        var tvi = new DocumentItem
         {
             Header = $"Vault Item {index}",
-            IconSource = new SymbolIconSource { Symbol = Symbol.Document }
+            Content = $"Vault Item {index}",
+            IconSource = new SymbolIconSource { Symbol = Symbol.List }
         };
 
         switch (index % 3)
         {
             case 0:
-                tvi.Content = new VaultItem();
+                tvi.Vault = new Vault();
                 break;
 
             case 1:
-                tvi.Content = new VaultItem();
+                tvi.Vault = new Vault();
                 break;
 
             case 2:
-                tvi.Content = new VaultItem();
+                tvi.Vault = new Vault();
                 break;
         }
 
@@ -65,5 +65,6 @@ public partial class TabViewPage : UserControl
     {
         (DataContext as TabViewPageViewModel).Documents.Remove(args.Item as DocumentItem);
     }
+
 
 }

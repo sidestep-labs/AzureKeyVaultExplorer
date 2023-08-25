@@ -24,6 +24,12 @@ public partial class VaultItemViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
 
+    [ObservableProperty]
+    private string header;
+
+    [ObservableProperty]
+    public IconSource iconSource;
+
     public VaultItemViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();

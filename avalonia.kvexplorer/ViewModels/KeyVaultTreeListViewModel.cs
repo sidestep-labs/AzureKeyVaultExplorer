@@ -31,8 +31,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
 
-    [ObservableProperty]
-    private ObservableCollection<SecretProperties> secretList;
 
     public KeyVaultTreeListViewModel()
     {
@@ -51,10 +49,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             },
         };
 
-        secretList = new()
-        {
-            new SecretProperties("Salesforce Password") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), },
-        };
+       
         //foreach (var item in TreeViewList)
         //{
         //    item.PropertyChanged += KeyVaultModel_PropertyChanged;
@@ -139,18 +134,4 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
 
-    /*
-    private async void OnSelectedTreeItemChanged(object value)
-    {
-        // Handle the SelectedTreeItem property change event here
-        if (SelectedTreeItem == null) return;
-        var vault = _vaultService.GetVaultAssociatedSecrets(SelectedTreeItem.Data.Properties.VaultUri);
-        await foreach (var secret in vault)
-        {
-            SecretList.Add(secret);
-            Debug.WriteLine($"value, {value}");
-        }
-    }
-
-    */
 }

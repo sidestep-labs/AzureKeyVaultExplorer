@@ -34,7 +34,7 @@
                 Grid.ColumnSpan="3"
                 Margin="0"
                 Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
-                <pages:KeyVaultViewerPage />
+                <pages:TabViewPage />
             </Grid>
         </Grid>
     </ScrollViewer>

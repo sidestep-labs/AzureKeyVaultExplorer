@@ -17,7 +17,7 @@ using static kvexplorer.shared.VaultService;
 
 namespace avalonia.kvexplorer.ViewModels;
 
-public partial class KeyVaultPageViewModel : ViewModelBase
+public partial class KeyVaultTreeListViewModel : ViewModelBase
 {
     [ObservableProperty]
     public string searchQuery;
@@ -34,7 +34,7 @@ public partial class KeyVaultPageViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SecretProperties> secretList;
 
-    public KeyVaultPageViewModel()
+    public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -77,57 +77,6 @@ public partial class KeyVaultPageViewModel : ViewModelBase
         }
     }
 
-    #region later
-
-    public ObservableCollection<DocumentItem> Documents { get; }
-
-    public FACommand AddDocumentCommand { get; }
-
-    private void AddDocumentExecute(object obj)
-    {
-        Documents.Add(AddDocument(Documents.Count));
-    }
-
-    public class DocumentItem
-    {
-        public string Header { get; set; }
-
-        public IconSource IconSource { get; set; }
-
-        public string Content { get; set; }
-    }
-
-    private DocumentItem AddDocument(int index)
-    {
-        var tab = new DocumentItem
-        {
-            Header = $"My document {index}"
-        };
-
-        switch (index % 3)
-        {
-            case 0:
-                tab.IconSource = new SymbolIconSource { Symbol = Symbol.Document };
-                tab.Content = "This is a sample document. Switch tabs to view more.";
-                break;
-
-            case 1:
-                tab.IconSource = new SymbolIconSource { Symbol = Symbol.Star };
-                tab.Content = "This is another sample document. Switch tabs to view more.";
-                break;
-
-            case 2:
-                tab.IconSource = new SymbolIconSource { Symbol = Symbol.Open };
-                tab.Content = "This is yet another sample document. Switch tabs to view more.";
-                break;
-        }
-
-        return tab;
-    }
-
-    private DocumentItem _keybindingSelectedDocument;
-
-    #endregion later
 
     [RelayCommand]
     private async Task Login()

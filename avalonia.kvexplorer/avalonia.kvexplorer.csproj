@@ -45,14 +45,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\CustomControls\VaultItem.axaml.cs">
+      <DependentUpon>VaultItem.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CustomControls\TitleBarControl.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Views\CustomControls\KeyVaultTreeList.axaml.cs">
       <DependentUpon>KeyVaultTreeList.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Pages\KeyVaultViewerPage.axaml.cs">
-      <DependentUpon>KeyVaultViewerPage.axaml</DependentUpon>
+    <Compile Update="Views\Pages\TabViewPage.axaml.cs">
+      <DependentUpon>TabViewPage.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Pages\SettingsPage.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>

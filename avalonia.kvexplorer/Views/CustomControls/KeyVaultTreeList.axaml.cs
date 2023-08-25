@@ -14,12 +14,12 @@ public partial class KeyVaultTreeList : UserControl
     {
         InitializeComponent();
 
-        var keyVaultPageViewModel = new KeyVaultPageViewModel();
-        DataContext = keyVaultPageViewModel;
+        var keyVaultTreeListViewModel = new KeyVaultTreeListViewModel();
+        DataContext = keyVaultTreeListViewModel;
 
         Dispatcher.UIThread.Post(async () =>
         {
-            await keyVaultPageViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
+            await keyVaultTreeListViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
         }, DispatcherPriority.Background);
     }
 

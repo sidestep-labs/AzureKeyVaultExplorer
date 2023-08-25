@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace avalonia.kvexplorer.Views.CustomControls;
 
@@ -27,12 +28,12 @@ public partial class KeyVaultTreeList : UserControl
 
      if ((sender as TreeView).SelectedItem is not null)
         {
-            Console.WriteLine(sender.ToString());
-        } 
+            Debug.WriteLine(sender.ToString());
+        }
     }
     private void PointerPressedx(object sender, PropertyChangedEventArgs e)
     {
         // Handle changes to the SelectedTreeItem property here
-        System.Console.WriteLine("PointerPressed");
+        Debug.WriteLine("PointerPressed");
     }
 }

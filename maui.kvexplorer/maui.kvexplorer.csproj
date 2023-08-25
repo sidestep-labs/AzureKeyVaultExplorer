@@ -102,19 +102,19 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-preview.4.8333" />
-		<PackageReference Include="Azure.ResourceManager" Version="1.6.0" />
-		<PackageReference Include="Azure.ResourceManager.KeyVault" Version="1.1.0" />
+		<PackageReference Include="Azure.ResourceManager" Version="1.8.0-beta.1" />
+		<PackageReference Include="Azure.ResourceManager.KeyVault" Version="1.2.0-beta.2" />
 		<PackageReference Include="Azure.Security.KeyVault.Certificates" Version="4.5.1" />
 		<PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.5.0" />
 		<PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.5.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
-		<PackageReference Include="Microsoft.Identity.Client" Version="4.54.1" />
-		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.31.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0-preview.7.23375.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0-preview.7.23375.6" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0-preview.7.23375.6" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.55.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.32.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0-preview3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -173,7 +173,7 @@
 	  </None>
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.0-preview.5.8529" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.0-preview.7.8842" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.0-preview.5.8529" />

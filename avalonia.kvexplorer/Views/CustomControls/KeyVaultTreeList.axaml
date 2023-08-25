@@ -25,8 +25,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" SharedSizeGroup="LeftColumn" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" SharedSizeGroup="LeftColumn" />
             </Grid.ColumnDefinitions>
             <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
 

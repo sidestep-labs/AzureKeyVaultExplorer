@@ -29,7 +29,9 @@ public partial class SettingsPageViewModel : ViewModelBase
         var account = await _authService.RefreshTokenAsync(cancellation);
 
         if (account is null)
+        {
             account = await _authService.LoginAsync(cancellation);
+        }
 
         AuthenticatedUserClaims = new AuthenticatedUserClaims()
         {

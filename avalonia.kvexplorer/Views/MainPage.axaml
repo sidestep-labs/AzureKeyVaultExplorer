@@ -32,7 +32,7 @@
             <Grid
                 Grid.Row="3"
                 Grid.ColumnSpan="3"
-                Margin="6,12"
+                Margin="0"
                 Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
                 <pages:KeyVaultViewerPage />
             </Grid>

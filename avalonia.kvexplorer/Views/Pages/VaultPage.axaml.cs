@@ -11,8 +11,4 @@ public partial class VaultPage : UserControl
         DataContext = new VaultPageViewModel();
     }
 
-
-
-
-
 }

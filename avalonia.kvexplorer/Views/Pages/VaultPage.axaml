@@ -14,46 +14,53 @@
         <vm:VaultPageViewModel />
     </Design.DataContext>
 
-    <ScrollViewer>
+    <Grid
+        Margin="0,10,0,0"
+        ColumnDefinitions="*, *, *"
+        RowDefinitions="Auto,*">
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="3"
+            Margin="0,0,10,0"
+            Text="{Binding SearchQuery, Mode=TwoWay}"
+            Watermark="Filter values" />
 
-        <DataGrid
-            Name="MyDataGrid"
-            Margin="10"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            CanUserReorderColumns="True"
-            IsReadOnly="True"
-            ItemsSource="{Binding SecretList}">
-            <DataGrid.Styles>
-                <Style Selector="DataGridRow">
-                    <Setter Property="Margin" Value="0" />
-                    <Setter Property="Height" Value="20" />
-                </Style>
-                <Style Selector="DataGridColumnHeader">
-                    <Setter Property="Margin" Value="0" />
-                </Style>
-            </DataGrid.Styles>
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="3">
+            <DataGrid
+                Name="MyDataGrid"
+                Margin="10"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CanUserReorderColumns="True"
+                GridLinesVisibility="All"
+                IsReadOnly="True"
+                ItemsSource="{Binding SecretList}">
 
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Name}"
-                    Header="Name" />
-                <DataGridTextColumn Binding="{Binding Version}" Header="Version" />
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding VaultUri}"
-                    Header="VaultUri" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding ContentType}"
-                    Header="ContentType" />
-            </DataGrid.Columns>
-            <DataGrid.Styles>
-                <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                    <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-                </Style>
-            </DataGrid.Styles>
-        </DataGrid>
-    </ScrollViewer>
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn Binding="{Binding Version}" Header="Version" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding VaultUri}"
+                        Header="VaultUri" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding ContentType}"
+                        Header="ContentType" />
+                </DataGrid.Columns>
+                <DataGrid.Styles>
+                    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+                    </Style>
+                    <Style Selector="DataGridRow">
+                        <Setter Property="Height" Value="25" />
+                    </Style>
+                </DataGrid.Styles>
+            </DataGrid>
+        </ScrollViewer>
+
+    </Grid>
 </UserControl>

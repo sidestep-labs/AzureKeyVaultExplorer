@@ -47,6 +47,6 @@ public partial class TabViewPage : UserControl
 
     private void BindingTabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
     {
-        (DataContext as TabViewPageViewModel).Documents.Remove(args.Item as DocumentItem);
+        (DataContext as TabViewPageViewModel).Documents.Remove(args.Item as TabViewItem);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using avalonia.kvexplorer.ViewModels;
 using avalonia.kvexplorer.ViewModels.Models;
+using avalonia.kvexplorer.Views.Pages;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,7 +13,7 @@ public partial class TabViewPageViewModel : ViewModelBase
 {
     public TabViewPageViewModel()
     {
-        Documents = new ObservableCollection<DocumentItem>();
+        Documents = new ObservableCollection<TabViewItem>();
         for (int i = 0; i < 3; i++)
         {
             Documents.Add(AddDocument(i));
@@ -20,9 +21,9 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public ObservableCollection<DocumentItem> documents;
+    public ObservableCollection<TabViewItem> documents;
 
-    public ObservableCollection<DocumentItem> KeyBindingDocuments { get; }
+    public ObservableCollection<TabViewItem> KeyBindingDocuments { get; }
 
     //public DocumentItem KeyBindingSelectedDocument
     //{
@@ -39,37 +40,28 @@ public partial class TabViewPageViewModel : ViewModelBase
         Documents.Add(doc);
     }
 
-    private DocumentItem AddDocument(int index)
+    private TabViewItem AddDocument(int index)
     {
-        var tab = new DocumentItem
+        var tab = new TabViewItem
         {
             Header = $"My document {index}",
-            Vault = new Vault("tet"),
-            SecretList = new()
-        {
-            new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("AzureAPIKey" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-        }
         };
 
         switch (index % 3)
         {
             case 0:
                 tab.IconSource = new SymbolIconSource { Symbol = Symbol.Document };
-                tab.Content = "This is a sample document. Switch tabs to view more.";
+                tab.Content = new VaultPage();
                 break;
 
             case 1:
                 tab.IconSource = new SymbolIconSource { Symbol = Symbol.Star };
-                tab.Content = "This is another sample document. Switch tabs to view more.";
-
+                tab.Content = new VaultPage();
                 break;
 
             case 2:
                 tab.IconSource = new SymbolIconSource { Symbol = Symbol.Open };
-                tab.Content = "This is yet another sample document. Switch tabs to view more.";
+                tab.Content = new VaultPage();
                 break;
         }
 

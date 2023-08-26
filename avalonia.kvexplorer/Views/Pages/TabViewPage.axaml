@@ -19,10 +19,6 @@
         <vm:TabViewPageViewModel />
     </Design.DataContext>
 
-
-
-
-
     <Grid
         Grid.Row="0"
         Grid.RowSpan="2"
@@ -36,74 +32,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
-
-
-
         <ui:TabView
-            Name="APIInActionTabView"
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            TabItems="{Binding Documents}"
-            TabStripFooter=""
-            TabWidthMode="SizeToContent">
-            <!--<ui:TabViewItem Header="Test" IconSource="Document">
-                        <custom:VaultItem />
-                    </ui:TabViewItem>-->
-
-
-            <ui:TabView.TabItemTemplate>
-
-                <DataTemplate DataType="vmm:DocumentItem">
-                    <ui:TabViewItem
-                        Name="DocumentTabItem"
-                        Header="{Binding Header}"
-                        IconSource="{Binding IconSource}">
-
-                        <StackPanel>
-                            <Label Content="yest" />
-
-                            <DataGrid
-                                Name="MyDataGrid"
-                                Margin="10"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                AutoGenerateColumns="True"
-                                CanUserReorderColumns="True"
-                                IsReadOnly="True"
-                                ItemsSource="{Binding SecretList, DataType={x:Type vmm:Vault}}">
-
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn
-                                        Width="*"
-                                        Binding="{Binding}"
-                                        Header="Name" />
-                                </DataGrid.Columns>
-
-                            </DataGrid>
-                        </StackPanel>
-
-                    </ui:TabViewItem>
-
-
-
-                </DataTemplate>
-            </ui:TabView.TabItemTemplate>
-        </ui:TabView>
-
-
-
-
-    </Grid>
-</UserControl>
-
-
-<!--
-
-       <ui:TabView
             Name="APIInActionTabView"
             Grid.Row="0"
             Grid.RowSpan="2"
@@ -119,55 +48,16 @@
             TabItems="{Binding Documents}"
             TabStripFooter=""
             TabWidthMode="SizeToContent">
-<ui:TabView.TabItemTemplate>
+            <ui:TabView.TabItemTemplate>
 
-	<DataTemplate DataType="vmm:DocumentItem">
+                <DataTemplate DataType="vmm:DocumentItem">
 
-		<ui:TabViewItem Header="{Binding Header}" IconSource="{Binding IconSource}">
-
-
-			<ScrollViewer Margin="5" VerticalScrollBarVisibility="Hidden">
-				<DataGrid
-					Name="MyDataGrid"
-					Margin="10"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					CanUserReorderColumns="True"
-					IsReadOnly="True"
-					ItemsSource="{Binding SecretList}">
-					<DataGrid.Styles>
-						<Style Selector="DataGridRow">
-							<Setter Property="Margin" Value="0" />
-							<Setter Property="Height" Value="20" />
-						</Style>
-						<Style Selector="DataGridColumnHeader">
-							<Setter Property="Margin" Value="0" />
-						</Style>
-					</DataGrid.Styles>
-
-					<DataGrid.Columns>
-						<DataGridTextColumn
-							Width="*"
-							Binding="{Binding Name}"
-							Header="Name" />
-						<DataGridTextColumn Binding="{Binding Version}" Header="Version" />
-						<DataGridTextColumn
-							Width="1*"
-							Binding="{Binding VaultUri}"
-							Header="VaultUri" />
-						<DataGridTextColumn
-							Width="*"
-							Binding="{Binding ContentType}"
-							Header="ContentType" />
-					</DataGrid.Columns>
-					<DataGrid.Styles>
-						<Style Selector="DataGrid DataGridRow:nth-child(2n)">
-							<Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-						</Style>
-					</DataGrid.Styles>
-				</DataGrid>
-			</ScrollViewer>
-		</ui:TabViewItem>
-
-	</DataTemplate>
-</ui:TabView.TabItemTemplate>-->
+                    <ui:TabViewItem
+                        Content="{Binding Content}"
+                        Header="{Binding Header}"
+                        IconSource="{Binding IconSource}" />
+                </DataTemplate>
+            </ui:TabView.TabItemTemplate>
+        </ui:TabView>
+    </Grid>
+</UserControl>

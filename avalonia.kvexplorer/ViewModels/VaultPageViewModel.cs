@@ -1,27 +1,27 @@
-﻿using avalonia.kvexplorer.Views.CustomControls;
-using Azure.Security.KeyVault.Secrets;
+﻿using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
-using FluentAvalonia.UI.Controls;
-using System;
+using CommunityToolkit.Mvvm.Input;
+using kvexplorer.shared;
 using System.Collections.ObjectModel;
+using System.Threading;
 
-namespace avalonia.kvexplorer.ViewModels.Models;
+namespace avalonia.kvexplorer.ViewModels;
 
-public partial class DocumentItem : ObservableObject
+public partial class VaultPageViewModel : ViewModelBase
 {
-    public string Header { get; set; }
-
-    public IconSource IconSource { get; set; }
-
-    public object Content { get; set; }
-
-    public Vault Vault { get; set; }
+    private readonly AuthService _authService;
 
     [ObservableProperty]
     public ObservableCollection<SecretProperties> secretList;
 
-    public DocumentItem()
+    public VaultPageViewModel(AuthService authService, VaultService vaultService)
     {
+        _authService = authService;
+    }
+
+    public VaultPageViewModel()
+    {
+        _authService = new AuthService();
         secretList = new ObservableCollection<SecretProperties>()   {
             new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
             new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
@@ -30,4 +30,3 @@ public partial class DocumentItem : ObservableObject
         };
     }
 }
-

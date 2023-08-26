@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="avalonia.kvexplorer.Views.Pages.VaultPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:avalonia.kvexplorer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:VaultPageViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:VaultPageViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer>
+
+        <DataGrid
+            Name="MyDataGrid"
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            CanUserReorderColumns="True"
+            IsReadOnly="True"
+            ItemsSource="{Binding SecretList}">
+            <DataGrid.Styles>
+                <Style Selector="DataGridRow">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Height" Value="20" />
+                </Style>
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </DataGrid.Styles>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Name}"
+                    Header="Name" />
+                <DataGridTextColumn Binding="{Binding Version}" Header="Version" />
+                <DataGridTextColumn
+                    Width="1*"
+                    Binding="{Binding VaultUri}"
+                    Header="VaultUri" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding ContentType}"
+                    Header="ContentType" />
+            </DataGrid.Columns>
+            <DataGrid.Styles>
+                <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                    <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+                </Style>
+            </DataGrid.Styles>
+        </DataGrid>
+    </ScrollViewer>
+</UserControl>

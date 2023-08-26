@@ -12,7 +12,7 @@ public partial class Vault
 {
     //private readonly VaultService _vaultService;
 
-    private List<SecretProperties> SecretList;
+    private ObservableCollection<SecretProperties> SecretList;
     public Vault()
     {
         // _vaultService = Defaults.Locator.GetRequiredService<VaultService>();

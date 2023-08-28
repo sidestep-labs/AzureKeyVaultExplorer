@@ -41,7 +41,6 @@
             VerticalAlignment="Stretch"
             AddTabButtonCommand="{Binding AddDocumentCommand}"
             AddTabButtonCommandParameter="Normal"
-            Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
             CanReorderTabs="True"
             CloseButtonOverlayMode="OnPointerOver"
             TabCloseRequested="BindingTabView_TabCloseRequested"

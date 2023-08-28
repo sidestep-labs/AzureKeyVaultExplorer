@@ -12,7 +12,6 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     Icon="/Assets/avalonia-logo.ico"
-    RequestedThemeVariant="Dark"
     mc:Ignorable="d">
     <views:MainView />
 </Window>

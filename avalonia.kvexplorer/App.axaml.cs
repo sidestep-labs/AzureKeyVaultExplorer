@@ -18,6 +18,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<VaultService, VaultService>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddTransient<MainViewModel>();
+        serviceCollection.AddTransient<TabViewPageViewModel>();
 
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }

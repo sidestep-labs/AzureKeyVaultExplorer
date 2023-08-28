@@ -33,7 +33,7 @@
                 Grid.Row="3"
                 Grid.ColumnSpan="3"
                 Margin="0"
-                Background="{DynamicResource ApplicationPageBackgroundThemeBrush}">
+                Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
                 <pages:TabViewPage />
             </Grid>
         </Grid>

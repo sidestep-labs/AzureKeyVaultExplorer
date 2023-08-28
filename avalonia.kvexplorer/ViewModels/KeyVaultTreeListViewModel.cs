@@ -32,11 +32,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
+    private readonly TabViewPageViewModel _tabViewViewModel;
 
     public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+        _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+
         PropertyChanged += OnMyViewModelPropertyChanged;
 
         treeViewList = new ObservableCollection<KeyVaultModel>
@@ -72,11 +75,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     }
 
 
-    [RelayCommand]
-    public void SelectionChangedX(object x )
-    {
-         Console.Out.WriteLine("Test");
-    }
+ 
     private async Task Login()
     {
         var cancellation = new CancellationToken();
@@ -113,7 +112,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
-    private string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
+    private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
 
     private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -141,18 +140,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
-    private void Expand(KeyVaultModel keyVaultModel)
-    {
-        bool isExpanded = keyVaultModel.IsExpanded;
-        if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder)))
-        {
-            Dispatcher.UIThread.Invoke(() =>
-            {
-                _vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel);
-            }, DispatcherPriority.ContextIdle);
-        }
-    }
 
     private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }

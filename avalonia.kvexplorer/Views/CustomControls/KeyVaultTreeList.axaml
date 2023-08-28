@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
@@ -48,16 +50,22 @@
                     SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
                     SelectionMode="Single">
 
+                    <!--<i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="SelectionChanged" SourceObject="{Binding SelectedTreeItem}">
+                            <ia:InvokeCommandAction Command="{Binding SelectionChangedXCommand}" />
+                        </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>-->
+
                     <TreeView.Styles>
                         <Style Selector="TreeViewItem">
                             <Setter x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         </Style>
-
                     </TreeView.Styles>
                     <TreeView.DataTemplates>
 
                         <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                            <TextBlock Text="{Binding SubscriptionDisplayName}" />
+                            <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
                         </TreeDataTemplate>
 
                         <DataTemplate DataType="armmodels:KeyVaultResource">
@@ -65,10 +73,7 @@
                         </DataTemplate>
                     </TreeView.DataTemplates>
                 </TreeView>
-
             </ScrollViewer>
-
-
         </Grid>
     </ScrollViewer>
 </UserControl>

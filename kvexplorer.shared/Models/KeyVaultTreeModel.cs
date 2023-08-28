@@ -16,4 +16,7 @@ public partial class KeyVaultModel : ObservableObject
 
     [ObservableProperty]
     private bool isExpanded;
+
+    [ObservableProperty]
+    private bool isSelected;
 }

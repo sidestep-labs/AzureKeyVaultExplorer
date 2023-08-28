@@ -1,4 +1,5 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -31,7 +33,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
 
-
     public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
@@ -49,14 +50,12 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             },
         };
 
-       
         //foreach (var item in TreeViewList)
         //{
         //    item.PropertyChanged += KeyVaultModel_PropertyChanged;
         //}
         // Handle CollectionChanged to attach/detach event handlers for new items
         TreeViewList.CollectionChanged += TreeViewList_CollectionChanged;
-
         //Dispatcher.UIThread.Post(() => GetAvailableKeyVaults(), DispatcherPriority.Default);
     }
 
@@ -74,6 +73,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
 
     [RelayCommand]
+    public void SelectionChangedX(object x )
+    {
+         Console.Out.WriteLine("Test");
+    }
     private async Task Login()
     {
         var cancellation = new CancellationToken();
@@ -81,6 +84,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         if (account == null)
             await _authService.LoginAsync(cancellation);
     }
+
 
     private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -109,11 +113,17 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
+    private string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
+
     private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(KeyVaultModel.IsExpanded))
+        if (WatchedNameOfProps.Contains(e.PropertyName))
         {
             var keyVaultModel = (KeyVaultModel)sender;
+            // if they are selecting the list item, expand it as a courtesy
+            if(e.PropertyName == nameof(KeyVaultModel.IsSelected))
+                keyVaultModel.IsExpanded = true;
+
             bool isExpanded = keyVaultModel.IsExpanded;
             if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder)))
             {
@@ -131,7 +141,19 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    private void Expand(KeyVaultModel keyVaultModel)
+    {
+        bool isExpanded = keyVaultModel.IsExpanded;
+        if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder)))
+        {
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                _vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel);
+            }, DispatcherPriority.ContextIdle);
+        }
+    }
+
     private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
-
 }

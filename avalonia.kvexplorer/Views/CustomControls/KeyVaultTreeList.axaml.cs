@@ -2,6 +2,8 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Azure.ResourceManager.KeyVault;
+using kvexplorer.shared.Models;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,27 +12,30 @@ namespace avalonia.kvexplorer.Views.CustomControls;
 
 public partial class KeyVaultTreeList : UserControl
 {
+
     public KeyVaultTreeList()
     {
         InitializeComponent();
 
-        var keyVaultTreeListViewModel = new KeyVaultTreeListViewModel();
-        DataContext = keyVaultTreeListViewModel;
+        var model = new KeyVaultTreeListViewModel();
+        DataContext = model;
 
         Dispatcher.UIThread.Post(async () =>
         {
-            await keyVaultTreeListViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
+            await model.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
         }, DispatcherPriority.Background);
     }
 
     private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)
     {
+        var s = (TreeView)sender;
 
-     if ((sender as TreeView).SelectedItem is not null)
+        if (s.SelectedItem is not null)
         {
-            Debug.WriteLine(sender.ToString());
+            var model = (KeyVaultModel)s.SelectedItem;
         }
     }
+
     private void PointerPressedx(object sender, PropertyChangedEventArgs e)
     {
         // Handle changes to the SelectedTreeItem property here

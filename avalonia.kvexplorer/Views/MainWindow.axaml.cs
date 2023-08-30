@@ -18,8 +18,8 @@ public partial class MainWindow : AppWindow
         _mainWindowViewModel = new MainViewModel();
         //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
-        TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
-        ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
+        //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
+       // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)

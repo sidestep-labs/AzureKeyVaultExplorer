@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
-    d:DesignHeight="450"
+    d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:VaultPageViewModel"
     mc:Ignorable="d">
@@ -29,11 +29,11 @@
             Name="MyDataGrid"
             Grid.Row="1"
             Grid.ColumnSpan="4"
-            Height="400"
+            Height="450"
             VerticalAlignment="Stretch"
             CanUserReorderColumns="True"
             DoubleTapped="OnDoubleTapped"
-            GridLinesVisibility="All"
+            GridLinesVisibility="Horizontal"
             IsReadOnly="True"
             ItemsSource="{Binding SecretList}"
             VerticalScrollBarVisibility="Visible">

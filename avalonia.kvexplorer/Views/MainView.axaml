@@ -61,7 +61,7 @@
 
             <ui:NavigationView.PaneCustomContent>
 
-                <Panel IsVisible="{Binding #NavView.IsPaneOpen}">
+                <Panel IsVisible="{Binding #NavView.IsPaneOpen}" MaxHeight="300">
                     <custom:KeyVaultTreeList />
                 </Panel>
             </ui:NavigationView.PaneCustomContent>

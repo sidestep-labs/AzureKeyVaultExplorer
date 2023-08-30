@@ -51,6 +51,73 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 KeyVaultResources = new List<KeyVaultResource>{ },
                 Subscription = null
             },
+             new KeyVaultModel
+            {
+                SubscriptionDisplayName = "1 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "2 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "3 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "4 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "5 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "6 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "7 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "8 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "9 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "10 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            }, new KeyVaultModel
+            {
+                SubscriptionDisplayName = "11 Subscription",
+                SubscriptionId = "123",
+                KeyVaultResources = new List<KeyVaultResource>{ },
+                Subscription = null
+            },
         };
 
         //foreach (var item in TreeViewList)

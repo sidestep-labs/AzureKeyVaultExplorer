@@ -19,61 +19,60 @@
         <vm:KeyVaultTreeListViewModel />
     </Design.DataContext>
 
-    <ScrollViewer>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" SharedSizeGroup="LeftColumn" />
-            </Grid.ColumnDefinitions>
-            <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" SharedSizeGroup="LeftColumn" />
+        </Grid.ColumnDefinitions>
+        <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
 
-            <TextBox
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="1"
-                Text="{Binding SearchQuery, Mode=TwoWay}"
-                Watermark="Filter key vaults" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="1"
+            Text="{Binding SearchQuery, Mode=TwoWay}"
+            Watermark="Filter key vaults" />
 
-            <ScrollViewer
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="1"
-                VerticalScrollBarVisibility="Visible">
+        <ScrollViewer
+            Grid.Row="1"
+			Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            VerticalScrollBarVisibility="Visible">
 
-                <TreeView
-                    AutoScrollToSelectedItem="True"
-                    ItemsSource="{Binding TreeViewList}"
-                    SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
-                    SelectionMode="Single">
+            <TreeView
+                AutoScrollToSelectedItem="True"
+                ItemsSource="{Binding TreeViewList}"
+                SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                SelectionMode="Single">
 
-                    <!--<i:Interaction.Behaviors>
+                <!--<i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="SelectionChanged" SourceObject="{Binding SelectedTreeItem}">
                             <ia:InvokeCommandAction Command="{Binding SelectionChangedXCommand}" />
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>-->
 
-                    <TreeView.Styles>
-                        <Style Selector="TreeViewItem">
-                            <Setter x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                            <Setter x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                        </Style>
-                    </TreeView.Styles>
-                    <TreeView.DataTemplates>
+                <TreeView.Styles>
+                    <Style Selector="TreeViewItem">
+                        <Setter x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.Styles>
+                <TreeView.DataTemplates>
 
-                        <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                            <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
-                        </TreeDataTemplate>
+                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                        <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
+                    </TreeDataTemplate>
 
-                        <DataTemplate DataType="armmodels:KeyVaultResource">
-                            <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
-                        </DataTemplate>
-                    </TreeView.DataTemplates>
-                </TreeView>
-            </ScrollViewer>
-        </Grid>
-    </ScrollViewer>
+                    <DataTemplate DataType="armmodels:KeyVaultResource">
+                        <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
+                    </DataTemplate>
+                </TreeView.DataTemplates>
+            </TreeView>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

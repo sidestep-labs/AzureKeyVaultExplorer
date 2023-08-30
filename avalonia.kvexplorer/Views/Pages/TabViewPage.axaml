@@ -18,45 +18,48 @@
     <Design.DataContext>
         <vm:TabViewPageViewModel />
     </Design.DataContext>
+    <StackPanel>
 
-    <Grid
-        Grid.Row="0"
-        Grid.RowSpan="2"
-        Grid.Column="1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <ui:TabView
-            Name="APIInActionTabView"
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="1"
+        <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            AddTabButtonCommand="{Binding AddDocumentCommand}"
-            AddTabButtonCommandParameter="Normal"
-            CanReorderTabs="True"
-            CloseButtonOverlayMode="OnPointerOver"
-            TabCloseRequested="BindingTabView_TabCloseRequested"
-            TabItems="{Binding Documents}"
-            TabStripFooter=""
-            TabWidthMode="SizeToContent">
-            <ui:TabView.TabItemTemplate>
+            ColumnDefinitions="Auto, *"
+            RowDefinitions="Auto, *, *, *">
 
-                <DataTemplate DataType="vmm:DocumentItem">
+            <ui:TabView
+                Name="TabViewDoc"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AddTabButtonCommand="{Binding AddDocumentCommand}"
+                AddTabButtonCommandParameter="Normal"
+                CanReorderTabs="True"
+                CloseButtonOverlayMode="OnPointerOver"
+                TabCloseRequested="BindingTabView_TabCloseRequested"
+                TabItems="{Binding Documents}"
+                TabStripFooter=""
+                TabWidthMode="SizeToContent">
+                <ui:TabView.TabItemTemplate>
 
-                    <ui:TabViewItem
-                        Content="{Binding Content}"
-                        Header="{Binding Header}"
-                        IconSource="{Binding IconSource}" />
-                </DataTemplate>
-            </ui:TabView.TabItemTemplate>
-        </ui:TabView>
-    </Grid>
+                    <DataTemplate DataType="vmm:DocumentItem">
+
+                        <ui:TabViewItem
+                            Content="{Binding Content}"
+                            Header="{Binding Header}"
+                            IconSource="{Binding IconSource}" />
+                    </DataTemplate>
+                </ui:TabView.TabItemTemplate>
+            </ui:TabView>
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ClipToBounds="True"
+                Content="You have no key vaults selected"
+                IsVisible="{Binding !Documents.Count}" />
+        </Grid>
+    </StackPanel>
 </UserControl>

@@ -33,6 +33,11 @@
     </UserControl.Styles>-->
 
     <Grid RowDefinitions="Auto, *">
+        <Grid.Margin>
+            <OnPlatform Windows="0,20,0,0" />
+
+            <!--<OnPlatform macOS="10,0,10,10" />-->
+        </Grid.Margin>
 
         <ui:NavigationView
             Name="NavView"
@@ -61,7 +66,7 @@
 
             <ui:NavigationView.PaneCustomContent>
 
-                <Panel IsVisible="{Binding #NavView.IsPaneOpen}" MaxHeight="300">
+                <Panel MaxHeight="300" IsVisible="{Binding #NavView.IsPaneOpen}">
                     <custom:KeyVaultTreeList />
                 </Panel>
             </ui:NavigationView.PaneCustomContent>

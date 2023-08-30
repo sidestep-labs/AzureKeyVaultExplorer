@@ -7,14 +7,15 @@
     xmlns:views="clr-namespace:avalonia.kvexplorer.Views"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     Title="avalonia.kvexplorer"
-    Width="850"
+    Width="800"
     Height="600"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="Transparent"
- ExtendClientAreaToDecorationsHint="True"
-	Icon="/Assets/avalonia-logo.ico"
-    TransparencyLevelHint="AcrylicBlur"
+    ExtendClientAreaToDecorationsHint="{OnPlatform True,
+                                                   macOS=False}"
+    Icon="/Assets/avalonia-logo.ico"
+    RequestedThemeVariant="Dark"
     mc:Ignorable="d">
+
     <views:MainView />
 </Window>

@@ -10,7 +10,8 @@
 	<PublishSingleFile>true</PublishSingleFile>
 	<PublishTrimmed>true</PublishTrimmed>
 	<PublishReadyToRun>true</PublishReadyToRun>
-	<TrimMode>full</TrimMode>
+	 <!--<PublishAot>true</PublishAot>-->
+	 <TrimMode>full</TrimMode>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,6 +12,7 @@ if ($RunBuild) {
     $sw.Stop()
 
     $sw
+    Pop-Location
     return;
 }
 
@@ -25,3 +26,4 @@ $sw.Stop()
 Write-Debug "App elapsed start up: $($sw.Elapsed)"
 
 $sw
+

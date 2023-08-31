@@ -14,6 +14,7 @@
         <vm:VaultPageViewModel />
     </Design.DataContext>
     <Grid
+        Height="500"
         Margin="10,10,10,0"
         ColumnDefinitions="*, *, *, *"
         RowDefinitions="Auto,*">
@@ -21,15 +22,15 @@
             Grid.Row="0"
             Grid.Column="4"
             Margin="0,0,0,5"
+            Classes.clearButton="True"
             Text="{Binding SearchQuery, Mode=TwoWay}"
-            Watermark="Filter values" />
+            Watermark="Search values" />
 
 
         <DataGrid
             Name="MyDataGrid"
             Grid.Row="1"
             Grid.ColumnSpan="4"
-            Height="450"
             VerticalAlignment="Stretch"
             CanUserReorderColumns="True"
             DoubleTapped="OnDoubleTapped"

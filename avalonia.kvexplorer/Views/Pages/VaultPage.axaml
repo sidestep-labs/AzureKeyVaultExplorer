@@ -14,7 +14,7 @@
         <vm:VaultPageViewModel />
     </Design.DataContext>
     <Grid
-        Height="500"
+        Height="600"
         Margin="10,10,10,0"
         ColumnDefinitions="*, *, *, *"
         RowDefinitions="Auto,*">
@@ -31,6 +31,7 @@
             Name="MyDataGrid"
             Grid.Row="1"
             Grid.ColumnSpan="4"
+            MinHeight="500"
             VerticalAlignment="Stretch"
             CanUserReorderColumns="True"
             DoubleTapped="OnDoubleTapped"

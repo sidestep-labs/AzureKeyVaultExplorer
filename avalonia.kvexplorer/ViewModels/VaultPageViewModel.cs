@@ -40,28 +40,13 @@ public partial class VaultPageViewModel : ViewModelBase
             new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
             new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
             new SecretProperties("AzureAPIKey" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("1__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("2__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("3__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("4__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("5__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("6__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("7__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("8__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("9__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("10__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("11__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("12__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("13__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("14__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("15__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("16__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("17__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("18__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("19__Key" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-
             new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
         };
+
+        for ( int i = 0; i < 200; i++)
+        {
+            secretList.Add(new SecretProperties($"{i}__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
+        }
         _secretList = secretList.ToList();
     }
 

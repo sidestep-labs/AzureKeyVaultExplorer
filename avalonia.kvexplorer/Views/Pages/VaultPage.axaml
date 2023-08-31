@@ -13,60 +13,72 @@
     <Design.DataContext>
         <vm:VaultPageViewModel />
     </Design.DataContext>
+
     <Grid
-        Height="600"
+        MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height, }"
         Margin="10,10,10,0"
         ColumnDefinitions="*, *, *, *"
         RowDefinitions="Auto,*">
+
         <TextBox
             Grid.Row="0"
             Grid.Column="4"
             Margin="0,0,0,5"
             Classes.clearButton="True"
+            DockPanel.Dock="Top"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             Watermark="Search values" />
 
 
-        <DataGrid
-            Name="MyDataGrid"
-            Grid.Row="1"
-            Grid.ColumnSpan="4"
-            MinHeight="500"
-            VerticalAlignment="Stretch"
-            CanUserReorderColumns="True"
-            DoubleTapped="OnDoubleTapped"
-            GridLinesVisibility="Horizontal"
-            IsReadOnly="True"
-            ItemsSource="{Binding SecretList}"
-            VerticalScrollBarVisibility="Visible">
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
 
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Name}"
-                    Header="Name" />
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Version}"
-                    Header="Version" />
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding VaultUri}"
-                    Header="VaultUri" />
-                <DataGridTextColumn
-                    Width=".7*"
-                    Binding="{Binding ContentType}"
-                    Header="ContentType" />
-            </DataGrid.Columns>
-            <DataGrid.Styles>
-                <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                    <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-                </Style>
-                <Style Selector="DataGridRow">
-                    <Setter Property="Height" Value="22" />
-                </Style>
-            </DataGrid.Styles>
-        </DataGrid>
+            <Rectangle Height="100" Fill="Green" />
+
+            <DataGrid
+                Name="MyDataGrid"
+                Grid.Row="1"
+                Grid.ColumnSpan="4"
+                VerticalAlignment="Stretch"
+                CanUserReorderColumns="True"
+                DoubleTapped="OnDoubleTapped"
+                GridLinesVisibility="Horizontal"
+                IsReadOnly="True"
+                ItemsSource="{Binding SecretList}"
+                VerticalScrollBarVisibility="Visible">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Version}"
+                        Header="Version" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding VaultUri}"
+                        Header="VaultUri" />
+                    <DataGridTextColumn
+                        Width=".7*"
+                        Binding="{Binding ContentType}"
+                        Header="ContentType" />
+                </DataGrid.Columns>
+                <DataGrid.Styles>
+                    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+                    </Style>
+                    <Style Selector="DataGridRow">
+                        <Setter Property="Height" Value="22" />
+                    </Style>
+                </DataGrid.Styles>
+            </DataGrid>
+        </DockPanel>
+
+
 
     </Grid>
+
+
+
 </UserControl>

@@ -12,30 +12,8 @@
 
     <Design.DataContext />
 
-    <ScrollViewer>
-        <Grid>
-            <Grid.Resources>
-                <x:Double x:Key="TileHeight">150</x:Double>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
-            <Grid
-                Grid.Row="3"
-                Grid.ColumnSpan="3"
-                Margin="0"
-                Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
-                <pages:TabViewPage />
-            </Grid>
-        </Grid>
-    </ScrollViewer>
+
+    <pages:TabViewPage Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"/>
+
 </UserControl>

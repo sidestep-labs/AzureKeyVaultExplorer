@@ -24,96 +24,24 @@
 
     <StackPanel
         MaxHeight="200"
+        HorizontalAlignment="Center"
         VerticalAlignment="Top"
-        IsVisible="{OnPlatform False,
-                               Windows=True}"
+        IsVisible="{OnPlatform True,
+                               macOS=True}"
         Orientation="Horizontal">
-        <Grid RowDefinitions="*,*">
-            <!--<DockPanel Name="TitleBar">
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="1"
-                    DockPanel.Dock="Left"
-                    IsHitTestVisible="False"
-                    Orientation="Horizontal"
-                    Spacing="0">
 
-                    <Image
-                        Name="WindowIcon"
-                        Width="25"
-                        Height="25"
-                        Margin="5,0,3,0"
-                        VerticalAlignment="Center"
-                        Source="/Assets/avalonia-logo.ico" />
+        <Image
+            Name="WindowIcon"
+            Width="25"
+            Height="25"
+            Margin="5,0,3,0"
+            VerticalAlignment="Center"
+            Source="/Assets/avalonia-logo.ico" />
 
-                    <TextBlock
-                        Margin="7"
-                        FontSize="12"
-                        Text="Key Vault Explorer" />
-                </StackPanel>
-            </DockPanel>-->
-
-            <Menu Grid.Row="0">
-                <Menu.Styles>
-
-                    <Style Selector="Menu">
-                        <Setter Property="Padding" Value="3" />
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-
-                    </Style>
-
-                    <Style Selector="Menu.MenuFlyout">
-                        <Setter Property="BorderBrush" Value="#8e56a0" />
-                        <Setter Property="BorderThickness" Value="0 10 10 0" />
-                    </Style>
-
-
-
-                </Menu.Styles>
-
-                <MenuItem Header="Settings">
-                    <MenuItem Command="{Binding SigninCommand}" Header="Login">
-                        <MenuItem.Header>
-                            <TextBlock ClipToBounds="False" Text="Login" />
-                        </MenuItem.Header>
-                        <MenuItem.Icon>
-                            <ui:SymbolIcon Symbol="Go" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Command="{Binding SignoutCommand}" Header="Logout">
-                        <MenuItem.Header>
-                            <TextBlock ClipToBounds="False" Text="Logout" />
-                        </MenuItem.Header>
-                        <MenuItem.Icon>
-                            <ui:SymbolIcon Symbol="LeaveChat" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-
-                </MenuItem>
-
-                <MenuItem Header="Options">
-
-
-                    <MenuItem Header="Open" />
-                    <MenuItem Header="Exit" />
-
-
-                </MenuItem>
-                <MenuItem Header="Help">
-                    <MenuItem Header="About" />
-                    <MenuItem Header="Report a bug">
-                        <MenuItem.Header>
-                            <TextBlock ClipToBounds="False" Text="Report a bug" />
-                        </MenuItem.Header>
-                        <MenuItem.Icon>
-                            <ui:SymbolIcon Symbol="Link" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-
-                </MenuItem>
-            </Menu>
-
-        </Grid>
+        <TextBlock
+            Margin="7"
+            FontSize="12"
+            Text="Key Vault Explorer for Azure" />
 
     </StackPanel>
 

@@ -2,6 +2,7 @@
     x:Class="avalonia.kvexplorer.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:custom="clr-namespace:avalonia.kvexplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:avalonia.kvexplorer.Views"
@@ -17,5 +18,8 @@
     RequestedThemeVariant="Dark"
     mc:Ignorable="d">
 
-    <views:MainView />
+    <StackPanel>
+        <custom:TitleBarControl IsVisible="{OnPlatform False, macOS=True}" />
+        <views:MainView />
+    </StackPanel>
 </Window>

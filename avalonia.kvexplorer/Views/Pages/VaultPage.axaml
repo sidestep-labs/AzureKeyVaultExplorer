@@ -31,9 +31,6 @@
 
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
-
-            <Rectangle Height="100" Fill="Green" />
-
             <DataGrid
                 Name="MyDataGrid"
                 Grid.Row="1"

@@ -25,37 +25,38 @@
         ColumnDefinitions="Auto, *"
         RowDefinitions="Auto, *, *, *">-->
 
-    <ui:TabView
-        Name="TabViewDoc"
-        Grid.Row="0"
-        Grid.Column="1"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        AddTabButtonCommand="{Binding AddDocumentCommand}"
-        AddTabButtonCommandParameter="Normal"
-        CanReorderTabs="True"
-        CloseButtonOverlayMode="OnPointerOver"
-        TabCloseRequested="BindingTabView_TabCloseRequested"
-        TabItems="{Binding Documents}"
-        TabStripFooter=""
-        TabWidthMode="SizeToContent">
-        <ui:TabView.TabItemTemplate>
-            <DataTemplate DataType="vmm:DocumentItem">
-                <ui:TabViewItem
-                    Content="{Binding Content}"
-                    Header="{Binding Header}"
-                    IconSource="{Binding IconSource}" />
-            </DataTemplate>
-        </ui:TabView.TabItemTemplate>
-    </ui:TabView>
-
-    <!--<Label
-            Grid.Row="2"
+    <Panel>
+        <ui:TabView
+            Name="TabViewDoc"
+            Grid.Row="0"
             Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AddTabButtonCommand="{Binding AddDocumentCommand}"
+            AddTabButtonCommandParameter="Normal"
+            CanReorderTabs="True"
+            CloseButtonOverlayMode="OnPointerOver"
+            TabCloseRequested="BindingTabView_TabCloseRequested"
+            TabItems="{Binding Documents}"
+            TabStripFooter=""
+            TabWidthMode="SizeToContent">
+            <ui:TabView.TabItemTemplate>
+                <DataTemplate DataType="vmm:DocumentItem">
+                    <ui:TabViewItem
+                        Content="{Binding Content}"
+                        Header="{Binding Header}"
+                        IconSource="{Binding IconSource}" />
+
+
+                </DataTemplate>
+            </ui:TabView.TabItemTemplate>
+        </ui:TabView>
+        <Label
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             ClipToBounds="True"
-            Content="You have no key vaults selected"
-            IsVisible="{Binding !Documents.Count}" />-->
-    <!--</Grid>-->
+            Content="You have no key vaults selected."
+            IsVisible="{Binding !Documents.Count}" />
+    </Panel>
+
 </UserControl>

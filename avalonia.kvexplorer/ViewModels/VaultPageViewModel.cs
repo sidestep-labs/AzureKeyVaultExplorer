@@ -43,7 +43,7 @@ public partial class VaultPageViewModel : ViewModelBase
             new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
         };
 
-        for ( int i = 0; i < 200; i++)
+        for ( int i = 0; i < 100; i++)
         {
             secretList.Add(new SecretProperties($"{i}__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
         }

@@ -21,7 +21,7 @@
         <custom:TitleBarControl
             Height="30"
             DockPanel.Dock="Top"
-            IsVisible="{OnPlatform False,
+            IsVisible="{OnPlatform True,
                                    macOS=True}" />
         <views:MainView />
     </DockPanel>

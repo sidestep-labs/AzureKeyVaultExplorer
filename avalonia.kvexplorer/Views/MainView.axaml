@@ -32,66 +32,68 @@
         </Style>
     </UserControl.Styles>-->
 
-    <Grid RowDefinitions="Auto, *">
+    <!--<Grid RowDefinitions="Auto, *">
         <Grid.Margin>
             <OnPlatform macOS="0,20,0,0" />
 
-            <!--<OnPlatform macOS="10,0,10,10" />-->
-        </Grid.Margin>
+    -->
+    <!--<OnPlatform macOS="10,0,10,10" />-->
+    <!--
+        </Grid.Margin>-->
 
-        <ui:NavigationView
-            Name="NavView"
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            AlwaysShowHeader="False"
-            Classes="NavView"
-            IsBackButtonVisible="False"
-            IsBackEnabled="True"
-            IsSettingsVisible="False"
-            PaneDisplayMode="Left">
-
-
-            <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItemHeader Content="Actions" />
-                <ui:NavigationViewItem
-                    Content="Home"
-                    IconSource="Home"
-                    Tag="MainPage" />
-
-                <ui:NavigationViewItem
-                    Content="Bookmarks"
-                    IconSource="Bookmarks"
-                    Tag="BookmarksPage" />
-            </ui:NavigationView.MenuItems>
-
-            <ui:NavigationView.PaneCustomContent>
-
-                <Panel MaxHeight="300" IsVisible="{Binding #NavView.IsPaneOpen}">
-                    <custom:KeyVaultTreeList />
-                </Panel>
-            </ui:NavigationView.PaneCustomContent>
+    <ui:NavigationView
+        Name="NavView"
+        Grid.Row="0"
+        Grid.RowSpan="2"
+        AlwaysShowHeader="False"
+        Classes="NavView"
+        IsBackButtonVisible="False"
+        IsBackEnabled="True"
+        IsSettingsVisible="False"
+        PaneDisplayMode="Left">
 
 
-            <ui:NavigationView.FooterMenuItems>
+        <ui:NavigationView.MenuItems>
+            <ui:NavigationViewItemHeader Content="Actions" />
+            <ui:NavigationViewItem
+                Content="Home"
+                IconSource="Home"
+                Tag="MainPage" />
 
-                <ui:NavigationViewItem
-                    Content="Settings"
-                    IconSource="Settings"
-                    Tag="SettingsPage" />
-            </ui:NavigationView.FooterMenuItems>
+            <ui:NavigationViewItem
+                Content="Bookmarks"
+                IconSource="Bookmarks"
+                Tag="BookmarksPage" />
+        </ui:NavigationView.MenuItems>
 
-            <DockPanel LastChildFill="True">
-                <Panel
-                    Height="20"
-                    Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
-                    DockPanel.Dock="Bottom">
-                    <TextBlock
-                        Margin="0,0,5,0"
-                        HorizontalAlignment="Right"
-                        Text="{Binding Path=Email, StringFormat='user: {0}'}" />
-                </Panel>
-                <ui:Frame Name="FrameView" />
-            </DockPanel>
-        </ui:NavigationView>
-    </Grid>
+        <ui:NavigationView.PaneCustomContent>
+
+            <Panel MaxHeight="300" IsVisible="{Binding #NavView.IsPaneOpen}">
+                <custom:KeyVaultTreeList />
+            </Panel>
+        </ui:NavigationView.PaneCustomContent>
+
+
+        <ui:NavigationView.FooterMenuItems>
+
+            <ui:NavigationViewItem
+                Content="Settings"
+                IconSource="Settings"
+                Tag="SettingsPage" />
+        </ui:NavigationView.FooterMenuItems>
+
+        <DockPanel LastChildFill="True">
+            <Panel
+                Height="20"
+                Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                DockPanel.Dock="Bottom">
+                <TextBlock
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    Text="{Binding Path=Email, StringFormat='user: {0}'}" />
+            </Panel>
+            <ui:Frame Name="FrameView" />
+        </DockPanel>
+    </ui:NavigationView>
+    <!--</Grid>-->
 </UserControl>

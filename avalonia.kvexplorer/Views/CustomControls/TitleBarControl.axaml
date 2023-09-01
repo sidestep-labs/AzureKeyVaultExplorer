@@ -23,7 +23,7 @@
     </Design.DataContext>
 
     <StackPanel
-        MaxHeight="200"
+        Height="30"
         HorizontalAlignment="Center"
         VerticalAlignment="Top"
         IsVisible="{OnPlatform True,
@@ -32,15 +32,14 @@
 
         <Image
             Name="WindowIcon"
-            Width="25"
-            Height="25"
-            Margin="5,0,3,0"
+            Width="20"
+            Margin="5,0,5,0"
             VerticalAlignment="Center"
             Source="/Assets/avalonia-logo.ico" />
 
         <TextBlock
-            Margin="7"
-            FontSize="12"
+            Margin="0,8"
+            FontSize="11"
             Text="Key Vault Explorer for Azure" />
 
     </StackPanel>

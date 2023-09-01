@@ -18,6 +18,8 @@
     RequestedThemeVariant="Dark"
     mc:Ignorable="d">
 
-    <!--<custom:TitleBarControl IsVisible="{OnPlatform False, macOS=True}" />-->
-    <views:MainView />
+    <Panel>
+        <custom:TitleBarControl IsVisible="{OnPlatform False, macOS=True}" />
+        <views:MainView />
+    </Panel>
 </Window>

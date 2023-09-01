@@ -22,12 +22,13 @@
         <vm:TitleBarViewModel />
     </Design.DataContext>
 
+
+
     <StackPanel
-        Height="30"
-        Margin="0,0,0,5"
+        MinHeight="35"
         HorizontalAlignment="Center"
         VerticalAlignment="Top"
-        IsVisible="{OnPlatform True,
+        IsVisible="{OnPlatform False,
                                macOS=True}"
         Orientation="Horizontal">
 
@@ -39,54 +40,11 @@
             Source="/Assets/avalonia-logo.ico" />
 
         <TextBlock
-            Margin="0,8"
+            Margin="10,20"
             FontSize="11"
             Text="Key Vault Explorer for Azure" />
 
     </StackPanel>
 
-    <NativeMenu.Menu>
-        <NativeMenu>
-            <NativeMenuItem Header="User">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Command="{Binding SigninCommand}" Header="Login" />
-                        <NativeMenuItem Header="Logout" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="Options">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Open" />
-                        <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Exit" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="Help">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="About" />
-                        <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Report a bug" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="View">
-                <NativeMenu>
-                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
-                        <NativeMenu>
-                            <NativeMenuItem Header="Option 1" />
-                            <NativeMenuItem Header="Option 2" />
-                            <NativeMenuItem Header="Option 3" />
-                        </NativeMenu>
-                    </NativeMenuItem>
-                </NativeMenu>
-            </NativeMenuItem>
-        </NativeMenu>
-    </NativeMenu.Menu>
+    
 </UserControl>

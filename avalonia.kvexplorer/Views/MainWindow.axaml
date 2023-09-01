@@ -14,15 +14,63 @@
     d:DesignWidth="800"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
+
+
     Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="User">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Login" />
+                        <NativeMenuItem Header="Logout" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Options">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Open" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Exit" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="About" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Report a bug" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="View">
+                <NativeMenu>
+                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
+                        <NativeMenu>
+                            <NativeMenuItem Header="Option 1" />
+                            <NativeMenuItem Header="Option 2" />
+                            <NativeMenuItem Header="Option 3" />
+                        </NativeMenu>
+                    </NativeMenuItem>
+                </NativeMenu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
 
     <DockPanel>
         <custom:TitleBarControl
-            Height="30"
+            Height="35"
+            Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
+
             DockPanel.Dock="Top"
             IsVisible="{OnPlatform True,
-                                   macOS=True}" />
+                                   macOS=True}" IsHitTestVisible="False"/>
         <views:MainView />
     </DockPanel>
 </Window>

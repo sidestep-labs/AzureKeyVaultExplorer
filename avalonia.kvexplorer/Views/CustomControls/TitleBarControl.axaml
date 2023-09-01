@@ -22,51 +22,7 @@
         <vm:TitleBarViewModel />
     </Design.DataContext>
 
-    <NativeMenu.Menu>
-        <NativeMenu>
-            <NativeMenuItem Header="User">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Login" />
-                        <NativeMenuItem Header="Logout" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="Options">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Open" />
-                        <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Exit" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="Help">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="About" />
-                        <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Report a bug" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-
-            <NativeMenuItem Header="View">
-                <NativeMenu>
-                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
-                        <NativeMenu>
-                            <NativeMenuItem Header="Option 1" />
-                            <NativeMenuItem Header="Option 2" />
-                            <NativeMenuItem Header="Option 3" />
-                        </NativeMenu>
-                    </NativeMenuItem>
-                </NativeMenu>
-            </NativeMenuItem>
-        </NativeMenu>
-    </NativeMenu.Menu>
-
+  
     <StackPanel
         MaxHeight="30"
         Margin="5,5"

@@ -14,11 +14,9 @@
     d:DesignWidth="800"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
-
-
     Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
-    <NativeMenu.Menu>
+    <!--<NativeMenu.Menu>
         <NativeMenu>
             <NativeMenuItem Header="User">
                 <NativeMenuItem.Menu>
@@ -61,16 +59,16 @@
                 </NativeMenu>
             </NativeMenuItem>
         </NativeMenu>
-    </NativeMenu.Menu>
+    </NativeMenu.Menu>-->
 
     <DockPanel>
         <custom:TitleBarControl
             Height="35"
-            Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
-
+            Background="{DynamicResource AcrylicBackgroundFillColorBaseBrush}"
             DockPanel.Dock="Top"
+            IsHitTestVisible="False"
             IsVisible="{OnPlatform True,
-                                   macOS=True}" IsHitTestVisible="False"/>
+                                   macOS=True}" />
         <views:MainView />
     </DockPanel>
 </Window>

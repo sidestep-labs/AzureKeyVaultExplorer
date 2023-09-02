@@ -25,8 +25,9 @@ public partial class TabViewPage : UserControl
     public TabViewPage()
     {
         InitializeComponent();
-        var vm = new TabViewPageViewModel();
-        DataContext = vm;
+        //var vm = new TabViewPageViewModel();
+
+        DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
     }
 
     //private void TabView_AddButtonClick(TabView sender, EventArgs args)

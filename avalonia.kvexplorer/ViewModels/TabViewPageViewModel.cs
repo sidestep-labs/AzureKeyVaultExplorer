@@ -13,6 +13,7 @@ public partial class TabViewPageViewModel : ViewModelBase
 {
     public TabViewPageViewModel()
     {
+        
         Documents = new ObservableCollection<TabViewItem>();
         for (int i = 0; i < 3; i++)
         {
@@ -34,7 +35,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     public string KeyBindingText { get; set; }
 
     [RelayCommand]
-    private void AddDocument(object obj)
+    private void AddDocument()
     {
         var doc = AddDocument(Documents.Count);
         Documents.Add(doc);

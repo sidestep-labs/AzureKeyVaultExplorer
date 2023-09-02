@@ -1,17 +1,23 @@
 ﻿using avalonia.kvexplorer.ViewModels;
+using avalonia.kvexplorer.Views.Pages;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
+using FluentAvalonia.UI.Controls;
+using kvexplorer.shared;
 using kvexplorer.shared.Models;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace avalonia.kvexplorer.Views.CustomControls;
 
 public partial class KeyVaultTreeList : UserControl
 {
+    private readonly TabViewPageViewModel _tabViewViewModel;
 
     public KeyVaultTreeList()
     {
@@ -19,11 +25,36 @@ public partial class KeyVaultTreeList : UserControl
 
         var model = new KeyVaultTreeListViewModel();
         DataContext = model;
+        _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
 
         Dispatcher.UIThread.Post(async () =>
         {
             await model.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
         }, DispatcherPriority.Background);
+    }
+
+    private void OnDoubleClicked(object sender, TappedEventArgs args)
+    {
+        var sx = (TreeView)sender;
+
+        if (sx.SelectedItem is not null)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                var model = (KeyVaultResource)sx.SelectedItem;
+                var tab = new TabViewItem
+                {
+                    Header = model.Data.Name,
+                    IconSource = new SymbolIconSource { Symbol = Symbol.Document },
+                    Content = new VaultPage()
+                };
+
+                _tabViewViewModel.AddDocumentCommand.Execute(null);
+
+            }, DispatcherPriority.Background);
+
+      
+        }
     }
 
     private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)

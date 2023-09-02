@@ -13,12 +13,11 @@ public partial class App : Application
     public static void ConfigureDesktopServices()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
-
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddTransient<MainViewModel>();
-        serviceCollection.AddTransient<TabViewPageViewModel>();
+        serviceCollection.AddSingleton<TabViewPageViewModel>();
 
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }

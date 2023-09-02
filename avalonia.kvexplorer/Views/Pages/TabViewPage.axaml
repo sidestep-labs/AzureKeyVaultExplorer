@@ -34,7 +34,7 @@
             VerticalAlignment="Stretch"
             AddTabButtonCommand="{Binding AddDocumentCommand}"
             AddTabButtonCommandParameter="Normal"
-            AllowDropTabs="True"
+            AllowDropTabs="False"
             CanDragTabs="True"
             CanReorderTabs="True"
             CloseButtonOverlayMode="OnPointerOver"

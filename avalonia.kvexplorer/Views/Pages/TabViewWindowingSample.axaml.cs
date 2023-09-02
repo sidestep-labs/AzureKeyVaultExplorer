@@ -12,7 +12,7 @@ using FluentAvalonia.UI.Windowing;
 namespace avalonia.kvexplorer.Views.Pages;
 
 
-public partial class TabViewWindowingSample : AppWindow
+public partial class TabViewWindowingSample : AppWindow  
 {
     public TabViewWindowingSample()
     {
@@ -180,7 +180,8 @@ public partial class TabViewWindowingSample : AppWindow
             // need to manage preserving the state of the tabcontent across the different TabViews
             l.Add(args.Tab);
         }
-
+        s.Width = 800;
+        s.Height = 500;
         s.Show();
 
         // TabItemsChanged will fire here and will check if the window is closed, only because it

@@ -7,7 +7,6 @@ $DebugPreference = 'continue';
 if ($RunBuild) {
     Push-Location  c:\repos\sidestep\avalonia.kvexplorer.Desktop
     dotnet publish -o publish/ -c Release --self-contained
-    Push-Location  c:\repos\sidestep\avalonia.kvexplorer.Desktop/publish
     Pop-Location
     explorer.exe c:\repos\sidestep\avalonia.kvexplorer.Desktop/publish .
     $sw.Stop()

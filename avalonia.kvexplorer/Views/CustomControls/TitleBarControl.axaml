@@ -11,7 +11,6 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:TitleBarViewModel"
-    Background="Transparent"
     DockPanel.Dock="Top"
     mc:Ignorable="d">
 
@@ -27,31 +26,21 @@
         MaxHeight="30"
         BorderBrush="{DynamicResource ControlElevationBorderBrush}"
         BorderThickness="0,0,0,1">
-        <Panel Background="Transparent">
-            <ExperimentalAcrylicBorder IsHitTestVisible="False">
-                <ExperimentalAcrylicBorder.Material>
-                    <ExperimentalAcrylicMaterial
-                        BackgroundSource="Digger"
-                        MaterialOpacity=".85"
-                        TintOpacity="1" />
-                </ExperimentalAcrylicBorder.Material>
-            </ExperimentalAcrylicBorder>
-            <StackPanel
-                Margin="5,5"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Stretch"
-                Orientation="Horizontal">
+        <StackPanel
+            Margin="5,5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Orientation="Horizontal">
 
-                <Image
-                    Name="WindowIcon"
-                    Width="16"
-                    Margin="0,0,5,0"
-                    Source="/Assets/avalonia-logo.ico" />
+            <Image
+                Name="WindowIcon"
+                Width="16"
+                Margin="0,0,5,0"
+                Source="/Assets/avalonia-logo.ico" />
 
-                <TextBlock FontSize="11" Text="Key Vault Explorer for Azure" />
+            <TextBlock FontSize="11" Text="Key Vault Explorer for Azure" />
 
-            </StackPanel>
-        </Panel>
+        </StackPanel>
 
     </Border>
 

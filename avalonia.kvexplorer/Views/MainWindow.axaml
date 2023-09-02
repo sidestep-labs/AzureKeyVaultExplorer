@@ -65,7 +65,6 @@
     <DockPanel>
 
         <custom:TitleBarControl
-            Height="35"
             Background="{DynamicResource AcrylicBackgroundFillColorBaseBrush}"
             DockPanel.Dock="Top"
             IsHitTestVisible="False"

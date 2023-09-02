@@ -32,14 +32,14 @@
                 <ExperimentalAcrylicBorder.Material>
                     <ExperimentalAcrylicMaterial
                         BackgroundSource="Digger"
-                        MaterialOpacity=".65"
+                        MaterialOpacity=".85"
                         TintOpacity="1" />
                 </ExperimentalAcrylicBorder.Material>
             </ExperimentalAcrylicBorder>
             <StackPanel
                 Margin="5,5"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
+                VerticalAlignment="Stretch"
                 Orientation="Horizontal">
 
                 <Image

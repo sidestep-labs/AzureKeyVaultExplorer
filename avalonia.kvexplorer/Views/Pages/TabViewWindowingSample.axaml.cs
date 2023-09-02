@@ -1,65 +1,97 @@
-﻿using avalonia.kvexplorer.ViewModels;
-using avalonia.kvexplorer.ViewModels.Models;
-using avalonia.kvexplorer.Views.CustomControls;
-using Avalonia;
+using System;
+using System.Collections;
+using System.Collections.Specialized;
 using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.Chrome;
 using Avalonia.Input;
-using Avalonia.Threading;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using static avalonia.kvexplorer.ViewModels.TabViewPageViewModel;
 
 namespace avalonia.kvexplorer.Views.Pages;
 
-public partial class TabViewPage : UserControl
+
+public partial class TabViewWindowingSample : AppWindow
 {
-    public TabViewPage()
+    public TabViewWindowingSample()
     {
         InitializeComponent();
-        var vm = new TabViewPageViewModel();
-        DataContext = vm;
+
+        TabView.TabItemsChanged += TabView_TabItemsChanged;
     }
-
-    //private void TabView_AddButtonClick(TabView sender, EventArgs args)
-    //{
-    //    (sender.TabItems as IList).Add(CreateNewTab(sender.TabItems.Count()));
-    //}
-
-    private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-    {
-        (sender.TabItems as IList).Remove(args.Tab);
-    }
-
-    //private DocumentItem CreateNewTab(int index)
-    //{
-    //    var tvi = new DocumentItem
-    //    {
-    //        Header = $"Vault Item {index}",
-    //        Content = $"Vault Item {index}",
-    //        IconSource = new SymbolIconSource { Symbol = Symbol.List },
-    //        Vault = new Vault("tet")
-    //    };
-    //    return tvi;
-    //}
-
-    private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-    {
-        (DataContext as TabViewPageViewModel).Documents.Remove(args.Item as TabViewItem);
-    }
-
-
 
     public static readonly string DataIdentifier = "MyTabItem";
 
+    public static void LaunchRoot()
+    {
+        var tvws = new TabViewWindowingSample();
+        // In order for Drag/Drop/Reordering to work, be sure to use an IList with
+        // INotifyCollectionChanged, otherwise it may not work as expected
+        tvws.TabView.TabItems = new AvaloniaList<TabViewItem>
+        {
+            new TabViewItem
+            {
+                Header = "TabItem 1",
+                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
+            },
+            new TabViewItem
+            {
+                Header = "TabItem 2",
+                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
+            },
+            new TabViewItem
+            {
+                Header = "TabItem 3",
+                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
+            },
+        };
+
+        tvws.Show();
+    }
+
+    protected override void OnOpened(EventArgs e)
+    {
+        base.OnOpened(e);
+
+        if (TitleBar != null)
+        {
+            TitleBar.ExtendsContentIntoTitleBar = true;
+            TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+
+            var dragRegion = this.FindControl<Panel>("CustomDragRegion");
+            dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
+                TitleBar.RightInset : TitleBar.LeftInset;
+        }
+    }
+
+    private void TabView_TabItemsChanged(TabView sender, NotifyCollectionChangedEventArgs args)
+    {
+        // If TabItem count hits zero - close the window
+        // Note that this event ONLY fires based on a INCC change action and not when changing the
+        // items source. i.e., if you set the source to null, you won't get this event and you'll have
+        // to then manually close the window (if that is applicable)
+        // It also won't fire if the TabView is in dragging (an item from its collection is the current drag source)
+        if (sender.TabItems.Count() == 0)
+        {
+            Close();
+        }
+    }
+
+    private void AddTabButtonClick(TabView sender, EventArgs args)
+    {
+        (sender.TabItems as IList).Add(
+            new TabViewItem
+            {
+                Header = "New Item",
+                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
+            });
+    }
+
+    private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+    {
+        (sender.TabItems as IList).Remove(args.Tab);
+    }
 
     private void TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
     {
@@ -69,8 +101,6 @@ public partial class TabViewPage : UserControl
         // Indicate we can move
         args.Data.RequestedOperation = DragDropEffects.Move;
     }
-
-
 
     private void TabStripDrop(object sender, DragEventArgs e)
     {
@@ -122,7 +152,7 @@ public partial class TabViewPage : UserControl
         }
     }
 
-    public void TabStripDragOver(object sender, DragEventArgs e)
+    private void TabStripDragOver(object sender, DragEventArgs e)
     {
         if (e.Data.Contains(DataIdentifier))
         {
@@ -130,7 +160,6 @@ public partial class TabViewPage : UserControl
             e.DragEffects = DragDropEffects.Move;
         }
     }
-
 
     private void TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
     {

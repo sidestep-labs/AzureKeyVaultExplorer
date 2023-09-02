@@ -69,7 +69,7 @@
             DockPanel.Dock="Top"
             Height="48"
             IsHitTestVisible="False"
-            IsVisible="{OnPlatform True,
+            IsVisible="{OnPlatform False,
                                    macOS=True}" />
 
 

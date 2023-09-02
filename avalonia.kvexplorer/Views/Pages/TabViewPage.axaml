@@ -34,10 +34,16 @@
             VerticalAlignment="Stretch"
             AddTabButtonCommand="{Binding AddDocumentCommand}"
             AddTabButtonCommandParameter="Normal"
+            AllowDropTabs="True"
+            CanDragTabs="True"
             CanReorderTabs="True"
             CloseButtonOverlayMode="OnPointerOver"
-            TabCloseRequested="BindingTabView_TabCloseRequested"
+            TabCloseRequested="TabCloseRequested"
+            TabDragStarting="TabDragStarting"
+            TabDroppedOutside="TabDroppedOutside"
             TabItems="{Binding Documents}"
+            TabStripDragOver="TabStripDragOver"
+            TabStripDrop="TabStripDrop"
             TabStripFooter=""
             TabWidthMode="SizeToContent">
             <ui:TabView.TabItemTemplate>

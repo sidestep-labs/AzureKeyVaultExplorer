@@ -14,7 +14,6 @@
     d:DesignWidth="800"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
-        TransparencyLevelHint="AcrylicBlur"
     Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
     <!--<NativeMenu.Menu>
@@ -62,13 +61,15 @@
         </NativeMenu>
     </NativeMenu.Menu>-->
 
+
     <DockPanel>
+
         <custom:TitleBarControl
             Height="35"
             Background="{DynamicResource AcrylicBackgroundFillColorBaseBrush}"
             DockPanel.Dock="Top"
             IsHitTestVisible="False"
-            IsVisible="{OnPlatform True,
+            IsVisible="{OnPlatform False,
                                    macOS=True}" />
         <views:MainView />
     </DockPanel>

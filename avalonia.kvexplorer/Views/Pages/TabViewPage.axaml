@@ -24,7 +24,10 @@
         VerticalAlignment="Stretch"
         ColumnDefinitions="Auto, *"
         RowDefinitions="Auto, *, *, *">-->
-
+    <!--
+        AddTabButtonCommand="{Binding AddDocumentCommand}"
+        AddTabButtonCommandParameter="Normal"
+    -->
     <Panel>
         <ui:TabView
             Name="TabViewDoc"
@@ -32,12 +35,11 @@
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            AddTabButtonCommand="{Binding AddDocumentCommand}"
-            AddTabButtonCommandParameter="Normal"
             AllowDropTabs="False"
             CanDragTabs="True"
             CanReorderTabs="True"
             CloseButtonOverlayMode="OnPointerOver"
+            IsAddTabButtonVisible="False"
             TabCloseRequested="TabCloseRequested"
             TabDragStarting="TabDragStarting"
             TabDroppedOutside="TabDroppedOutside"

@@ -21,6 +21,7 @@
         AllowDropTabs="False"
         CanDragTabs="False"
         CanReorderTabs="False"
+        IsAddTabButtonVisible="False"
         TabCloseRequested="TabCloseRequested">
         <ui:TabView.TabStripFooter>
             <!--

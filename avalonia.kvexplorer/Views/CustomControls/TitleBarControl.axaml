@@ -11,6 +11,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:TitleBarViewModel"
+    Background="Transparent"
     DockPanel.Dock="Top"
     mc:Ignorable="d">
 
@@ -26,13 +27,12 @@
         MaxHeight="30"
         BorderBrush="{DynamicResource ControlElevationBorderBrush}"
         BorderThickness="0,0,0,1">
-        <Panel>
+        <Panel Background="Transparent">
             <ExperimentalAcrylicBorder IsHitTestVisible="False">
                 <ExperimentalAcrylicBorder.Material>
                     <ExperimentalAcrylicMaterial
                         BackgroundSource="Digger"
-                        MaterialOpacity="1"
-                        TintColor="{DynamicResource SmokeFillColorDefaultBrush}"
+                        MaterialOpacity=".65"
                         TintOpacity="1" />
                 </ExperimentalAcrylicBorder.Material>
             </ExperimentalAcrylicBorder>

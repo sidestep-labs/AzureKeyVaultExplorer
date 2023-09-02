@@ -12,8 +12,8 @@
     Height="600"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    ExtendClientAreaChromeHints="OSXThickTitleBar"
-    ExtendClientAreaToDecorationsHint="{OnPlatform False,
+    ExtendClientAreaChromeHints="{OnPlatform Default, Windows=PreferSystemChrome, macOS=OSXThickTitleBar}"
+	ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
     Icon="/Assets/avalonia-logo.ico"
     TransparencyLevelHint="AcrylicBlur"

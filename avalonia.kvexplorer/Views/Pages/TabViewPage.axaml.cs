@@ -58,7 +58,7 @@ public partial class TabViewPage : UserControl
 
 
 
-    public static readonly string DataIdentifier = "MyTabItem";
+    public static readonly string DataIdentifier = "MyTabItemFromMain";
 
 
     private void TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
@@ -151,7 +151,8 @@ public partial class TabViewPage : UserControl
             // need to manage preserving the state of the tabcontent across the different TabViews
             l.Add(args.Tab);
         }
-
+        s.Width = 800;
+        s.Height = 500;
         s.Show();
 
         // TabItemsChanged will fire here and will check if the window is closed, only because it

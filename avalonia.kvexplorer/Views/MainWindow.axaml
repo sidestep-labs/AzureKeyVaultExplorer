@@ -18,7 +18,7 @@
     Icon="/Assets/avalonia-logo.ico"
     TransparencyLevelHint="AcrylicBlur"
     mc:Ignorable="d">
-    <!--<NativeMenu.Menu>
+   <NativeMenu.Menu>
         <NativeMenu>
             <NativeMenuItem Header="User">
                 <NativeMenuItem.Menu>
@@ -61,7 +61,7 @@
                 </NativeMenu>
             </NativeMenuItem>
         </NativeMenu>
-    </NativeMenu.Menu>-->
+    </NativeMenu.Menu>
 
     <DockPanel>
 

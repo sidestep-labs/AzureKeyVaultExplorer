@@ -26,21 +26,33 @@
         MaxHeight="30"
         BorderBrush="{DynamicResource ControlElevationBorderBrush}"
         BorderThickness="0,0,0,1">
-        <StackPanel
-            Margin="5,5"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
+        <Panel>
+            <ExperimentalAcrylicBorder IsHitTestVisible="False">
+                <ExperimentalAcrylicBorder.Material>
+                    <ExperimentalAcrylicMaterial
+                        BackgroundSource="Digger"
+                        MaterialOpacity="1"
+                        TintColor="{DynamicResource SmokeFillColorDefaultBrush}"
+                        TintOpacity="1" />
+                </ExperimentalAcrylicBorder.Material>
+            </ExperimentalAcrylicBorder>
+            <StackPanel
+                Margin="5,5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
 
-            <Image
-                Name="WindowIcon"
-                Width="16"
-                Margin="0,0,5,0"
-                Source="/Assets/avalonia-logo.ico" />
+                <Image
+                    Name="WindowIcon"
+                    Width="16"
+                    Margin="0,0,5,0"
+                    Source="/Assets/avalonia-logo.ico" />
 
-            <TextBlock FontSize="11" Text="Key Vault Explorer for Azure" />
+                <TextBlock FontSize="11" Text="Key Vault Explorer for Azure" />
 
-        </StackPanel>
+            </StackPanel>
+        </Panel>
+
     </Border>
 
 

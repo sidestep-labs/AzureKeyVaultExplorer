@@ -61,7 +61,6 @@
         </NativeMenu>
     </NativeMenu.Menu>-->
 
-
     <DockPanel>
 
         <custom:TitleBarControl
@@ -69,8 +68,10 @@
             Background="{DynamicResource AcrylicBackgroundFillColorBaseBrush}"
             DockPanel.Dock="Top"
             IsHitTestVisible="False"
-            IsVisible="{OnPlatform False,
+            IsVisible="{OnPlatform True,
                                    macOS=True}" />
+
+
         <views:MainView />
     </DockPanel>
 </Window>

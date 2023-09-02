@@ -66,8 +66,8 @@
     <DockPanel>
 
         <custom:TitleBarControl
-            Background="{DynamicResource AcrylicBackgroundFillColorBaseBrush}"
             DockPanel.Dock="Top"
+            Height="48"
             IsHitTestVisible="False"
             IsVisible="{OnPlatform True,
                                    macOS=True}" />

@@ -53,6 +53,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             SecretList.Add(secret);
         }
+        _secretList = SecretList.ToList();
     }
 
     [RelayCommand]

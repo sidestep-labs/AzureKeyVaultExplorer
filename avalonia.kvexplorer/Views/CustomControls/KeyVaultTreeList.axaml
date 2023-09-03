@@ -19,32 +19,29 @@
         <vm:KeyVaultTreeListViewModel />
     </Design.DataContext>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" SharedSizeGroup="LeftColumn" />
-        </Grid.ColumnDefinitions>
+    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *,*">
         <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
-
-
-
         <TextBox
             Grid.Row="0"
             Grid.Column="0"
-            Margin="1"
+            Grid.ColumnSpan="1"
+            Margin="5,2"
+            HorizontalAlignment="Stretch"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             Watermark="Filter key vaults" />
-
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="0,0,5,0"
+            Click="RefreshKeyVaultList">
+            Refresh
+        </Button>
 
         <ScrollViewer
             Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="0"
-            Grid.ColumnSpan="1"
+            Grid.ColumnSpan="2"
             VerticalScrollBarVisibility="Visible">
 
             <TreeView

@@ -33,13 +33,12 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
     private readonly TabViewPageViewModel _tabViewViewModel;
-
+    bool AttemptedLogin = false;
     public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-
         PropertyChanged += OnMyViewModelPropertyChanged;
 
         treeViewList = new ObservableCollection<KeyVaultModel>
@@ -132,7 +131,11 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [RelayCommand]
     public async Task GetAvailableKeyVaults()
     {
-        await Login();
+        //if(false == AttemptedLogin)
+        //{
+        //    await Login();
+        //    AttemptedLogin = true;
+        //}
         var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
         await foreach (var item in resource)
         {
@@ -141,8 +144,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
-
- 
     private async Task Login()
     {
         var cancellation = new CancellationToken();
@@ -150,7 +151,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         if (account == null)
             await _authService.LoginAsync(cancellation);
     }
-
 
     private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -187,7 +187,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             var keyVaultModel = (KeyVaultModel)sender;
             // if they are selecting the list item, expand it as a courtesy
-            if(e.PropertyName == nameof(KeyVaultModel.IsSelected))
+            if (e.PropertyName == nameof(KeyVaultModel.IsSelected))
                 keyVaultModel.IsExpanded = true;
 
             bool isExpanded = keyVaultModel.IsExpanded;
@@ -195,18 +195,17 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    _vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel);
-                    //keyVaultModel.KeyVaultResources.Clear();
-                    //var vaults = _vaultService.GetKeyVaultsBySubscription(keyVaultModel);
-                    //foreach (var vault in vaults)
-                    //{
-                    //    keyVaultModel.KeyVaultResources.Add(vault);
-                    //}
+                    //_vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel); /* This does not work with AOT */
+                    keyVaultModel.KeyVaultResources.Clear();
+                    var vaults = _vaultService.GetKeyVaultsBySubscription(keyVaultModel);
+                    foreach (var vault in vaults)
+                    {
+                        keyVaultModel.KeyVaultResources.Add(vault);
+                    }
                 }, DispatcherPriority.ContextIdle);
             }
         }
     }
-
 
     private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }

@@ -36,6 +36,15 @@ public partial class KeyVaultTreeList : UserControl
     }
 
 
+    private void RefreshKeyVaultList(object sender, RoutedEventArgs e)
+    {
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await (DataContext as KeyVaultTreeListViewModel).GetAvailableKeyVaultsCommand.ExecuteAsync(null);
+        }, DispatcherPriority.Input);
+    }
+
+
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
         var sx = (TreeView)sender;

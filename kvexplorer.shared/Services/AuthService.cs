@@ -100,7 +100,6 @@ public class AuthService
         //};
 
         // If the cache file is being reused, we'd find some already-signed-in accounts
-        var x = await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
 
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
     }

@@ -26,12 +26,15 @@ public partial class KeyVaultTreeList : UserControl
         var model = new KeyVaultTreeListViewModel();
         DataContext = model;
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-
+        // TODO: Figure out why this breaks NativeAOT, possibly due to DI using reflection? idk FIX:
+        /* System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
+        ---> System.MissingMethodException: No parameterless constructor defined for type 'System.Diagnostics.ActivitySource'.*/
         Dispatcher.UIThread.Post(async () =>
         {
             await model.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
-        }, DispatcherPriority.Background);
+        }, DispatcherPriority.ApplicationIdle);
     }
+
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
@@ -50,10 +53,7 @@ public partial class KeyVaultTreeList : UserControl
                 };
 
                 _tabViewViewModel.AddDocumentCommand.Execute(null);
-
             }, DispatcherPriority.Background);
-
-      
         }
     }
 
@@ -65,11 +65,5 @@ public partial class KeyVaultTreeList : UserControl
         {
             var model = (KeyVaultModel)s.SelectedItem;
         }
-    }
-
-    private void PointerPressedx(object sender, PropertyChangedEventArgs e)
-    {
-        // Handle changes to the SelectedTreeItem property here
-        Debug.WriteLine("PointerPressed");
     }
 }

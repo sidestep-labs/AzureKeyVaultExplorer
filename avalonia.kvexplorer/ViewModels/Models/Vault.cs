@@ -4,7 +4,6 @@ using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using static kvexplorer.shared.VaultService;
 
 namespace avalonia.kvexplorer.ViewModels.Models;
 

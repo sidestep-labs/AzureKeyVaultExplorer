@@ -30,12 +30,15 @@
         </Grid.ColumnDefinitions>
         <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
 
+
+
         <TextBox
             Grid.Row="0"
             Grid.Column="0"
             Margin="1"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             Watermark="Filter key vaults" />
+
 
         <ScrollViewer
             Grid.Row="1"
@@ -61,11 +64,11 @@
                     <Style Selector="TreeViewItem">
                         <Setter x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-					</Style>
+                    </Style>
                 </TreeView.Styles>
                 <TreeView.DataTemplates>
 
-                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}" >
+                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
                         <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
                     </TreeDataTemplate>
 

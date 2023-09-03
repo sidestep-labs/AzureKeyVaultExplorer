@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace avalonia.kvexplorer.ViewModels;
 
 public partial class VaultPageViewModel : ViewModelBase
 {
-    private readonly AuthService _authService;
+    private readonly VaultService _vaultService;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(FilterValuesCommand))]
@@ -22,32 +23,36 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     public ObservableCollection<SecretProperties> secretList;
 
-    IEnumerable<SecretProperties> _secretList { get; set; }
-
+    private IEnumerable<SecretProperties> _secretList { get; set; }
 
     [ObservableProperty]
     public ObservableCollection<SecretProperties> secretListFiltered;
 
-    public VaultPageViewModel(AuthService authService, VaultService vaultService)
+    public VaultPageViewModel(string vaultIdentifier)
     {
-        _authService = authService;
+        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
     }
 
     public VaultPageViewModel()
     {
-        _authService = new AuthService();
-        secretList = new ObservableCollection<SecretProperties>()   {
-            new SecretProperties("Salesforce Password" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("SysAdminPassword" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("AzureAPIKey" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-            new SecretProperties("AmazonAlexAuthToken" ) { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(),  },
-        };
+        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
 
-        for ( int i = 0; i < 100; i++)
+        secretList = new ObservableCollection<SecretProperties>()   {};
+
+        for (int i = 0; i < 100; i++)
         {
-            secretList.Add(new SecretProperties($"{i}__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
+            secretList.Add(new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
         }
         _secretList = secretList.ToList();
+    }
+
+    public async Task GetSecretsForVault(Uri kvUri)
+    {
+        var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
+        await foreach (var secret in values)
+        {
+            SecretList.Add(secret);
+        }
     }
 
     [RelayCommand]
@@ -59,17 +64,14 @@ public partial class VaultPageViewModel : ViewModelBase
         SecretList = new ObservableCollection<SecretProperties>(list);
     }
 
-    partial void OnSearchQueryChanged(string searchQuery)
+     partial void OnSearchQueryChanged(string value)
     {
-        string query = searchQuery.Trim().ToLowerInvariant();
+        string query = value.Trim().ToLowerInvariant();
         if (!string.IsNullOrWhiteSpace(query))
         {
             SecretList = new ObservableCollection<SecretProperties>(_secretList);
-
         }
         var list = _secretList.Where(v => v.Name.ToLowerInvariant().Contains(query));
         SecretList = new ObservableCollection<SecretProperties>(list);
     }
-
-
 }

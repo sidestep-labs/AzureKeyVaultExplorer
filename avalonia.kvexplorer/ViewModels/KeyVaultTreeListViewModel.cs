@@ -34,22 +34,17 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly VaultService _vaultService;
     private readonly TabViewPageViewModel _tabViewViewModel;
     bool AttemptedLogin = false;
+
+
     public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-        PropertyChanged += OnMyViewModelPropertyChanged;
+       // PropertyChanged += OnMyViewModelPropertyChanged;
 
         treeViewList = new ObservableCollection<KeyVaultModel>
         {
-            new KeyVaultModel
-            {
-                SubscriptionDisplayName = "Sandbox Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            },
              new KeyVaultModel
             {
                 SubscriptionDisplayName = "1 Subscription",
@@ -80,43 +75,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 SubscriptionId = "123",
                 KeyVaultResources = new List<KeyVaultResource>{ },
                 Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "6 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "7 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "8 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "9 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "10 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "11 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            },
+            }
+    
         };
 
         //foreach (var item in TreeViewList)
@@ -152,14 +112,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             await _authService.LoginAsync(cancellation);
     }
 
-    private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SelectedTreeItem))
-        {
-            // Handle changes to the SelectedTreeItem property here
-            //OnSelectedTreeItemChanged("test");
-        }
-    }
+    //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    //{
+    //    if (e.PropertyName == nameof(SelectedTreeItem))
+    //    {
+    //        // Handle changes to the SelectedTreeItem property here
+    //        //OnSelectedTreeItemChanged("test");
+    //    }
+    //}
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {

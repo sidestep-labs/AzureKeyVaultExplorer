@@ -27,7 +27,9 @@
             Grid.ColumnSpan="1"
             Margin="5,2"
             HorizontalAlignment="Stretch"
+            Classes.clearButton="True"
             Text="{Binding SearchQuery, Mode=TwoWay}"
+            UseFloatingWatermark="True"
             Watermark="Filter key vaults" />
         <Button
             Grid.Row="0"
@@ -51,7 +53,9 @@
                 SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
                 SelectionMode="Single">
 
-                <!--<i:Interaction.Behaviors>
+                <!--
+				
+				<i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="SelectionChanged" SourceObject="{Binding SelectedTreeItem}">
                             <ia:InvokeCommandAction Command="{Binding SelectionChangedXCommand}" />
                         </ia:EventTriggerBehavior>
@@ -59,6 +63,7 @@
 
                 <TreeView.Styles>
                     <Style Selector="TreeViewItem">
+                        <Setter Property="Focusable" Value="False" />
                         <Setter x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>

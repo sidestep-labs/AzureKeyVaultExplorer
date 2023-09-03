@@ -54,14 +54,8 @@ public partial class KeyVaultTreeList : UserControl
             Dispatcher.UIThread.Post(() =>
             {
                 var model = (KeyVaultResource)sx.SelectedItem;
-                var tab = new TabViewItem
-                {
-                    Header = model.Data.Name,
-                    IconSource = new SymbolIconSource { Symbol = Symbol.Document },
-                    Content = new VaultPage()
-                };
-
-                _tabViewViewModel.AddDocumentCommand.Execute(null);
+      
+                _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
             }, DispatcherPriority.Background);
         }
     }

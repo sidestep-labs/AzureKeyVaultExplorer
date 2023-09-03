@@ -119,7 +119,6 @@ public class VaultService
         var client = new KeyClient(KvUri, token);
         await foreach (var keyProperties in client.GetPropertiesOfKeysAsync())
         {
-            await Console.Out.WriteLineAsync(keyProperties.Name);
             yield return keyProperties;
         }
     }
@@ -130,7 +129,6 @@ public class VaultService
         var client = new SecretClient(KvUri, token);
         await foreach (var secretProperties in client.GetPropertiesOfSecretsAsync())
         {
-            await Console.Out.WriteLineAsync(secretProperties.Name);
             yield return secretProperties;
         }
     }
@@ -141,7 +139,6 @@ public class VaultService
         var client = new CertificateClient(KvUri, token);
         await foreach (var certProperties in client.GetPropertiesOfCertificatesAsync())
         {
-            await Console.Out.WriteLineAsync(certProperties.Name);
             yield return certProperties;
         }
     }

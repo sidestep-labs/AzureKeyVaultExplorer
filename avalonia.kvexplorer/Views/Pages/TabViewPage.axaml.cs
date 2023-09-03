@@ -58,8 +58,10 @@ public partial class TabViewPage : UserControl
 
 
 
-    public static readonly string DataIdentifier = "MyTabItemFromMain";
 
+    /* FA demo app Logic for tab dragging and dropping */
+
+    public static readonly string DataIdentifier = "MyTabItemFromMain";
 
     private void TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
     {
@@ -69,8 +71,6 @@ public partial class TabViewPage : UserControl
         // Indicate we can move
         args.Data.RequestedOperation = DragDropEffects.Move;
     }
-
-
 
     private void TabStripDrop(object sender, DragEventArgs e)
     {

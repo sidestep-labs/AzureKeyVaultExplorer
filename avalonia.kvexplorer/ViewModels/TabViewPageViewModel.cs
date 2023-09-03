@@ -33,6 +33,9 @@ public partial class TabViewPageViewModel : ViewModelBase
 
     public ObservableCollection<TabViewItem> KeyBindingDocuments { get; }
 
+    [ObservableProperty]
+    public TabViewItem selectedItem;
+
     //public DocumentItem KeyBindingSelectedDocument
     //{
     //    get => _keybindingSelectedDocument;
@@ -86,6 +89,7 @@ public partial class TabViewPageViewModel : ViewModelBase
             Content = new VaultPage(model.Properties.VaultUri)
         };
         Documents.Add(tab);
+        SelectedItem = tab;
     }
 
 }

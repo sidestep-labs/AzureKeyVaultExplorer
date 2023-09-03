@@ -35,7 +35,6 @@ public partial class KeyVaultTreeList : UserControl
         }, DispatcherPriority.ApplicationIdle);
     }
 
-
     private void RefreshKeyVaultList(object sender, RoutedEventArgs e)
     {
         Dispatcher.UIThread.Post(async () =>
@@ -44,17 +43,17 @@ public partial class KeyVaultTreeList : UserControl
         }, DispatcherPriority.Input);
     }
 
-
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
         var sx = (TreeView)sender;
 
         if (sx.SelectedItem is not null)
         {
+         
             Dispatcher.UIThread.Post(() =>
             {
                 var model = (KeyVaultResource)sx.SelectedItem;
-      
+
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
             }, DispatcherPriority.Background);
         }

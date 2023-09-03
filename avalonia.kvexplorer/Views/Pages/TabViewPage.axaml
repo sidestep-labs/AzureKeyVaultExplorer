@@ -12,7 +12,6 @@
     xmlns:vmm="using:avalonia.kvexplorer.ViewModels.Models"
     d:DesignHeight="550"
     d:DesignWidth="800"
-	
     x:DataType="vm:TabViewPageViewModel"
     mc:Ignorable="d">
 
@@ -20,15 +19,7 @@
         <vm:TabViewPageViewModel />
     </Design.DataContext>
 
-    <!--<Grid
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        ColumnDefinitions="Auto, *"
-        RowDefinitions="Auto, *, *, *">-->
-    <!--
-        AddTabButtonCommand="{Binding AddDocumentCommand}"
-        AddTabButtonCommandParameter="Normal"
-    -->
+
     <Panel>
         <ui:TabView
             Name="TabViewDoc"
@@ -36,11 +27,13 @@
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            AllowDropTabs="False"
+            AddTabButtonCommandParameter="Normal"
+            AllowDropTabs="True"
             CanDragTabs="True"
             CanReorderTabs="True"
             CloseButtonOverlayMode="OnPointerOver"
             IsAddTabButtonVisible="False"
+            SelectedItem="{Binding SelectedItem}"
             TabCloseRequested="TabCloseRequested"
             TabDragStarting="TabDragStarting"
             TabDroppedOutside="TabDroppedOutside"

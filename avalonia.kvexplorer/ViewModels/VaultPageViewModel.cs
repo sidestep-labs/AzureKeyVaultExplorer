@@ -3,10 +3,12 @@ using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
+using kvexplorer.shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,6 +28,9 @@ public partial class VaultPageViewModel : ViewModelBase
     private IEnumerable<SecretProperties> _secretList { get; set; }
 
     [ObservableProperty]
+    public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
+
+    [ObservableProperty]
     public ObservableCollection<SecretProperties> secretListFiltered;
 
     public VaultPageViewModel(string vaultIdentifier)
@@ -37,11 +42,23 @@ public partial class VaultPageViewModel : ViewModelBase
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
 
-        secretList = new ObservableCollection<SecretProperties>()   {};
+        secretList = new ObservableCollection<SecretProperties>() { };
+        vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
 
         for (int i = 0; i < 100; i++)
         {
-            secretList.Add(new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
+            var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
+            VaultContents.Add(new KeyVaultContentsAmalgamation
+            {
+                Name = $"{i}_Demo__Key_Token",
+                Id = new Uri("https://stackoverflow.com/"),
+                Type = KeyVaultItemType.Secret,
+                ContentType = "application/json",
+                VaultUri = new Uri("https://stackoverflow.com/"),
+                Version = "version 1",
+                SecretProperties = sp,
+            });
+            secretList.Add(sp);
         }
         _secretList = secretList.ToList();
     }
@@ -52,6 +69,17 @@ public partial class VaultPageViewModel : ViewModelBase
         await foreach (var secret in values)
         {
             SecretList.Add(secret);
+
+            VaultContents.Add(new KeyVaultContentsAmalgamation
+            {
+                Name = secret.Name,
+                Id = secret.Id,
+                Type = KeyVaultItemType.Secret,
+                ContentType = secret.ContentType,
+                VaultUri = secret.VaultUri,
+                Version = secret.Version,
+                SecretProperties = secret,
+            });
         }
         _secretList = SecretList.ToList();
     }

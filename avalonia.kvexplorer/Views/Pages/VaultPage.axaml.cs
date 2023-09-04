@@ -1,4 +1,5 @@
 ﻿using avalonia.kvexplorer.ViewModels;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
@@ -19,6 +20,14 @@ public partial class VaultPage : UserControl
         var model = new VaultPageViewModel();
         Dispatcher.UIThread.Post(() => _ = model.GetSecretsForVault(kvUri), DispatcherPriority.ContextIdle);
         DataContext = model;
+       var dg =  this.FindControl<DataGrid>("VaultContentDataGrid");
+        dg.ItemsSource = new DataGridCollectionView(dg.ItemsSource)
+        {
+            GroupDescriptions =
+            {
+                new DataGridPathGroupDescription("Type")
+            }
+        };
     }
     public VaultPage()
     {

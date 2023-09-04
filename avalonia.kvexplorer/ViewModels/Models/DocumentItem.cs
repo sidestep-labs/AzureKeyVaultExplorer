@@ -2,6 +2,7 @@
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
+using kvexplorer.shared.Models;
 using System;
 using System.Collections.ObjectModel;
 
@@ -15,6 +16,8 @@ public partial class DocumentItem : ObservableObject
 
     public object Content { get; set; }
 
+    [ObservableProperty]
+    public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     [ObservableProperty]
     public ObservableCollection<SecretProperties> secretList;

@@ -20,6 +20,28 @@
         ColumnDefinitions="*, *, *, *"
         RowDefinitions="Auto,*">
 
+
+        <StackPanel Orientation="Horizontal">
+            <Label
+                Margin="5,0,5,2"
+                VerticalAlignment="Center"
+                FontSize="{DynamicResource FontSizeSmall}">
+                Show:
+            </Label>
+            <CheckBox
+                Name="KeyCheckbox"
+                Margin="5,0"
+                Content="Keys" />
+            <CheckBox
+                Name="SecretCheckbox"
+                Margin="5,0"
+                Content="Secrets" />
+            <CheckBox
+                Name="CertificateCheckbox"
+                Margin="5,0"
+                Content="Certificates" />
+        </StackPanel>
+
         <TextBox
             Grid.Row="0"
             Grid.Column="4"
@@ -32,7 +54,7 @@
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
             <DataGrid
-                Name="MyDataGrid"
+                Name="VaultContentDataGrid"
                 Grid.Row="1"
                 Grid.ColumnSpan="4"
                 VerticalAlignment="Stretch"
@@ -40,10 +62,16 @@
                 DoubleTapped="OnDoubleTapped"
                 GridLinesVisibility="Horizontal"
                 IsReadOnly="True"
-                ItemsSource="{Binding SecretList}"
+                ItemsSource="{Binding VaultContents}"
                 VerticalScrollBarVisibility="Visible">
 
                 <DataGrid.Columns>
+
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Type}"
+                        Header="Type" />
                     <DataGridTextColumn
                         Width="1*"
                         Binding="{Binding Name}"

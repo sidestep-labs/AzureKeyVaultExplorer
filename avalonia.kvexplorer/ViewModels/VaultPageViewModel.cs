@@ -1,7 +1,10 @@
-﻿using Azure.ResourceManager.KeyVault;
+﻿using avalonia.kvexplorer.Views.Pages;
+using Avalonia.Threading;
+using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
 using System;
@@ -9,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,9 +23,8 @@ public partial class VaultPageViewModel : ViewModelBase
     private readonly VaultService _vaultService;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(FilterValuesCommand))]
     public string searchQuery;
-   
+
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
     [ObservableProperty]
@@ -45,16 +48,51 @@ public partial class VaultPageViewModel : ViewModelBase
         for (int i = 0; i < 100; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
-            VaultContents.Add(new KeyVaultContentsAmalgamation
+
+
+            switch (i % 3)
             {
-                Name = $"{i}_Demo__Key_Token",
-                Id = new Uri("https://stackoverflow.com/"),
-                Type = KeyVaultItemType.Secret,
-                ContentType = "application/json",
-                VaultUri = new Uri("https://stackoverflow.com/"),
-                Version = "version 1",
-                SecretProperties = sp,
-            });
+                case 0:
+                    VaultContents.Add(new KeyVaultContentsAmalgamation
+                    {
+                        Name = $"{i}_Secret",
+                        Id = new Uri("https://stackoverflow.com/"),
+                        Type = KeyVaultItemType.Secret,
+                        ContentType = "application/json",
+                        VaultUri = new Uri("https://stackoverflow.com/"),
+                        Version = "version 1",
+                        SecretProperties = sp,
+                    });
+            break;
+
+                case 1:
+                    VaultContents.Add(new KeyVaultContentsAmalgamation
+                    {
+                        Name = $"{i}__Key",
+                        Id = new Uri("https://stackoverflow.com/"),
+                        Type = KeyVaultItemType.Key,
+                        ContentType = "application/json",
+                        VaultUri = new Uri("https://stackoverflow.com/"),
+                        Version = "version 1",
+                        SecretProperties = sp,
+                    });
+                    break;
+
+                case 2:
+                    VaultContents.Add(new KeyVaultContentsAmalgamation
+                    {
+                        Name = $"{i}_Certificate",
+                        Id = new Uri("https://stackoverflow.com/"),
+                        Type = KeyVaultItemType.Certificate,
+                        ContentType = "application/json",
+                        VaultUri = new Uri("https://stackoverflow.com/"),
+                        Version = "version 1",
+                        SecretProperties = sp,
+                    });
+                    break;
+            }
+            
+             
         }
         _vaultContents = VaultContents.ToArray();
     }
@@ -75,19 +113,10 @@ public partial class VaultPageViewModel : ViewModelBase
                 SecretProperties = secret,
             });
         }
-        _vaultContents = VaultContents ;
+        _vaultContents = VaultContents;
     }
 
-    [RelayCommand]
-    private void FilterValues()
-    {
-        string query = SearchQuery.Trim().ToLowerInvariant();
-        //if (!string.IsNullOrWhiteSpace(query))
-        var list = VaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
-    }
-
-     partial void OnSearchQueryChanged(string value)
+    partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim().ToLowerInvariant();
         if (!string.IsNullOrWhiteSpace(query))
@@ -96,5 +125,36 @@ public partial class VaultPageViewModel : ViewModelBase
         }
         var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
+    }
+
+   
+    partial void OnIsSecretsCheckedChanged(bool value)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
+         _vaultContents.Where(v => value == false ? v.Type != KeyVaultItemType.Secret : true)
+     );
+        }, DispatcherPriority.Input);
+    }
+
+    partial void OnIsCertificatesCheckedChanged(bool value)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
+         _vaultContents.Where(v => value == false ? v.Type != KeyVaultItemType.Certificate : true)
+     );
+        }, DispatcherPriority.Input);
+    }
+
+    partial void OnIsKeysCheckedChanged(bool value)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
+         _vaultContents.Where(v => value == false ? v.Type != KeyVaultItemType.Key : true)
+     );
+        }, DispatcherPriority.Input);
     }
 }

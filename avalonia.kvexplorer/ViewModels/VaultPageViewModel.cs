@@ -21,28 +21,25 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(FilterValuesCommand))]
     public string searchQuery;
-
-    [ObservableProperty]
-    public ObservableCollection<SecretProperties> secretList;
-
-    private IEnumerable<SecretProperties> _secretList { get; set; }
+   
+    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
     [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     [ObservableProperty]
-    public ObservableCollection<SecretProperties> secretListFiltered;
+    public bool isKeysChecked = true;
 
-    public VaultPageViewModel(string vaultIdentifier)
-    {
-        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-    }
+    [ObservableProperty]
+    public bool isSecretsChecked = true;
+
+    [ObservableProperty]
+    public bool isCertificatesChecked = true;
 
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
 
-        secretList = new ObservableCollection<SecretProperties>() { };
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
 
         for (int i = 0; i < 100; i++)
@@ -58,9 +55,8 @@ public partial class VaultPageViewModel : ViewModelBase
                 Version = "version 1",
                 SecretProperties = sp,
             });
-            secretList.Add(sp);
         }
-        _secretList = secretList.ToList();
+        _vaultContents = VaultContents.ToArray();
     }
 
     public async Task GetSecretsForVault(Uri kvUri)
@@ -68,8 +64,6 @@ public partial class VaultPageViewModel : ViewModelBase
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
         await foreach (var secret in values)
         {
-            SecretList.Add(secret);
-
             VaultContents.Add(new KeyVaultContentsAmalgamation
             {
                 Name = secret.Name,
@@ -81,7 +75,7 @@ public partial class VaultPageViewModel : ViewModelBase
                 SecretProperties = secret,
             });
         }
-        _secretList = SecretList.ToList();
+        _vaultContents = VaultContents ;
     }
 
     [RelayCommand]
@@ -89,8 +83,8 @@ public partial class VaultPageViewModel : ViewModelBase
     {
         string query = SearchQuery.Trim().ToLowerInvariant();
         //if (!string.IsNullOrWhiteSpace(query))
-        var list = SecretList.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        SecretList = new ObservableCollection<SecretProperties>(list);
+        var list = VaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 
      partial void OnSearchQueryChanged(string value)
@@ -98,9 +92,9 @@ public partial class VaultPageViewModel : ViewModelBase
         string query = value.Trim().ToLowerInvariant();
         if (!string.IsNullOrWhiteSpace(query))
         {
-            SecretList = new ObservableCollection<SecretProperties>(_secretList);
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);
         }
-        var list = _secretList.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        SecretList = new ObservableCollection<SecretProperties>(list);
+        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 }

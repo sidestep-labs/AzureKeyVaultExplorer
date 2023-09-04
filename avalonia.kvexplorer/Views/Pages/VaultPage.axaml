@@ -20,7 +20,6 @@
         ColumnDefinitions="*, *, *, *"
         RowDefinitions="Auto,*">
 
-
         <StackPanel Orientation="Horizontal">
             <Label
                 Margin="5,0,5,2"
@@ -31,15 +30,18 @@
             <CheckBox
                 Name="KeyCheckbox"
                 Margin="5,0"
-                Content="Keys" />
+                Content="Keys"
+                IsChecked="{Binding IsKeysChecked}" />
             <CheckBox
                 Name="SecretCheckbox"
                 Margin="5,0"
-                Content="Secrets" />
+                Content="Secrets"
+                IsChecked="{Binding IsSecretsChecked}" />
             <CheckBox
                 Name="CertificateCheckbox"
                 Margin="5,0"
-                Content="Certificates" />
+                Content="Certificates"
+                IsChecked="{Binding IsCertificatesChecked}" />
         </StackPanel>
 
         <TextBox
@@ -50,7 +52,6 @@
             DockPanel.Dock="Top"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             Watermark="Search values" />
-
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
             <DataGrid
@@ -66,7 +67,6 @@
                 VerticalScrollBarVisibility="Visible">
 
                 <DataGrid.Columns>
-
 
                     <DataGridTextColumn
                         Width="1*"
@@ -99,11 +99,5 @@
                 </DataGrid.Styles>
             </DataGrid>
         </DockPanel>
-
-
-
     </Grid>
-
-
-
 </UserControl>

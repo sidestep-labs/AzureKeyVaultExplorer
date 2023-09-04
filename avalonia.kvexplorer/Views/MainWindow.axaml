@@ -16,7 +16,8 @@
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
     Icon="/Assets/avalonia-logo.ico"
-    TransparencyLevelHint="AcrylicBlur"
+	Background="{x:Null}"
+	TransparencyLevelHint="Mica"
     mc:Ignorable="d">
    <NativeMenu.Menu>
         <NativeMenu>

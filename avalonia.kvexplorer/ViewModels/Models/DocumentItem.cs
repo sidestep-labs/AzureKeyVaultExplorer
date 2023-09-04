@@ -15,7 +15,6 @@ public partial class DocumentItem : ObservableObject
 
     public object Content { get; set; }
 
-    public Vault Vault { get; set; }
 
     [ObservableProperty]
     public ObservableCollection<SecretProperties> secretList;

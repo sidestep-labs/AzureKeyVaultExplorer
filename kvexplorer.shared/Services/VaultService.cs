@@ -108,11 +108,6 @@ public class VaultService
     }
 
 
-
-
-
-
-
     public async IAsyncEnumerable<KeyProperties> GetVaultAssociatedKeys(Uri KvUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());

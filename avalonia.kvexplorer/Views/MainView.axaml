@@ -42,6 +42,7 @@
         </Grid.Margin>-->
 
     <ui:NavigationView
+		Background="Transparent"
         Name="NavView"
         Grid.Row="0"
         Grid.RowSpan="2"

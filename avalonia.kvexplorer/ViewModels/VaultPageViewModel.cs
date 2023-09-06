@@ -158,7 +158,8 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);
         }
-        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
+        var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
+        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query) && toFilter.Contains(v.Type));
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 

@@ -36,7 +36,14 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
+    public Dictionary<KeyVaultItemType, bool> CheckedBoxes { get; set; } = new Dictionary<KeyVaultItemType, bool>() {
+          { KeyVaultItemType.Key, true},
+          { KeyVaultItemType.Secret, true},
+          { KeyVaultItemType.Certificate, true},
+    };
+
     private readonly VaultService _vaultService;
+
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -101,6 +108,7 @@ public partial class VaultPageViewModel : ViewModelBase
             GroupDescriptions = { new DataGridPathGroupDescription("Name") }
         }
      */
+
     public async Task GetSecretsForVault(Uri kvUri)
     {
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
@@ -122,33 +130,25 @@ public partial class VaultPageViewModel : ViewModelBase
 
     partial void OnIsCertificatesCheckedChanged(bool value)
     {
-        Dispatcher.UIThread.Post(() =>
-        {
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
-        VaultContents.Where(v => value || v.Type != KeyVaultItemType.Certificate)
-     );
-        }, DispatcherPriority.Input);
+        var key = KeyVaultItemType.Certificate;
+        CheckedBoxes[key] = value;
+
+        Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
-    partial void OnIsKeysCheckedChanged(bool value)
+     partial void OnIsKeysCheckedChanged(bool value)
     {
-        Dispatcher.UIThread.Post(() =>
-        {
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
-        _vaultContents.Where(v => value || v.Type != KeyVaultItemType.Key)
-     );
-        }, DispatcherPriority.Input);
+        var key = KeyVaultItemType.Key;
+        CheckedBoxes[key] = value;
+
+        Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
-    partial void OnIsSecretsCheckedChanged(bool value)
+     partial void OnIsSecretsCheckedChanged(bool value)
     {
-        Dispatcher.UIThread.Post(() =>
-        {
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
-        _vaultContents.Where(v => value || v.Type != KeyVaultItemType.Secret)
-
-     );
-        }, DispatcherPriority.Input);
+        var key = KeyVaultItemType.Secret;
+        CheckedBoxes[key] = value;
+        Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
     partial void OnSearchQueryChanged(string value)
@@ -159,6 +159,12 @@ public partial class VaultPageViewModel : ViewModelBase
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);
         }
         var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        _vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
+    }
+
+    private void FilterBasedOnCheckedBoxes()
+    {
+        var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => toFilter.Contains(v.Type)));
     }
 }

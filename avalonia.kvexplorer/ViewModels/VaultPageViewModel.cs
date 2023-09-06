@@ -1,4 +1,5 @@
 ﻿using avalonia.kvexplorer.Views.Pages;
+using Avalonia.Collections;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
@@ -20,15 +21,8 @@ namespace avalonia.kvexplorer.ViewModels;
 
 public partial class VaultPageViewModel : ViewModelBase
 {
-    private readonly VaultService _vaultService;
-
     [ObservableProperty]
-    public string searchQuery;
-
-    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
-
-    [ObservableProperty]
-    public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
+    public bool isCertificatesChecked = true;
 
     [ObservableProperty]
     public bool isKeysChecked = true;
@@ -37,18 +31,21 @@ public partial class VaultPageViewModel : ViewModelBase
     public bool isSecretsChecked = true;
 
     [ObservableProperty]
-    public bool isCertificatesChecked = true;
+    public string searchQuery;
 
+    [ObservableProperty]
+    public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
+
+    private readonly VaultService _vaultService;
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
 
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 50; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
-
 
             switch (i % 3)
             {
@@ -63,7 +60,7 @@ public partial class VaultPageViewModel : ViewModelBase
                         Version = "version 1",
                         SecretProperties = sp,
                     });
-            break;
+                    break;
 
                 case 1:
                     VaultContents.Add(new KeyVaultContentsAmalgamation
@@ -91,12 +88,19 @@ public partial class VaultPageViewModel : ViewModelBase
                     });
                     break;
             }
-            
-             
+            _vaultContents = VaultContents;
         }
-        _vaultContents = VaultContents.ToArray();
     }
 
+    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
+
+    /*
+     *
+      get => new DataGridCollectionView(VaultContents)
+        {
+            GroupDescriptions = { new DataGridPathGroupDescription("Name") }
+        }
+     */
     public async Task GetSecretsForVault(Uri kvUri)
     {
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
@@ -116,34 +120,12 @@ public partial class VaultPageViewModel : ViewModelBase
         _vaultContents = VaultContents;
     }
 
-    partial void OnSearchQueryChanged(string value)
-    {
-        string query = value.Trim().ToLowerInvariant();
-        if (!string.IsNullOrWhiteSpace(query))
-        {
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);
-        }
-        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
-    }
-
-   
-    partial void OnIsSecretsCheckedChanged(bool value)
-    {
-        Dispatcher.UIThread.Post(() =>
-        {
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
-         _vaultContents.Where(v => value == false ? v.Type != KeyVaultItemType.Secret : true)
-     );
-        }, DispatcherPriority.Input);
-    }
-
     partial void OnIsCertificatesCheckedChanged(bool value)
     {
         Dispatcher.UIThread.Post(() =>
         {
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
-         _vaultContents.Where(v => value == false ? v.Type != KeyVaultItemType.Certificate : true)
+        VaultContents.Where(v => value || v.Type != KeyVaultItemType.Certificate)
      );
         }, DispatcherPriority.Input);
     }
@@ -153,8 +135,30 @@ public partial class VaultPageViewModel : ViewModelBase
         Dispatcher.UIThread.Post(() =>
         {
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
-         _vaultContents.Where(v => value == false ? v.Type != KeyVaultItemType.Key : true)
+        _vaultContents.Where(v => value || v.Type != KeyVaultItemType.Key)
      );
         }, DispatcherPriority.Input);
+    }
+
+    partial void OnIsSecretsCheckedChanged(bool value)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(
+        _vaultContents.Where(v => value || v.Type != KeyVaultItemType.Secret)
+
+     );
+        }, DispatcherPriority.Input);
+    }
+
+    partial void OnSearchQueryChanged(string value)
+    {
+        string query = value.Trim().ToLowerInvariant();
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);
+        }
+        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
+        _vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 }

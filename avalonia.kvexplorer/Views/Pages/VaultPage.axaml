@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="550"
     d:DesignWidth="800"
@@ -51,9 +52,14 @@
             Classes.clearButton="True"
             DockPanel.Dock="Top"
             Text="{Binding SearchQuery, Mode=TwoWay}"
+            TextChanged="SearchBoxChanges"
             Watermark="Search values" />
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
+
+            <!--  x:DataType="models:KeyVaultContentsAmalgamation"  -->
+
+
             <DataGrid
                 Name="VaultContentDataGrid"
                 Grid.Row="1"
@@ -98,6 +104,7 @@
                     </Style>
                 </DataGrid.Styles>
             </DataGrid>
+
         </DockPanel>
     </Grid>
 </UserControl>

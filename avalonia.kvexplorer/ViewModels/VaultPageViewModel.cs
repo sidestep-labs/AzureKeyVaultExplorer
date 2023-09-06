@@ -42,6 +42,8 @@ public partial class VaultPageViewModel : ViewModelBase
           { KeyVaultItemType.Certificate, true},
     };
 
+
+
     private readonly VaultService _vaultService;
 
     public VaultPageViewModel()
@@ -130,24 +132,21 @@ public partial class VaultPageViewModel : ViewModelBase
 
     partial void OnIsCertificatesCheckedChanged(bool value)
     {
-        var key = KeyVaultItemType.Certificate;
-        CheckedBoxes[key] = value;
+        CheckedBoxes[KeyVaultItemType.Certificate] = value;
 
         Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
      partial void OnIsKeysCheckedChanged(bool value)
     {
-        var key = KeyVaultItemType.Key;
-        CheckedBoxes[key] = value;
+        CheckedBoxes[KeyVaultItemType.Key] = value;
 
         Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
      partial void OnIsSecretsCheckedChanged(bool value)
     {
-        var key = KeyVaultItemType.Secret;
-        CheckedBoxes[key] = value;
+        CheckedBoxes[KeyVaultItemType.Secret] = value;
         Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 

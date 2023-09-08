@@ -31,18 +31,24 @@
             <CheckBox
                 Name="KeyCheckbox"
                 Margin="5,0"
+                Checked="VaultFilterChanges"
                 Content="Keys"
-                IsChecked="{Binding IsKeysChecked}" />
+                IsChecked="{Binding IsKeysChecked}"
+                Unchecked="VaultFilterChanges" />
             <CheckBox
                 Name="SecretCheckbox"
                 Margin="5,0"
+                Checked="VaultFilterChanges"
                 Content="Secrets"
-                IsChecked="{Binding IsSecretsChecked}" />
+                IsChecked="{Binding IsSecretsChecked}"
+                Unchecked="VaultFilterChanges" />
             <CheckBox
                 Name="CertificateCheckbox"
                 Margin="5,0"
+                Checked="VaultFilterChanges"
                 Content="Certificates"
-                IsChecked="{Binding IsCertificatesChecked}" />
+                IsChecked="{Binding IsCertificatesChecked}"
+                Unchecked="VaultFilterChanges" />
         </StackPanel>
 
         <TextBox
@@ -57,7 +63,11 @@
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
 
-            <!--  x:DataType="models:KeyVaultContentsAmalgamation"  -->
+            <!--
+                IsVisible="{Binding !IsBusy}"
+                
+                x:DataType="models:KeyVaultContentsAmalgamation"
+            -->
 
 
             <DataGrid

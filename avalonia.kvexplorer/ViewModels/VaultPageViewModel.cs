@@ -34,6 +34,9 @@ public partial class VaultPageViewModel : ViewModelBase
     public string searchQuery;
 
     [ObservableProperty]
+    public bool isBusy = true;
+
+    [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     public Dictionary<KeyVaultItemType, bool> CheckedBoxes { get; set; } = new Dictionary<KeyVaultItemType, bool>() {
@@ -110,6 +113,7 @@ public partial class VaultPageViewModel : ViewModelBase
             GroupDescriptions = { new DataGridPathGroupDescription("Name") }
         }
      */
+    //    public async Task<IEnumerable<KeyVaultContentsAmalgamation>> GetSecretsForVault(Uri kvUri)
 
     public async Task GetSecretsForVault(Uri kvUri)
     {
@@ -128,26 +132,27 @@ public partial class VaultPageViewModel : ViewModelBase
             });
         }
         _vaultContents = VaultContents;
+
+        //return _vaultContents;
     }
 
     partial void OnIsCertificatesCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Certificate] = value;
 
-        Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
      partial void OnIsKeysCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Key] = value;
 
-        Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
+        //Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
      partial void OnIsSecretsCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Secret] = value;
-        Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
+        //Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
     partial void OnSearchQueryChanged(string value)
@@ -162,7 +167,7 @@ public partial class VaultPageViewModel : ViewModelBase
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 
-    private void FilterBasedOnCheckedBoxes()
+    public void FilterBasedOnCheckedBoxes()
     {
         var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => toFilter.Contains(v.Type)));

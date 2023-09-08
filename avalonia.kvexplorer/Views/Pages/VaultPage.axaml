@@ -25,9 +25,8 @@
             <Label
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
-                FontSize="{DynamicResource FontSizeSmall}">
-                Show:
-            </Label>
+                Content="Show:"
+                FontSize="{DynamicResource FontSizeSmall}" />
             <CheckBox
                 Name="KeyCheckbox"
                 Margin="5,0"
@@ -59,13 +58,13 @@
             DockPanel.Dock="Top"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             TextChanged="SearchBoxChanges"
-            Watermark="Search values" />
+            Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
 
             <!--
                 IsVisible="{Binding !IsBusy}"
-                
+                Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F2} values'}"
                 x:DataType="models:KeyVaultContentsAmalgamation"
             -->
 

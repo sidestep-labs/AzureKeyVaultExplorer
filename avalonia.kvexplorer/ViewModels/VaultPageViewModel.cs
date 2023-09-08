@@ -170,6 +170,6 @@ public partial class VaultPageViewModel : ViewModelBase
     public void FilterBasedOnCheckedBoxes()
     {
         var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => toFilter.Contains(v.Type)));
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => toFilter.Contains(v.Type) && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
     }
 }

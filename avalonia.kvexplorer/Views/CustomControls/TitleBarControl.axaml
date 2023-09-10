@@ -24,6 +24,7 @@
 
     <Border
         MaxHeight="30"
+        VerticalAlignment="Top"
         BorderBrush="{DynamicResource ControlElevationBorderBrush}"
         BorderThickness="0,0,0,1">
         <StackPanel

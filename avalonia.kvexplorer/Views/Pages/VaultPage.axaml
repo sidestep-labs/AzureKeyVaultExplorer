@@ -107,11 +107,20 @@
                 <DataGrid.Styles>
                     <Style Selector="DataGrid DataGridRow:nth-child(2n)">
                         <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-                    </Style>
+						<Setter Property="Focusable" Value="False"/>
+
+					</Style>
                     <Style Selector="DataGridRow">
                         <Setter Property="Height" Value="22" />
-                    </Style>
+					</Style>
+					<Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+						<Setter Property="Height" Value="22" />
+						<Setter Property="Focusable" Value="False"/>
+					</Style>
+
+
                 </DataGrid.Styles>
+
             </DataGrid>
 
         </DockPanel>

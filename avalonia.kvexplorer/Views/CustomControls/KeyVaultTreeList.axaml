@@ -23,22 +23,19 @@
         <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
         <TextBox
             Grid.Row="0"
+            Margin="12,10,0,0"
+			
             Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="5,2"
-            HorizontalAlignment="Stretch"
             Classes.clearButton="True"
             Text="{Binding SearchQuery, Mode=TwoWay}"
-            UseFloatingWatermark="True"
             Watermark="Filter key vaults" />
         <Button
             Grid.Row="0"
             Grid.Column="2"
-            Margin="0,0,5,0"
-            Click="RefreshKeyVaultList">
-            Refresh
-        </Button>
-
+            Margin="12,10,10,0"
+            Click="RefreshKeyVaultList"
+            Content="&#xE149;"
+            FontFamily="{StaticResource SymbolThemeFontFamily}" />
         <ScrollViewer
             Grid.Row="1"
             Grid.RowSpan="2"
@@ -75,7 +72,18 @@
                     </TreeDataTemplate>
 
                     <DataTemplate DataType="armmodels:KeyVaultResource">
-                        <TextBlock Text="{Binding Data.Name, Mode=OneWay}" />
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+
+
+                            <ui:FontIcon
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Glyph="&#xE15E;" />
+
+                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
+
+                        </StackPanel>
                     </DataTemplate>
                 </TreeView.DataTemplates>
             </TreeView>

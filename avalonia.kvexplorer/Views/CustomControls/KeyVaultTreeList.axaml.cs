@@ -31,7 +31,7 @@ public partial class KeyVaultTreeList : UserControl
         ---> System.MissingMethodException: No parameterless constructor defined for type 'System.Diagnostics.ActivitySource'.*/
         Dispatcher.UIThread.Post(async () =>
         {
-            await model.GetAvailableKeyVaultsCommand.ExecuteAsync(null);
+            await model.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
         }, DispatcherPriority.ApplicationIdle);
     }
 
@@ -39,7 +39,7 @@ public partial class KeyVaultTreeList : UserControl
     {
         Dispatcher.UIThread.Post(async () =>
         {
-            await (DataContext as KeyVaultTreeListViewModel).GetAvailableKeyVaultsCommand.ExecuteAsync(null);
+            await (DataContext as KeyVaultTreeListViewModel).GetAvailableKeyVaultsCommand.ExecuteAsync(true);
         }, DispatcherPriority.Input);
     }
 
@@ -55,7 +55,7 @@ public partial class KeyVaultTreeList : UserControl
                 var model = (KeyVaultResource)sx.SelectedItem;
 
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
-            }, DispatcherPriority.Background);
+            }, DispatcherPriority.ContextIdle);
         }
     }
 

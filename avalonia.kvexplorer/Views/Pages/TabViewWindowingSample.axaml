@@ -18,11 +18,15 @@
     <ui:TabView
         Name="TabView"
         VerticalAlignment="Stretch"
-        AllowDropTabs="False"
-        CanDragTabs="False"
-        CanReorderTabs="False"
+        AllowDropTabs="True"
+        CanDragTabs="True"
+        CanReorderTabs="True"
         IsAddTabButtonVisible="False"
-        TabCloseRequested="TabCloseRequested">
+        TabCloseRequested="TabCloseRequested"
+        TabDragStarting="TabDragStarting"
+        TabDroppedOutside="TabDroppedOutside"
+        TabStripDragOver="TabStripDragOver"
+        TabStripDrop="TabStripDrop">
         <ui:TabView.TabStripFooter>
             <!--
                 Use this so we can set the margin in the tabstrip so it

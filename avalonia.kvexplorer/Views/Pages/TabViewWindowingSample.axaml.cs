@@ -21,7 +21,7 @@ public partial class TabViewWindowingSample : AppWindow
         TabView.TabItemsChanged += TabView_TabItemsChanged;
     }
 
-    public static readonly string DataIdentifier = "MyTabItem";
+    public static readonly string DataIdentifier = "MyTabItemFromMain";
 
     public static void LaunchRoot()
     {

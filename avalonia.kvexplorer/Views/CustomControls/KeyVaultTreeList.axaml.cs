@@ -11,7 +11,6 @@ using kvexplorer.shared.Models;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace avalonia.kvexplorer.Views.CustomControls;
 

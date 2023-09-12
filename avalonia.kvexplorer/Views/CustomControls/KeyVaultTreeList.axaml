@@ -79,7 +79,7 @@
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Glyph="&#xE15E;" />
+                                Glyph="&#xE130;" />
 
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
 

@@ -6,6 +6,8 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Chrome;
 using Avalonia.Input;
+using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
@@ -77,7 +79,6 @@ public partial class TabViewPage : UserControl
         if (e.Data.Contains(DataIdentifier) && e.Data.Get(DataIdentifier) is TabViewItem tvi)
         {
             var destinationTabView = sender as TabView;
-
             // While the TabView's internal ListView handles placing an insertion point gap, it 
             // doesn't actually hold that position upon drop - meaning you now must calculate
             // the approximate position of where to insert the tab
@@ -112,15 +113,22 @@ public partial class TabViewPage : UserControl
             destinationTabView.SelectedItem = tvi;
             e.Handled = true;
 
+            // FIX: this is terrible. I have no idea why the grid will show isLoaded as False without this, putting a forground infront of it.
+            // this is one of the few modifications I have made to what was the sample apps tab view example.
+            AvaloniaXamlLoader.Load(this);
+            
+           
             // Remember, TabItemsChanged won't fire during DragDrop so we need to check
             // here if we should close the window if TabItems.Count() == 0
             if (srcTabView.TabItems.Count() == 0)
             {
-                var wnd = srcTabView.FindAncestorOfType<AppWindow>();
+                var wnd = srcTabView.FindAncestorOfType<TabViewWindowingSample>();
                 wnd.Close();
             }
+
         }
     }
+
 
     public void TabStripDragOver(object sender, DragEventArgs e)
     {

@@ -12,8 +12,8 @@
 
     <Design.DataContext />
 
+	<!--Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"-->
 
-
-    <pages:TabViewPage Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
+	<pages:TabViewPage />
 
 </UserControl>

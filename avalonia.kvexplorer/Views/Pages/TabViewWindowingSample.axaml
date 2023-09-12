@@ -8,6 +8,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     Title="TabViewWindowingSample"
     d:DesignHeight="450"
+	Background="Black"
     d:DesignWidth="800"
     mc:Ignorable="d">
 

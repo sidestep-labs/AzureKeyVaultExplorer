@@ -14,9 +14,8 @@
     <Design.DataContext>
         <vm:VaultPageViewModel />
     </Design.DataContext>
-
+    <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Grid
-        MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height, }"
         Margin="10,10,10,0"
         ColumnDefinitions="*, *, *, *"
         RowDefinitions="Auto,*">
@@ -68,14 +67,12 @@
                 x:DataType="models:KeyVaultContentsAmalgamation"
             -->
 
-
             <DataGrid
                 Name="VaultContentDataGrid"
-                Grid.Row="1"
-                Grid.ColumnSpan="4"
                 VerticalAlignment="Stretch"
                 CanUserReorderColumns="True"
                 DoubleTapped="OnDoubleTapped"
+                Focusable="False"
                 GridLinesVisibility="Horizontal"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"
@@ -107,14 +104,13 @@
                 <DataGrid.Styles>
                     <Style Selector="DataGrid DataGridRow:nth-child(2n)">
                         <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-					</Style>
+                    </Style>
                     <Style Selector="DataGridRow">
                         <Setter Property="Height" Value="22" />
-					</Style>
-					<Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
-						<Setter Property="Height" Value="22" />
-						<!--<Setter Property="Focusable" Value="False"/>-->
-					</Style>
+                    </Style>
+                    <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+                        <Setter Property="Height" Value="22" />
+                    </Style>
                 </DataGrid.Styles>
 
             </DataGrid>

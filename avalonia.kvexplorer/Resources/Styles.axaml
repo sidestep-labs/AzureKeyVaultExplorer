@@ -34,10 +34,8 @@
                         Fill="Blue" />
                 </StackPanel>
             </TabItem>
-        </TabControl>-->
-
-        <StackPanel Width="200" Height="200">
-            <Menu Padding="10">
+        </TabControl>
+		   <Menu Padding="10">
                 <MenuItem ClipToBounds="False" Header="_File">
                     <MenuItem>
 
@@ -55,9 +53,20 @@
                     <MenuItem Header="Paste" />
                 </MenuItem>
             </Menu>
+		-->
+
+        <StackPanel Width="200" Height="200">
+            <Button ToolTip.Tip="This is a test">Test</Button>
         </StackPanel>
     </Design.PreviewWith>
 
+
+
+    <Style Selector="ToolTip">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="BorderBrush" Value="Red" />
+    </Style>
 
     <!--<Style Selector="TextBlock.h1">
         <Setter Property="FontSize" Value="24" />

@@ -11,7 +11,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="300"
     x:DataType="vm:KeyVaultTreeListViewModel"
     mc:Ignorable="d">
 
@@ -19,25 +19,36 @@
         <vm:KeyVaultTreeListViewModel />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *,*">
+    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*,*">
         <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
-        <TextBox
+        <Label
             Grid.Row="0"
-            Margin="12,10,0,0"
-			
             Grid.Column="0"
-            Classes.clearButton="True"
-            Text="{Binding SearchQuery, Mode=TwoWay}"
-            Watermark="Filter key vaults" />
-        <Button
-            Grid.Row="0"
-            Grid.Column="2"
-            Margin="12,10,10,0"
-            Click="RefreshKeyVaultList"
-            Content="&#xE149;"
-            FontFamily="{StaticResource SymbolThemeFontFamily}" />
-        <ScrollViewer
+            Margin="12,0,0,0"
+            Content="Subscriptions"
+            FontSize="{DynamicResource FontSizeSmall}" />
+
+        <StackPanel
             Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <TextBox
+                Width="235"
+                Margin="10,10,0,0"
+                Classes.clearButton="True"
+                Text="{Binding SearchQuery, Mode=TwoWay}"
+                Watermark="Filter key vaults" />
+            <Button
+                Margin="12,10,10,0"
+                VerticalAlignment="Stretch"
+                Click="RefreshKeyVaultList"
+                Content="&#xE149;"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                ToolTip.Tip="Refresh available subscriptions" />
+        </StackPanel>
+        <ScrollViewer
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -72,17 +83,17 @@
                     </TreeDataTemplate>
 
                     <DataTemplate DataType="armmodels:KeyVaultResource">
-                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-
-
+                        <StackPanel
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Cursor="Hand"
+                            Orientation="Horizontal">
                             <ui:FontIcon
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Glyph="&#xE130;" />
-
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
-
                         </StackPanel>
                     </DataTemplate>
                 </TreeView.DataTemplates>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
+using avalonia.kvexplorer.ViewModels;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -17,6 +18,7 @@ public partial class TabViewWindowingSample : AppWindow
     public TabViewWindowingSample()
     {
         InitializeComponent();
+        DataContext = new TabViewPageViewModel();
 
         TabView.TabItemsChanged += TabView_TabItemsChanged;
     }
@@ -63,6 +65,12 @@ public partial class TabViewWindowingSample : AppWindow
             dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
                 TitleBar.RightInset : TitleBar.LeftInset;
         }
+    }
+
+
+    protected override void OnDataContextChanged(EventArgs e)
+    {
+        base.OnDataContextChanged(e);
     }
 
     private void TabView_TabItemsChanged(TabView sender, NotifyCollectionChangedEventArgs args)
@@ -147,6 +155,9 @@ public partial class TabViewWindowingSample : AppWindow
             if (srcTabView.TabItems.Count() == 0)
             {
                 var wnd = srcTabView.FindAncestorOfType<AppWindow>();
+                wnd.ShowActivated = true;
+                wnd.Activate();
+                wnd.InvalidateVisual();
                 wnd.Close();
             }
         }

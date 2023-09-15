@@ -57,17 +57,33 @@
 
         <StackPanel Width="200" Height="200">
             <Button ToolTip.Tip="This is a test">Test</Button>
+
+
+            <!--<Button>
+                test 2
+                <ToolTip.Tip >
+                    <Border BoxShadow="0 6 8 0 #4F000000">
+                        <ToolTip>
+                            test
+                        </ToolTip>
+                    </Border>
+                </ToolTip.Tip>
+
+            </Button>-->
         </StackPanel>
     </Design.PreviewWith>
 
 
 
-    <Style Selector="ToolTip">
-        <Setter Property="FontSize" Value="24" />
+    <!--<Style Selector="ToolTip">
+        --><!--<Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="BorderBrush" Value="Red" />
+        <Setter Property="BorderBrush" Value="Red" />--><!--
     </Style>
-
+    <Style Selector="ToolTip">
+        <Setter Property="Border.BoxShadow" Value="0 6 8 0 #4F000000" />
+        <Setter Property="BorderBrush" Value="Red" />
+    </Style>-->
     <!--<Style Selector="TextBlock.h1">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Bold" />

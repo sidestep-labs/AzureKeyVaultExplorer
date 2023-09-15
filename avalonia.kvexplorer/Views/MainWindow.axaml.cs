@@ -10,12 +10,10 @@ namespace avalonia.kvexplorer.Views;
 
 public partial class MainWindow : AppWindow
 {
-    private MainViewModel _mainWindowViewModel;
 
     public MainWindow()
     {
         InitializeComponent();
-        _mainWindowViewModel = new MainViewModel();
         //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;

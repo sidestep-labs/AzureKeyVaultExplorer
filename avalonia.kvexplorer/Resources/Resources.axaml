@@ -1,0 +1,11 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:FluentAvalonia.UI.Controls">
+
+    <ui:SymbolIconSource x:Key="HomeIcon" Symbol="Home" />
+    <ui:SymbolIconSource x:Key="HomeIconFilled" Symbol="HomeFilled" />
+    <ui:SymbolIconSource x:Key="SettingsIcon" Symbol="Settings" />
+    <ui:SymbolIconSource x:Key="SettingsIconFilled" Symbol="SettingsFilled" />
+
+</ResourceDictionary>

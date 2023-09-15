@@ -29,7 +29,7 @@ public partial class MainView : UserControl
     {
         base.OnAttachedToVisualTree(e);
 
-        var vm = new MainViewModel();
+        var vm = Defaults.Locator.GetRequiredService<MainViewModel>();
         _navView = this.FindControl<NavigationView>("NavView");
         var navViewItems = _navView.MenuItems;
         var navMenuItems = navViewItems.TakeLast(2).Cast<NavigationViewItem>();
@@ -40,6 +40,7 @@ public partial class MainView : UserControl
 
         FrameView.Navigated += OnFrameViewNavigated;
         NavView.ItemInvoked += OnNavigationViewItemInvoked;
+       
 
         //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
         //  {
@@ -64,7 +65,7 @@ public partial class MainView : UserControl
         FrameView.NavigateFromObject(new MainPage());
     }
 
-    private void SetNviIcon(NavigationViewItem? item, bool selected)
+    private void SetNVIIcon(NavigationViewItem? item, bool selected)
     {
         // Technically, yes you could set up binding and converters and whatnot to let the icon change
         // between filled and unfilled based on selection, but this is so much simpler
@@ -76,9 +77,9 @@ public partial class MainView : UserControl
 
         item.IconSource = t switch
         {
-            MainViewModel => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value) ? (IconSource)value! : null,
+            MainPage => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value) ? (IconSource)value! : null,
             BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
-            SettingsPageViewModel => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
+            SettingsPage => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };
 
@@ -94,11 +95,11 @@ public partial class MainView : UserControl
             if (nvi.Tag != null && nvi.Tag.Equals(page))
             {
                 NavView.SelectedItem = nvi;
-                SetNviIcon(nvi, true);
+                SetNVIIcon(nvi, true);
             }
             else
             {
-                SetNviIcon(nvi, false);
+                SetNVIIcon(nvi, false);
             }
         }
 
@@ -107,14 +108,18 @@ public partial class MainView : UserControl
             if (nvi.Tag != null && nvi.Tag.Equals(page))
             {
                 NavView.SelectedItem = nvi;
-                SetNviIcon(nvi, true);
+                SetNVIIcon(nvi, true);
             }
             else
             {
-                SetNviIcon(nvi, false);
+                SetNVIIcon(nvi, false);
             }
         }
     }
+
+
+
+
 
     private IEnumerable<NavigationViewItem> GetNavigationViewItems()
     {
@@ -144,7 +149,7 @@ public partial class MainView : UserControl
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
-        SetNviIcon((_navView!.SelectedItem as NavigationViewItem)!, false);
+        SetNVIIcon((_navView!.SelectedItem as NavigationViewItem)!, false);
 
         if (e.InvokedItemContainer is NavigationViewItem { Tag: Control c })
         {

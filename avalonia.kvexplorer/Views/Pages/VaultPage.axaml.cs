@@ -30,8 +30,8 @@ public partial class VaultPage : UserControl
     public VaultPage(Uri kvUri)
     {
         InitializeComponent();
-
         var model = new VaultPageViewModel();
+
         DataContext = model;
         vaultPageViewModel = model;
         dataGrid = this.FindControl<DataGrid>(DatGridElementName);

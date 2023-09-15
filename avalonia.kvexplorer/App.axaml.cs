@@ -16,7 +16,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
-        serviceCollection.AddTransient<MainViewModel>();
+        serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
 
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
@@ -29,7 +29,6 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        Defaults.Locator.GetService<AuthService>();
 
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT

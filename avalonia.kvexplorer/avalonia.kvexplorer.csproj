@@ -13,11 +13,15 @@
 
   
   <ItemGroup>
+    <AvaloniaXaml Remove="Resources\Resources.axaml" />
     <AvaloniaXaml Remove="Resources\Styles.axaml" />
   </ItemGroup>
 
   
   <ItemGroup>
+    <AvaloniaResource Include="Resources\Resources.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
     <AvaloniaResource Include="Resources\Styles.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>

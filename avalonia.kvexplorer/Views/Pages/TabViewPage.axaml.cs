@@ -84,17 +84,29 @@ public partial class TabViewPage : UserControl
             var srcIndex = srcTabView.IndexFromContainer(tvi);
             (srcTabView.TabItems as IList).RemoveAt(srcIndex);
 
+
+            var tab = new TabViewItem
+            {
+                Header = tvi.Header,
+                IconSource = tvi.IconSource,
+                Content = new VaultPage()
+                {
+                    DataContext = (tvi.Content as VaultPage).DataContext
+                }
+            };
+
+
             // Now add it to the new TabView
             if (index < 0)
             {
-                (destinationTabView.TabItems as IList).Add(tvi);
+                (destinationTabView.TabItems as IList).Add(tab);
             }
             else if (index < destinationTabView.TabItems.Count())
             {
-                (destinationTabView.TabItems as IList).Insert(index, tvi);
+                (destinationTabView.TabItems as IList).Insert(index, tab);
             }
 
-            destinationTabView.SelectedItem = tvi;
+            destinationTabView.SelectedItem = tab;
             e.Handled = true;
 
             // Remember, TabItemsChanged won't fire during DragDrop so we need to check
@@ -104,10 +116,6 @@ public partial class TabViewPage : UserControl
                 var wnd = srcTabView.FindAncestorOfType<TabViewWindowingSample>(includeSelf: true);
                 wnd.Close();
             }
-
-            ////// FIX: this is terrible. I have no idea why the grid will show isLoaded as False without this, putting a forground infront of it.
-            ////// this is one of the few modifications I have made to what was the sample apps tab view example.
-            //InitializeComponent();
         }
     }
 
@@ -140,17 +148,15 @@ public partial class TabViewPage : UserControl
             //l.Add(args.Tab);
         }
 
-
-        var vp = (VaultPage)args.Tab.Content;
-        var page = new VaultPage();
-        
-        page.DataContext = vp.DataContext;
-        
+        // make a shallow copy of the vault page, then add that to the documents of the new VM.
         var tab = new TabViewItem
         {
             Header = args.Tab.Header,
             IconSource = args.Tab.IconSource,
-            Content = page
+            Content = new VaultPage()
+            {
+                DataContext = (args.Tab.Content as VaultPage).DataContext
+            }
         };
 
         (popout.DataContext as TabViewPageViewModel).Documents.Add(tab);

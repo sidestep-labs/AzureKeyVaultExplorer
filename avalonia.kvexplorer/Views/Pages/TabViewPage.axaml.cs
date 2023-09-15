@@ -96,12 +96,13 @@ public partial class TabViewPage : UserControl
             };
 
 
+            var tabCount = destinationTabView.TabItems.Count();
             // Now add it to the new TabView
-            if (index < 0)
+            if (index < 0 || index == tabCount)
             {
                 (destinationTabView.TabItems as IList).Add(tab);
             }
-            else if (index < destinationTabView.TabItems.Count())
+            else if (index < tabCount)
             {
                 (destinationTabView.TabItems as IList).Insert(index, tab);
             }

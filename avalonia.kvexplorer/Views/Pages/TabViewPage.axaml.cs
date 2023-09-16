@@ -94,7 +94,7 @@ public partial class TabViewPage : UserControl
                     DataContext = (tvi.Content as VaultPage).DataContext
                 }
             };
-
+            (tab.Content as VaultPage).DataContext = new VaultPageViewModel();
 
             var tabCount = destinationTabView.TabItems.Count();
             // Now add it to the new TabView
@@ -114,7 +114,7 @@ public partial class TabViewPage : UserControl
             // here if we should close the window if TabItems.Count() == 0
             if (srcTabView.TabItems.Count() == 0)
             {
-                var wnd = srcTabView.FindAncestorOfType<TabViewWindowingSample>(includeSelf: true);
+                var wnd = srcTabView.FindAncestorOfType<TabViewWindowingPopout>(includeSelf: true);
                 wnd.Close();
             }
         }
@@ -133,7 +133,7 @@ public partial class TabViewPage : UserControl
     {
         // In this case, the tab was dropped outside of any tabstrip, let's move it to
         // a new window
-        var popout = new TabViewWindowingSample();
+        var popout = new TabViewWindowingPopout();
 
         // TabItems is by default initialized to an AvaloniaList<object>, so we can just
         // cast to IList and add
@@ -159,9 +159,8 @@ public partial class TabViewPage : UserControl
                 DataContext = (args.Tab.Content as VaultPage).DataContext
             }
         };
-
         (popout.DataContext as TabViewPageViewModel).Documents.Add(tab);
-
+        
         popout.Width = 800;
         popout.Height = 500;
         popout.Show();

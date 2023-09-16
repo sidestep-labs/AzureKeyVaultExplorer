@@ -19,6 +19,9 @@ namespace avalonia.kvexplorer.ViewModels;
 public partial class VaultPageViewModel : ViewModelBase
 {
     [ObservableProperty]
+    public bool isBusy = true;
+
+    [ObservableProperty]
     public bool isCertificatesChecked = true;
 
     [ObservableProperty]
@@ -29,20 +32,8 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     public string searchQuery;
-
-    [ObservableProperty]
-    public bool isBusy = true;
-
     [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
-
-    public Dictionary<KeyVaultItemType, bool> CheckedBoxes { get; set; } = new Dictionary<KeyVaultItemType, bool>() {
-          { KeyVaultItemType.Key, true},
-          { KeyVaultItemType.Secret, true},
-          { KeyVaultItemType.Certificate, true},
-    };
-
-
 
     private readonly VaultService _vaultService;
 
@@ -101,6 +92,11 @@ public partial class VaultPageViewModel : ViewModelBase
         }
     }
 
+    public Dictionary<KeyVaultItemType, bool> CheckedBoxes { get; set; } = new Dictionary<KeyVaultItemType, bool>() {
+          { KeyVaultItemType.Key, true},
+          { KeyVaultItemType.Secret, true},
+          { KeyVaultItemType.Certificate, true},
+    };
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
     /*
@@ -111,6 +107,12 @@ public partial class VaultPageViewModel : ViewModelBase
         }
      */
     //    public async Task<IEnumerable<KeyVaultContentsAmalgamation>> GetSecretsForVault(Uri kvUri)
+
+    public void FilterBasedOnCheckedBoxes()
+    {
+        var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => toFilter.Contains(v.Type) && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+    }
 
     public async Task GetSecretsForVault(Uri kvUri)
     {
@@ -162,11 +164,5 @@ public partial class VaultPageViewModel : ViewModelBase
         var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
         var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query) && toFilter.Contains(v.Type));
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
-    }
-
-    public void FilterBasedOnCheckedBoxes()
-    {
-        var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => toFilter.Contains(v.Type) && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
     }
 }

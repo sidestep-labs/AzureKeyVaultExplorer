@@ -29,24 +29,21 @@
             <CheckBox
                 Name="KeyCheckbox"
                 Margin="5,0"
-                Checked="VaultFilterChanges"
+                Click="CheckBox_Click"
                 Content="Keys"
-                IsChecked="{Binding IsKeysChecked}"
-                Unchecked="VaultFilterChanges" />
+                IsChecked="{Binding IsKeysChecked}" />
             <CheckBox
                 Name="SecretCheckbox"
                 Margin="5,0"
-                Checked="VaultFilterChanges"
+                Click="CheckBox_Click"
                 Content="Secrets"
-                IsChecked="{Binding IsSecretsChecked}"
-                Unchecked="VaultFilterChanges" />
+                IsChecked="{Binding IsSecretsChecked}" />
             <CheckBox
                 Name="CertificateCheckbox"
                 Margin="5,0"
-                Checked="VaultFilterChanges"
+                Click="CheckBox_Click"
                 Content="Certificates"
-                IsChecked="{Binding IsCertificatesChecked}"
-                Unchecked="VaultFilterChanges" />
+                IsChecked="{Binding IsCertificatesChecked}" />
         </StackPanel>
 
         <TextBox

@@ -13,9 +13,9 @@ using FluentAvalonia.UI.Windowing;
 namespace avalonia.kvexplorer.Views.Pages;
 
 
-public partial class TabViewWindowingSample : AppWindow  
+public partial class TabViewWindowingPopout : AppWindow  
 {
-    public TabViewWindowingSample()
+    public TabViewWindowingPopout()
     {
         InitializeComponent();
         DataContext = new TabViewPageViewModel();
@@ -25,32 +25,6 @@ public partial class TabViewWindowingSample : AppWindow
 
     public static readonly string DataIdentifier = "MyTabItemFromMain";
 
-    public static void LaunchRoot()
-    {
-        var tvws = new TabViewWindowingSample();
-        // In order for Drag/Drop/Reordering to work, be sure to use an IList with
-        // INotifyCollectionChanged, otherwise it may not work as expected
-        tvws.TabView.TabItems = new AvaloniaList<TabViewItem>
-        {
-            new TabViewItem
-            {
-                Header = "TabItem 1",
-                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
-            },
-            new TabViewItem
-            {
-                Header = "TabItem 2",
-                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
-            },
-            new TabViewItem
-            {
-                Header = "TabItem 3",
-                IconSource = new SymbolIconSource { Symbol = Symbol.Document },
-            },
-        };
-
-        tvws.Show();
-    }
 
     protected override void OnOpened(EventArgs e)
     {
@@ -176,7 +150,7 @@ public partial class TabViewWindowingSample : AppWindow
     {
         // In this case, the tab was dropped outside of any tabstrip, let's move it to
         // a new window
-        var s = new TabViewWindowingSample();
+        var s = new TabViewWindowingPopout();
 
         // TabItems is by default initialized to an AvaloniaList<object>, so we can just
         // cast to IList and add

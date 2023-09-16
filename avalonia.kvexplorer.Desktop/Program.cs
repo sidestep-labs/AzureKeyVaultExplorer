@@ -20,6 +20,5 @@ internal class Program
                      App.ConfigureDesktopServices();
                  })
                 .UsePlatformDetect()
-                //.WithInterFont()
                 .LogToTrace();
 }

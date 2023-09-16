@@ -1,5 +1,5 @@
 <Window
-    x:Class="avalonia.kvexplorer.Views.Pages.TabViewWindowingSample"
+    x:Class="avalonia.kvexplorer.Views.Pages.TabViewWindowingPopout"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     xmlns:vmm="using:avalonia.kvexplorer.ViewModels.Models"
-    Title="TabViewWindowingSample"
+    Title="TabViewWindowingPopout"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:TabViewPageViewModel"
@@ -17,17 +17,17 @@
     <!--
         Reordering in a TabView is handled automatically,
         DragDrop must be implemented manually
+        TabDroppedOutside="TabDroppedOutside"
     -->
     <ui:TabView
         Name="TabView"
         VerticalAlignment="Stretch"
-        AllowDropTabs="True"
+        AllowDropTabs="False"
         CanDragTabs="True"
         CanReorderTabs="True"
         IsAddTabButtonVisible="False"
         TabCloseRequested="TabCloseRequested"
         TabDragStarting="TabDragStarting"
-        TabDroppedOutside="TabDroppedOutside"
         TabItems="{Binding Documents}"
         TabStripDragOver="TabStripDragOver"
         TabStripDrop="TabStripDrop">
@@ -52,7 +52,7 @@
                 On Mac/Linux this is irrelevant since we don't replace the
                 system titlebar
             -->
-            <Panel Name="CustomDragRegion" Width="200" />
+            <Panel Name="CustomDragRegion" Width="400" />
         </ui:TabView.TabStripFooter>
     </ui:TabView>
 </Window>

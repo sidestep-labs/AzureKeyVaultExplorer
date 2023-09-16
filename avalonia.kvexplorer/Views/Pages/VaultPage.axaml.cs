@@ -15,8 +15,9 @@ namespace avalonia.kvexplorer.Views.Pages;
 
 public partial class VaultPage : UserControl
 {
-    private readonly VaultPageViewModel vaultPageViewModel;
     private const string DatGridElementName = "VaultContentDataGrid";
+    private readonly VaultPageViewModel vaultPageViewModel;
+
     public VaultPage()
     {
         InitializeComponent();
@@ -24,7 +25,7 @@ public partial class VaultPage : UserControl
         var model = new VaultPageViewModel();
         DataContext = model;
         vaultPageViewModel = model;
-        dataGrid = this.FindControl<DataGrid>(DatGridElementName);
+        ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
     }
 
     public VaultPage(Uri kvUri)
@@ -34,22 +35,34 @@ public partial class VaultPage : UserControl
 
         DataContext = model;
         vaultPageViewModel = model;
-        dataGrid = this.FindControl<DataGrid>(DatGridElementName);
-        IsInitialLoad = true;
+        ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         Dispatcher.UIThread.Post(() =>
         {
             _ = model.GetSecretsForVault(kvUri);
-            dataGrid.ItemsSource = new DataGridCollectionView(dataGrid.ItemsSource)
+            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
                 GroupDescriptions = { new DataGridPathGroupDescription("Type") }
             };
-            IsInitialLoad = false;
         }, DispatcherPriority.ContextIdle);
     }
 
-    private DataGrid? dataGrid { get; set; }
-    private bool IsBusyFiltering { get; set; } = false;
-    private bool IsInitialLoad { get; set; } = false;
+    private DataGrid? ValuesDataGrid { get; set; }
+
+    // cruft. Can't figure out a way to regroup from view model.
+    private void CheckBox_Click(object sender, RoutedEventArgs e)
+    {
+        ;
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            vaultPageViewModel.FilterBasedOnCheckedBoxes(); ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+            {
+                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+            };
+        }, DispatcherPriority.Input);
+        Dispatcher.UIThread.Invoke(() =>
+        {
+        }, DispatcherPriority.Input);
+    }
 
     private void OnDoubleTapped(object sender, TappedEventArgs e)
     {
@@ -62,33 +75,12 @@ public partial class VaultPage : UserControl
     // cruft. Can't figure out a way to regroup from view model.
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
-        if (dataGrid?.ItemsSource.Count() > 0)
+        if (ValuesDataGrid?.ItemsSource.Count() > 0)
         {
-            dataGrid.ItemsSource = new DataGridCollectionView(dataGrid.ItemsSource)
+            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
                 GroupDescriptions = { new DataGridPathGroupDescription("Type") }
             };
         }
-    }
-    // cruft. Can't figure out a way to regroup from view model.
-    private void VaultFilterChanges(object? sender, RoutedEventArgs e)
-    {
-        if (IsBusyFiltering || IsInitialLoad)
-            return;
-
-        Dispatcher.UIThread.Post(() =>
-        {
-            vaultPageViewModel.FilterBasedOnCheckedBoxes();
-
-            if (dataGrid?.ItemsSource.Count() > 0)
-            {
-                IsBusyFiltering = true;
-                dataGrid.ItemsSource = new DataGridCollectionView(dataGrid.ItemsSource)
-                {
-                    GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-                };
-                IsBusyFiltering = false;
-            }
-        }, DispatcherPriority.Input);
     }
 }

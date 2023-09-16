@@ -79,7 +79,7 @@ public partial class MainView : UserControl
         {
             MainPage => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value) ? (IconSource)value! : null,
             BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
-            SettingsPage => this.TryFindResource(selected ? "SettingsIconFilled" : "SettingsIcon", out var value) ? (IconSource)value! : null,
+            SettingsPage => this.TryFindResource(selected ? "SettingsIcon" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };
 

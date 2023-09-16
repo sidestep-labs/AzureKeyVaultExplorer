@@ -32,6 +32,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     public string searchQuery;
+
     [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
@@ -138,7 +139,6 @@ public partial class VaultPageViewModel : ViewModelBase
     partial void OnIsCertificatesCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Certificate] = value;
-
     }
 
      partial void OnIsKeysCheckedChanged(bool value)
@@ -151,7 +151,6 @@ public partial class VaultPageViewModel : ViewModelBase
      partial void OnIsSecretsCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Secret] = value;
-        //Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
     partial void OnSearchQueryChanged(string value)

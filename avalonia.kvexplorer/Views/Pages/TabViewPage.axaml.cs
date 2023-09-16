@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
+using System;
 using System.Collections;
 
 namespace avalonia.kvexplorer.Views.Pages;
@@ -150,14 +151,28 @@ public partial class TabViewPage : UserControl
         }
 
         // make a shallow copy of the vault page, then add that to the documents of the new VM.
+        var vaultPage = new VaultPage();
+        var vaultVm = ((args.Tab.Content as VaultPage).DataContext as VaultPageViewModel);
+        vaultPage.DataContext = vaultVm;
+
+        //(vaultPage.DataContext as VaultPageViewModel).VaultContents = vaultVm.VaultContents;
+        //(vaultPage.DataContext as VaultPageViewModel)._ = vaultVm.VaultContents;
+        //(vaultPage.DataContext as VaultPageViewModel).IsCertificatesChecked = vaultVm.IsCertificatesChecked;
+        //(vaultPage.DataContext as VaultPageViewModel).IsKeysChecked = vaultVm.IsKeysChecked;
+        //(vaultPage.DataContext as VaultPageViewModel).IsSecretsChecked = vaultVm.IsSecretsChecked;
+        //(vaultPage.DataContext as VaultPageViewModel).CheckedBoxes = vaultVm.CheckedBoxes;
+        //(vaultPage.DataContext as VaultPageViewModel).SearchQuery = vaultVm.SearchQuery;
+
+
+
         var tab = new TabViewItem
         {
             Header = args.Tab.Header,
             IconSource = args.Tab.IconSource,
-            Content = new VaultPage()
-            {
-                DataContext = (args.Tab.Content as VaultPage).DataContext
-            }
+            Content = vaultPage
+            //{
+            //    DataContext = new //(args.Tab.Content as VaultPage).DataContext
+            //}
         };
         (popout.DataContext as TabViewPageViewModel).Documents.Add(tab);
         

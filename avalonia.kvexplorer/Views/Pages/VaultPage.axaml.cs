@@ -54,7 +54,8 @@ public partial class VaultPage : UserControl
         ;
         Dispatcher.UIThread.Invoke(() =>
         {
-            vaultPageViewModel.FilterBasedOnCheckedBoxes(); ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+            vaultPageViewModel.FilterBasedOnCheckedBoxes();
+            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
                 GroupDescriptions = { new DataGridPathGroupDescription("Type") }
             };

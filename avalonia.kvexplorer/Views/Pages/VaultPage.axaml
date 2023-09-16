@@ -43,6 +43,7 @@
                 Margin="5,0"
                 Click="CheckBox_Click"
                 Content="Certificates"
+				
                 IsChecked="{Binding IsCertificatesChecked}" />
         </StackPanel>
 

@@ -8,6 +8,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
+using FluentAvalonia.UI.Controls;
 using System;
 using System.Linq;
 
@@ -26,6 +27,8 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
+        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
+
     }
 
     public VaultPage(Uri kvUri)
@@ -83,5 +86,28 @@ public partial class VaultPage : UserControl
                 GroupDescriptions = { new DataGridPathGroupDescription("Type") }
             };
         }
+    }
+
+    // We rely on code behind to show the flyout
+
+    // Listen for the ContextRequested event so we can change the launch behavior based on whether it was a
+    // left or right click.
+
+    private void MyImageButton_Click(object sender, RoutedEventArgs args)
+    {
+        ShowMenu(true);
+    }
+
+    private void OnMyImageButtonContextRequested(object sender, ContextRequestedEventArgs e)
+    {
+        ShowMenu(true);
+        e.Handled = true;
+    }
+
+    private void ShowMenu(bool isTransient)
+    {
+        var flyout = Resources["CommandBarFlyout1"] as CommandBarFlyout;
+       // flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+        flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
 }

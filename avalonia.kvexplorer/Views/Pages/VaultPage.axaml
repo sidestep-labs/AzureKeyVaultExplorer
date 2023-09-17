@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="550"
     d:DesignWidth="800"
@@ -14,6 +15,36 @@
     <Design.DataContext>
         <vm:VaultPageViewModel />
     </Design.DataContext>
+
+
+
+    <UserControl.Resources>
+        <ui:CommandBarFlyout x:Key="CommandBarFlyout1" Placement="Pointer">
+            <!-- Note: unlike a regular CommandBar, primary items can be set as the xml content and don't need
+                   to be wrapped in a <ui:CommandBarFlyout.PrimaryCommands> tag
+            -->
+            <ui:CommandBarButton
+                IconSource="Share"
+                Label="Share"
+                ToolTip.Tip="Share" />
+            <ui:CommandBarButton
+                IconSource="Save"
+                Label="Save"
+                ToolTip.Tip="Save" />
+            <ui:CommandBarButton
+                IconSource="Delete"
+                Label="Delete"
+                ToolTip.Tip="Delete" />
+            <ui:CommandBarFlyout.SecondaryCommands>
+                <ui:CommandBarButton Label="Resize" />
+                <ui:CommandBarButton Label="Move" />
+            </ui:CommandBarFlyout.SecondaryCommands>
+        </ui:CommandBarFlyout>
+    </UserControl.Resources>
+
+
+
+
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Grid
         Margin="10,10,10,0"
@@ -43,7 +74,6 @@
                 Margin="5,0"
                 Click="CheckBox_Click"
                 Content="Certificates"
-				
                 IsChecked="{Binding IsCertificatesChecked}" />
         </StackPanel>
 
@@ -69,6 +99,7 @@
                 Name="VaultContentDataGrid"
                 VerticalAlignment="Stretch"
                 CanUserReorderColumns="True"
+                ContextFlyout=""
                 DoubleTapped="OnDoubleTapped"
                 Focusable="False"
                 GridLinesVisibility="Horizontal"

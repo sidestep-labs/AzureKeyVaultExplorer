@@ -6,7 +6,6 @@ using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Models;
-using System.Xml.Schema;
 
 namespace kvexplorer.shared;
 

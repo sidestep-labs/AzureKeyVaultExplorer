@@ -60,14 +60,34 @@
             <Button Content="Click me for flyout!">
                 <Button.Flyout>
 
-                    <ui:FAMenuFlyout  Placement="Bottom">
+                    <ui:FAMenuFlyout Placement="Bottom">
+                        <ui:MenuFlyoutItem IconSource="Copy" Text="Item 1" />
                         <ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
+                        <ui:MenuFlyoutSeparator />
+                        <ui:MenuFlyoutSubItem Text="SubMenu">
+                            <ui:MenuFlyoutItem Text="Subitem 1" />
+                            <ui:MenuFlyoutItem Text="Subitem 2" />
+                            <ui:MenuFlyoutItem Text="Subitem 3" />
+                        </ui:MenuFlyoutSubItem>
+                        <ui:MenuFlyoutSeparator />
+                        <ui:ToggleMenuFlyoutItem IconSource="Bold" Text="Toggle Item" />
+                        <ui:MenuFlyoutSeparator />
+                        <ui:RadioMenuFlyoutItem
+                            GroupName="Test Group"
+                            IconSource="Games"
+                            IsChecked="True"
+                            Text="Radio Menu Item" />
+                        <ui:RadioMenuFlyoutItem
+                            GroupName="Test Group"
+                            IconSource="Icons"
+                            Text="Radio Menu Item 2" />
                     </ui:FAMenuFlyout>
+
                 </Button.Flyout>
             </Button>
 
-		
-			
-		</StackPanel>
+
+
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

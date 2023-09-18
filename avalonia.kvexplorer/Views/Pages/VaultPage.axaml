@@ -19,22 +19,28 @@
 
     <UserControl.Styles>
         <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
-            <Setter Property="Margin" Value="10" />
+            <Setter Property="Margin" Value="2,5,5,10" />
+            <Setter Property="Padding" Value="5" />
             <Setter Property="BoxShadow" Value="0 6 8 0 #17000000" />
         </Style>
 
+		
     </UserControl.Styles>
 
     <UserControl.Resources>
 
         <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
+
             <ui:MenuFlyoutItem IconSource="Copy" Text="Item 1" />
             <ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
-            <!--<ui:MenuFlyoutSubItem Text="SubMenu">
+            <ui:MenuFlyoutSeparator />
+            <ui:MenuFlyoutSubItem Text="SubMenu">
                 <ui:MenuFlyoutItem Text="Subitem 1" />
                 <ui:MenuFlyoutItem Text="Subitem 2" />
                 <ui:MenuFlyoutItem Text="Subitem 3" />
-            </ui:MenuFlyoutSubItem>-->
+            </ui:MenuFlyoutSubItem>
+            <ui:MenuFlyoutSeparator />
+            <ui:ToggleMenuFlyoutItem IconSource="Bold" Text="Toggle Item" />
             <ui:MenuFlyoutSeparator />
             <ui:RadioMenuFlyoutItem
                 GroupName="Test Group"
@@ -45,7 +51,6 @@
                 GroupName="Test Group"
                 IconSource="Icons"
                 Text="Radio Menu Item 2" />
-
 
 
 

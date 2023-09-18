@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
@@ -28,7 +29,6 @@ public partial class VaultPage : UserControl
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
-
     }
 
     public VaultPage(Uri kvUri)
@@ -39,6 +39,8 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
+        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
+
         Dispatcher.UIThread.Post(() =>
         {
             _ = model.GetSecretsForVault(kvUri);
@@ -93,11 +95,7 @@ public partial class VaultPage : UserControl
     // Listen for the ContextRequested event so we can change the launch behavior based on whether it was a
     // left or right click.
 
-    private void MyImageButton_Click(object sender, RoutedEventArgs args)
-    {
-        ShowMenu(true);
-    }
-
+  
     private void OnMyImageButtonContextRequested(object sender, ContextRequestedEventArgs e)
     {
         ShowMenu(true);
@@ -106,8 +104,9 @@ public partial class VaultPage : UserControl
 
     private void ShowMenu(bool isTransient)
     {
-        var flyout = Resources["CommandBarFlyout1"] as CommandBarFlyout;
-       // flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+        var flyout = Resources["FAMenuFlyout"] as FAMenuFlyout;
+
+        flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
 }

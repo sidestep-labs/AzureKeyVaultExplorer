@@ -17,33 +17,41 @@
     </Design.DataContext>
 
 
+    <UserControl.Styles>
+        <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
+            <Setter Property="Margin" Value="5 5 5 10" />
+            <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
+        </Style>
+
+    </UserControl.Styles>
 
     <UserControl.Resources>
-        <ui:CommandBarFlyout x:Key="CommandBarFlyout1" Placement="Pointer">
-            <!-- Note: unlike a regular CommandBar, primary items can be set as the xml content and don't need
-                   to be wrapped in a <ui:CommandBarFlyout.PrimaryCommands> tag
-            -->
-            <ui:CommandBarButton
-                IconSource="Share"
-                Label="Share"
-                ToolTip.Tip="Share" />
-            <ui:CommandBarButton
-                IconSource="Save"
-                Label="Save"
-                ToolTip.Tip="Save" />
-            <ui:CommandBarButton
-                IconSource="Delete"
-                Label="Delete"
-                ToolTip.Tip="Delete" />
-            <ui:CommandBarFlyout.SecondaryCommands>
-                <ui:CommandBarButton Label="Resize" />
-                <ui:CommandBarButton Label="Move" />
-            </ui:CommandBarFlyout.SecondaryCommands>
-        </ui:CommandBarFlyout>
+
+        <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
+            <ui:MenuFlyoutItem IconSource="Copy" Text="Item 1" />
+            <ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
+            <!--<ui:MenuFlyoutSubItem Text="SubMenu">
+                <ui:MenuFlyoutItem Text="Subitem 1" />
+                <ui:MenuFlyoutItem Text="Subitem 2" />
+                <ui:MenuFlyoutItem Text="Subitem 3" />
+            </ui:MenuFlyoutSubItem>-->
+            <ui:MenuFlyoutSeparator />
+            <ui:RadioMenuFlyoutItem
+                GroupName="Test Group"
+                IconSource="Games"
+                IsChecked="True"
+                Text="Radio Menu Item" />
+            <ui:RadioMenuFlyoutItem
+                GroupName="Test Group"
+                IconSource="Icons"
+                Text="Radio Menu Item 2" />
+
+
+
+
+        </ui:FAMenuFlyout>
+
     </UserControl.Resources>
-
-
-
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Grid

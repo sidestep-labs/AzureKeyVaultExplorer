@@ -36,6 +36,38 @@
                 Content="GitHub"
                 NavigateUri="https://github.com/cricketthomas/sidestep" />
 
-        </StackPanel>
+
+            <ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">
+                <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
+                    <!--<ui:CommandBarButton IconSource="Save" />
+                    <ui:CommandBarToggleButton IconSource="Globe" />-->
+                </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
+
+                <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
+                    <ui:CommandBarButton
+                        HotKey="Ctrl+S"
+                        IconSource="Save"
+                        Label="Save" />
+                    <ui:CommandBarToggleButton
+                        HotKey="Ctrl+F1"
+                        IconSource="ChevronUp"
+                        IsChecked="True"
+                        Label="Move Up" />
+                </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
+
+
+            </ui:CommandBarFlyoutCommandBar>
+            <Button Content="Click me for flyout!">
+                <Button.Flyout>
+
+                    <ui:FAMenuFlyout  Placement="Bottom">
+                        <ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
+                    </ui:FAMenuFlyout>
+                </Button.Flyout>
+            </Button>
+
+		
+			
+		</StackPanel>
     </ScrollViewer>
 </UserControl>

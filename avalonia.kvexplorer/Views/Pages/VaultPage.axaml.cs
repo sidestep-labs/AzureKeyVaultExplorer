@@ -28,7 +28,15 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
-        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
+        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;   
+        
+        Dispatcher.UIThread.Post(() =>
+        {
+            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+            {
+                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+            };
+        }, DispatcherPriority.ContextIdle);
     }
 
     public VaultPage(Uri kvUri)
@@ -41,14 +49,7 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
 
-        Dispatcher.UIThread.Post(() =>
-        {
-            _ = model.GetSecretsForVault(kvUri);
-            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
-            {
-                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-            };
-        }, DispatcherPriority.ContextIdle);
+    
     }
 
     private DataGrid? ValuesDataGrid { get; set; }

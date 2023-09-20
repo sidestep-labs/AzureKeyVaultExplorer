@@ -19,6 +19,7 @@
 
     <UserControl.Styles>
         <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
+            <Setter Property="Margin" Value="2,5,5,10" />
             <Setter Property="Padding" Value="5" />
             <Setter Property="BoxShadow" Value="0 6 8 0 #22000000" />
         </Style>
@@ -29,18 +30,21 @@
 
         <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
 
-            <ui:MenuFlyoutItem IconSource="Copy" Text="Copy Value" />
+            <ui:MenuFlyoutItem
+                HotKey="Ctrl+C"
+                IconSource="Copy"
+                Text="Copy Value" />
             <ui:MenuFlyoutItem IconSource="View" Text="Secret Properties" />
             <ui:ToggleMenuFlyoutItem IconSource="Bookmark" Text="Bookmark" />
             <ui:MenuFlyoutSeparator />
-         
+
             <!--<ui:MenuFlyoutSeparator />-->
-            <ui:MenuFlyoutSubItem Text="Advanced" IconSource="More">
-				<ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
+            <ui:MenuFlyoutSubItem IconSource="More" Text="Advanced">
+                <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
 
-				<ui:MenuFlyoutItem IconSource="Copy" Text="Copy  Uri" />
+                <ui:MenuFlyoutItem IconSource="Copy" Text="Copy URI" />
 
-			</ui:MenuFlyoutSubItem>
+            </ui:MenuFlyoutSubItem>
             <!--<ui:MenuFlyoutSeparator />-->
             <!--<ui:MenuFlyoutSeparator />-->
             <!--<ui:RadioMenuFlyoutItem

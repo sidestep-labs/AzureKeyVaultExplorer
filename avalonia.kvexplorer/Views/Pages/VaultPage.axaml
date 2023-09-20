@@ -23,6 +23,7 @@
             <Setter Property="Padding" Value="5" />
             <Setter Property="BoxShadow" Value="0 6 8 0 #22000000" />
         </Style>
+        <Style Selector="ui|FAMenuFlyout" />
 
     </UserControl.Styles>
 

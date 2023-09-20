@@ -29,8 +29,11 @@
 
             <Button Margin="5" Command="{Binding SignInOrRefreshTokenCommand}">Sign In with Microsoft Account</Button>
 
-            <Button Margin="5" Command="{Binding SignOutCommand}">Sign out</Button>
+            <Button Margin="5" Command="{Binding SignOutCommand}" ToolTip.Tip="Remove account from cache">Sign out</Button>
 
+			
+			
+			
             <ui:HyperlinkButton
                 Margin="5"
                 Content="GitHub"

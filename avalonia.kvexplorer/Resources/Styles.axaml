@@ -10,10 +10,12 @@
 
 
 
-            <ui:CommandBarFlyoutCommandBar Margin="50" IsOpen="True">
+            <!--<ui:CommandBarFlyoutCommandBar Margin="300" IsOpen="True">
                 <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-                    <!--<ui:CommandBarButton IconSource="Save" />
+            -->
+            <!--<ui:CommandBarButton IconSource="Save" />
                     <ui:CommandBarToggleButton IconSource="Globe" />-->
+            <!--
                 </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
 
                 <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
@@ -27,7 +29,7 @@
                         IsChecked="True"
                         Label="Move Up" />
                 </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-            </ui:CommandBarFlyoutCommandBar>
+            </ui:CommandBarFlyoutCommandBar>-->
 
 
 
@@ -42,16 +44,8 @@
 
 
 
-            <Button>
+            <Button Margin="150" ToolTip.Tip="test">
                 test 2
-                <ToolTip.Tip>
-                    <Border BoxShadow="0 6 8 0 #4F000000">
-                        <ToolTip>
-                            test
-                        </ToolTip>
-                    </Border>
-                </ToolTip.Tip>
-
             </Button>
         </StackPanel>
     </Design.PreviewWith>
@@ -61,6 +55,13 @@
         <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
 
     </Style>
+
+    <Style Selector="ToolTip Border">
+        <Setter Property="BoxShadow" Value="2 3 5 0 #4F000000" />
+        <Setter Property="Margin" Value="0,0,8,8" />
+
+    </Style>
+
 
     <Style Selector="ui|FAMenuFlyout /template/ Border#LayoutRoot">
         <Setter Property="Margin" Value="5 5 5 10" />

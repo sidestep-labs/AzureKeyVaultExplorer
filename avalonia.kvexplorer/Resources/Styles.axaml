@@ -57,8 +57,8 @@
     </Style>
 
     <Style Selector="ToolTip Border">
-        <Setter Property="BoxShadow" Value="2 3 5 0 #4F000000" />
-        <Setter Property="Margin" Value="0,0,8,8" />
+		<Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
+		<Setter Property="Margin" Value="0 0 2 4" />
 
     </Style>
 

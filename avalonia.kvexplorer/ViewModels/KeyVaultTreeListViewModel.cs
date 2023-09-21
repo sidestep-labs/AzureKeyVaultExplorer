@@ -32,19 +32,17 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     public IEnumerable<KeyVaultModel> _treeViewList;
 
-
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
     private readonly TabViewPageViewModel _tabViewViewModel;
-    bool AttemptedLogin = false;
-
+    private bool AttemptedLogin = false;
 
     public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-       // PropertyChanged += OnMyViewModelPropertyChanged;
+        // PropertyChanged += OnMyViewModelPropertyChanged;
 
         treeViewList = new ObservableCollection<KeyVaultModel>
         {
@@ -79,7 +77,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 KeyVaultResources = new List<KeyVaultResource>{ },
                 Subscription = null
             }
-    
         };
 
         //foreach (var item in TreeViewList)
@@ -98,13 +95,16 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             TreeViewList.Clear();
         }
-        var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
-        await foreach (var item in resource)
+        await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            item.PropertyChanged += KeyVaultModel_PropertyChanged;
-            TreeViewList.Add(item);
-        }
-        _treeViewList = TreeViewList;
+            var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
+            await foreach (var item in resource)
+            {
+                item.PropertyChanged += KeyVaultModel_PropertyChanged;
+                TreeViewList.Add(item);
+            }
+            _treeViewList = TreeViewList;
+        }, DispatcherPriority.Default);
     }
 
     private async Task Login()
@@ -173,7 +173,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
 
-
     partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim().ToLowerInvariant();
@@ -184,5 +183,4 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         var list = _treeViewList.Where(v => v.SubscriptionDisplayName.ToLowerInvariant().Contains(query));
         TreeViewList = new ObservableCollection<KeyVaultModel>(list);
     }
-
 }

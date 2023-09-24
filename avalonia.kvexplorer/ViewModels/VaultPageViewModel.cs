@@ -164,4 +164,11 @@ public partial class VaultPageViewModel : ViewModelBase
         var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query) && toFilter.Contains(v.Type));
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
+
+
+    [RelayCommand]
+    private void Copy(object keyVaultItem)
+    {
+        Console.WriteLine("Test");
+    }
 }

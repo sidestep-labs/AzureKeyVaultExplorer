@@ -12,7 +12,7 @@
     Height="600"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
+    ExtendClientAreaChromeHints="Default, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
     Icon="/Assets/avalonia-logo.ico"
@@ -67,8 +67,8 @@
     <DockPanel>
 
         <custom:TitleBarControl
+
             DockPanel.Dock="Top"
-            Height="48"
             IsHitTestVisible="False"
             IsVisible="{OnPlatform False,
                                    macOS=True}" />

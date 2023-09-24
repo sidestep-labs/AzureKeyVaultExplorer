@@ -16,6 +16,8 @@
 
     <Design.DataContext>
         <!--
+        BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+
             This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
         -->
@@ -23,19 +25,19 @@
     </Design.DataContext>
 
     <Border
-        MaxHeight="30"
+        MaxHeight="38"
         VerticalAlignment="Top"
-        BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+
         BorderThickness="0,0,0,1">
         <StackPanel
             Margin="6"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
 
-            <!--
      <Image
                 Name="WindowIcon"
-                Source="/Assets/avalonia-logo.ico" />-->
+Width="10"
+                Source="/Assets/avalonia-logo.ico" />
             <TextBlock
                 Margin="0,0,5,0"
                 FontSize="12"

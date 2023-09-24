@@ -34,7 +34,6 @@
         <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
 
             <ui:MenuFlyoutItem
-                Command="CopyItemCommand"
                 HotKey="Ctrl+C"
                 IconSource="Copy"
                 Text="Copy Value" />

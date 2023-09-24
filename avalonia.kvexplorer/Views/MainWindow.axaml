@@ -68,7 +68,6 @@
     <DockPanel>
 
         <custom:TitleBarControl
-            Height="48"
             DockPanel.Dock="Top"
             IsHitTestVisible="False"
             IsVisible="{OnPlatform False,

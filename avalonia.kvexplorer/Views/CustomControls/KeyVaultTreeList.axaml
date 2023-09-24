@@ -11,7 +11,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="450"
-    d:DesignWidth="300"
+    d:DesignWidth="330"
     x:DataType="vm:KeyVaultTreeListViewModel"
     mc:Ignorable="d">
 
@@ -34,16 +34,17 @@
             HorizontalAlignment="Stretch"
             Orientation="Horizontal">
             <TextBox
-                Width="235"
+                Width="256"
                 Margin="10,10,0,0"
                 Classes.clearButton="True"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 Watermark="Filter key vaults" />
             <Button
-                Margin="12,10,10,0"
+                Margin="9,10,10,0"
                 VerticalAlignment="Stretch"
                 Click="RefreshKeyVaultList"
                 Content="&#xE149;"
+				FontWeight="ExtraBold"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                 ToolTip.Tip="Refresh available subscriptions" />
         </StackPanel>

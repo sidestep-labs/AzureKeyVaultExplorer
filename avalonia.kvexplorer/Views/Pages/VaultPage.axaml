@@ -23,7 +23,9 @@
             <Setter Property="Padding" Value="5" />
             <Setter Property="BoxShadow" Value="0 6 8 0 #22000000" />
         </Style>
-        <Style Selector="ui|FAMenuFlyout" />
+        <!--<Style Selector="ui|FAMenuFlyoutPresenter">
+			<Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
+		</Style>-->
 
     </UserControl.Styles>
 
@@ -32,6 +34,7 @@
         <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
 
             <ui:MenuFlyoutItem
+                Command="CopyItemCommand"
                 HotKey="Ctrl+C"
                 IconSource="Copy"
                 Text="Copy Value" />
@@ -71,6 +74,7 @@
         RowDefinitions="Auto,*">
 
         <StackPanel Orientation="Horizontal">
+            <Button Click="button_Click" Content="Notification" />
             <Label
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"

@@ -12,6 +12,9 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:TabViewPageViewModel"
+	TransparencyLevelHint="Mica"
+	    Background="{x:Null}"
+
     mc:Ignorable="d">
 
     <!--
@@ -26,6 +29,7 @@
         CanDragTabs="True"
         CanReorderTabs="True"
         IsAddTabButtonVisible="False"
+		Background="{x:Null}"
         TabCloseRequested="TabCloseRequested"
         TabDragStarting="TabDragStarting"
         TabItems="{Binding Documents}"

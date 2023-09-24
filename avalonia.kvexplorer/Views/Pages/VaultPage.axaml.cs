@@ -2,6 +2,8 @@
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -19,6 +21,7 @@ public partial class VaultPage : UserControl
 {
     private const string DatGridElementName = "VaultContentDataGrid";
     private readonly VaultPageViewModel vaultPageViewModel;
+    private readonly INotificationManager _notificationManager;
 
     public VaultPage()
     {
@@ -28,8 +31,10 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
-        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;   
-        
+        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
+
+         
+
         Dispatcher.UIThread.Post(() =>
         {
             ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
@@ -49,7 +54,14 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
 
-    
+        Dispatcher.UIThread.Post(() =>
+        {
+            _ = model.GetSecretsForVault(kvUri);
+            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+            {
+                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+            };
+        }, DispatcherPriority.ContextIdle);
     }
 
     private DataGrid? ValuesDataGrid { get; set; }
@@ -110,4 +122,27 @@ public partial class VaultPage : UserControl
         flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
+
+
+
+
+
+
+
+
+    public void button_Click(object sender, RoutedEventArgs e)
+    {
+        // Change button text when button is clicked.
+        var not = new Notification("Test", "Button Clicked", NotificationType.Information);
+        var nm = new WindowNotificationManager((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow)
+        {
+            Position = NotificationPosition.BottomRight,
+            MaxItems = 1,
+        };
+        nm.TemplateApplied += (sender, args) =>
+        {
+            nm.Show(not);
+        };
+    }
+
 }

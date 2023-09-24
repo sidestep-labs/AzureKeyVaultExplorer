@@ -13,6 +13,6 @@
     <Design.DataContext />
 
 
-	<pages:TabViewPage Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
+    <pages:TabViewPage Background="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}" />
 
 </UserControl>

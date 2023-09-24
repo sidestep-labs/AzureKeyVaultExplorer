@@ -17,7 +17,7 @@ public partial class MainWindow : AppWindow
         //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
-       // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
+        // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
@@ -33,23 +33,5 @@ public partial class MainWindow : AppWindow
 
         // open the window
         sampleWindow.Show();
-    }
-
-    public void button_Click(object sender, RoutedEventArgs e)
-    {
-        // Change button text when button is clicked.
-        var not = new Notification("Test", "this is a test notification message", NotificationType.Warning);
-        var nm = new WindowNotificationManager(this)
-        {
-            Position = NotificationPosition.BottomRight,
-            MaxItems = 1
-        };
-        nm.TemplateApplied += (sender, args) =>
-        {
-            nm.Show(not);
-        };
-        var button = (Button)sender;
-
-        button.Content = "Hello, Avalonia!";
     }
 }

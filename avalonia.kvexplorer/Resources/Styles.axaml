@@ -57,10 +57,11 @@
     </Style>
 
     <Style Selector="ToolTip Border">
-		<Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
-		<Setter Property="Margin" Value="0 0 2 4" />
+        <Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
+        <Setter Property="Margin" Value="0 0 2 4" />
 
     </Style>
+
 
 
     <Style Selector="ui|FAMenuFlyout /template/ Border#LayoutRoot">

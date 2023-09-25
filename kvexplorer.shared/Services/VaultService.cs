@@ -8,7 +8,7 @@ using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Models;
 
 namespace kvexplorer.shared;
-
+/* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
 public class VaultService
 {
     public AuthService _authService { get; set; }
@@ -42,8 +42,9 @@ public class VaultService
         }
     }
 
-  // needed to make the tree 
-    public class KeyVaultResourcePlaceholder : KeyVaultResource { }
+    // needed to make the tree
+    public class KeyVaultResourcePlaceholder : KeyVaultResource
+    { }
 
     /// <summary>
     /// returns all key vaults based on all the subscriptions the user has rights to view.
@@ -68,8 +69,6 @@ public class VaultService
         }
     }
 
-
-
     public void UpdateSubscriptionWithKeyVaults(ref KeyVaultModel resource)
     {
         resource.KeyVaultResources.Clear();
@@ -78,6 +77,7 @@ public class VaultService
             resource.KeyVaultResources.Add(kvResource);
         }
     }
+
     public IEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KeyVaultModel resource)
     {
         foreach (var kvResource in resource.Subscription.GetKeyVaults())
@@ -86,7 +86,7 @@ public class VaultService
         }
     }
 
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscriptionAsync( KeyVaultModel resource)
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscriptionAsync(KeyVaultModel resource)
     {
         resource.KeyVaultResources.Clear();
         foreach (var kvResource in resource.Subscription.GetKeyVaults())
@@ -95,9 +95,6 @@ public class VaultService
         }
     }
 
-
-
-
     public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KeyVaultModel resource)
     {
         await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
@@ -105,7 +102,6 @@ public class VaultService
             yield return kvResource;
         }
     }
-
 
     public async IAsyncEnumerable<KeyProperties> GetVaultAssociatedKeys(Uri KvUri)
     {
@@ -135,5 +131,12 @@ public class VaultService
         {
             yield return certProperties;
         }
+    }
+
+    public async Task<KeyVaultSecret> GetSecret(Uri KvUri, string secretName)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new SecretClient(KvUri, token);
+        return await client.GetSecretAsync(secretName);
     }
 }

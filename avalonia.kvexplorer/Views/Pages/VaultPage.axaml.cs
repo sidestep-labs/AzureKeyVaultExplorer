@@ -14,6 +14,7 @@ using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using System;
 using System.Linq;
+using System.Threading.Channels;
 
 namespace avalonia.kvexplorer.Views.Pages;
 
@@ -31,9 +32,31 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
-        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
+        ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
 
-         
+
+        //var copyItemToClipboard = this.FindControl<FluentAvalonia.UI.Controls.MenuFlyoutItem>("CopyMenuFlyoutItem");
+        //HotKeyManager.SetHotKey(copyItemToClipboard, new KeyGesture(Key.C, KeyModifiers.Control));
+
+        //CopyMenuFlyoutItem.KeyUp += (s, e) =>
+        //{
+        //    if (e.Key == Key.Enter)
+        //    {
+        //        //var acb = (s as object);
+
+        //        e.Handled = true;
+        //    }
+        //};
+
+        //VaultContentDataGrid.KeyUp += (sender, e) =>
+        //{
+        //    if (e.KeyModifiers == KeyModifiers.Control && e.Key == Key.C)
+        //    {
+        //        ((VaultPageViewModel)DataContext).CopyCommand.Execute(null);
+        //    }
+        //};
+
+
 
         Dispatcher.UIThread.Post(() =>
         {
@@ -52,7 +75,8 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
-        ValuesDataGrid.ContextRequested += OnMyImageButtonContextRequested;
+        ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
+        var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
 
         Dispatcher.UIThread.Post(() =>
         {
@@ -108,8 +132,7 @@ public partial class VaultPage : UserControl
     // Listen for the ContextRequested event so we can change the launch behavior based on whether it was a
     // left or right click.
 
-  
-    private void OnMyImageButtonContextRequested(object sender, ContextRequestedEventArgs e)
+    private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
         ShowMenu(true);
         e.Handled = true;
@@ -118,17 +141,9 @@ public partial class VaultPage : UserControl
     private void ShowMenu(bool isTransient)
     {
         var flyout = Resources["FAMenuFlyout"] as FAMenuFlyout;
-
         flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
-
-
-
-
-
-
-
 
     public void button_Click(object sender, RoutedEventArgs e)
     {
@@ -143,6 +158,12 @@ public partial class VaultPage : UserControl
         {
             nm.Show(not);
         };
+    }
+
+
+    protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
+    {
+        Console.WriteLine(e);
     }
 
 }

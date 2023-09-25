@@ -1,5 +1,11 @@
-﻿using avalonia.kvexplorer.Views.Pages;
+﻿using avalonia.kvexplorer.Views;
+using avalonia.kvexplorer.Views.Pages;
 using Avalonia.Collections;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Notifications;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
@@ -165,10 +171,27 @@ public partial class VaultPageViewModel : ViewModelBase
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 
-
     [RelayCommand]
-    private void Copy(object keyVaultItem)
+    private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)
     {
-        Console.WriteLine("Test");
+        var secret = await _vaultService.GetSecret( keyVaultItem.VaultUri,keyVaultItem.Name);
+        var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+        var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
+        var dataObject = new DataObject();
+        dataObject.Set(DataFormats.Text, secret.Value);
+        await clipboard.SetDataObjectAsync(dataObject);
+
+
+        var not = new Notification("Copied", $"The value of {keyVaultItem.Name} has been copied to the clipboard.", NotificationType.Information);
+        var nm = new WindowNotificationManager(topLevel)
+        {
+            Position = NotificationPosition.BottomRight,
+            MaxItems = 1,
+        };
+        nm.TemplateApplied += (sender, args) =>
+        {
+            nm.Show(not);
+        };
     }
+
 }

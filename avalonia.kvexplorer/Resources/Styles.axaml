@@ -64,10 +64,10 @@
 
 
 
-    <Style Selector="ui|FAMenuFlyout /template/ Border#LayoutRoot">
+    <!--<Style Selector="ui|FAMenuFlyout /template/ Border#LayoutRoot">
         <Setter Property="Margin" Value="5 5 5 10" />
         <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
-    </Style>
+    </Style>-->
 
     <!--  Treeviewlist styles  -->
     <Style Selector="TreeView">

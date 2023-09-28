@@ -82,11 +82,11 @@
                 IconSource="Settings"
                 Tag="SettingsPage" />
         </ui:NavigationView.FooterMenuItems>
+		<!--Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"-->
 
-        <DockPanel LastChildFill="True">
+		<DockPanel LastChildFill="True">
             <Panel
                 Height="20"
-                Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                 DockPanel.Dock="Bottom">
                 <TextBlock
                     Margin="0,0,5,0"

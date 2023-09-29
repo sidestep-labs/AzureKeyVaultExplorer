@@ -9,15 +9,20 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
 	<PublishSingleFile>true</PublishSingleFile>
 	<PublishTrimmed>true</PublishTrimmed>
-	<PublishReadyToRun>true</PublishReadyToRun>
 	<TrimMode>full</TrimMode>
-
+	<PublishReadyToRun>true</PublishReadyToRun>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	  <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
 
   <ItemGroup>
 	<!--<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.0-preview6.1" />-->
 	<PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
+
+	<PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" Condition="$([MSBuild]::IsOSPlatform('windows'))" />
+
+	<PackageReference Include="SkiaSharp" Version="2.88.6" />
+
 	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
   </ItemGroup>
 	

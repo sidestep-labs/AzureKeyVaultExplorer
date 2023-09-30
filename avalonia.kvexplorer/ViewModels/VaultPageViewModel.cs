@@ -182,7 +182,7 @@ public partial class VaultPageViewModel : ViewModelBase
         await clipboard.SetDataObjectAsync(dataObject);
 
 
-        var not = new Notification("Copied", $"The value of {keyVaultItem.Name} has been copied to the clipboard.", NotificationType.Information);
+        var not = new Notification("Copied", $"The value of {keyVaultItem.Name} has been copied to the clipboard.", NotificationType.Success);
         var nm = new WindowNotificationManager(topLevel)
         {
             Position = NotificationPosition.BottomRight,

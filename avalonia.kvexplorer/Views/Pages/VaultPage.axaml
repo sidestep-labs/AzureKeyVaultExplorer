@@ -74,7 +74,6 @@
         RowDefinitions="Auto,*">
 
         <StackPanel Orientation="Horizontal">
-            <Button Click="button_Click" Content="Notification" />
             <Label
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
@@ -124,12 +123,12 @@
                 Name="VaultContentDataGrid"
                 VerticalAlignment="Stretch"
                 CanUserReorderColumns="True"
-                ClipboardCopyMode="IncludeHeader"
                 CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                 DoubleTapped="OnDoubleTapped"
                 GridLinesVisibility="Horizontal"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"
+			
                 VerticalScrollBarVisibility="Visible">
 
                 <DataGrid.Columns>

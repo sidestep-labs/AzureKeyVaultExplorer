@@ -77,13 +77,11 @@ public partial class MainView : UserControl
 
         item.IconSource = t switch
         {
-            MainPage => this.TryFindResource(selected ? "HomeIconFilled" : "HomeIcon", out var value) ? (IconSource)value! : null,
+            MainPage => this.TryFindResource(selected ? "HomeIcon" : "HomeIcon", out var value) ? (IconSource)value! : null,
             BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
             SettingsPage => this.TryFindResource(selected ? "SettingsIcon" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };
-
-        Debug.WriteLine(item.IconSource);
     }
 
     private void OnFrameViewNavigated(object sender, NavigationEventArgs e)

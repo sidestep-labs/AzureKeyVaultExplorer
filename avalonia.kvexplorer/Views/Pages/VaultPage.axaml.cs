@@ -12,6 +12,7 @@ using Avalonia.Threading;
 using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
+using kvexplorer.shared.Models;
 using System;
 using System.Linq;
 using System.Threading.Channels;
@@ -34,7 +35,6 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
 
-
         //var copyItemToClipboard = this.FindControl<FluentAvalonia.UI.Controls.MenuFlyoutItem>("CopyMenuFlyoutItem");
         //HotKeyManager.SetHotKey(copyItemToClipboard, new KeyGesture(Key.C, KeyModifiers.Control));
 
@@ -56,8 +56,6 @@ public partial class VaultPage : UserControl
         //    }
         //};
 
-
-
         Dispatcher.UIThread.Post(() =>
         {
             ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
@@ -71,7 +69,6 @@ public partial class VaultPage : UserControl
     {
         InitializeComponent();
         var model = new VaultPageViewModel();
-
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
@@ -160,10 +157,11 @@ public partial class VaultPage : UserControl
         };
     }
 
-
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
     {
-        Console.WriteLine(e);
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            await vaultPageViewModel.CopyCommand.ExecuteAsync((KeyVaultContentsAmalgamation)e.Item);
+        });
     }
-
 }

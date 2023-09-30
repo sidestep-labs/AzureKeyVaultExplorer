@@ -7,13 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:avalonia.kvexplorer.Views"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
-    Title="avalonia.kvexplorer"
+    Title="Key Vault Eexplorer"
     Width="860"
     Height="600"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="{x:Null}"
-	
     ExtendClientAreaChromeHints="Default, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"

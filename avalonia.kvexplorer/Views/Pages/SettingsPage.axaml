@@ -17,33 +17,69 @@
 
     <ScrollViewer>
 
-        <StackPanel Margin="10" Orientation="Vertical">
+        <StackPanel Margin="10,5" Orientation="Vertical">
+            <TextBlock Margin="0,0,0,15" Theme="{StaticResource SubtitleTextBlockStyle}">Settings</TextBlock>
 
-            <TextBlock FontWeight="ExtraBold">User Information</TextBlock>
+            <ui:SettingsExpander
+                Name="AccountExpander"
+                Margin="0,0,0,10"
+                Description="View account details and perform actions"
+                Header="Account Information"
+                IconSource="Contact">
 
-            <TextBlock Text="{Binding Path=AuthenticatedUserClaims.Username, StringFormat='Username: {0}'}" />
+                <ui:SettingsExpanderItem>
+                    <ui:SettingsExpanderItem.Content>
+                        <StackPanel>
+                            <TextBlock FontWeight="ExtraBold">User Information</TextBlock>
+                            <TextBlock>Subscription:</TextBlock>
+                            <TextBlock Text="{Binding Path=AuthenticatedUserClaims.Username, StringFormat='Username: {0}'}" />
+                            <TextBlock Text="{Binding Path=AuthenticatedUserClaims.TenantId, StringFormat='TenantId: {0}'}" />
+                        </StackPanel>
+                    </ui:SettingsExpanderItem.Content>
+                </ui:SettingsExpanderItem>
 
-            <TextBlock Text="{Binding Path=AuthenticatedUserClaims.TenantId, StringFormat='TenantId: {0}'}" />
+                <ui:SettingsExpanderItem Content="Sign In" Description="Sign into to Key Vault Explorer with Microsoft Account">
+                    <ui:SettingsExpanderItem.Footer>
+                        <Button Command="{Binding SignInOrRefreshTokenCommand}">Sign In</Button>
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
 
-            <TextBlock>Subscription:</TextBlock>
+                <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache.">
+                    <ui:SettingsExpanderItem.Footer>
+                        <Button Command="{Binding SignOutCommand}" Content="Sign out" />
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
 
-            <Button Margin="5" Command="{Binding SignInOrRefreshTokenCommand}">Sign In with Microsoft Account</Button>
+                <ui:SettingsExpanderItem Content="This one is clickable" IsClickEnabled="True" />
+            </ui:SettingsExpander>
 
-            <Button Margin="5" Command="{Binding SignOutCommand}" ToolTip.Tip="Remove account from cache">Sign out</Button>
+            <ui:SettingsExpander
+                Name="AppInfoSettingExpander"
+                Description="Use Azure Key Vault as a password manager."
+                Header="Key Vault Explorer for Azure">
+                <ui:SettingsExpander.Footer>
+                    <TextBlock Text="{Binding Path=Version, StringFormat='Version {0}'}" Theme="{StaticResource CaptionTextBlockStyle}" />
+                </ui:SettingsExpander.Footer>
 
-			
-			
-			
-            <ui:HyperlinkButton
-                Margin="5"
-                Content="GitHub"
-                NavigateUri="https://github.com/cricketthomas/sidestep" />
+                <ui:SettingsExpanderItem>
+                    <ui:SettingsExpanderItem.Content>
+                        <StackPanel>
+                            <ui:HyperlinkButton
+                                Margin="5"
+                                Content="GitHub"
+                                NavigateUri="https://github.com/cricketthomas/sidestep" />
+                        </StackPanel>
+                    </ui:SettingsExpanderItem.Content>
+                </ui:SettingsExpanderItem>
+                <!--<ui:SettingsExpanderItem Content="This one is clickable" IsClickEnabled="True" />-->
+            </ui:SettingsExpander>
 
-
-            <ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">
+            <!--<ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">
                 <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-                    <!--<ui:CommandBarButton IconSource="Save" />
+            -->
+            <!--<ui:CommandBarButton IconSource="Save" />
                     <ui:CommandBarToggleButton IconSource="Globe" />-->
+            <!--
                 </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
 
                 <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
@@ -57,10 +93,8 @@
                         IsChecked="True"
                         Label="Move Up" />
                 </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-
-
-            </ui:CommandBarFlyoutCommandBar>
-            <Button Content="Click me for flyout!">
+            </ui:CommandBarFlyoutCommandBar>-->
+            <!--<Button Content="Click me for flyout!">
                 <Button.Flyout>
 
                     <ui:FAMenuFlyout Placement="Bottom">
@@ -85,12 +119,8 @@
                             IconSource="Icons"
                             Text="Radio Menu Item 2" />
                     </ui:FAMenuFlyout>
-
                 </Button.Flyout>
-            </Button>
-
-
-
+            </Button>-->
         </StackPanel>
     </ScrollViewer>
 </UserControl>

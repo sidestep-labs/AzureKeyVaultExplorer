@@ -13,6 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
+using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,7 @@ public partial class VaultPageViewModel : ViewModelBase
           { KeyVaultItemType.Secret, true},
           { KeyVaultItemType.Certificate, true},
     };
+
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
     /*
@@ -147,14 +149,14 @@ public partial class VaultPageViewModel : ViewModelBase
         CheckedBoxes[KeyVaultItemType.Certificate] = value;
     }
 
-     partial void OnIsKeysCheckedChanged(bool value)
+    partial void OnIsKeysCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Key] = value;
 
         //Dispatcher.UIThread.Post(() => FilterBasedOnCheckedBoxes(), DispatcherPriority.Input);
     }
 
-     partial void OnIsSecretsCheckedChanged(bool value)
+    partial void OnIsSecretsCheckedChanged(bool value)
     {
         CheckedBoxes[KeyVaultItemType.Secret] = value;
     }
@@ -171,18 +173,29 @@ public partial class VaultPageViewModel : ViewModelBase
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 
+    private readonly INotificationManager _notificationManager;
+
     [RelayCommand]
     private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)
     {
-        var secret = await _vaultService.GetSecret( keyVaultItem.VaultUri,keyVaultItem.Name);
+        if (keyVaultItem is null) return;
+
         var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
         var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
-        var dataObject = new DataObject();
-        dataObject.Set(DataFormats.Text, secret.Value);
-        await clipboard.SetDataObjectAsync(dataObject);
+        Notification notif;
+        try
+        {
+            var secret = await _vaultService.GetSecret(keyVaultItem.VaultUri, keyVaultItem.Name);
+            var dataObject = new DataObject();
+            dataObject.Set(DataFormats.Text, secret.Value);
+            await clipboard.SetDataObjectAsync(dataObject);
+            notif = new Notification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
+        }
+        catch (KeyVaultItemNotFoundException ex)
+        {
+            notif = new Notification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
+        }
 
-
-        var not = new Notification("Copied", $"The value of {keyVaultItem.Name} has been copied to the clipboard.", NotificationType.Success);
         var nm = new WindowNotificationManager(topLevel)
         {
             Position = NotificationPosition.BottomRight,
@@ -190,8 +203,7 @@ public partial class VaultPageViewModel : ViewModelBase
         };
         nm.TemplateApplied += (sender, args) =>
         {
-            nm.Show(not);
+            nm.Show(notif);
         };
     }
-
 }

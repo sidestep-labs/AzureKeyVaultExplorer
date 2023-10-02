@@ -128,7 +128,6 @@
                 GridLinesVisibility="Horizontal"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"
-			
                 VerticalScrollBarVisibility="Visible">
 
                 <DataGrid.Columns>

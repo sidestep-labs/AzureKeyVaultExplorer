@@ -1,5 +1,6 @@
 ﻿using avalonia.kvexplorer.ViewModels;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 
 namespace avalonia.kvexplorer.Views.Pages;
@@ -12,7 +13,6 @@ public partial class SettingsPage : UserControl
         //DataContext = new SettingsPageViewModel();
         DataContext = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
 
-      
     
     }
 }

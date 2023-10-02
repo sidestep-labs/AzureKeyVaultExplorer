@@ -24,7 +24,7 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
-            Margin="12,0,0,0"
+            Margin="10,0,0,-10"
             Content="Subscriptions"
             FontSize="{DynamicResource FontSizeSmall}" />
 
@@ -34,17 +34,16 @@
             HorizontalAlignment="Stretch"
             Orientation="Horizontal">
             <TextBox
-                Width="256"
+                Width="270"
                 Margin="10,10,0,0"
                 Classes.clearButton="True"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 Watermark="Filter key vaults" />
             <Button
-                Margin="9,10,10,0"
+                Margin="2,10,0,0"
                 VerticalAlignment="Stretch"
                 Click="RefreshKeyVaultList"
                 Content="&#xE149;"
-				FontWeight="ExtraBold"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                 ToolTip.Tip="Refresh available subscriptions" />
         </StackPanel>
@@ -59,6 +58,7 @@
                 AutoScrollToSelectedItem="True"
                 DoubleTapped="OnDoubleClicked"
                 ItemsSource="{Binding TreeViewList}"
+				Focusable="False"
                 SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
                 SelectionMode="Single">
 

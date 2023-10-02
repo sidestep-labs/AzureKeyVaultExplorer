@@ -1,14 +1,14 @@
-﻿using Azure.Core;
-using Azure.ResourceManager;
+﻿using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
-using Azure.ResourceManager.KeyVault.Models;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
+using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
+
 public class VaultService
 {
     public AuthService _authService { get; set; }
@@ -133,10 +133,18 @@ public class VaultService
         }
     }
 
-    public async Task<KeyVaultSecret> GetSecret(Uri KvUri, string secretName)
+    public async Task<KeyVaultSecret?> GetSecret(Uri KvUri, string secretName)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
         var client = new SecretClient(KvUri, token);
-        return await client.GetSecretAsync(secretName);
+        try
+        {
+            var secret = await client.GetSecretAsync(secretName);
+            return secret;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
     }
 }

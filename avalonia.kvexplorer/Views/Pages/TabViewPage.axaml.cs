@@ -4,19 +4,25 @@ using Avalonia.Input;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
+using kvexplorer.shared;
+using kvexplorer.shared.Services;
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace avalonia.kvexplorer.Views.Pages;
 
 public partial class TabViewPage : UserControl
 {
+
+    private KvDbContext kvDbContext;
     public TabViewPage()
     {
         InitializeComponent();
         //var vm = new TabViewPageViewModel();
 
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+        //kvDbContext = Defaults.Locator.GetRequiredService<KvDbContext>();
     }
 
     //private void TabView_AddButtonClick(TabView sender, EventArgs args)
@@ -182,5 +188,13 @@ public partial class TabViewPage : UserControl
 
         // TabItemsChanged will fire here and will check if the window is closed, only because it
         // is raised after drag/drop completes, so we don't have to do that here
+    }
+
+
+    public async Task test()
+    {
+        var storage = TopLevel.GetTopLevel(this)?.StorageProvider;
+        var folder = await storage.TryGetFolderFromPathAsync(new Uri(Constants.LocalAppDataFolder));
+        var file = await storage.TryGetFileFromPathAsync (new Uri(Constants.LocalAppDataFolder + "kvexplorer.db"));
     }
 }

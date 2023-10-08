@@ -14,9 +14,13 @@ using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared.Models;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Channels;
-
+using Avalonia.Platform;
+using System.IO;
+using System.Reflection.Metadata;
+using kvexplorer.shared;
 namespace avalonia.kvexplorer.Views.Pages;
 
 public partial class VaultPage : UserControl
@@ -35,6 +39,7 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
 
+        //string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteSample.db");
         //var copyItemToClipboard = this.FindControl<FluentAvalonia.UI.Controls.MenuFlyoutItem>("CopyMenuFlyoutItem");
         //HotKeyManager.SetHotKey(copyItemToClipboard, new KeyGesture(Key.C, KeyModifiers.Control));
 

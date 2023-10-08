@@ -1,0 +1,39 @@
+--
+-- File generated with SQLiteStudio v3.4.4 on Sat Oct 7 10:21:15 2023
+--
+-- Text encoding used: System
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Table: BookmarkedItems
+CREATE TABLE IF NOT EXISTS BookmarkedItems (
+    Id                      INTEGER PRIMARY KEY AUTOINCREMENT
+                                    NOT NULL,
+    Name                    TEXT    NOT NULL,
+    VaultUri                TEXT    NOT NULL,
+    Type                    INT     NOT NULL,
+    SubscriptionDisplayName TEXT,
+    ContentType             TEXT,
+    Version                 TEXT    NOT NULL,
+    UNIQUE (
+        Name,
+        Version
+    )
+);
+
+
+-- Table: QuickAccess
+CREATE TABLE IF NOT EXISTS QuickAccess (
+    Id                      INTEGER PRIMARY KEY AUTOINCREMENT
+                                    NOT NULL,
+    Name                    TEXT    NOT NULL,
+    VaultUri                TEXT    NOT NULL,
+    KeyVaultId              TEXT    NOT NULL,
+    SubscriptionDisplayName TEXT,
+    SubscriptionId          TEXT    NOT NULL
+);
+
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;

@@ -53,7 +53,7 @@ public static class Constants
     // Cache settings
     public const string CacheFileName = "kvexplorer_msal_cache.txt";
 
-    public static readonly string CacheDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
     public const string KeyChainServiceName = "kvexplorer_msal_service";
     public const string KeyChainAccountName = "kvexplorer_msal_account";

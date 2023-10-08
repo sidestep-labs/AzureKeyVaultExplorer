@@ -86,7 +86,7 @@ public class AuthService
         //var storageProperties = new StorageCreationPropertiesBuilder("netcore_maui_broker_cache.txt", "C:/temp")
 
         var storageProperties =
-             new StorageCreationPropertiesBuilder(Constants.CacheFileName, Constants.CacheDir)
+             new StorageCreationPropertiesBuilder(Constants.CacheFileName, Constants.LocalAppDataFolder)
                .WithLinuxKeyring(Constants.LinuxKeyRingSchema, Constants.LinuxKeyRingCollection, Constants.LinuxKeyRingLabel, Constants.LinuxKeyRingAttr1, Constants.LinuxKeyRingAttr2)
                .WithMacKeyChain(Constants.KeyChainServiceName, Constants.KeyChainAccountName)
                .Build();

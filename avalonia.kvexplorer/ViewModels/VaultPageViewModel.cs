@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
@@ -18,6 +19,7 @@ using kvexplorer.shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -188,7 +190,8 @@ public partial class VaultPageViewModel : ViewModelBase
             var secret = await _vaultService.GetSecret(keyVaultItem.VaultUri, keyVaultItem.Name);
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, secret.Value);
-            await clipboard.SetDataObjectAsync(dataObject);
+            await clipboard.SetTextAsync(secret.Value);
+            // TODO: figure out why set data object async fails here.
             notif = new Notification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
         }
         catch (KeyVaultItemNotFoundException ex)
@@ -206,4 +209,5 @@ public partial class VaultPageViewModel : ViewModelBase
             nm.Show(notif);
         };
     }
+
 }

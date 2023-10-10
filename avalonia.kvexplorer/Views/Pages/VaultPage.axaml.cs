@@ -21,6 +21,9 @@ using Avalonia.Platform;
 using System.IO;
 using System.Reflection.Metadata;
 using kvexplorer.shared;
+using CommunityToolkit.Mvvm.Input;
+using kvexplorer.shared.Exceptions;
+using System.Threading.Tasks;
 namespace avalonia.kvexplorer.Views.Pages;
 
 public partial class VaultPage : UserControl
@@ -156,10 +159,19 @@ public partial class VaultPage : UserControl
             Position = NotificationPosition.BottomRight,
             MaxItems = 1,
         };
-        nm.TemplateApplied += (sender, args) =>
+       
+
+        var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+        Notification notif;
+        var dataObject = new DataObject();
+        dataObject.Set(DataFormats.Text, "TEst arthur");
+         clipboard.SetTextAsync("sdfdjkfhsdkjfhd");
+
+ nm.TemplateApplied += (sender, args) =>
         {
             nm.Show(not);
         };
+
     }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
@@ -169,4 +181,11 @@ public partial class VaultPage : UserControl
             await vaultPageViewModel.CopyCommand.ExecuteAsync((KeyVaultContentsAmalgamation)e.Item);
         });
     }
+
+
+
+
+   
+
+
 }

@@ -74,7 +74,7 @@
         RowDefinitions="Auto,*">
 
         <StackPanel Orientation="Horizontal">
-            <Label
+			<Button Click="button_Click" Content="Notification" />            <Label
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
                 Content="Show:"

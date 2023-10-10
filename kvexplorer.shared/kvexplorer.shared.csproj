@@ -17,14 +17,10 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11" Condition="'$(Configuration)' == 'Debug'" >
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.56.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Database\" />
 	</ItemGroup>
 </Project>

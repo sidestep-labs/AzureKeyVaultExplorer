@@ -1,19 +1,21 @@
 ﻿using kvexplorer.shared;
+using kvexplorer.shared.Database;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace avalonia.kvexplorer.ViewModels;
 
 public partial class BookmarksPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
+    private readonly KvExplorerDbContext kvDbContext;
 
-    public BookmarksPageViewModel(AuthService authService)
-    {
-        _authService = authService;
-    }
-
+  
     public BookmarksPageViewModel()
     {
         _authService = new AuthService();
+        kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
+        var x = kvDbContext.BookmarkedItems.Count();
     }
 
     /// <summary>

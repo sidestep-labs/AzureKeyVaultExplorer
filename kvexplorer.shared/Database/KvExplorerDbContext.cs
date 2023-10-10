@@ -17,11 +17,11 @@ public partial class KvExplorerDbContext : DbContext
 
     public virtual DbSet<BookmarkedItem> BookmarkedItems { get; set; }
 
-    public virtual DbSet<QuickAccess> QuickAccesses { get; set; }
+    public virtual DbSet<QuickAccess> QuickAccessItems { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source=C:\\repos\\sidestep\\kvexplorer.db");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlite("");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

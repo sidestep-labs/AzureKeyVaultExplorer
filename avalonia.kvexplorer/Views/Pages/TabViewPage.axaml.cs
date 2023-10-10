@@ -5,7 +5,7 @@ using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
-using kvexplorer.shared.Services;
+using kvexplorer.shared.Database;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
@@ -15,14 +15,12 @@ namespace avalonia.kvexplorer.Views.Pages;
 public partial class TabViewPage : UserControl
 {
 
-    private KvDbContext kvDbContext;
     public TabViewPage()
     {
         InitializeComponent();
         //var vm = new TabViewPageViewModel();
 
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-        //kvDbContext = Defaults.Locator.GetRequiredService<KvDbContext>();
     }
 
     //private void TabView_AddButtonClick(TabView sender, EventArgs args)

@@ -4,6 +4,8 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using kvexplorer.shared;
+using kvexplorer.shared.Database;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace avalonia.kvexplorer;
@@ -18,7 +20,7 @@ public partial class App : Application
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
-
+        serviceCollection.AddDbContext<KvExplorerDbContext>(o => o.UseSqlite("Data Source=C:\\repos\\sidestep\\kvexplorer.db"));
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 

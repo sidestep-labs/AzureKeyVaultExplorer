@@ -57,8 +57,8 @@
             <TreeView
                 AutoScrollToSelectedItem="True"
                 DoubleTapped="OnDoubleClicked"
+                Focusable="False"
                 ItemsSource="{Binding TreeViewList}"
-				Focusable="False"
                 SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
                 SelectionMode="Single">
 
@@ -77,7 +77,18 @@
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
-                </TreeView.Styles>
+
+					<Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
+						<Setter Property="Cursor" Value="Hand" />
+					</Style>
+
+
+					<Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
+						<Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
+						
+					</Style>
+
+				</TreeView.Styles>
                 <TreeView.DataTemplates>
 
                     <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">

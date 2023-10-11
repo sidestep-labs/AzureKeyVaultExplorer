@@ -15,9 +15,9 @@
 		<PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.5.0" />
 		<PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.5.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11" Condition="'$(Configuration)' == 'Debug'" >
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12" Condition="'$(Configuration)' == 'Debug'">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

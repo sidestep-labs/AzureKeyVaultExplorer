@@ -70,11 +70,11 @@
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Grid
         Margin="10,10,10,0"
-        ColumnDefinitions="*, *, *, *"
+        ColumnDefinitions="*, *, *, *,*"
         RowDefinitions="Auto,*">
 
         <StackPanel Orientation="Horizontal">
-			<Button Click="button_Click" Content="Notification" />            <Label
+            <Label
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
                 Content="Show:"
@@ -109,7 +109,13 @@
             TextChanged="SearchBoxChanges"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
-        <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
+        <ui:FontIcon
+            Grid.Row="0"
+			FontSize="30"
+            Grid.Column="3"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"
+            Glyph="&#xF80DE;" />
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="5">
 
             <!--
                 IsVisible="{Binding !IsBusy}"

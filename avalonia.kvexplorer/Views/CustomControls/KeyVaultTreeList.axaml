@@ -19,6 +19,36 @@
         <vm:KeyVaultTreeListViewModel />
     </Design.DataContext>
 
+
+
+    <UserControl.Styles>
+        <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
+            <Setter Property="Margin" Value="1,5,5,5" />
+            <Setter Property="BoxShadow" Value="0 3 3 0 #34000000" />
+        </Style>
+    </UserControl.Styles>
+
+    <UserControl.Resources>
+
+        <ui:FAMenuFlyout x:Key="FAMenuFlyoutSubscriptionTreeView" Placement="Pointer">
+
+            <ui:MenuFlyoutItem
+                Name="PinToQuickAccess"
+                IconSource="Copy"
+                Text="Pin to Quick Access" />
+            <ui:MenuFlyoutItem IconSource="View" Text="Secret Properties" />
+            <ui:MenuFlyoutSeparator />
+
+            <!--<ui:MenuFlyoutSeparator />-->
+            <ui:MenuFlyoutSubItem IconSource="More" Text="Advanced">
+                <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
+                <ui:MenuFlyoutItem IconSource="Copy" Text="Copy URI" />
+            </ui:MenuFlyoutSubItem>
+
+        </ui:FAMenuFlyout>
+    </UserControl.Resources>
+
+
     <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*,*">
         <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
         <Label
@@ -55,6 +85,7 @@
             VerticalScrollBarVisibility="Visible">
 
             <TreeView
+                Name="SubscriptionTreeViewList"
                 AutoScrollToSelectedItem="True"
                 DoubleTapped="OnDoubleClicked"
                 Focusable="False"
@@ -73,22 +104,20 @@
                 <TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
-                        <!--  TODO: create model to stop this invalid cast excption.  -->
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
 
-					<Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
-						<Setter Property="Cursor" Value="Hand" />
-					</Style>
+                    <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Style>
 
 
-					<Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
-						<Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
-						
-					</Style>
+                    <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
+                        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
+                    </Style>
 
-				</TreeView.Styles>
+                </TreeView.Styles>
                 <TreeView.DataTemplates>
 
                     <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">

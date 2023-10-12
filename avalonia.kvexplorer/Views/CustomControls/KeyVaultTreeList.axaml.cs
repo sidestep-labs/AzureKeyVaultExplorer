@@ -25,6 +25,10 @@ public partial class KeyVaultTreeList : UserControl
         var model = new KeyVaultTreeListViewModel();
         DataContext = model;
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+
+        SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
+        SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
+
         // TODO: Figure out why this breaks NativeAOT, possibly due to DI using reflection? idk FIX:
         /* System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
         ---> System.MissingMethodException: No parameterless constructor defined for type 'System.Diagnostics.ActivitySource'.*/
@@ -33,6 +37,25 @@ public partial class KeyVaultTreeList : UserControl
             await model.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
         }, DispatcherPriority.ApplicationIdle);
     }
+
+
+
+
+
+    private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
+    {
+        ShowMenu(true);
+        e.Handled = true;
+    }
+
+    private void ShowMenu(bool isTransient)
+    {
+        var flyout = Resources["FAMenuFlyoutSubscriptionTreeView"] as FAMenuFlyout;
+        flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+        flyout.ShowAt(this.FindControl<TreeViewItem>("SubscriptionTreeViewList"));
+    }
+
+
 
     private void RefreshKeyVaultList(object sender, RoutedEventArgs e)
     {

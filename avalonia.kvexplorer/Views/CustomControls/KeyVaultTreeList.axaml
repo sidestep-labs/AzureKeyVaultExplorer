@@ -18,7 +18,7 @@
     <Design.DataContext>
         <vm:KeyVaultTreeListViewModel />
     </Design.DataContext>
-
+    
 
 
     <UserControl.Styles>
@@ -34,16 +34,10 @@
 
             <ui:MenuFlyoutItem
                 Name="PinToQuickAccess"
-                IconSource="Copy"
+                IconSource="OutlineStar"
                 Text="Pin to Quick Access" />
-            <ui:MenuFlyoutItem IconSource="View" Text="Secret Properties" />
-            <ui:MenuFlyoutSeparator />
 
-            <!--<ui:MenuFlyoutSeparator />-->
-            <ui:MenuFlyoutSubItem IconSource="More" Text="Advanced">
-                <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
-                <ui:MenuFlyoutItem IconSource="Copy" Text="Copy URI" />
-            </ui:MenuFlyoutSubItem>
+            <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
 
         </ui:FAMenuFlyout>
     </UserControl.Resources>
@@ -73,9 +67,13 @@
                 Margin="2,10,0,0"
                 VerticalAlignment="Stretch"
                 Click="RefreshKeyVaultList"
-                Content="&#xE149;"
+                ToolTip.Tip="Refresh available subscriptions">
+
+				<ui:FontIcon Glyph="&#xE72C;" 
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                ToolTip.Tip="Refresh available subscriptions" />
+							 
+							 ></ui:FontIcon>
+		</Button>
         </StackPanel>
         <ScrollViewer
             Grid.Row="2"
@@ -101,11 +99,14 @@
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>-->
 
+
+
                 <TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="Name" Value="SubscriptionTreeItem" />
                     </Style>
 
                     <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">

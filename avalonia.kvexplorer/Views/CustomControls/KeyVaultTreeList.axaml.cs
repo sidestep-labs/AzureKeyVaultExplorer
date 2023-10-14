@@ -26,6 +26,7 @@ public partial class KeyVaultTreeList : UserControl
         DataContext = model;
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
 
+
         SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
 
@@ -44,7 +45,9 @@ public partial class KeyVaultTreeList : UserControl
 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
-        ShowMenu(true);
+        var tv = sender as TreeView;
+        if(tv.SelectedItem is not null)
+            ShowMenu(true);
         e.Handled = true;
     }
 
@@ -52,7 +55,8 @@ public partial class KeyVaultTreeList : UserControl
     {
         var flyout = Resources["FAMenuFlyoutSubscriptionTreeView"] as FAMenuFlyout;
         flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
-        flyout.ShowAt(this.FindControl<TreeViewItem>("SubscriptionTreeViewList"));
+        var loc = this.FindControl<TreeView>("SubscriptionTreeViewList");
+        flyout.ShowAt(loc);
     }
 
 

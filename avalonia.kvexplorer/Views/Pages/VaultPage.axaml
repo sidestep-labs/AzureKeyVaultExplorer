@@ -109,12 +109,12 @@
             TextChanged="SearchBoxChanges"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
-        <ui:FontIcon
+        <!--<ui:FontIcon
             Grid.Row="0"
 			FontSize="30"
             Grid.Column="3"
             FontFamily="{StaticResource SymbolThemeFontFamily}"
-            Glyph="&#xF80DE;" />
+            Glyph="&#xF80DE;" />-->
         <DockPanel Grid.Row="1" Grid.ColumnSpan="5">
 
             <!--

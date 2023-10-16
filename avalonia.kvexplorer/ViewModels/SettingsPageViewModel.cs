@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
@@ -6,6 +8,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,10 +17,9 @@ namespace avalonia.kvexplorer.ViewModels;
 public partial class SettingsPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
-    private readonly VaultService _vaultService;
 
     [ObservableProperty]
-    public required string version;
+    public string version;
 
     [ObservableProperty]
     private AuthenticatedUserClaims? authenticatedUserClaims;
@@ -25,8 +27,10 @@ public partial class SettingsPageViewModel : ViewModelBase
     public SettingsPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        LoadApplicationVersion();
+        Dispatcher.UIThread.Post(async () =>
+        {
+            Version = GetAppVersion();
+        }, DispatcherPriority.ApplicationIdle);
     }
 
     [RelayCommand]
@@ -56,15 +60,24 @@ public partial class SettingsPageViewModel : ViewModelBase
         AuthenticatedUserClaims = null;
     }
 
-    private void LoadApplicationVersion()
-    {
-        string textVersion = Environment.GetEnvironmentVariable("KVEXPLORER_APP_VERSION") ?? "0.0.0.1";
+    //private async Task LoadApplicationVersion()
+    //{
+    //    //string buildDirProps = Environment.GetEnvironmentVariable("EnvironmentName");
+    //    //string _version = await File.ReadAllTextAsync(".\\VERSION.txt");
+    //    //if (!System.Version.TryParse(_version, out Version fullVersion))
+    //    //{
+    //    //    Version = "Missing version file" + buildDirProps;
+    //    //    return;
+    //    //}
+    //    //Version = $"{fullVersion.Major}.{fullVersion.Minor}.{fullVersion.Build}.{fullVersion.Revision}-{buildDirProps}";
         
-        if (!System.Version.TryParse(textVersion, out Version fullVersion))
-        {
-            Version = "Missing version file";
-        }
+    //}
 
-        Version = $"{fullVersion.Major}.{fullVersion.Minor}.{fullVersion.Build}.{fullVersion.Revision}";
+
+    public static string GetAppVersion()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var version = assembly.GetName().Version;
+        return version == null ? "(Unknown)" : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 }

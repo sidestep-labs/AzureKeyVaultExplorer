@@ -20,7 +20,7 @@ public partial class App : Application
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
-        serviceCollection.AddDbContext<KvExplorerDbContext>(o => o.UseSqlite("Data Source=C:\\repos\\sidestep\\kvexplorer.db"));
+        //serviceCollection.AddDbContext<KvExplorerDbContext>(o => o.UseSqlite("Data Source=C:\\repos\\sidestep\\kvexplorer.db"));
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 

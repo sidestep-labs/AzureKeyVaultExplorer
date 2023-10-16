@@ -11,15 +11,13 @@
 	<PublishTrimmed>true</PublishTrimmed>
 	<TrimMode>full</TrimMode>
 	<PublishReadyToRun>true</PublishReadyToRun>
-	<!--<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	  <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
 
   <ItemGroup>
 	<PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
   </ItemGroup>
-	
-	
 	
   <ItemGroup>
     <ProjectReference Include="..\avalonia.kvexplorer\avalonia.kvexplorer.csproj" />

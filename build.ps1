@@ -1,7 +1,9 @@
 param(
     [switch]$RunBuild = $false,
     [System.Diagnostics.Stopwatch]$sw = [System.Diagnostics.Stopwatch]::StartNew(),
-    [string]$BuildNumber = '1.0.0.0'
+    [string]$BuildNumber = '1.0.0.0',
+    $VersionPrefix = "1.0.0",
+    $VersionSuffix = "99"
 )
 $DebugPreference = 'continue';
 
@@ -9,7 +11,8 @@ if ($RunBuild) {
     Push-Location  c:\repos\sidestep\avalonia.kvexplorer.Desktop;
 
     $env:KVEXPLORER_APP_VERSION = $BuildNumber
-    dotnet publish -o publish/ -c Release --self-contained
+    dotnet publish  -o publish/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix
+       #New-Item -Path $ProjectDir -Name "VERSION" -ItemType "file" -Value $BuildNumber -Force
 
     explorer.exe .
     

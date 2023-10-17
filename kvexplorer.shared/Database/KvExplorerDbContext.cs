@@ -13,6 +13,8 @@ public partial class KvExplorerDbContext : DbContext
     public KvExplorerDbContext(DbContextOptions<KvExplorerDbContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
+
     }
 
     public virtual DbSet<BookmarkedItem> BookmarkedItems { get; set; }

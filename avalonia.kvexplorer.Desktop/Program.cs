@@ -19,6 +19,8 @@ internal class Program
                  .AfterSetup(_ =>
                  {
                      App.ConfigureDesktopServices();
+                     App.CreateDesktopResources();
+
                  })
                 .UsePlatformDetect()
                 .LogToTrace();

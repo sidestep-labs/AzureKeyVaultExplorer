@@ -9,6 +9,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
+using kvexplorer.shared.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace avalonia.kvexplorer.ViewModels;
 
@@ -16,11 +18,12 @@ public partial class TabViewPageViewModel : ViewModelBase
 {
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
-
+  
     public TabViewPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+      
         Documents = new ObservableCollection<TabViewItem>();
         for (int i = 0; i < 3; i++)
         {

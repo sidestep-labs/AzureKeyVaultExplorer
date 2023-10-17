@@ -6,7 +6,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
+using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +23,8 @@ namespace avalonia.kvexplorer.ViewModels;
 
 public partial class KeyVaultTreeListViewModel : ViewModelBase
 {
+    public IEnumerable<KeyVaultModel> _treeViewList;
+
     [ObservableProperty]
     public string searchQuery;
 
@@ -30,11 +34,11 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [ObservableProperty]
     public ObservableCollection<KeyVaultModel> treeViewList;
 
-    public IEnumerable<KeyVaultModel> _treeViewList;
-
     private readonly AuthService _authService;
-    private readonly VaultService _vaultService;
     private readonly TabViewPageViewModel _tabViewViewModel;
+    private readonly VaultService _vaultService;
+    private readonly KvExplorerDbContext kvDbContext;
+    private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
     private bool AttemptedLogin = false;
 
     public KeyVaultTreeListViewModel()
@@ -42,6 +46,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+        kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
+
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
         treeViewList = new ObservableCollection<KeyVaultModel>
@@ -104,45 +110,35 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 TreeViewList.Add(item);
             }
             _treeViewList = TreeViewList;
-        }, DispatcherPriority.Default);
+        }, DispatcherPriority.ContextIdle);
     }
 
-    private async Task Login()
+    [RelayCommand]
+    public async Task PinVaultToQuickAccess(KeyVaultResource model)
     {
-        var cancellation = new CancellationToken();
-        var account = await _authService.RefreshTokenAsync(cancellation);
-        if (account == null)
-            await _authService.LoginAsync(cancellation);
-    }
-
-    //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    //{
-    //    if (e.PropertyName == nameof(SelectedTreeItem))
-    //    {
-    //        // Handle changes to the SelectedTreeItem property here
-    //        //OnSelectedTreeItemChanged("test");
-    //    }
-    //}
-
-    private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.Action == NotifyCollectionChangedAction.Add)
+        var exists = await kvDbContext.QuickAccessItems.AnyAsync(qa => qa.KeyVaultId == model.Id);
+        if (exists) return;
+        var qa = new QuickAccess
         {
-            foreach (KeyVaultModel newItem in e.NewItems)
-            {
-                newItem.PropertyChanged += KeyVaultModel_PropertyChanged;
-            }
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Remove)
-        {
-            foreach (KeyVaultModel oldItem in e.OldItems)
-            {
-                oldItem.PropertyChanged -= KeyVaultModel_PropertyRemoved;
-            }
-        }
-    }
+            KeyVaultId = model.Id,
+            Name = model.Data.Name,
+            VaultUri = model.Data.Properties.VaultUri.ToString(),
+            //SubscriptionDisplayName = model.Data.s
+        };
+        kvDbContext.QuickAccessItems.Add(qa);
+        await kvDbContext.SaveChangesAsync();
 
-    private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
+        //await Dispatcher.UIThread.InvokeAsync(async () =>
+        //{
+        //    var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
+        //    await foreach (var item in resource)
+        //    {
+        //        item.PropertyChanged += KeyVaultModel_PropertyChanged;
+        //        TreeViewList.Add(item);
+        //    }
+        //    _treeViewList = TreeViewList;
+        //}, DispatcherPriority.Default);
+    }
 
     private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -173,6 +169,23 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
 
+    private async Task Login()
+    {
+        var cancellation = new CancellationToken();
+        var account = await _authService.RefreshTokenAsync(cancellation);
+        if (account == null)
+            await _authService.LoginAsync(cancellation);
+    }
+
+    //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    //{
+    //    if (e.PropertyName == nameof(SelectedTreeItem))
+    //    {
+    //        // Handle changes to the SelectedTreeItem property here
+    //        //OnSelectedTreeItemChanged("test");
+    //    }
+    //}
+
     partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim().ToLowerInvariant();
@@ -182,5 +195,23 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
         var list = _treeViewList.Where(v => v.SubscriptionDisplayName.ToLowerInvariant().Contains(query));
         TreeViewList = new ObservableCollection<KeyVaultModel>(list);
+    }
+
+    private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            foreach (KeyVaultModel newItem in e.NewItems)
+            {
+                newItem.PropertyChanged += KeyVaultModel_PropertyChanged;
+            }
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            foreach (KeyVaultModel oldItem in e.OldItems)
+            {
+                oldItem.PropertyChanged -= KeyVaultModel_PropertyRemoved;
+            }
+        }
     }
 }

@@ -53,7 +53,7 @@ public static class Constants
     // Cache settings
     public const string CacheFileName = "kvexplorer_msal_cache.txt";
 
-    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\KeyVaultExplorer";
 
     public const string KeyChainServiceName = "kvexplorer_msal_service";
     public const string KeyChainAccountName = "kvexplorer_msal_account";
@@ -63,4 +63,7 @@ public static class Constants
     public const string LinuxKeyRingLabel = "MSAL token cache for all Contoso dev tool apps.";
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr2 = new KeyValuePair<string, string>("ProductGroup", "MyApps");
+
+   
+
 }

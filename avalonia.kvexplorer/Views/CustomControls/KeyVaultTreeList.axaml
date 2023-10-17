@@ -18,7 +18,7 @@
     <Design.DataContext>
         <vm:KeyVaultTreeListViewModel />
     </Design.DataContext>
-    
+
 
 
     <UserControl.Styles>
@@ -34,6 +34,8 @@
 
             <ui:MenuFlyoutItem
                 Name="PinToQuickAccess"
+                Command="{Binding PinVaultToQuickAccessCommand}"
+                CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="OutlineStar"
                 Text="Pin to Quick Access" />
 
@@ -69,11 +71,8 @@
                 Click="RefreshKeyVaultList"
                 ToolTip.Tip="Refresh available subscriptions">
 
-				<ui:FontIcon Glyph="&#xE72C;" 
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-							 
-							 ></ui:FontIcon>
-		</Button>
+                <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+            </Button>
         </StackPanel>
         <ScrollViewer
             Grid.Row="2"

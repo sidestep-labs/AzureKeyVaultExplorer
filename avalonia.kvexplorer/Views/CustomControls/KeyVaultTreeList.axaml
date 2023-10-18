@@ -103,7 +103,10 @@
                 <TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
-                        <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+						<Setter Property="FontSize" Value="12" />
+						<Setter Property="Padding" Value="0" />
+						<Setter Property="Margin" Value="0" />
+						<Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Name" Value="SubscriptionTreeItem" />
                     </Style>
@@ -121,7 +124,21 @@
                 <TreeView.DataTemplates>
 
                     <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                        <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
+                        <StackPanel
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Cursor="Hand"
+                            Orientation="Horizontal">
+
+                            <ui:SymbolIcon
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                FontSize="18"
+                                IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                Symbol="{Binding GlyphIcon}" />
+                            <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
+
+                        </StackPanel>
                     </TreeDataTemplate>
 
                     <DataTemplate DataType="armmodels:KeyVaultResource">

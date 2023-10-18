@@ -35,7 +35,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public ObservableCollection<KeyVaultModel> treeViewList;
 
     private readonly AuthService _authService;
-    private readonly TabViewPageViewModel _tabViewViewModel;
     private readonly VaultService _vaultService;
     private readonly KvExplorerDbContext kvDbContext;
     private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
@@ -45,7 +44,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
 
         // PropertyChanged += OnMyViewModelPropertyChanged;
@@ -54,10 +52,11 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
              new KeyVaultModel
             {
-                SubscriptionDisplayName = "1 Subscription",
+                SubscriptionDisplayName = "Quick Access",
                 SubscriptionId = "123",
                 KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
+                Subscription = null,
+                GlyphIcon = "Pin"
             }, new KeyVaultModel
             {
                 SubscriptionDisplayName = "2 Subscription",

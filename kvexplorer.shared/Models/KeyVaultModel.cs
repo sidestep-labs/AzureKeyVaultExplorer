@@ -19,4 +19,6 @@ public partial class KeyVaultModel : ObservableObject
 
     [ObservableProperty]
     private bool isSelected;
+
+    public string? GlyphIcon { get; set; } = null;
 }

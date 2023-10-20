@@ -36,7 +36,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
-    private readonly KvExplorerDbContext kvDbContext;
+    private readonly KvExplorerDbContext _kvDbContext;
     private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
     private bool AttemptedLogin = false;
 
@@ -44,11 +44,11 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
+        _kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
 
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
-        treeViewList = new ObservableCollection<KeyVaultModel>
+        TreeViewList = new ObservableCollection<KeyVaultModel>
         {
              new KeyVaultModel
             {
@@ -69,19 +69,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 SubscriptionId = "123",
                 KeyVaultResources = new List<KeyVaultResource>{ },
                 Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "4 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }, new KeyVaultModel
-            {
-                SubscriptionDisplayName = "5 Subscription",
-                SubscriptionId = "123",
-                KeyVaultResources = new List<KeyVaultResource>{ },
-                Subscription = null
-            }
+            },
         };
 
         //foreach (var item in TreeViewList)
@@ -115,7 +103,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [RelayCommand]
     public async Task PinVaultToQuickAccess(KeyVaultResource model)
     {
-        var exists = await kvDbContext.QuickAccessItems.AnyAsync(qa => qa.KeyVaultId == model.Id);
+        var exists = await _kvDbContext.QuickAccessItems.AnyAsync(qa => qa.KeyVaultId == model.Id);
         if (exists) return;
         var qa = new QuickAccess
         {
@@ -124,8 +112,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             VaultUri = model.Data.Properties.VaultUri.ToString(),
             //SubscriptionDisplayName = model.Data.s
         };
-        kvDbContext.QuickAccessItems.Add(qa);
-        await kvDbContext.SaveChangesAsync();
+        _kvDbContext.QuickAccessItems.Add(qa);
+        await _kvDbContext.SaveChangesAsync();
 
         //await Dispatcher.UIThread.InvokeAsync(async () =>
         //{

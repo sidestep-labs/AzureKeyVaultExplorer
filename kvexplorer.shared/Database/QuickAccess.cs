@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.ResourceManager.Resources.Models;
+using System;
 using System.Collections.Generic;
 
 namespace kvexplorer.shared.Database;
@@ -16,4 +17,8 @@ public partial class QuickAccess
     public string? SubscriptionDisplayName { get; set; }
 
     public string? SubscriptionId { get; set; }
+
+    public required string TenantId { get; set; }
+
+    public string Location { get; set; } = null!;
 }

@@ -129,4 +129,7 @@ public class AuthService
         var accounts = await authenticationClient.GetAccountsAsync();
         return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.First()).ExecuteAsync();
     }
+
+
 }
+

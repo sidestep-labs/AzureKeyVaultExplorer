@@ -127,35 +127,39 @@
 
             <DataGrid
                 Name="VaultContentDataGrid"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
                 CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                 DoubleTapped="OnDoubleTapped"
                 GridLinesVisibility="Horizontal"
+                HorizontalScrollBarVisibility="Visible"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"
                 VerticalScrollBarVisibility="Visible">
 
                 <DataGrid.Columns>
 
-                    <DataGridTextColumn
+                    <!--<DataGridTextColumn
                         Width="1*"
                         Binding="{Binding Type}"
-                        Header="Type" />
+                        Header="Type" />-->
                     <DataGridTextColumn
-                        Width="1*"
+                        Width="250"
                         Binding="{Binding Name}"
                         Header="Name" />
                     <DataGridTextColumn
-                        Width="1*"
-                        Binding="{Binding Version}"
-                        Header="Version" />
-                    <DataGridTextColumn
-                        Width="1*"
+                        Width="400"
                         Binding="{Binding VaultUri}"
                         Header="VaultUri" />
                     <DataGridTextColumn
-                        Width=".7*"
+                        Width="200"
+                        Binding="{Binding Version}"
+                        Header="Version" />
+
+                    <DataGridTextColumn
+                        Width="300"
                         Binding="{Binding ContentType}"
                         Header="ContentType" />
                 </DataGrid.Columns>

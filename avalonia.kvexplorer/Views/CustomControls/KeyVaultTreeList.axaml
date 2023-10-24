@@ -64,7 +64,7 @@
                 Margin="10,10,0,0"
                 Classes.clearButton="True"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
-                Watermark="Filter key vaults" />
+                Watermark="Search Key Vaults" />
             <Button
                 Margin="2,10,0,0"
                 VerticalAlignment="Stretch"
@@ -103,10 +103,10 @@
                 <TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
-						<Setter Property="FontSize" Value="12" />
-						<Setter Property="Padding" Value="0" />
-						<Setter Property="Margin" Value="0" />
-						<Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Name" Value="SubscriptionTreeItem" />
                     </Style>

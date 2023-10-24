@@ -5,6 +5,7 @@ using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -12,16 +13,20 @@ namespace kvexplorer.shared;
 public class VaultService
 {
     public AuthService _authService { get; set; }
+    public MemoryCache _memoryCache { get; set; }
 
-    public VaultService(AuthService authService)
+
+    public VaultService(AuthService authService, MemoryCache memoryCache)
     {
         _authService = authService;
+        _memoryCache = memoryCache;
     }
 
     public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResource()
     {
         var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
         var armClient = new ArmClient(token);
+
         var subscription = await armClient.GetDefaultSubscriptionAsync();
         await foreach (var kvResource in subscription.GetKeyVaultsAsync())
         {
@@ -56,7 +61,17 @@ public class VaultService
         var armClient = new ArmClient(token);
 
         var placeholder = new KeyVaultResourcePlaceholder();
-        foreach (var subscription in armClient.GetSubscriptions())
+
+
+        var subscriptionX =  _memoryCache.GetOrCreate($"", (f) =>
+        {
+            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+            return armClient.GetSubscriptions();
+        });
+
+
+        //foreach (var subscription in armClient.GetSubscriptions())
+        foreach (var subscription in subscriptionX)
         {
             var resource = new KeyVaultModel
             {

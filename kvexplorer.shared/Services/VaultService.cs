@@ -13,10 +13,10 @@ namespace kvexplorer.shared;
 public class VaultService
 {
     public AuthService _authService { get; set; }
-    public MemoryCache _memoryCache { get; set; }
+    public IMemoryCache _memoryCache { get; set; }
 
 
-    public VaultService(AuthService authService, MemoryCache memoryCache)
+    public VaultService(AuthService authService, IMemoryCache memoryCache)
     {
         _authService = authService;
         _memoryCache = memoryCache;
@@ -63,7 +63,7 @@ public class VaultService
         var placeholder = new KeyVaultResourcePlaceholder();
 
 
-        var subscriptionX =  _memoryCache.GetOrCreate($"", (f) =>
+        var subscriptions =  _memoryCache.GetOrCreate($"subscriptions", (f) =>
         {
             f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
             return armClient.GetSubscriptions();
@@ -71,7 +71,7 @@ public class VaultService
 
 
         //foreach (var subscription in armClient.GetSubscriptions())
-        foreach (var subscription in subscriptionX)
+        foreach (var subscription in subscriptions)
         {
             var resource = new KeyVaultModel
             {

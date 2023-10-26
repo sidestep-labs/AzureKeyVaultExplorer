@@ -7,12 +7,12 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-	<PublishSingleFile>true</PublishSingleFile>
-	<PublishTrimmed>true</PublishTrimmed>
-	<TrimMode>full</TrimMode>
-	<PublishReadyToRun>true</PublishReadyToRun>
-	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	  <!--<PublishAot>true</PublishAot>-->
+    <!--<PublishSingleFile>true</PublishSingleFile>-->
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>full</TrimMode>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>

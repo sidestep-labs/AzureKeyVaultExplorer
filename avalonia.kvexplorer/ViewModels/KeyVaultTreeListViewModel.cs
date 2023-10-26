@@ -145,12 +145,24 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             Name = model.Data.Name,
             VaultUri = model.Data.Properties.VaultUri.ToString(),
             TenantId = model.Data.Properties.TenantId.ToString(),
-            Location = model.Data.Location.Name
+            Location = model.Data.Location.Name,
             //SubscriptionDisplayName = model.Data.s
         };
+
         _kvDbContext.QuickAccessItems.Add(qa);
         await _kvDbContext.SaveChangesAsync();
 
+        TreeViewList[0].KeyVaultResources.Add(model);
+        var quickAccess = new KeyVaultModel
+        {
+            SubscriptionDisplayName = "Quick Access",
+            IsExpanded = true,
+            SubscriptionId = "",
+            KeyVaultResources = TreeViewList[0].KeyVaultResources,
+            Subscription = null,
+            GlyphIcon = "Pin"
+        };
+        TreeViewList[0] = quickAccess;
         //await Dispatcher.UIThread.InvokeAsync(async () =>
         //{
         //    var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
@@ -161,7 +173,53 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         //    }
         //    _treeViewList = TreeViewList;
         //}, DispatcherPriority.Default);
+
+
+        //var quickAccess = new KeyVaultModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
+
+        //quickAccess.KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != item.KeyVaultId).ToList();
+
+        //TreeViewList[0] = quickAccess;
+
+
+        //_treeViewList = TreeViewList;
     }
+
+
+
+
+    [RelayCommand]
+    public async Task RemovePinVaultToQuickAccess(KeyVaultResource model)
+    {
+        var item = await _kvDbContext.QuickAccessItems.SingleOrDefaultAsync(qa => qa.KeyVaultId == model.Id);
+        if (item is null) return;
+
+        _kvDbContext.QuickAccessItems.Remove(item);
+        await _kvDbContext.SaveChangesAsync();
+
+        var quickAccess = new KeyVaultModel { 
+            SubscriptionDisplayName = "Quick Access", 
+            IsExpanded = true,
+            SubscriptionId = "",
+            KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != item.KeyVaultId).ToList(),
+            Subscription = null,
+            GlyphIcon = "Pin" 
+        };
+        TreeViewList[0] = quickAccess;
+     
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

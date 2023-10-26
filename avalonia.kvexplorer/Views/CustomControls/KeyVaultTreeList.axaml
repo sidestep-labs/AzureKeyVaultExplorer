@@ -41,7 +41,7 @@
 
             <ui:MenuFlyoutItem
                 Name="UnpinFromQuickAccess"
-                Command="{Binding PinVaultToQuickAccessCommand}"
+                Command="{Binding RemovePinVaultToQuickAccess}"
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="BookmarkFilled"
                 Text="Remove From Quick Access" />

@@ -71,7 +71,33 @@
                 Margin="10,10,0,0"
                 Classes.clearButton="True"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
-                Watermark="Search Key Vaults" />
+                Watermark="Search">
+                <TextBox.Styles>
+                    <Style Selector="TextBox">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="InnerRightContent">
+                            <Template>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Command="{Binding $parent[TextBox].Clear}"
+                                        Content="&#xE8BB;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                        Theme="{StaticResource TransparentButton}" />
+                                    <Button
+                                        Command="{Binding $parent[TextBox].Clear}"
+                                        Content="&#xE721;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        IsHitTestVisible="False"
+                                        Theme="{StaticResource TransparentButton}" />
+                                </StackPanel>
+                            </Template>
+                        </Setter>
+
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+
             <Button
                 Margin="2,10,0,0"
                 VerticalAlignment="Stretch"

@@ -16,9 +16,10 @@ namespace avalonia.kvexplorer.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public string email = "unauthenticated";
+    public string email;
 
-
+    [ObservableProperty]
+    public string initials;
 
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
@@ -39,7 +40,12 @@ public partial class MainViewModel : ViewModelBase
         if (account is null)
             account = await _authService.LoginAsync(cancellation);
         //.ClaimsPrincipal.Identities.First().FindFirst("email").Value.ToLowerInvariant();
-        var email = account.ClaimsPrincipal.Identities.First().FindAll("email").First().Value ?? account.Account.Username;
+        var identity = account.ClaimsPrincipal.Identities.First();
+        var email = identity.FindAll("email").First().Value ?? account.Account.Username;
+
+        string[] name = identity.FindAll("name").First().Value.Split(" ");
+        if(name.Length > 1)
+            Initials = name[0][0].ToString().ToUpperInvariant() + name[1][0].ToString().ToUpperInvariant();
 
         Email = email.ToLowerInvariant();
     }

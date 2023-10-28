@@ -45,7 +45,7 @@
         <Grid
             Name="TitleBarHost"
             Background="Transparent"
-            ColumnDefinitions="Auto,Auto,*,300">
+            ColumnDefinitions="Auto,Auto,*,350">
             <Image
                 Name="WindowIcon"
                 Width="18"
@@ -78,25 +78,25 @@
 
 
 
-
             <Border
                 Grid.Column="3"
-                Width="30"
-                Height="30"
-                Margin="10,5"
+                Width="22"
+                Height="22"
+                Margin="5,5"
                 CornerRadius="15"
                 Focusable="True">
                 <Border.Styles>
                     <Style Selector="Border:pointerover">
-                        <Setter Property="Opacity" Value="0.7" />
+                        <Setter Property="Opacity" Value="0.6" />
+                        <Setter Property="Cursor" Value="Hand" />
                     </Style>
                 </Border.Styles>
                 <Canvas>
                     <Ellipse
                         Canvas.Left="0"
                         Canvas.Top="0"
-                        Width="30"
-                        Height="30"
+                        Width="22"
+                        Height="22"
                         Fill="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}"
                         Focusable="True">
                         <Ellipse.Styles>
@@ -106,13 +106,26 @@
                         </Ellipse.Styles>
                     </Ellipse>
                     <ui:FontIcon
-                        Canvas.Left="5"
-                        Canvas.Bottom="5"
+                        Canvas.Left="2"
+                        Canvas.Bottom="2"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="20"
+                        FontSize="18"
                         FontStyle="Normal"
                         FontWeight="Normal"
-                        Glyph="&#xE13D;" />
+                        Glyph="&#xE13D;"
+                        IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
+
+                    <ui:FontIcon
+                        Canvas.Left="2"
+                        Canvas.Bottom="5"
+                        Margin="1"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="13"
+                        FontStyle="Normal"
+                        FontWeight="Normal"
+                        Glyph="{Binding Initials}"
+                        IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
                 </Canvas>
             </Border>
 
@@ -189,15 +202,15 @@
             </ui:NavigationView.FooterMenuItems>
             <!--  Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"  -->
 
-            <DockPanel LastChildFill="True">
-                <Panel Height="20" DockPanel.Dock="Bottom">
+            <!--<DockPanel LastChildFill="True">-->
+            <!--<Panel Height="20" DockPanel.Dock="Bottom">
                     <TextBlock
                         Margin="0,0,5,0"
                         HorizontalAlignment="Right"
                         Text="{Binding Path=Email, StringFormat='user: {0}'}" />
-                </Panel>
-                <ui:Frame Name="FrameView" />
-            </DockPanel>
+                </Panel>-->
+            <ui:Frame Name="FrameView" />
+            <!--</DockPanel>-->
         </ui:NavigationView>
 
     </Grid>

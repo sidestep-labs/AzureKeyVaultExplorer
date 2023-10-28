@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -12,9 +13,111 @@
     <Design.DataContext>
         <vm:BookmarksPageViewModel />
     </Design.DataContext>
+    <StackPanel>
 
-    <ScrollViewer>
+        <ScrollViewer>
 
-        <TextBlock Text="Bookmarks" TextWrapping="Wrap" />
-    </ScrollViewer>
+            <!--<TextBlock Text="Bookmarks" TextWrapping="Wrap" />-->
+
+            <StackPanel>
+                <Border Grid.Column="3" Padding="6">
+                    <Canvas
+                        Width="30"
+                        Height="30"
+                        Background="Red"
+                        Focusable="True">
+                        <Ellipse
+                            Canvas.Left="0"
+                            Canvas.Top="0"
+                            Width="30"
+                            Height="30"
+                            Fill="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}"
+                            Focusable="True">
+                            <Ellipse.Styles>
+                                <Style Selector="Ellipse:pointerover">
+                                    <Setter Property="Fill" Value="Red" />
+                                </Style>
+                            </Ellipse.Styles>
+                        </Ellipse>
+                        <ui:FontIcon
+                            Canvas.Left="5"
+                            Canvas.Bottom="5"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            FontSize="20"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Glyph="&#xE13D;" />
+                    </Canvas>
+                </Border>
+                <Border
+                    Width="30"
+                    Height="30"
+                    Background="Red"
+                    CornerRadius="15"
+                    Focusable="True">
+                    <Canvas>
+                        <Ellipse
+                            Canvas.Left="0"
+                            Canvas.Top="0"
+                            Width="30"
+                            Height="30"
+                            Fill="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}"
+                            Focusable="True">
+                            <Ellipse.Styles>
+                                <Style Selector="Ellipse:pointerover">
+                                    <Setter Property="Fill" Value="Red" />
+                                </Style>
+                            </Ellipse.Styles>
+                        </Ellipse>
+                        <ui:FontIcon
+                            Canvas.Left="5"
+                            Canvas.Bottom="5"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            FontSize="20"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Glyph="&#xE13D;" />
+                    </Canvas>
+                </Border>
+
+                <Border
+                    Width="30"
+                    Height="30"
+                    CornerRadius="15"
+                    Focusable="True">
+                    <Border.Styles>
+                        <Style Selector="Border:pointerover">
+                            <Setter Property="Opacity" Value="0.7" />
+                        </Style>
+                    </Border.Styles>
+                    <Canvas>
+                        <Ellipse
+                            Canvas.Left="0"
+                            Canvas.Top="0"
+                            Width="30"
+                            Height="30"
+                            Fill="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}"
+                            Focusable="True">
+                            <Ellipse.Styles>
+                                <Style Selector="Ellipse:pointerover">
+                                    <Setter Property="Fill" Value="Red" />
+                                </Style>
+                            </Ellipse.Styles>
+                        </Ellipse>
+                        <ui:FontIcon
+                            Canvas.Left="5"
+                            Canvas.Bottom="5"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            FontSize="20"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Glyph="&#xE13D;" />
+                    </Canvas>
+                </Border>
+
+            </StackPanel>
+
+        </ScrollViewer>
+    </StackPanel>
+
 </UserControl>

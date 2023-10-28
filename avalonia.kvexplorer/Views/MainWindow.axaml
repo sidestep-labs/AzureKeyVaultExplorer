@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:avalonia.kvexplorer.Views"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
-    Title="Key Vault Eexplorer"
+    Title="Key Vault Explorer"
     Width="860"
     Height="600"
     d:DesignHeight="450"

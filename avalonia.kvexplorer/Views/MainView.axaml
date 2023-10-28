@@ -23,14 +23,13 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <!--<UserControl.Styles>
-        <Style Selector="ui|NavigationView.NavView">
-            <Setter Property="OpenPaneLength" Value="240" />
+    <UserControl.Styles>
+
+        <Style Selector="ui|NavigationView.SampleAppNav">
+            <Setter Property="Margin" Value="0 40 0 0" />
         </Style>
-        <Style Selector="ui|NavigationView.NavView[IsBackButtonVisible=False] SplitView /template/ ContentPresenter#PART_PanePresenter">
-            <Setter Property="Margin" Value="0 10 0 0" />
-        </Style>
-    </UserControl.Styles>-->
+
+    </UserControl.Styles>
 
     <!--<Grid RowDefinitions="Auto, *">
         <Grid.Margin>
@@ -41,60 +40,144 @@
     <!--
         </Grid.Margin>-->
 
-    <ui:NavigationView
-        Name="NavView"
-        Grid.Row="0"
-        Grid.RowSpan="2"
-        AlwaysShowHeader="False"
-        Background="Transparent"
-        Classes="NavView"
-        IsBackButtonVisible="False"
-        IsBackEnabled="True"
-        IsSettingsVisible="False"
-        PaneDisplayMode="Left">
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid
+            Name="TitleBarHost"
+            Background="Transparent"
+            ColumnDefinitions="Auto,Auto,*,Auto">
+            <Image
+                Name="WindowIcon"
+                Width="18"
+                Height="18"
+                Margin="12,4"
+                DockPanel.Dock="Left"
+                IsHitTestVisible="False"
+                RenderOptions.BitmapInterpolationMode="HighQuality"
+                Source="/Assets/avalonia-logo.ico">
+                <Image.IsVisible>
+                    <OnPlatform Default="False">
+                        <On Content="True" Options="Windows" />
+                    </OnPlatform>
+                </Image.IsVisible>
+            </Image>
+
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                FontSize="12"
+                IsHitTestVisible="False"
+                Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                <TextBlock.IsVisible>
+                    <OnPlatform Default="False">
+                        <On Content="True" Options="Windows" />
+                    </OnPlatform>
+                </TextBlock.IsVisible>
+            </TextBlock>
+
+            <Border Grid.Column="2" Padding="6">
+                <ui:FontIcon
+                    FontFamily="Segoe UI Variable Text"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Normal"
+                    Glyph="A" />
+
+            </Border>
+        </Grid>
 
 
-        <ui:NavigationView.MenuItems>
-            <ui:NavigationViewItemHeader Content="Actions" />
-            <ui:NavigationViewItem
-                Content="Home"
-                IconSource="Home"
-                Tag="MainPage" />
-
-            <ui:NavigationViewItem
-                Content="Bookmarks"
-                IconSource="Bookmarks"
-                Tag="BookmarksPage" />
-        </ui:NavigationView.MenuItems>
-
-        <ui:NavigationView.PaneCustomContent>
-
-            <Panel MaxHeight="300" IsVisible="{Binding #NavView.IsPaneOpen}">
-                <custom:KeyVaultTreeList />
-            </Panel>
-        </ui:NavigationView.PaneCustomContent>
 
 
-        <ui:NavigationView.FooterMenuItems>
 
-            <ui:NavigationViewItem
-                Content="Settings"
-                IconSource="Settings"
-                Tag="SettingsPage" />
-        </ui:NavigationView.FooterMenuItems>
-		<!--Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"-->
 
-		<DockPanel LastChildFill="True">
-            <Panel
-                Height="20"
-                DockPanel.Dock="Bottom">
-                <TextBlock
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right"
-                    Text="{Binding Path=Email, StringFormat='user: {0}'}" />
-            </Panel>
-            <ui:Frame Name="FrameView" />
-        </DockPanel>
-    </ui:NavigationView>
-    <!--</Grid>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <ui:NavigationView
+            Name="NavView"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            AlwaysShowHeader="False"
+            Background="Transparent"
+            Classes="SampleAppNav"
+            IsBackButtonVisible="False"
+            IsBackEnabled="{Binding #FrameView.CanGoBack}"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Left">
+
+
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItemHeader Content="Actions" />
+                <ui:NavigationViewItem
+                    Content="Home"
+                    IconSource="Home"
+                    Tag="MainPage" />
+
+                <ui:NavigationViewItem
+                    Content="Bookmarks"
+                    IconSource="Bookmarks"
+                    Tag="BookmarksPage" />
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.PaneCustomContent>
+
+                <Panel MaxHeight="300" IsVisible="{Binding #NavView.IsPaneOpen}">
+                    <custom:KeyVaultTreeList />
+                </Panel>
+            </ui:NavigationView.PaneCustomContent>
+
+
+            <ui:NavigationView.FooterMenuItems>
+
+                <ui:NavigationViewItem
+                    Content="Settings"
+                    IconSource="Settings"
+                    Tag="SettingsPage" />
+            </ui:NavigationView.FooterMenuItems>
+            <!--  Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"  -->
+
+            <DockPanel LastChildFill="True">
+                <Panel Height="20" DockPanel.Dock="Bottom">
+                    <TextBlock
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        Text="{Binding Path=Email, StringFormat='user: {0}'}" />
+                </Panel>
+                <ui:Frame Name="FrameView" />
+            </DockPanel>
+        </ui:NavigationView>
+
+    </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
 </UserControl>

@@ -16,6 +16,9 @@ public partial class MainWindow : AppWindow
         InitializeComponent();
         //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
+        TitleBar.ExtendsContentIntoTitleBar = true;
+        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
         // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }

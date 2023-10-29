@@ -2,6 +2,8 @@
 using avalonia.kvexplorer.Views.Pages;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using System.Collections.Generic;
@@ -116,7 +118,11 @@ public partial class MainView : UserControl
     }
 
 
-
+    private void Button1Click(object sender, TappedEventArgs e)
+    {
+        TeachingTip1.IsOpen = true;
+        
+    }
 
 
     private IEnumerable<NavigationViewItem> GetNavigationViewItems()

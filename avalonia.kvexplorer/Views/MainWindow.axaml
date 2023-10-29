@@ -16,7 +16,7 @@
     ExtendClientAreaChromeHints="Default, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
-    Icon="/Assets/avalonia-logo.ico"
+    Icon="/Assets/kv.ico"
     TransparencyBackgroundFallback="{DynamicResource ThemeBackgroundBrush}"
     TransparencyLevelHint="Mica"
     mc:Ignorable="d">

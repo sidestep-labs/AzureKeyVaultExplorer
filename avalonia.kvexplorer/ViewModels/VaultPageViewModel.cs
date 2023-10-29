@@ -165,7 +165,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
     partial void OnSearchQueryChanged(string value)
     {
-        string query = value.Trim().ToLowerInvariant();
+        string query = value?.Trim().ToLowerInvariant();
         if (!string.IsNullOrWhiteSpace(query))
         {
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);

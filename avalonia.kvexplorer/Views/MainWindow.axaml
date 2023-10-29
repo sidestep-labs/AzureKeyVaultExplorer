@@ -16,7 +16,7 @@
     ExtendClientAreaChromeHints="Default, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
-    Icon="/Assets/kv.ico"
+    Icon="/Assets/kv-noborder.ico"
     TransparencyBackgroundFallback="{DynamicResource ThemeBackgroundBrush}"
     TransparencyLevelHint="Mica"
     mc:Ignorable="d">

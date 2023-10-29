@@ -54,7 +54,7 @@
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                Source="/Assets/kv.ico">
+                Source="/Assets/kv-noborder.ico">
                 <Image.IsVisible>
                     <OnPlatform Default="False">
                         <On Content="True" Options="Windows" />

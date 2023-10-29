@@ -23,6 +23,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<TabViewPageViewModel>();
         serviceCollection.AddMemoryCache();
         serviceCollection.AddDbContext<KvExplorerDbContext>(o => o.UseSqlite($"Data Source={Constants.LocalAppDataFolder}\\kvexplorer.db"));
+        serviceCollection.AddSingleton<KvExplorerDb>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 

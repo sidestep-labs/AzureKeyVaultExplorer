@@ -9,12 +9,15 @@ public partial class BookmarksPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
     private readonly KvExplorerDbContext kvDbContext;
+    private readonly KvExplorerDb db;
 
-  
+
     public BookmarksPageViewModel()
     {
         _authService = new AuthService();
         kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
+        db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        var xv =  db.GetQuickAccessItems();
         var x = kvDbContext.BookmarkedItems.Count();
     }
 

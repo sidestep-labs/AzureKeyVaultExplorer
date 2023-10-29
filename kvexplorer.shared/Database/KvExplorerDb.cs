@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
-
-using System.Collections.Generic;
-
-using Microsoft.Identity.Client;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using System.Reflection.PortableExecutable;
-using static Azure.Core.HttpHeader;
+﻿using Microsoft.Data.Sqlite;
 
 namespace kvexplorer.shared.Database;
 
@@ -21,14 +8,10 @@ public partial class KvExplorerDb
     {
     }
 
-    public static async Task<SqliteConnection> OpenSqlConnection()
+    private static SqliteConnection NewSqlConnection()
     {
         string DataSource = Path.Combine(Constants.LocalAppDataFolder, "kvexplorer.db");
-        var connectionStringBuilder = new SqliteConnectionStringBuilder();
-        connectionStringBuilder.DataSource = DataSource;
-        using var connection = new SqliteConnection(connectionStringBuilder.ConnectionString);
-        //using var db = new SqliteConnection($"Filename={DataSource}");
-        await connection.OpenAsync();
+        using var connection = new SqliteConnection($"Filename={DataSource}");
         return connection;
     }
 
@@ -43,7 +26,8 @@ public partial class KvExplorerDb
         //using var db = new SqliteConnection($"Filename={DataSource}");
         //db.Open();
 
-        var connection = await OpenSqlConnection();
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
         string tableCommand = """
                 PRAGMA foreign_keys = off;
                 BEGIN TRANSACTION;
@@ -84,37 +68,38 @@ public partial class KvExplorerDb
         await createTableCommand.ExecuteNonQueryAsync();
     }
 
-    //public async Task<IEnumerable<QuickAccess>> GetQuickAccessItemsAsync()
-    //{
-    //    var connection = await OpenSqlConnection();
-    //    var command = connection.CreateCommand();
-    //    command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
+    public IEnumerable<QuickAccess> GetQuickAccessItems()
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
 
-    //    var reader = await command.ExecuteReaderAsync();
+        var reader = command.ExecuteReader();
 
-    //    var items = new List<QuickAccess>();
-    //    while (reader.Read())
-    //    {
-    //        var item = new QuickAccess
-    //        {
-    //            Id = reader.GetInt32(0),
-    //            Name = reader.GetString(1),
-    //            VaultUri = reader.GetString(2),
-    //            KeyVaultId = reader.GetString(3),
-    //            SubscriptionDisplayName = reader.GetString(4) ?? null,
-    //            SubscriptionId = reader.GetString(5) ?? null,
-    //            TenantId = reader.GetString(6),
-    //            Location = reader.GetString(7),
-    //        };
-    //        items.Add(item);
-    //    }
-    //    return items;
-    //}
-
+        var items = new List<QuickAccess>();
+        while (reader.Read())
+        {
+            var item = new QuickAccess
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                VaultUri = reader.GetString(2),
+                KeyVaultId = reader.GetString(3),
+                SubscriptionDisplayName = reader.IsDBNull(4) ? null : reader.GetString(4),
+                SubscriptionId = reader.IsDBNull(5) ? null : reader.GetString(5),
+                TenantId = reader.GetString(6),
+                Location = reader.GetString(7),
+            };
+            items.Add(item);
+        }
+        return items;
+    }
 
     public async IAsyncEnumerable<QuickAccess> GetQuickAccessItemsAsync()
     {
-        var connection = await OpenSqlConnection();
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
 
@@ -128,8 +113,8 @@ public partial class KvExplorerDb
                 Name = reader.GetString(1),
                 VaultUri = reader.GetString(2),
                 KeyVaultId = reader.GetString(3),
-                SubscriptionDisplayName = reader.GetString(4) ?? null,
-                SubscriptionId = reader.GetString(5) ?? null,
+                SubscriptionDisplayName = reader.IsDBNull(4) ? null : reader.GetString(4),
+                SubscriptionId = reader.IsDBNull(5) ? null : reader.GetString(5),
                 TenantId = reader.GetString(6),
                 Location = reader.GetString(7),
             };
@@ -137,10 +122,10 @@ public partial class KvExplorerDb
         }
     }
 
-
     public async Task<bool> QuickAccessItemByKeyVaultIdExists(string keyVaultId)
     {
-        var connection = await OpenSqlConnection();
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "SELECT 1 FROM QuickAccess WHERE KeyVaultId = @KeyVaultId LIMIT 1;";
         command.Parameters.Add(new SqliteParameter("@KeyVaultId", keyVaultId));
@@ -149,10 +134,10 @@ public partial class KvExplorerDb
         return result is not null;
     }
 
-
     public async Task<bool> DeleteQuickAccessItemByKeyVaultId(string keyVaultId)
     {
-        var connection = await OpenSqlConnection();
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "DELETE FROM QuickAccess WHERE KeyVaultId = @KeyVaultId;";
         command.Parameters.Add(new SqliteParameter("@KeyVaultId", keyVaultId));
@@ -163,5 +148,22 @@ public partial class KvExplorerDb
         return rowsAffected > 0;
     }
 
+    public async Task InsertQuickAccessItemAsync(QuickAccess item)
+    {
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
+        var command = connection.CreateCommand();
+        command.CommandText = "INSERT INTO QuickAccess (Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location) " +
+                            "VALUES (@Name, @VaultUri, @KeyVaultId, @SubscriptionDisplayName, @SubscriptionId, @TenantId, @Location);";
 
+        command.Parameters.Add(new SqliteParameter("@Name", item.Name));
+        command.Parameters.Add(new SqliteParameter("@VaultUri", item.VaultUri));
+        command.Parameters.Add(new SqliteParameter("@KeyVaultId", item.KeyVaultId));
+        command.Parameters.Add(new SqliteParameter("@SubscriptionDisplayName", item.SubscriptionDisplayName ?? (object)DBNull.Value));
+        command.Parameters.Add(new SqliteParameter("@SubscriptionId", item.SubscriptionId ?? (object)DBNull.Value));
+        command.Parameters.Add(new SqliteParameter("@TenantId", item.TenantId));
+        command.Parameters.Add(new SqliteParameter("@Location", item.Location));
+
+        await command.ExecuteNonQueryAsync();
+    }
 }

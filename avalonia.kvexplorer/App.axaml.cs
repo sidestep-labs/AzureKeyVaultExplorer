@@ -5,9 +5,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace avalonia.kvexplorer;
 
@@ -22,7 +22,6 @@ public partial class App : Application
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
         serviceCollection.AddMemoryCache();
-        serviceCollection.AddDbContext<KvExplorerDbContext>(o => o.UseSqlite($"Data Source={Constants.LocalAppDataFolder}\\kvexplorer.db"));
         serviceCollection.AddSingleton<KvExplorerDb>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
@@ -30,6 +29,10 @@ public partial class App : Application
     public static void CreateDesktopResources()
     {
         System.IO.Directory.CreateDirectory(Constants.LocalAppDataFolder);
+        var exists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "kvexplorer.db"));
+        if (!exists) {
+            KvExplorerDb.InitializeDatabase();
+        }
     }
 
     public override void Initialize()
@@ -39,7 +42,6 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         //BindingPlugins.DataValidators.RemoveAt(0);

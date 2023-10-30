@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.IO;
 
 namespace kvexplorer.shared.Database;
 
@@ -6,6 +7,7 @@ public partial class KvExplorerDb
 {
     public KvExplorerDb()
     {
+     
     }
 
     private static SqliteConnection NewSqlConnection()
@@ -17,15 +19,6 @@ public partial class KvExplorerDb
 
     public static async void InitializeDatabase()
     {
-        //var x = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\offline.db";
-        //var storage = TopLevel.GetTopLevel(this)?.StorageProvider;
-        //var folder = await storage.TryGetFolderFromPathAsync(new Uri(Constants.LocalAppDataFolder));
-        //var dbpath = await storage.TryGetFileFromPathAsync(new Uri(Constants.LocalAppDataFolder + "kvexplorer.db"));
-        //await ApplicationData.Current.LocalFolder .CreateFileAsync("sqliteSample.db", CreationCollisionOption.OpenIfExists);
-
-        //using var db = new SqliteConnection($"Filename={DataSource}");
-        //db.Open();
-
         var connection = NewSqlConnection();
         await connection.OpenAsync();
         string tableCommand = """
@@ -44,11 +37,10 @@ public partial class KvExplorerDb
                 );
                 -- Table: QuickAccess
                 CREATE TABLE IF NOT EXISTS QuickAccess (
-                    Id                      INTEGER NOT NULL
-                                                    CONSTRAINT PK_QuickAccess PRIMARY KEY AUTOINCREMENT,
+                    Id                      INTEGER NOT NULL CONSTRAINT PK_QuickAccess PRIMARY KEY AUTOINCREMENT,
                     Name                    TEXT    NOT NULL,
                     VaultUri                TEXT    NOT NULL,
-                    KeyVaultId              TEXT    NOT NULL,
+                    KeyVaultId              TEXT    NOT NULL CONSTRAINT UQ_KeyVaultId UNIQUE ON CONFLICT IGNORE,
                     SubscriptionDisplayName TEXT,
                     SubscriptionId          TEXT,
                     TenantId                TEXT    NOT NULL,
@@ -58,6 +50,10 @@ public partial class KvExplorerDb
                 CREATE UNIQUE INDEX IF NOT EXISTS IX_BookmarkedItems_Name_Version ON BookmarkedItems (
                     "Name",
                     "Version"
+                );
+                -- Index: IX_QuickAccess_KeyVaultId
+                CREATE INDEX IF NOT EXISTS IX_QuickAccess_KeyVaultId ON QuickAccess (
+                    KeyVaultId
                 );
                 COMMIT TRANSACTION;
                 PRAGMA foreign_keys = on;
@@ -96,7 +92,7 @@ public partial class KvExplorerDb
         return items;
     }
 
-    public async IAsyncEnumerable<QuickAccess> GetQuickAccessItemsAsync()
+    public async IAsyncEnumerable<QuickAccess> GetQuickAccessItemsAsyncEnumerable()
     {
         var connection = NewSqlConnection();
         await connection.OpenAsync();
@@ -153,8 +149,10 @@ public partial class KvExplorerDb
         var connection = NewSqlConnection();
         await connection.OpenAsync();
         var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO QuickAccess (Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location) " +
-                            "VALUES (@Name, @VaultUri, @KeyVaultId, @SubscriptionDisplayName, @SubscriptionId, @TenantId, @Location);";
+        command.CommandText = """
+                            INSERT INTO QuickAccess (Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location)
+                            VALUES (@Name, @VaultUri, @KeyVaultId, @SubscriptionDisplayName, @SubscriptionId, @TenantId, @Location);
+                            """;
 
         command.Parameters.Add(new SqliteParameter("@Name", item.Name));
         command.Parameters.Add(new SqliteParameter("@VaultUri", item.VaultUri));

@@ -8,13 +8,13 @@ using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,25 +35,21 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [ObservableProperty]
     public ObservableCollection<KeyVaultModel> treeViewList;
 
-
     [ObservableProperty]
     public bool isBusy;
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
-    private readonly KvExplorerDbContext _kvDbContext;
+    private readonly KvExplorerDb _db;
 
     private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
     private bool AttemptedLogin = false;
-
-    
 
     public KeyVaultTreeListViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        _kvDbContext = Defaults.Locator.GetRequiredService<KvExplorerDbContext>();
-
+        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
         TreeViewList = new ObservableCollection<KeyVaultModel>
@@ -88,6 +84,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         TreeViewList.CollectionChanged += TreeViewList_CollectionChanged;
         //Dispatcher.UIThread.Post(() => GetAvailableKeyVaults(), DispatcherPriority.Default);
     }
+
     //var kvp = new Azure.ResourceManager.KeyVault.Models.KeyVaultProperties(Guid.Parse(item.TenantId), new KeyVaultSku(KeyVaultSkuFamily.A, KeyVaultSkuName.Standard));
     //kvp.VaultUri = new Uri(item.VaultUri);
     //var kvd = new KeyVaultData(Azure.Core.AzureLocation.EastUS2, kvp)
@@ -105,7 +102,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            // all items 
+            // all items
             var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
             await foreach (var item in resource)
             {
@@ -117,10 +114,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             var quickAccess = new KeyVaultModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
             TreeViewList.Insert(0, quickAccess);
 
-            var savedToQuickAccess = _kvDbContext.QuickAccessItems.AsAsyncEnumerable();
+            var savedItems = _db.GetQuickAccessItemsAsyncEnumerable();
             var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
             var armClient = new ArmClient(token);
-            await foreach (var item in savedToQuickAccess)
+            await foreach (var item in savedItems)
             {
                 var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
                 var kvrResponse = await kvr.GetAsync();
@@ -128,16 +125,15 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 quickAccess.PropertyChanged += KeyVaultModel_PropertyChanged;
             }
             TreeViewList[0] = quickAccess;
-
         });
 
-       _treeViewList = TreeViewList;
+        _treeViewList = TreeViewList;
     }
 
     [RelayCommand]
     public async Task PinVaultToQuickAccess(KeyVaultResource model)
     {
-        var exists = await _kvDbContext.QuickAccessItems.AnyAsync(qa => qa.KeyVaultId == model.Id);
+        var exists = await _db.QuickAccessItemByKeyVaultIdExists(model.Id);
         if (exists) return;
         var qa = new QuickAccess
         {
@@ -149,8 +145,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             //SubscriptionDisplayName = model.Data.s
         };
 
-        _kvDbContext.QuickAccessItems.Add(qa);
-        await _kvDbContext.SaveChangesAsync();
+        await _db.InsertQuickAccessItemAsync(qa);
 
         TreeViewList[0].KeyVaultResources.Add(model);
         var quickAccess = new KeyVaultModel
@@ -174,54 +169,36 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         //    _treeViewList = TreeViewList;
         //}, DispatcherPriority.Default);
 
-
         //var quickAccess = new KeyVaultModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
 
         //quickAccess.KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != item.KeyVaultId).ToList();
 
         //TreeViewList[0] = quickAccess;
 
-
         //_treeViewList = TreeViewList;
     }
-
-
-
 
     [RelayCommand]
     public async Task RemovePinVaultToQuickAccess(KeyVaultResource model)
     {
-        var item = await _kvDbContext.QuickAccessItems.SingleOrDefaultAsync(qa => qa.KeyVaultId == model.Id);
-        if (item is null) return;
+        var exists = await _db.QuickAccessItemByKeyVaultIdExists(model.Id);
+        if (!exists) return;
 
-        _kvDbContext.QuickAccessItems.Remove(item);
-        await _kvDbContext.SaveChangesAsync();
+        await _db.DeleteQuickAccessItemByKeyVaultId(model.Id);
 
-        var quickAccess = new KeyVaultModel { 
-            SubscriptionDisplayName = "Quick Access", 
+        var quickAccess = new KeyVaultModel
+        {
+            SubscriptionDisplayName = "Quick Access",
             IsExpanded = true,
             SubscriptionId = "",
-            KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != item.KeyVaultId).ToList(),
+            KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != model.Id).ToList(),
             Subscription = null,
-            GlyphIcon = "Pin" 
+            GlyphIcon = "Pin"
         };
         TreeViewList[0] = quickAccess;
-     
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
@@ -247,7 +224,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
-    void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
+    public void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
 
     private async Task Login()

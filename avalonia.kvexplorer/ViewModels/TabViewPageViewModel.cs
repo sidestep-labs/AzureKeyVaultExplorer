@@ -10,7 +10,6 @@ using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace avalonia.kvexplorer.ViewModels;
 

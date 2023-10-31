@@ -7,5 +7,10 @@
     <ui:SymbolIconSource x:Key="HomeIconFilled" Symbol="HomeFilled" />
     <ui:SymbolIconSource x:Key="SettingsIcon" Symbol="Settings" />
     <ui:SymbolIconSource x:Key="SettingsIconFilled" Symbol="SettingsFilled" />
+    <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://avalonia.kvexplorer/Assets/kv-noborder.ico" />
+    <ui:FontIconSource
+        x:Key="Home2"
+        FontSize="18"
+        Glyph="&#xE80F;" />
 
 </ResourceDictionary>

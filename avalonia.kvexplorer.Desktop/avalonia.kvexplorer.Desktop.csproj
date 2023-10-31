@@ -7,13 +7,18 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <!--<PublishSingleFile>true</PublishSingleFile>-->
+    <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>full</TrimMode>
     <PublishReadyToRun>true</PublishReadyToRun>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <PublishAot>true</PublishAot>
+	<ApplicationIcon>kv-noborder.ico</ApplicationIcon>
+	<AssemblyName>KeyVaultExplorer</AssemblyName>
+	  <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="kv-noborder.ico" />
+  </ItemGroup>
 
   <ItemGroup>
 	<PackageReference Include="Avalonia.Desktop" Version="11.0.5" />

@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
+using kvexplorer.shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,9 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     public string initials;
+
+    [ObservableProperty]
+    public AuthenticatedUserClaims authenticatedUserClaims;
 
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
@@ -48,6 +52,15 @@ public partial class MainViewModel : ViewModelBase
             Initials = name[0][0].ToString().ToUpperInvariant() + name[1][0].ToString().ToUpperInvariant();
 
         Email = email.ToLowerInvariant();
+
+
+        AuthenticatedUserClaims = new AuthenticatedUserClaims()
+        {
+            Username = account.Account.Username,
+            TenantId = account.TenantId,
+            Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
+            Email = account.ClaimsPrincipal.Identities.First().FindFirst("email").Value,
+        };
     }
 }
 

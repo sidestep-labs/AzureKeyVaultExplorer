@@ -30,25 +30,20 @@
     </UserControl.Styles>
 
     <UserControl.Resources>
-
         <ui:FAMenuFlyout x:Key="FAMenuFlyoutSubscriptionTreeView" Placement="Pointer">
-
             <ui:MenuFlyoutItem
                 Name="PinToQuickAccess"
                 Command="{Binding PinVaultToQuickAccessCommand}"
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="Bookmark"
                 Text="Pin to Quick Access" />
-
             <ui:MenuFlyoutItem
                 Name="UnpinFromQuickAccess"
                 Command="{Binding RemovePinVaultToQuickAccess}"
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="BookmarkFilled"
                 Text="Remove From Quick Access" />
-
             <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
-
         </ui:FAMenuFlyout>
     </UserControl.Resources>
 

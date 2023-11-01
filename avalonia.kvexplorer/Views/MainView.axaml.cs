@@ -4,11 +4,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace avalonia.kvexplorer.Views;
 
@@ -118,12 +120,6 @@ public partial class MainView : UserControl
     }
 
 
-    private void Button1Click(object sender, TappedEventArgs e)
-    {
-        TeachingTip1.IsOpen = true;
-        
-    }
-
 
     private IEnumerable<NavigationViewItem> GetNavigationViewItems()
     {
@@ -159,5 +155,16 @@ public partial class MainView : UserControl
         {
             _ = FrameView.NavigateFromObject(c);
         }
+    }
+
+    private void ShowAccountTeachingTip(object sender, TappedEventArgs e)
+    {
+        AccountTeachingTip.IsOpen = true;
+    }
+
+    private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
+    {
+
+        FrameView.NavigateFromObject(new SettingsPage());
     }
 }

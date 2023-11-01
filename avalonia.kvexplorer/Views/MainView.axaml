@@ -118,7 +118,7 @@
                         <Setter Property="Cursor" Value="Hand" />
                     </Style>
                 </Border.Styles>
-                <Canvas Name="AccountIcon" Tapped="Button1Click">
+                <Canvas Name="AccountIcon" Tapped="ShowAccountTeachingTip">
                     <Ellipse
                         Canvas.Left="0"
                         Canvas.Top="0"
@@ -161,19 +161,13 @@
 
 
                     <ui:TeachingTip
-                        Name="TeachingTip1"
-                        Title="Title"
-                        ActionButtonContent="Action Button"
-                        CloseButtonContent="Close"
-                        Content="alskdgasd"
-                        HeroContentPlacement="Auto"
-                        Opacity="1"
-                        Subtitle="Your teaching text here."
-                        Target="{Binding #AccountIcon}">
-                        <ui:TeachingTip.HeroContent>
-                            <Image Width="50" Source="/Assets/kv.png" />
-                        </ui:TeachingTip.HeroContent>
-                    </ui:TeachingTip>
+                        Name="AccountTeachingTip"
+                        Title="{Binding AuthenticatedUserClaims.Name}"
+                        ActionButtonClick="TeachingTip_ActionButtonClick"
+                        ActionButtonContent="Account Information"
+                        IsLightDismissEnabled="True"
+                        Subtitle="{Binding Path=Email, StringFormat='Email: {0}'}"
+                        Target="{Binding #AccountIcon}" />
 
                 </Canvas>
             </Border>

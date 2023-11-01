@@ -107,11 +107,18 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             await foreach (var item in resource)
             {
                 item.PropertyChanged += KeyVaultModel_PropertyChanged;
+                item.GlyphIcon = "Permissions";
                 TreeViewList.Add(item);
             }
 
             //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
-            var quickAccess = new KeyVaultModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
+            var quickAccess = new KeyVaultModel { 
+                SubscriptionDisplayName = "Quick Access",
+                SubscriptionId = "",
+                KeyVaultResources = new List<KeyVaultResource> { }, 
+                Subscription = null, 
+                GlyphIcon = "ShowResults"
+            };
             TreeViewList.Insert(0, quickAccess);
 
             var savedItems = _db.GetQuickAccessItemsAsyncEnumerable();
@@ -155,7 +162,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             SubscriptionId = "",
             KeyVaultResources = TreeViewList[0].KeyVaultResources,
             Subscription = null,
-            GlyphIcon = "Pin"
+            GlyphIcon = "ShowResults"
         };
         TreeViewList[0] = quickAccess;
         //await Dispatcher.UIThread.InvokeAsync(async () =>

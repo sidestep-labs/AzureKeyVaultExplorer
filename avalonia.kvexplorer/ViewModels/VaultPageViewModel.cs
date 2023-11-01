@@ -141,7 +141,35 @@ public partial class VaultPageViewModel : ViewModelBase
                 SecretProperties = secret,
             });
         }
-        _vaultContents = VaultContents;
+
+
+        var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
+        await foreach (var cert in certs)
+        {
+            VaultContents.Add(new KeyVaultContentsAmalgamation
+            {
+                Name = cert.Name,
+                Id = cert.Id,
+                Type = KeyVaultItemType.Certificate,
+                VaultUri = cert.VaultUri,
+                Version = cert.Version,
+                CertificateProperties = cert,
+            });
+        }
+        var keys = _vaultService.GetVaultAssociatedKeys(kvUri);
+        await foreach (var key in keys)
+        {
+            VaultContents.Add(new KeyVaultContentsAmalgamation
+            {
+                Name = key.Name,
+                Id = key.Id,
+                Type = KeyVaultItemType.Key,
+                VaultUri = key.VaultUri,
+                Version = key.Version,
+                KeyProperties = key,
+            });
+        }
+            _vaultContents = VaultContents;
 
         //return _vaultContents;
     }

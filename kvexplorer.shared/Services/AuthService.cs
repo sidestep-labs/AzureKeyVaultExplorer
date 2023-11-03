@@ -8,9 +8,8 @@ public class AuthService
 {
     public IPublicClientApplication authenticationClient;
     public MsalCacheHelper msalCacheHelper;
-
     // Providing the RedirectionUri to receive the token based on success or failure.
-
+    public bool IsAuthenticated { get; private set; } = false;
     public AuthService()
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
@@ -24,7 +23,6 @@ public class AuthService
     public async Task<AuthenticationResult> LoginAsync(CancellationToken cancellationToken)
     {
         await AttachTokenCache();
-
         AuthenticationResult result;
         try
         {
@@ -33,20 +31,17 @@ public class AuthService
                 HtmlMessageError = "<p> An error occured: {0}. Details {1}</p>",
                 BrowserRedirectSuccess = new Uri("https://www.microsoft.com")
             };
-
             //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.
             //#if MACCATALYST
             //.WithUseEmbeddedWebView(false)
             //.WithSystemWebViewOptions(options)
             //#endif
-
             result = await authenticationClient.AcquireTokenInteractive(Constants.Scopes).WithExtraScopesToConsent(Constants.AzureRMScope).ExecuteAsync(cancellationToken);
 
+            IsAuthenticated = true;
             // set the preferences/settings of the signed in account
             //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
-
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
-
             return result;
         }
         catch (MsalClientException ex)
@@ -65,18 +60,13 @@ public class AuthService
     {
         await AttachTokenCache();
         AuthenticationResult authenticationResult;
-
         var accounts = await authenticationClient.GetAccountsAsync();
-
         if (!accounts.Any())
-        {
             return null;
-        }
 
-        var account = accounts.First();
-
+        //var account = accounts.First();
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
-
+        IsAuthenticated = true;
         return authenticationResult;
     }
 

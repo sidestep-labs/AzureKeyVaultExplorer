@@ -4,8 +4,7 @@
     <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
     One for Windows with net7.0-windows TFM, one for MacOS with net7.0-macos and one with net7.0 TFM for Linux.-->
     <TargetFramework>net7.0</TargetFramework>
-	  <Version>0.0.0.2</Version>
-	  <Nullable>enable</Nullable>
+    <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PublishSingleFile>true</PublishSingleFile>
@@ -13,8 +12,8 @@
     <TrimMode>full</TrimMode>
     <PublishReadyToRun>true</PublishReadyToRun>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	<ApplicationIcon>kv-noborder.ico</ApplicationIcon>
-	<AssemblyName>KeyVaultExplorer</AssemblyName>
+    <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
+    <AssemblyName>KeyVaultExplorer</AssemblyName>
 	  <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
   <ItemGroup>

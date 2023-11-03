@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using System.Collections.Generic;
@@ -24,6 +25,16 @@ public partial class MainView : UserControl
     {
         Instance = this;
         InitializeComponent();
+
+        var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
+        var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
+
+        Dispatcher.UIThread.Post(async () => {
+            await mainViewModel.RefreshTokenAndGetAccountInformation().ContinueWith(async (t) =>
+            {
+                await treeVaultVm.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
+            });
+        }, DispatcherPriority.MaxValue);
     }
 
     //var menuItems = new List<NavigationViewItemBase>(4);
@@ -164,7 +175,8 @@ public partial class MainView : UserControl
 
     private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
     {
-
+        if (FrameView.Content.GetType().FullName == "avalonia.kvexplorer.Views.Pages.SettingsPage")
+            return;
         FrameView.NavigateFromObject(new SettingsPage());
     }
 }

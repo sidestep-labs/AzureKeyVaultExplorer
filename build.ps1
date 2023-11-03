@@ -26,7 +26,7 @@ if ($RunBuild) {
 
 Push-Location  c:\repos\sidestep\avalonia.kvexplorer.Desktop/publish
 
-.\avalonia.kvexplorer.Desktop.exe 
+.\KeyVaultExplorer.exe 
 
 Pop-Location
 $sw.Stop()

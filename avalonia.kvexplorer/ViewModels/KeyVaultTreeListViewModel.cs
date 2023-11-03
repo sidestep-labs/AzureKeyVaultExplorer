@@ -99,9 +99,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             TreeViewList.Clear();
         }
-
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
+            //if(!_authService.IsAuthenticated)
+            //    return;
             // all items
             var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
             await foreach (var item in resource)
@@ -112,11 +113,12 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             }
 
             //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
-            var quickAccess = new KeyVaultModel { 
+            var quickAccess = new KeyVaultModel
+            {
                 SubscriptionDisplayName = "Quick Access",
                 SubscriptionId = "",
-                KeyVaultResources = new List<KeyVaultResource> { }, 
-                Subscription = null, 
+                KeyVaultResources = new List<KeyVaultResource> { },
+                Subscription = null,
                 GlyphIcon = "ShowResults"
             };
             TreeViewList.Insert(0, quickAccess);
@@ -217,12 +219,12 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             bool isExpanded = keyVaultModel.IsExpanded;
             if (isExpanded && keyVaultModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder)))
             {
-                Dispatcher.UIThread.Invoke(() =>
+                Dispatcher.UIThread.Invoke(async () =>
                 {
                     //_vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel); /* This does not work with AOT */
                     keyVaultModel.KeyVaultResources.Clear();
                     var vaults = _vaultService.GetKeyVaultsBySubscription(keyVaultModel);
-                    foreach (var vault in vaults)
+                    await foreach (var vault in vaults)
                     {
                         keyVaultModel.KeyVaultResources.Add(vault);
                     }

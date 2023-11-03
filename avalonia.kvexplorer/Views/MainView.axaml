@@ -110,6 +110,7 @@
                 Width="22"
                 Height="22"
                 Margin="5,5"
+                HorizontalAlignment="Center"
                 CornerRadius="15"
                 Focusable="True">
                 <Border.Styles>
@@ -152,22 +153,15 @@
                         FontWeight="Normal"
                         Glyph="{Binding Initials}"
                         IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                    <!--<ui:TeachingTip
-                        Name="TeachingTip1"
-                        Title="Title"
-                        IconSource="Refresh"
-                        Subtitle="Your teaching text here" />-->
-
-
-
                     <ui:TeachingTip
                         Name="AccountTeachingTip"
                         Title="{Binding AuthenticatedUserClaims.Name}"
                         ActionButtonClick="TeachingTip_ActionButtonClick"
-                        ActionButtonContent="Account Information"
+                        ActionButtonContent="Settings"
+                        CloseButtonContent="Close"
                         IsLightDismissEnabled="True"
                         Subtitle="{Binding Path=Email, StringFormat='Email: {0}'}"
-                        Target="{Binding #AccountIcon}" />
+                        Target="{Binding #AccountIconBorder}" />
 
                 </Canvas>
             </Border>

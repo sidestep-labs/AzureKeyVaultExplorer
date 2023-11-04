@@ -113,7 +113,7 @@ public class AuthService
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).ExecuteAsync();
     }
 
-    public async Task<AuthenticationResult?> GetAzureKeyVaultTokenSilent()
+    public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();

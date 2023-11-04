@@ -6,6 +6,7 @@ using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using Microsoft.Extensions.Caching.Memory;
+using System.Net;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -152,7 +153,7 @@ public class VaultService
         }
     }
 
-    public async Task<KeyVaultSecret?> GetSecret(Uri KvUri, string secretName)
+    public async Task<KeyVaultSecret> GetSecret(Uri KvUri, string secretName)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
         var client = new SecretClient(KvUri, token);
@@ -166,4 +167,38 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
+
+    public async Task<KeyVaultCertificateWithPolicy> GetCertificate(Uri KvUri, string name)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new CertificateClient(KvUri, token);
+        try
+        {
+            var response = await client.GetCertificateAsync(name);
+            return response;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
+
+    public async Task<KeyVaultKey> GetKey(Uri KvUri, string name)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(KvUri, token);
+        try
+        {
+            var response = await client.GetKeyAsync(name);
+
+
+
+            return response;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
+
 }

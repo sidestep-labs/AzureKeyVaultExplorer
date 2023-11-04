@@ -18,12 +18,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Channels;
 using Avalonia.Platform;
+
 using System.IO;
+
 using System.Reflection.Metadata;
 using kvexplorer.shared;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared.Exceptions;
 using System.Threading.Tasks;
+
 namespace avalonia.kvexplorer.Views.Pages;
 
 public partial class VaultPage : UserControl
@@ -35,34 +38,11 @@ public partial class VaultPage : UserControl
     public VaultPage()
     {
         InitializeComponent();
-
         var model = new VaultPageViewModel();
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
-
-        //string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteSample.db");
-        //var copyItemToClipboard = this.FindControl<FluentAvalonia.UI.Controls.MenuFlyoutItem>("CopyMenuFlyoutItem");
-        //HotKeyManager.SetHotKey(copyItemToClipboard, new KeyGesture(Key.C, KeyModifiers.Control));
-
-        //CopyMenuFlyoutItem.KeyUp += (s, e) =>
-        //{
-        //    if (e.Key == Key.Enter)
-        //    {
-        //        //var acb = (s as object);
-
-        //        e.Handled = true;
-        //    }
-        //};
-
-        //VaultContentDataGrid.KeyUp += (sender, e) =>
-        //{
-        //    if (e.KeyModifiers == KeyModifiers.Control && e.Key == Key.C)
-        //    {
-        //        ((VaultPageViewModel)DataContext).CopyCommand.Execute(null);
-        //    }
-        //};
 
         Dispatcher.UIThread.Post(() =>
         {
@@ -159,19 +139,17 @@ public partial class VaultPage : UserControl
             Position = NotificationPosition.BottomRight,
             MaxItems = 1,
         };
-       
 
         var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
         Notification notif;
         var dataObject = new DataObject();
         dataObject.Set(DataFormats.Text, "TEst arthur");
-         clipboard.SetTextAsync("sdfdjkfhsdkjfhd");
+        clipboard.SetTextAsync("sdfdjkfhsdkjfhd");
 
- nm.TemplateApplied += (sender, args) =>
-        {
-            nm.Show(not);
-        };
-
+        nm.TemplateApplied += (sender, args) =>
+               {
+                   nm.Show(not);
+               };
     }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
@@ -181,11 +159,4 @@ public partial class VaultPage : UserControl
             await vaultPageViewModel.CopyCommand.ExecuteAsync((KeyVaultContentsAmalgamation)e.Item);
         });
     }
-
-
-
-
-   
-
-
 }

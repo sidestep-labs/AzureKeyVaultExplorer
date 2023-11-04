@@ -7,8 +7,10 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
+using Avalonia.Remote.Protocol.Input;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
+using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,6 +23,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace avalonia.kvexplorer.ViewModels;
@@ -142,7 +146,6 @@ public partial class VaultPageViewModel : ViewModelBase
             });
         }
 
-
         var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
         await foreach (var cert in certs)
         {
@@ -169,15 +172,12 @@ public partial class VaultPageViewModel : ViewModelBase
                 KeyProperties = key,
             });
         }
-            _vaultContents = VaultContents;
+        _vaultContents = VaultContents;
 
         //return _vaultContents;
     }
 
-    partial void OnIsCertificatesCheckedChanged(bool value)
-    {
-        CheckedBoxes[KeyVaultItemType.Certificate] = value;
-    }
+    partial void OnIsCertificatesCheckedChanged(bool value) => CheckedBoxes[KeyVaultItemType.Certificate] = value;
 
     partial void OnIsKeysCheckedChanged(bool value)
     {
@@ -215,10 +215,41 @@ public partial class VaultPageViewModel : ViewModelBase
         Notification notif;
         try
         {
-            var secret = await _vaultService.GetSecret(keyVaultItem.VaultUri, keyVaultItem.Name);
+            string value = string.Empty;
+            //_ = keyVaultItem.Type switch
+            //{
+            //    KeyVaultItemType.Key => value = (await _vaultService.GetKey(keyVaultItem.VaultUri, keyVaultItem.Name)).Key.ToRSA().ToXmlString(true),
+            //    KeyVaultItemType.Secret => value = (await _vaultService.GetSecret(keyVaultItem.VaultUri, keyVaultItem.Name)).Value,
+            //    KeyVaultItemType.Certificate => value = (await _vaultService.GetCertificate(keyVaultItem.VaultUri, keyVaultItem.Name)).Name,
+            //    _ => throw new NotImplementedException()
+            //};
+
+            if (keyVaultItem.Type == KeyVaultItemType.Key)
+            {
+                var key = await _vaultService.GetKey(keyVaultItem.VaultUri, keyVaultItem.Name);
+
+
+                if (key.KeyType == KeyType.Rsa) {
+           
+                    using var rsa = key.Key.ToRSA();
+                    var publicKey = rsa.ExportRSAPublicKey();
+                    string pem = "-----BEGIN PUBLIC KEY-----\n" + Convert.ToBase64String(publicKey) + "\n-----END PUBLIC KEY-----";
+                    value = pem;
+                }
+            }
+
+            if (keyVaultItem.Type == KeyVaultItemType.Secret)
+            {
+                var sv = await _vaultService.GetSecret(keyVaultItem.VaultUri, keyVaultItem.Name);
+                value = sv.Value;
+            }
+            if (keyVaultItem.Type == KeyVaultItemType.Certificate)
+            {
+            }
+
             var dataObject = new DataObject();
-            dataObject.Set(DataFormats.Text, secret.Value);
-            await clipboard.SetTextAsync(secret.Value);
+            dataObject.Set(DataFormats.Text, value);
+            await clipboard.SetTextAsync(value);
             // TODO: figure out why set data object async fails here.
             notif = new Notification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
         }
@@ -237,5 +268,4 @@ public partial class VaultPageViewModel : ViewModelBase
             nm.Show(notif);
         };
     }
-
 }

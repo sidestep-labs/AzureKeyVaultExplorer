@@ -63,8 +63,8 @@
             HorizontalAlignment="Stretch"
             Orientation="Horizontal">
             <TextBox
-                Width="270"
-                Margin="10,10,0,0"
+                Width="265"
+                Margin="12,10,0,0"
                 Classes.clearButton="True"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 Watermark="Search">
@@ -127,9 +127,12 @@
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>-->
 
+					
+							
+					
 
 
-                <TreeView.Styles>
+				<TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
                         <Setter Property="FontSize" Value="12" />

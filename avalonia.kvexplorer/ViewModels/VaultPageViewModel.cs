@@ -227,7 +227,8 @@ public partial class VaultPageViewModel : ViewModelBase
 			if (keyVaultItem.Type == KeyVaultItemType.Key)
 			{
 				var key = await _vaultService.GetKey(keyVaultItem.VaultUri, keyVaultItem.Name);
-				if (key.KeyType == KeyType.Rsa) {
+				if (key.KeyType == KeyType.Rsa)
+				{
 					using var rsa = key.Key.ToRSA();
 					var publicKey = rsa.ExportRSAPublicKey();
 					string pem = "-----BEGIN PUBLIC KEY-----\n" + Convert.ToBase64String(publicKey) + "\n-----END PUBLIC KEY-----";
@@ -267,4 +268,6 @@ public partial class VaultPageViewModel : ViewModelBase
 			nm.Show(notif);
 		};
 	}
+
+
 }

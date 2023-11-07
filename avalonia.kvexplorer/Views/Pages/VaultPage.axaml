@@ -43,7 +43,10 @@
                         Gesture="Ctrl+L" />
                 </ui:MenuFlyoutItem.KeyBindings>
             </ui:MenuFlyoutItem>-->
-            <ui:MenuFlyoutItem IconSource="View" Text="Secret Properties" />
+            <ui:MenuFlyoutItem
+                Click="ShowPropertiesFlyoutItem_Click"
+                IconSource="View"
+                Text="Show Properties" />
             <!--<ui:ToggleMenuFlyoutItem IconSource="Bookmark" Text="Bookmark" />-->
             <ui:MenuFlyoutSeparator />
 
@@ -65,6 +68,9 @@
                 IconSource="Icons"
                 Text="Radio Menu Item 2" />-->
         </ui:FAMenuFlyout>
+
+
+
     </UserControl.Resources>
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
@@ -100,12 +106,14 @@
         </StackPanel>
 
         <TextBox
+            Name="SearchTextBox"
             Grid.Row="0"
             Grid.Column="3"
-			Grid.ColumnSpan="2"
+            Grid.ColumnSpan="2"
             Margin="0,0,0,5"
             Classes.clearButton="True"
             DockPanel.Dock="Top"
+            HotKeyManager.HotKey="Ctrl+F"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             TextChanged="SearchBoxChanges"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
@@ -125,7 +133,39 @@
                 Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F2} values'}"
                 x:DataType="models:KeyVaultContentsAmalgamation"
             -->
+            <ui:TaskDialog
+                Name="PropertiesTaskDialog"
+                Title="FluentAvalonia"
+                Content="This is some sample text, but you can put more advanced content here if you like"
+                FooterVisibility="Never"
+                Header="Header Here"
+                IsFooterExpanded="False"
+                ShowProgressBar="False"
+                SubHeader="SubHeader">
+                <ui:TaskDialog.Commands>
+                    <ui:TaskDialogCommand
+                        Description="This is a description of the Sample Command"
+                        DialogResult="CommandResult"
+                        IsEnabled="True"
+                        Text="Sample Command" />
+                </ui:TaskDialog.Commands>
 
+                <ui:TaskDialog.Buttons>
+                    <ui:TaskDialogButton DialogResult="OK" Text="OK" />
+                    <ui:TaskDialogButton DialogResult="Cancel" Text="Cancel" />
+                </ui:TaskDialog.Buttons>
+
+                <ui:TaskDialog.Footer>
+                    <CheckBox Content="Never show me this again" />
+                </ui:TaskDialog.Footer>
+                <ui:TaskDialog.Styles>
+                    <Style Selector="ui|TaskDialog /template/ Border">
+                        <Setter Property="Background" Value="Red" />
+
+                    </Style>
+
+                </ui:TaskDialog.Styles>
+            </ui:TaskDialog>
             <DataGrid
                 Name="VaultContentDataGrid"
                 HorizontalAlignment="Stretch"

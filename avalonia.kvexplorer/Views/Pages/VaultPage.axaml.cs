@@ -26,6 +26,8 @@ using kvexplorer.shared;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared.Exceptions;
 using System.Threading.Tasks;
+using FluentAvalonia.UI.Windowing;
+using Avalonia.Remote.Protocol.Input;
 
 namespace avalonia.kvexplorer.Views.Pages;
 
@@ -42,7 +44,9 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
+        
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
+        KeyUp += MyUserControl_KeyUp;
 
         Dispatcher.UIThread.Post(() =>
         {
@@ -51,6 +55,15 @@ public partial class VaultPage : UserControl
                 GroupDescriptions = { new DataGridPathGroupDescription("Type") }
             };
         }, DispatcherPriority.ContextIdle);
+    }
+
+    private void MyUserControl_KeyUp(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Avalonia.Input.Key.F && e.KeyModifiers == KeyModifiers.Control)
+        {
+            SearchTextBox.Focus();
+            e.Handled = true;
+        }
     }
 
     public VaultPage(Uri kvUri)
@@ -62,7 +75,7 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
-
+        KeyUp += MyUserControl_KeyUp;
         Dispatcher.UIThread.Post(() =>
         {
             _ = model.GetSecretsForVault(kvUri);
@@ -159,4 +172,52 @@ public partial class VaultPage : UserControl
             await vaultPageViewModel.CopyCommand.ExecuteAsync((KeyVaultContentsAmalgamation)e.Item);
         });
     }
+
+    private async void ShowPropertiesFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+
+        var taskDialog = this.FindControl<TaskDialog>("PropertiesTaskDialog");
+        taskDialog.Content = new PropertiesPage();
+        taskDialog.Width = 648;
+        taskDialog.Height = 800;
+        await taskDialog.ShowAsync(showHosted: false);
+
+
+
+        var sampleWindow =
+           new AppWindow
+           {
+               Title = "Sample Window",
+            CanResize = false,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            ShowAsDialog = true,
+            Content = new PropertiesPage(),
+            MinWidth = 400,
+            MinHeight = 500
+           };
+
+        // open the window
+        sampleWindow.Show();
+    }
+
+
+
+
+
+    private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
+    {
+        // Create the window object
+        var sampleWindow =
+            new Window
+            {
+                Title = "Sample Window",
+                Width = 200,
+                Height = 200
+            };
+
+        // open the window
+        sampleWindow.Show();
+    }
+
 }

@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 	<PropertyGroup>
 		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,8 +17,8 @@
 		<PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.5.0" />
 		<PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.5.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0-rc.2.23480.1" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0-rc.2.23479.6" />
 		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.57.0" />
 	</ItemGroup>
 </Project>

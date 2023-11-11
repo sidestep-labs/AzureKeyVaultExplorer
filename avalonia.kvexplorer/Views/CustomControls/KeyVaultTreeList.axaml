@@ -98,9 +98,13 @@
                 Margin="2,10,0,0"
                 VerticalAlignment="Stretch"
                 Click="RefreshKeyVaultList"
+                RenderOptions.TextRenderingMode="Antialias"
                 ToolTip.Tip="Refresh available subscriptions">
 
-                <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+                <ui:FontIcon
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Glyph="&#xE72C;"
+                    RenderOptions.TextRenderingMode="Antialias" />
             </Button>
         </StackPanel>
         <ScrollViewer
@@ -127,12 +131,12 @@
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>-->
 
-					
-							
-					
 
 
-				<TreeView.Styles>
+
+
+
+                <TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
                         <Setter Property="FontSize" Value="12" />

@@ -13,6 +13,7 @@
     d:DesignHeight="450"
     d:DesignWidth="330"
     x:DataType="vm:KeyVaultTreeListViewModel"
+    RenderOptions.TextRenderingMode="SubpixelAntialias"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -98,13 +99,12 @@
                 Margin="2,10,0,0"
                 VerticalAlignment="Stretch"
                 Click="RefreshKeyVaultList"
-                RenderOptions.TextRenderingMode="Antialias"
+                RenderOptions.TextRenderingMode="SubpixelAntialias"
                 ToolTip.Tip="Refresh available subscriptions">
-
                 <ui:FontIcon
                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                     Glyph="&#xE72C;"
-                    RenderOptions.TextRenderingMode="Antialias" />
+                    RenderOptions.TextRenderingMode="SubpixelAntialias" />
             </Button>
         </StackPanel>
         <ScrollViewer
@@ -139,9 +139,9 @@
                 <TreeView.Styles>
                     <Style Selector="TreeViewItem">
                         <Setter Property="Focusable" Value="False" />
-                        <Setter Property="FontSize" Value="12" />
+                        <!--<Setter Property="FontSize" Value="12" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Margin" Value="0" />-->
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                         <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Name" Value="SubscriptionTreeItem" />
@@ -169,8 +169,8 @@
                             <ui:SymbolIcon
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
-                                FontSize="18"
                                 IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias"
                                 Symbol="{Binding GlyphIcon}" />
                             <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
 

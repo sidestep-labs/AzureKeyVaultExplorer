@@ -58,7 +58,7 @@
                 Opacity=".08"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
                 Source="avares://avalonia.kvexplorer/Assets/kv-gray.png" />
-			
+
         </Panel>
     </Panel>
 

@@ -74,12 +74,12 @@
     </Style>-->
 
     <!--  Treeviewlist styles  -->
-    <!--<Style Selector="TreeView">
+    <Style Selector="TreeView">
         <Setter Property="FontSize" Value="13" />
     </Style>
 
     <Style Selector="TreeViewItem">
         <Setter Property="FontSize" Value="13" />
-    </Style>-->
+    </Style>
 
 </Styles>

@@ -189,10 +189,4 @@ public partial class TabViewPage : UserControl
     }
 
 
-    public async Task test()
-    {
-        var storage = TopLevel.GetTopLevel(this)?.StorageProvider;
-        var folder = await storage.TryGetFolderFromPathAsync(new Uri(Constants.LocalAppDataFolder));
-        var file = await storage.TryGetFileFromPathAsync (new Uri(Constants.LocalAppDataFolder + "kvexplorer.db"));
-    }
 }

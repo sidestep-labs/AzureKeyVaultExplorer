@@ -3,11 +3,13 @@ using System.Collections.ObjectModel;
 using avalonia.kvexplorer.ViewModels;
 using avalonia.kvexplorer.ViewModels.Models;
 using avalonia.kvexplorer.Views.Pages;
+using Avalonia.Styling;
 using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Data;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 
@@ -15,16 +17,11 @@ namespace avalonia.kvexplorer.ViewModels;
 
 public partial class TabViewPageViewModel : ViewModelBase
 {
-    private readonly VaultService _vaultService;
-    private readonly AuthService _authService;
-  
+
     public TabViewPageViewModel()
     {
-        _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-      
         Documents = new ObservableCollection<TabViewItem>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 0; i++)
         {
             Documents.Add(AddDocument(i));
         }

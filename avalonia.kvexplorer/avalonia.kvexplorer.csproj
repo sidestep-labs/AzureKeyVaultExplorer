@@ -6,8 +6,7 @@
     <Version>0.0.1.5</Version>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 
   
@@ -19,6 +18,11 @@
   <ItemGroup>
     <AvaloniaXaml Remove="Resources\Resources.axaml" />
     <AvaloniaXaml Remove="Resources\Styles.axaml" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <None Remove="Assets\kv-gray.png" />
   </ItemGroup>
 
   
@@ -48,6 +52,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\kvexplorer.shared\kvexplorer.shared.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\kv-gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 
   <ItemGroup>

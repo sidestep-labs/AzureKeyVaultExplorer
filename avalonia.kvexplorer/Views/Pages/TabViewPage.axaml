@@ -20,7 +20,6 @@
         <vm:TabViewPageViewModel />
     </Design.DataContext>
 
-
     <Panel>
         <ui:TabView
             Name="TabViewDoc"
@@ -37,7 +36,6 @@
             TabDroppedOutside="TabDroppedOutside"
             TabItems="{Binding Documents}"
             TabStripDrop="TabStripDrop"
-            TabStripFooter=""
             TabWidthMode="SizeToContent">
             <ui:TabView.TabItemTemplate>
                 <DataTemplate DataType="vmm:DocumentItem">
@@ -49,12 +47,20 @@
                 </DataTemplate>
             </ui:TabView.TabItemTemplate>
         </ui:TabView>
-        <Label
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            ClipToBounds="True"
-            Content="You have no key vaults selected."
-            IsVisible="{Binding !Documents.Count}" />
+        <Panel IsVisible="{Binding !Documents.Count}">
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ClipToBounds="True"
+                Content="You have no key vaults selected." />
+            <Image
+                Name="BackgroundImg"
+                Opacity=".08"
+                RenderOptions.BitmapInterpolationMode="HighQuality"
+                Source="avares://avalonia.kvexplorer/Assets/kv-gray.png" />
+			
+        </Panel>
     </Panel>
+
 
 </UserControl>

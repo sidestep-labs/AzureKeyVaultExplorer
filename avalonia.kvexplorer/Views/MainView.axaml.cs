@@ -92,7 +92,7 @@ public partial class MainView : UserControl
 
         item.IconSource = t switch
         {
-            MainPage => this.TryFindResource(selected ? "HomeIcon" : "HomeIcon", out var value) ? (IconSource)value! : null,
+            MainPage => this.TryFindResource(selected ? "LibraryIcon" : "LibraryIcon", out var value) ? (IconSource)value! : null,
             BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
             SettingsPage => this.TryFindResource(selected ? "SettingsIcon" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
@@ -138,9 +138,9 @@ public partial class MainView : UserControl
         {
             new()
             {
-                Content = "Home",
+                Content = "Vault Library",
                 Tag = NavigationFactory.GetPages()[0],
-                IconSource= this.FindResource("HomeIcon") as IconSource
+                IconSource= this.FindResource("LibraryIcon") as IconSource
             }
         };
     }

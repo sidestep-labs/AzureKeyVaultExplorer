@@ -9,6 +9,7 @@
     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />-->
     <ui:SymbolIconSource x:Key="HomeIcon" Symbol="Home" />
+    <ui:SymbolIconSource x:Key="LibraryIcon" Symbol="Library" />
     <ui:SymbolIconSource x:Key="HomeIconFilled" Symbol="HomeFilled" />
     <ui:SymbolIconSource x:Key="SettingsIcon" Symbol="Settings" />
     <ui:SymbolIconSource x:Key="SettingsIconFilled" Symbol="SettingsFilled" />

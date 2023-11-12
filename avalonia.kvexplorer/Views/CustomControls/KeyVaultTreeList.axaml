@@ -99,10 +99,9 @@
                 Margin="2,10,0,0"
                 VerticalAlignment="Stretch"
                 Click="RefreshKeyVaultList"
-                RenderOptions.TextRenderingMode="SubpixelAntialias"
                 ToolTip.Tip="Refresh available subscriptions">
                 <ui:FontIcon
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    FontFamily="Segoe Fluent Icons"
                     Glyph="&#xE72C;"
                     RenderOptions.TextRenderingMode="SubpixelAntialias" />
             </Button>
@@ -170,9 +169,13 @@
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
                                 IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                                 Symbol="{Binding GlyphIcon}" />
-                            <TextBlock x:Name="SubscriptionDisplayName" Text="{Binding SubscriptionDisplayName}" />
+                            <TextBlock
+                                x:Name="SubscriptionDisplayName"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                Text="{Binding SubscriptionDisplayName}" />
 
                         </StackPanel>
                     </TreeDataTemplate>
@@ -186,7 +189,7 @@
                             <ui:FontIcon
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontFamily="Segoe Fluent Icons"
                                 Glyph="&#xE130;" />
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
                         </StackPanel>

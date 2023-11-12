@@ -183,8 +183,8 @@
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItemHeader Content="Actions" />
                 <ui:NavigationViewItem
-                    Content="Home"
-                    IconSource="Home"
+                    Content="Vault Library"
+                    IconSource="Library"
                     Tag="MainPage" />
 
                 <ui:NavigationViewItem
@@ -195,7 +195,7 @@
 
             <ui:NavigationView.PaneCustomContent>
 
-                <Panel MaxHeight="400" IsVisible="{Binding #NavView.IsPaneOpen}">
+                <Panel MaxHeight="420" IsVisible="{Binding #NavView.IsPaneOpen}">
                     <custom:KeyVaultTreeList />
                 </Panel>
             </ui:NavigationView.PaneCustomContent>

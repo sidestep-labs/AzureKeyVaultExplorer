@@ -10,7 +10,7 @@
     <StackPanel>
 
         <TextBlock>
-            Welcome to Avalonia!
+            Secret Properties
         </TextBlock>
     </StackPanel>
 

@@ -25,21 +25,15 @@ public partial class KeyVaultTreeList : UserControl
     public KeyVaultTreeList()
     {
         InitializeComponent();
-
         DataContext = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>(); ;
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-
-
         SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
 
         // TODO: Figure out why this breaks NativeAOT, possibly due to DI using reflection? idk FIX:
         /* System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
         ---> System.MissingMethodException: No parameterless constructor defined for type 'System.Diagnostics.ActivitySource'.*/
-        Dispatcher.UIThread.Post(async () =>
-        {
-           // await model.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
-        }, DispatcherPriority.ApplicationIdle);
+   
     }
 
 

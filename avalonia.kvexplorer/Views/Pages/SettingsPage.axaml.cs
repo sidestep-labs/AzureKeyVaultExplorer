@@ -15,4 +15,9 @@ public partial class SettingsPage : UserControl
 
     
     }
+
+    private void FetchUserInfoSettingsExpanderItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        (DataContext as SettingsPageViewModel).SignInOrRefreshTokenCommand.Execute(null);
+    }
 }

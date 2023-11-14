@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
@@ -7,18 +7,20 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-      <Version>0.0.1.5</Version>
+    <Version>0.0.1.5</Version>
     <!--<PublishSingleFile>true</PublishSingleFile>-->
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>partial</TrimMode>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <!--<PublishReadyToRun>true</PublishReadyToRun>-->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <AssemblyName>KeyVaultExplorer</AssemblyName>
+<!--    <PublishAot>true</PublishAot>
+    <SelfContained>true</SelfContained>-->
+
 	 <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-	 <PublishAot>true</PublishAot>
-<SelfContained>true</SelfContained>
+
   </PropertyGroup>
   <ItemGroup>
     <Content Include="kv-noborder.ico" />

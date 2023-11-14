@@ -6,7 +6,7 @@ param(
     $VersionSuffix = "99"
 )
 $DebugPreference = 'continue';
-
+# https://github.com/AvaloniaUI/Avalonia/issues/9503
 if ($RunBuild) {
     Push-Location  c:\repos\sidestep\avalonia.kvexplorer.Desktop;
 

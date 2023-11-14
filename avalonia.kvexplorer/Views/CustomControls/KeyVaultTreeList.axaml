@@ -190,7 +190,8 @@
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
                                 FontFamily="Segoe Fluent Icons"
-                                Glyph="&#xE130;" />
+                                Glyph="&#xE130;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>

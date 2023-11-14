@@ -27,11 +27,11 @@
                 Header="Account Information"
                 IconSource="Contact">
 
-                <ui:SettingsExpanderItem>
+                <ui:SettingsExpanderItem Click="FetchUserInfoSettingsExpanderItem_Click" IsClickEnabled="True">
                     <ui:SettingsExpanderItem.Content>
                         <StackPanel>
                             <TextBlock FontWeight="ExtraBold">User Information</TextBlock>
-                            <TextBlock>Subscription:</TextBlock>
+                            <!--<TextBlock>Subscription:</TextBlock>-->
                             <TextBlock Text="{Binding Path=AuthenticatedUserClaims.Username, StringFormat='Username: {0}'}" />
                             <TextBlock Text="{Binding Path=AuthenticatedUserClaims.TenantId, StringFormat='TenantId: {0}'}" />
                         </StackPanel>

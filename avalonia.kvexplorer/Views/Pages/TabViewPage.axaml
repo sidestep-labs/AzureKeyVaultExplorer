@@ -15,10 +15,19 @@
     x:DataType="vm:TabViewPageViewModel"
     Background="{x:Null}"
     mc:Ignorable="d">
-
     <Design.DataContext>
         <vm:TabViewPageViewModel />
     </Design.DataContext>
+
+
+
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
+                <Setter Property="Margin" Value="0,15,0,0" />
+            </Style>
+        </Styles>
+    </UserControl.Styles>
 
     <Panel>
         <ui:TabView
@@ -29,6 +38,7 @@
             AllowDropTabs="True"
             CanDragTabs="True"
             CanReorderTabs="True"
+            Classes.emptyTabViewDragMargin="{Binding !Documents.Count}"
             CloseButtonOverlayMode="OnPointerOver"
             IsAddTabButtonVisible="False"
             SelectedItem="{Binding SelectedItem}"
@@ -37,6 +47,12 @@
             TabItems="{Binding Documents}"
             TabStripDrop="TabStripDrop"
             TabWidthMode="SizeToContent">
+
+            <!--<ui:TabView.Styles>
+                <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
+                    <Setter Property="Margin" Value="0,2,0,0" />
+                </Style>
+            </ui:TabView.Styles>-->
             <ui:TabView.TabItemTemplate>
                 <DataTemplate DataType="vmm:DocumentItem">
                     <ui:TabViewItem
@@ -47,19 +63,48 @@
                 </DataTemplate>
             </ui:TabView.TabItemTemplate>
         </ui:TabView>
-        <Panel IsVisible="{Binding !Documents.Count}">
-            <Label
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                ClipToBounds="True"
-                Content="You have no key vaults selected." />
+
+        <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
             <Image
                 Name="BackgroundImg"
-                Opacity=".08"
+                Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Opacity=".15"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
                 Source="avares://avalonia.kvexplorer/Assets/kv-gray.png" />
 
-        </Panel>
+
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel.Styles>
+                    <Style Selector="TextBlock">
+                        <Setter Property="Foreground" Value="#ababab" />
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                    </Style>
+                </StackPanel.Styles>
+
+                <TextBlock
+                    Margin="10,10"
+                    HorizontalAlignment="Center"
+                    ClipToBounds="True">
+                    You have no key vaults selected.
+                </TextBlock>
+
+                <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
+                    Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
+                    Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
+                    <ui:HyperlinkButton
+                        Padding="0,-1,0,0"
+                        HorizontalAlignment="Center"
+                        Content="Azure RBAC Documentation"
+                        NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
+                </TextBlock>
+
+            </StackPanel>
+
+
+
+        </StackPanel>
     </Panel>
 
 

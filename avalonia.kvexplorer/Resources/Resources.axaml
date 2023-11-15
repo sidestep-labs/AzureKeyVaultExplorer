@@ -5,6 +5,7 @@
 
 
     <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+
     <!--<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />-->

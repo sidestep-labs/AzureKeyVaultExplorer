@@ -21,6 +21,42 @@ public partial class TabViewPage : UserControl
         //var vm = new TabViewPageViewModel();
 
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+
+       // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
+      
+    }
+
+    private void TabViewDoc_SelectionChanged(object sender, SelectionChangedEventArgs args)
+    {
+
+        var tv = (sender as TabView);
+
+        foreach(TabViewItem tvi in tv.TabItems)
+        {
+            tvi.Classes.Remove("isActiveTab");
+            tvi.Classes.Remove("inActiveTab");
+            if (!tvi.IsSelected)
+            {
+                tvi.Classes.Add("inActiveTab");
+            }
+            else
+            {
+                tvi.Classes.Add("isActiveTab");
+            }
+        }
+
+        //foreach (TabViewItem item in TabViewDoc.TabItems)
+        //{
+        //    if (item.IsSelected) { 
+        //    item.Classes.
+
+        //    }
+        //    else
+        //    {
+        //        item.Classes.Add("inActiveTab");
+
+        //    }
+        //}
     }
 
     //private void TabView_AddButtonClick(TabView sender, EventArgs args)

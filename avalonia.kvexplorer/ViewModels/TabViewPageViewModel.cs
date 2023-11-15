@@ -21,7 +21,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     public TabViewPageViewModel()
     {
         Documents = new ObservableCollection<TabViewItem>();
-        for (int i = 0; i < 0; i++)
+        for (int i = 0; i < 3; i++)
         {
             Documents.Add(AddDocument(i));
         }

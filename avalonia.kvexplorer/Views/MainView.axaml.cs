@@ -17,7 +17,6 @@ using System.Linq.Expressions;
 
 namespace avalonia.kvexplorer.Views;
 
-
 public partial class MainView : UserControl
 {
     private Frame? _frameView;
@@ -67,12 +66,12 @@ public partial class MainView : UserControl
 
         //todo remove
         var pages = NavigationFactory.GetPages();
-        //navMenuItems.ElementAt(0).Tag = pages[0];
-        //navMenuItems.ElementAt(1).Tag = pages[1];
+        navMenuItems.ElementAt(0).Tag = pages[0];
+        navMenuItems.ElementAt(1).Tag = pages[1];
         footerItems.ElementAt(0).Tag = pages[2];
 
         
-        //NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
+        NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
         NavView.FooterMenuItemsSource = footerItems;
 
         //NavView.MenuItemsSource = GetNavigationViewItems();
@@ -106,18 +105,18 @@ public partial class MainView : UserControl
     {
         var page = e.Content as Control;
 
-        //foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
-        //{
-        //    if (nvi.Tag != null && nvi.Tag.Equals(page))
-        //    {
-        //        NavView.SelectedItem = nvi;
-        //        SetNVIIcon(nvi, true);
-        //    }
-        //    else
-        //    {
-        //        SetNVIIcon(nvi, false);
-        //    }
-        //}
+        foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
+        {
+            if (nvi.Tag != null && nvi.Tag.Equals(page))
+            {
+                NavView.SelectedItem = nvi;
+                SetNVIIcon(nvi, true);
+            }
+            else
+            {
+                SetNVIIcon(nvi, false);
+            }
+        }
 
         foreach (NavigationViewItem nvi in NavView.FooterMenuItemsSource)
         {

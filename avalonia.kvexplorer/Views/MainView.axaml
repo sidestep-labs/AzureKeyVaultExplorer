@@ -184,30 +184,29 @@
                 <ui:NavigationViewItemHeader Content="Actions" />
                 <ui:NavigationViewItem
                     Content="Vault Library"
-                    HasUnrealizedChildren="True"
                     IconSource="Library"
                     Tag="MainPage" />
-                <Panel MaxHeight="420" IsVisible="{Binding #NavView.IsPaneOpen}">
-                    <custom:KeyVaultTreeList />
-                </Panel>
+
                 <ui:NavigationViewItem
                     Content="Bookmarks"
                     IconSource="Bookmarks"
                     Tag="BookmarksPage" />
             </ui:NavigationView.MenuItems>
 
-            <!--<ui:NavigationView.PaneCustomContent>
+            <ui:NavigationView.PaneCustomContent>
 
-            </ui:NavigationView.PaneCustomContent>-->
+                <Panel MaxHeight="420" IsVisible="{Binding #NavView.IsPaneOpen}">
+                    <custom:KeyVaultTreeList />
+                </Panel>
+            </ui:NavigationView.PaneCustomContent>
 
 
             <ui:NavigationView.FooterMenuItems>
+
                 <ui:NavigationViewItem
                     Content="Settings"
                     IconSource="Settings"
                     Tag="SettingsPage" />
-
-
             </ui:NavigationView.FooterMenuItems>
             <!--  Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"  -->
 

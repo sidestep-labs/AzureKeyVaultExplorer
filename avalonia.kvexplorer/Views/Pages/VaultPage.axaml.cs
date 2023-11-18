@@ -44,7 +44,7 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
-        
+
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         KeyUp += MyUserControl_KeyUp;
 
@@ -160,9 +160,9 @@ public partial class VaultPage : UserControl
         clipboard.SetTextAsync("sdfdjkfhsdkjfhd");
 
         nm.TemplateApplied += (sender, args) =>
-               {
-                   nm.Show(not);
-               };
+        {
+            nm.Show(not);
+        };
     }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
@@ -175,35 +175,22 @@ public partial class VaultPage : UserControl
 
     private async void ShowPropertiesFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-
-        var taskDialog = this.FindControl<TaskDialog>("PropertiesTaskDialog");
-        taskDialog.Content = new PropertiesPage();
-        taskDialog.Width = 648;
-        taskDialog.Height = 800;
-        await taskDialog.ShowAsync(showHosted: false);
-
-
-
-        var sampleWindow =
+        var taskDialog =
            new AppWindow
            {
                Title = "Sample Window",
-            CanResize = false,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            ShowAsDialog = true,
-            Content = new PropertiesPage(),
-            MinWidth = 400,
-            MinHeight = 500
+               CanResize = false,
+               SizeToContent = SizeToContent.WidthAndHeight,
+               WindowStartupLocation = WindowStartupLocation.CenterOwner,
+               ShowAsDialog = true,
+               Content = new PropertiesPage(),
+               MinWidth = 400,
+               MinHeight = 500
            };
 
         // open the window
-        sampleWindow.Show();
+        taskDialog.Show();
     }
-
-
-
-
 
     private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
     {
@@ -219,5 +206,4 @@ public partial class VaultPage : UserControl
         // open the window
         sampleWindow.Show();
     }
-
 }

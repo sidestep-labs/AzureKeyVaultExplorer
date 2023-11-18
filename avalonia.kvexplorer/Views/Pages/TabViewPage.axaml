@@ -32,6 +32,7 @@
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,15,0,0" />
             </Style>
+
         </Styles>
     </UserControl.Styles>
 
@@ -52,7 +53,8 @@
             TabDroppedOutside="TabDroppedOutside"
             TabItems="{Binding Documents}"
             TabStripDrop="TabStripDrop"
-            TabWidthMode="SizeToContent">
+            TabStripHeader=" "
+            TabWidthMode="Compact">
 
             <!--<ui:TabView.Styles>
                 <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
@@ -65,6 +67,7 @@
                 <DataTemplate DataType="vmm:DocumentItem">
                     <ui:TabViewItem
                         Name="TabViewItem"
+                        BorderThickness="3"
                         Content="{Binding Content}"
                         Header="{Binding Header}"
                         IconSource="{Binding IconSource}" />

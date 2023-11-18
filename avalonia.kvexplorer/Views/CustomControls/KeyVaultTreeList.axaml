@@ -24,7 +24,7 @@
 
     <UserControl.Styles>
         <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
-            <Setter Property="Margin" Value="1,5,5,5" />
+            <Setter Property="Margin" Value="5,5,5,5" />
             <Setter Property="BoxShadow" Value="0 3 3 0 #34000000" />
         </Style>
 
@@ -47,7 +47,6 @@
             <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
         </ui:FAMenuFlyout>
     </UserControl.Resources>
-
 
     <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*,*">
         <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
@@ -198,5 +197,6 @@
                 </TreeView.DataTemplates>
             </TreeView>
         </ScrollViewer>
+
     </Grid>
 </UserControl>

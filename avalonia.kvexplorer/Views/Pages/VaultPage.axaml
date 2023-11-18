@@ -10,6 +10,7 @@
     d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:VaultPageViewModel"
+    Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -20,6 +21,10 @@
         <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
             <Setter Property="Margin" Value="1,5,5,5" />
             <Setter Property="BoxShadow" Value="0 3 3 0 #34000000" />
+        </Style>
+
+        <Style Selector="ui|FAMenuFlyoutPresenter">
+            <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}" />
         </Style>
     </UserControl.Styles>
 
@@ -133,101 +138,88 @@
                 Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F2} values'}"
                 x:DataType="models:KeyVaultContentsAmalgamation"
             -->
-            <ui:TaskDialog
-                Name="PropertiesTaskDialog"
-                Title="FluentAvalonia"
-                Content="This is some sample text, but you can put more advanced content here if you like"
-                FooterVisibility="Never"
-                Header="Header Here"
-                IsFooterExpanded="False"
-                ShowProgressBar="False"
-                SubHeader="SubHeader">
-                <ui:TaskDialog.Commands>
-                    <ui:TaskDialogCommand
-                        Description="This is a description of the Sample Command"
-                        DialogResult="CommandResult"
-                        IsEnabled="True"
-                        Text="Sample Command" />
-                </ui:TaskDialog.Commands>
+            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
+                <TabStrip
+                    Name="TabHost"
+                    Grid.Row="0"
+                    Margin="60,5"
+                    ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
+                    Theme="{StaticResource AlternateTabStripTheme}">
+                    <TabStripItem Classes="left" Content="Secrets" />
+                    <TabStripItem Content="Certificates" />
+                    <TabStripItem Classes="right" Content="Keys" />
+                </TabStrip>
 
-                <ui:TaskDialog.Buttons>
-                    <ui:TaskDialogButton DialogResult="OK" Text="OK" />
-                    <ui:TaskDialogButton DialogResult="Cancel" Text="Cancel" />
-                </ui:TaskDialog.Buttons>
+                <DataGrid
+                    Name="VaultContentDataGrid"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
+                    DoubleTapped="OnDoubleTapped"
+                    GridLinesVisibility="Horizontal"
+                    HorizontalScrollBarVisibility="Visible"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding VaultContents}"
+                    VerticalScrollBarVisibility="Visible">
 
-                <ui:TaskDialog.Footer>
-                    <CheckBox Content="Never show me this again" />
-                </ui:TaskDialog.Footer>
-                <ui:TaskDialog.Styles>
-                    <Style Selector="ui|TaskDialog /template/ Border">
-                        <Setter Property="Background" Value="Red" />
+                    <DataGrid.Columns>
 
-                    </Style>
-
-                </ui:TaskDialog.Styles>
-            </ui:TaskDialog>
-            <DataGrid
-                Name="VaultContentDataGrid"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                CanUserReorderColumns="True"
-                CanUserResizeColumns="True"
-                CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
-                DoubleTapped="OnDoubleTapped"
-                GridLinesVisibility="Horizontal"
-                HorizontalScrollBarVisibility="Visible"
-                IsReadOnly="True"
-                ItemsSource="{Binding VaultContents}"
-                VerticalScrollBarVisibility="Visible">
-
-                <DataGrid.Columns>
-
-                    <!--<DataGridTextColumn
+                        <!--<DataGridTextColumn
                         Width="1*"
                         Binding="{Binding Type}"
                         Header="Type" />-->
-                    <DataGridTextColumn
-                        Width="250"
-                        Binding="{Binding Name}"
-                        Header="Name" />
-                    <DataGridTextColumn
-                        Width="400"
-                        Binding="{Binding VaultUri}"
-                        Header="VaultUri" />
-                    <DataGridTextColumn
-                        Width="200"
-                        Binding="{Binding Version}"
-                        Header="Version" />
+                        <DataGridTextColumn
+                            Width="250"
+                            Binding="{Binding Name}"
+                            Header="Name" />
+                        <DataGridTextColumn
+                            Width="400"
+                            Binding="{Binding VaultUri}"
+                            Header="VaultUri" />
+                        <DataGridTextColumn
+                            Width="200"
+                            Binding="{Binding Version}"
+                            Header="Version" />
 
-                    <DataGridTextColumn
-                        Width="300"
-                        Binding="{Binding ContentType}"
-                        Header="ContentType" />
-                </DataGrid.Columns>
-                <DataGrid.Styles>
-                    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-                    </Style>
-                    <Style Selector="DataGridRow">
-                        <Setter Property="Height" Value="22" />
-                        <Setter Property="Focusable" Value="True" />
+                        <DataGridTextColumn
+                            Width="300"
+                            Binding="{Binding ContentType}"
+                            Header="ContentType" />
+                    </DataGrid.Columns>
+                    <DataGrid.Styles>
+                        <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                            <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+                        </Style>
+                        <Style Selector="DataGridRow">
+                            <Setter Property="Height" Value="22" />
+                            <Setter Property="Focusable" Value="True" />
 
-                    </Style>
+                        </Style>
 
-                    <Style Selector="DataGridRow /template/ DataGridCellsPresenter#PART_CellsPresenter">
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
+                        <Style Selector="DataGridRow /template/ DataGridCellsPresenter#PART_CellsPresenter">
+                            <Setter Property="Focusable" Value="False" />
+                        </Style>
 
-                    <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
-                        <Setter Property="Height" Value="22" />
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
-                </DataGrid.Styles>
-                <!--<DataGrid.KeyBindings>
+                        <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+                            <Setter Property="Height" Value="22" />
+                            <Setter Property="Focusable" Value="False" />
+                        </Style>
+                    </DataGrid.Styles>
+                    <!--<DataGrid.KeyBindings>
 					<KeyBinding Gesture="Enter" Command="{Binding CopyCommand}" />
 				</DataGrid.KeyBindings>-->
 
-            </DataGrid>
+                </DataGrid>
+
+            </Grid>
+
+            <!--<ui:Frame
+                Name="ColorsPageFrame"
+                Grid.Row="3"
+                IsNavigationStackEnabled="False" />-->
         </DockPanel>
     </Grid>
 </UserControl>

@@ -15,7 +15,7 @@
 
     <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" StartPoint="0,0" EndPoint="0%,100%">
         <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
-        <GradientStop Offset=".9" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="Transparent" />
     </LinearGradientBrush>
     <!--<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />

@@ -45,7 +45,6 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     public Uri vaultUri;
 
-
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
 
     [ObservableProperty]

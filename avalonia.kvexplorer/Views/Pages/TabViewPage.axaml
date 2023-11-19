@@ -19,21 +19,11 @@
         <vm:TabViewPageViewModel />
     </Design.DataContext>
 
-    <!--  FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#LayoutRootBorder  -->
-    <!--
-        FluentAvalonia.UI.Controls.TabView#TabViewDoc /template/ Avalonia.Controls.Presenters.ContentPresenter#RightContentPresenter
-        FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#TabContainerBorder
-        FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#TabContainerBorder
-        Avalonia.Controls.Border#TabContainerBorder
-    -->
 
     <UserControl.Styles>
         <Styles>
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,15,0,0" />
-            </Style>
-            <Style Selector="ui|TabView#TabViewDoc /template/ ContentPresenter">
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
             </Style>
         </Styles>
     </UserControl.Styles>
@@ -48,7 +38,7 @@
             CanDragTabs="True"
             CanReorderTabs="True"
             Classes.emptyTabViewDragMargin="{Binding !Documents.Count}"
-            CloseButtonOverlayMode="OnPointerOver"
+            CloseButtonOverlayMode="Auto"
             IsAddTabButtonVisible="False"
             SelectedItem="{Binding SelectedItem}"
             TabCloseRequested="TabCloseRequested"

@@ -4,8 +4,20 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls">
 
 
-    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}" />
 
+    <SolidColorBrush
+        x:Key="AccentFillColorTertiaryBrush"
+        Opacity="0.8"
+        Color="{DynamicResource SystemAccentColorDark1}" />
+
+    <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+
+    <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" StartPoint="0,0" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset=".9" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset="0.9" Color="Transparent" />
+    </LinearGradientBrush>
     <!--<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />-->

@@ -26,7 +26,7 @@
     <UserControl.Styles>
 
         <Style Selector="ui|NavigationView.MainAppNav">
-            <Setter Property="Margin" Value="0 32 0 0" />
+            <Setter Property="Margin" Value="0 31.5 0 0" />
         </Style>
 
     </UserControl.Styles>

@@ -28,6 +28,9 @@ using kvexplorer.shared.Exceptions;
 using System.Threading.Tasks;
 using FluentAvalonia.UI.Windowing;
 using Avalonia.Remote.Protocol.Input;
+using System.Reflection;
+
+#nullable disable
 
 namespace avalonia.kvexplorer.Views.Pages;
 
@@ -44,17 +47,10 @@ public partial class VaultPage : UserControl
         DataContext = model;
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
-
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         KeyUp += MyUserControl_KeyUp;
-
-        Dispatcher.UIThread.Post(() =>
-        {
-            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
-            {
-                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-            };
-        }, DispatcherPriority.ContextIdle);
+        TabHost.SelectionChanged += TabHostSelectionChanged;
+        TabHostSelectionChanged(null, null);
     }
 
     private void MyUserControl_KeyUp(object sender, KeyEventArgs e)
@@ -66,44 +62,48 @@ public partial class VaultPage : UserControl
         }
     }
 
+    private void TabHostSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var vm = (DataContext as VaultPageViewModel);
+        if (vm.VaultUri is not null)
+        {
+            var item = TabHost.SelectedIndex switch
+            {
+                0 => KeyVaultItemType.Secret,
+                1 => KeyVaultItemType.Certificate,
+                2 => KeyVaultItemType.Key,
+                _ => KeyVaultItemType.All
+            }; ;
+            Dispatcher.UIThread.Post(async () =>
+            {
+                await vm.FilterAndLoadVaultValueType(item);
+                if (item == KeyVaultItemType.All)
+                {
+                    ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+                    {
+                        GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+                    };
+                }
+            }, DispatcherPriority.ContextIdle);
+        }
+    }
+
     public VaultPage(Uri kvUri)
     {
         InitializeComponent();
         var model = new VaultPageViewModel();
         DataContext = model;
         vaultPageViewModel = model;
+        model.VaultUri = kvUri;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
         KeyUp += MyUserControl_KeyUp;
-        Dispatcher.UIThread.Post(() =>
-        {
-            _ = model.GetSecretsForVault(kvUri);
-            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
-            {
-                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-            };
-        }, DispatcherPriority.ContextIdle);
+        TabHost.SelectionChanged += TabHostSelectionChanged;
+        TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
 
     private DataGrid? ValuesDataGrid { get; set; }
-
-    // cruft. Can't figure out a way to regroup from view model.
-    private void CheckBox_Click(object sender, RoutedEventArgs e)
-    {
-        ;
-        Dispatcher.UIThread.Invoke(() =>
-        {
-            vaultPageViewModel.FilterBasedOnCheckedBoxes();
-            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
-            {
-                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-            };
-        }, DispatcherPriority.Input);
-        Dispatcher.UIThread.Invoke(() =>
-        {
-        }, DispatcherPriority.Input);
-    }
 
     private void OnDoubleTapped(object sender, TappedEventArgs e)
     {
@@ -116,7 +116,7 @@ public partial class VaultPage : UserControl
     // cruft. Can't figure out a way to regroup from view model.
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
-        if (ValuesDataGrid?.ItemsSource.Count() > 0)
+        if (ValuesDataGrid?.ItemsSource.Count() > 0 && new int[] {0,1,2}.Contains(TabHost.SelectedIndex))
         {
             ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
@@ -124,9 +124,7 @@ public partial class VaultPage : UserControl
             };
         }
     }
-
     // We rely on code behind to show the flyout
-
     // Listen for the ContextRequested event so we can change the launch behavior based on whether it was a
     // left or right click.
 

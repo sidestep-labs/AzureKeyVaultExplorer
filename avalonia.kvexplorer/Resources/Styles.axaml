@@ -64,13 +64,6 @@
         <Setter Property="CornerRadius" Value="5" />
     </Style>
 
-    <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder">
-        <Setter Property="Background" Value="Black" />
-    </Style>
-    <Style Selector="ui|FAMenuFlyoutPresenter">
-        <Setter Property="Background" Value="Black" />
-    </Style>
-
     <!--  Treeviewlist styles  -->
     <Style Selector="TreeView">
         <Setter Property="FontSize" Value="13" />

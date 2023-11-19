@@ -85,9 +85,23 @@
         RowDefinitions="Auto,*">
 
         <StackPanel Orientation="Horizontal">
-            <Label
+
+            <TabStrip
+                Name="TabHost"
+                Grid.Row="0"
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
+                ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
+                SelectedValue="{Binding SelectedTab}"
+                Theme="{StaticResource AlternateTabStripTheme}">
+                <TabStripItem Content="Secrets" />
+                <TabStripItem Content="Certificates" />
+                <TabStripItem Content="Keys" />
+                <TabStripItem Content="All" />
+
+            </TabStrip>
+
+            <!--<Label
                 Content="Show:"
                 FontSize="{DynamicResource FontSizeSmall}" />
             <CheckBox
@@ -107,7 +121,7 @@
                 Margin="5,0"
                 Click="CheckBox_Click"
                 Content="Certificates"
-                IsChecked="{Binding IsCertificatesChecked}" />
+                IsChecked="{Binding IsCertificatesChecked}" />-->
         </StackPanel>
 
         <TextBox
@@ -120,7 +134,6 @@
             DockPanel.Dock="Top"
             HotKeyManager.HotKey="Ctrl+F"
             Text="{Binding SearchQuery, Mode=TwoWay}"
-            TextChanged="SearchBoxChanges"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
         <!--<ui:FontIcon
@@ -138,83 +151,72 @@
                 Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F2} values'}"
                 x:DataType="models:KeyVaultContentsAmalgamation"
             -->
-            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
-                <TabStrip
-                    Name="TabHost"
-                    Grid.Row="0"
-                    Margin="60,5"
-                    ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
-                    Theme="{StaticResource AlternateTabStripTheme}">
-                    <TabStripItem Classes="left" Content="Secrets" />
-                    <TabStripItem Content="Certificates" />
-                    <TabStripItem Classes="right" Content="Keys" />
-                </TabStrip>
 
-                <DataGrid
-                    Name="VaultContentDataGrid"
-                    Grid.Row="1"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    CanUserReorderColumns="True"
-                    CanUserResizeColumns="True"
-                    CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
-                    DoubleTapped="OnDoubleTapped"
-                    GridLinesVisibility="Horizontal"
-                    HorizontalScrollBarVisibility="Visible"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding VaultContents}"
-                    VerticalScrollBarVisibility="Visible">
 
-                    <DataGrid.Columns>
+            <DataGrid
+                Name="VaultContentDataGrid"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
+                CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
+                DoubleTapped="OnDoubleTapped"
+                GridLinesVisibility="Horizontal"
+                HorizontalScrollBarVisibility="Visible"
+                IsReadOnly="True"
+                ItemsSource="{Binding VaultContents}"
+                VerticalScrollBarVisibility="Visible">
 
-                        <!--<DataGridTextColumn
-                        Width="1*"
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Width="200"
                         Binding="{Binding Type}"
-                        Header="Type" />-->
-                        <DataGridTextColumn
-                            Width="250"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="400"
-                            Binding="{Binding VaultUri}"
-                            Header="VaultUri" />
-                        <DataGridTextColumn
-                            Width="200"
-                            Binding="{Binding Version}"
-                            Header="Version" />
+                        Header="Type" />
+                    <DataGridTextColumn
+                        Width="250"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="400"
+                        Binding="{Binding VaultUri}"
+                        Header="VaultUri" />
+                    <DataGridTextColumn
+                        Width="200"
+                        Binding="{Binding Version}"
+                        Header="Version" />
 
-                        <DataGridTextColumn
-                            Width="300"
-                            Binding="{Binding ContentType}"
-                            Header="ContentType" />
-                    </DataGrid.Columns>
-                    <DataGrid.Styles>
-                        <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                            <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-                        </Style>
-                        <Style Selector="DataGridRow">
-                            <Setter Property="Height" Value="22" />
-                            <Setter Property="Focusable" Value="True" />
+                    <DataGridTextColumn
+                        Width="300"
+                        Binding="{Binding ContentType}"
+                        Header="ContentType" />
+                </DataGrid.Columns>
+                <DataGrid.Styles>
+                    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+                    </Style>
+                    <Style Selector="DataGridRow">
+                        <Setter Property="Height" Value="22" />
+                        <Setter Property="Focusable" Value="True" />
 
-                        </Style>
+                    </Style>
 
-                        <Style Selector="DataGridRow /template/ DataGridCellsPresenter#PART_CellsPresenter">
-                            <Setter Property="Focusable" Value="False" />
-                        </Style>
+                    <Style Selector="DataGridRow /template/ DataGridCellsPresenter#PART_CellsPresenter">
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
 
-                        <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
-                            <Setter Property="Height" Value="22" />
-                            <Setter Property="Focusable" Value="False" />
-                        </Style>
-                    </DataGrid.Styles>
-                    <!--<DataGrid.KeyBindings>
+                    <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+                        <Setter Property="Height" Value="22" />
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </DataGrid.Styles>
+                <!--<DataGrid.KeyBindings>
 					<KeyBinding Gesture="Enter" Command="{Binding CopyCommand}" />
 				</DataGrid.KeyBindings>-->
 
-                </DataGrid>
+            </DataGrid>
 
-            </Grid>
 
             <!--<ui:Frame
                 Name="ColorsPageFrame"

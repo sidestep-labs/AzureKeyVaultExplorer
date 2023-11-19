@@ -13,7 +13,6 @@
     d:DesignHeight="450"
     d:DesignWidth="330"
     x:DataType="vm:KeyVaultTreeListViewModel"
-    RenderOptions.TextRenderingMode="SubpixelAntialias"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -66,6 +65,7 @@
                 Width="265"
                 Margin="12,10,0,0"
                 Classes.clearButton="True"
+                FontSize="{StaticResource FontSizeSmall}"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 Watermark="Search">
                 <TextBox.Styles>
@@ -79,12 +79,14 @@
                                         Content="&#xE8BB;"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
                                         Theme="{StaticResource TransparentButton}" />
                                     <Button
                                         Command="{Binding $parent[TextBox].Clear}"
                                         Content="&#xE721;"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         IsHitTestVisible="False"
+                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
                                         Theme="{StaticResource TransparentButton}" />
                                 </StackPanel>
                             </Template>

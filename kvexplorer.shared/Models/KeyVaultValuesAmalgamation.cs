@@ -24,5 +24,6 @@ public enum KeyVaultItemType
 {
     Certificate,
     Secret,
-    Key
+    Key,
+    All
 }

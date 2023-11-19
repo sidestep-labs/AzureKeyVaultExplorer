@@ -25,8 +25,8 @@
 
     <UserControl.Styles>
 
-        <Style Selector="ui|NavigationView.SampleAppNav">
-            <Setter Property="Margin" Value="0 40 0 0" />
+        <Style Selector="ui|NavigationView.MainAppNav">
+            <Setter Property="Margin" Value="0 32 0 0" />
         </Style>
 
     </UserControl.Styles>
@@ -56,7 +56,7 @@
                 RenderOptions.BitmapInterpolationMode="HighQuality"
                 Source="/Assets/kv-noborder.ico">
                 <Image.IsVisible>
-                    <OnPlatform Default="False">
+                    <OnPlatform Default="False" Windows="True">
                         <On Content="True" Options="Windows" />
                     </OnPlatform>
                 </Image.IsVisible>
@@ -174,7 +174,7 @@
             Grid.Row="0"
             Grid.RowSpan="2"
             Background="Transparent"
-            Classes="SampleAppNav"
+            Classes="MainAppNav"
             IsBackEnabled="{Binding #FrameView.CanGoBack}"
             IsSettingsVisible="False"
             PaneDisplayMode="Left">

@@ -4,8 +4,12 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls">
 
 
-    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}" />
+    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
 
+
+    <!--
+        This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
+    -->
     <SolidColorBrush
         x:Key="AccentFillColorTertiaryBrush"
         Opacity="0.8"

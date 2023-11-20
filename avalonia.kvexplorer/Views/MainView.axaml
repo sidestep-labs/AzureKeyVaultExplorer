@@ -23,14 +23,11 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <UserControl.Styles>
+    <!--<UserControl.Styles>
         <Style Selector="ui|NavigationView.MainAppNav">
             <Setter Property="Margin" Value="0 31.5 0 0" />
-            <!--<Style Selector="^ /template/ Border#ContentGridBorder">
-                <Setter Property="Background" Value="Transparent" />
-            </Style>-->
         </Style>
-    </UserControl.Styles>
+    </UserControl.Styles>-->
 
     <!--<Grid RowDefinitions="Auto, *">
         <Grid.Margin>
@@ -173,6 +170,8 @@
             Name="NavView"
             Grid.Row="0"
             Grid.RowSpan="2"
+            Margin="{OnPlatform macOS=0,
+                                Windows=0 31.5 0 0}"
             Background="Transparent"
             Classes="MainAppNav"
             IsBackEnabled="{Binding #FrameView.CanGoBack}"

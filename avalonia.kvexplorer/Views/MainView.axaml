@@ -42,8 +42,9 @@
         <Grid
             Name="TitleBarHost"
             Background="Transparent"
-			IsVisible="{OnPlatform False, macOS=True}"
-            ColumnDefinitions="Auto,Auto,*,330">
+            ColumnDefinitions="Auto,Auto,*,330"
+            IsVisible="{OnPlatform True,
+                                   macOS=False}">
             <Image
                 Name="WindowIcon"
                 Width="20"
@@ -52,8 +53,7 @@
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                Source="/Assets/kv-noborder.ico">
-            </Image>
+                Source="/Assets/kv-noborder.ico" />
 
             <!--<ui:IconSourceElement
                 Name="WindowIcon1"

@@ -24,11 +24,12 @@
     </Design.DataContext>
 
     <UserControl.Styles>
-
         <Style Selector="ui|NavigationView.MainAppNav">
             <Setter Property="Margin" Value="0 31.5 0 0" />
+            <!--<Style Selector="^ /template/ Border#ContentGridBorder">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>-->
         </Style>
-
     </UserControl.Styles>
 
     <!--<Grid RowDefinitions="Auto, *">
@@ -39,7 +40,6 @@
     <!--<OnPlatform macOS="10,0,10,10" />-->
     <!--
         </Grid.Margin>-->
-
 
     <Grid RowDefinitions="Auto,*">
         <Grid
@@ -185,6 +185,8 @@
                 <ui:NavigationViewItem
                     Content="Vault Library"
                     IconSource="Library"
+                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    RenderOptions.TextRenderingMode="SubpixelAntialias"
                     Tag="MainPage" />
 
                 <ui:NavigationViewItem

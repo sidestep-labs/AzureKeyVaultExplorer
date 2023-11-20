@@ -35,11 +35,12 @@
                 this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
             -->
             <Style Selector="ui|TabView /template/ ContentPresenter">
-                <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorDark1}" />
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.15" Color="{DynamicResource SystemAccentColorDark1}" />
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
-            </Style>
-            <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,15,0,0" />
             </Style>
         </Styles>
     </UserControl.Styles>

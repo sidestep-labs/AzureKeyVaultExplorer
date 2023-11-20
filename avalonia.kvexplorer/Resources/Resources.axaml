@@ -12,12 +12,13 @@
     -->
     <SolidColorBrush
         x:Key="AccentFillColorTertiaryBrush"
-        Opacity="0.8"
+        Opacity="0.15"
         Color="{DynamicResource SystemAccentColorDark1}" />
 
     <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+ 
 
-    <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" StartPoint="0,0" EndPoint="0%,100%">
+    <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" StartPoint="0,0" EndPoint="0%,100%" Opacity="0.15">
         <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="Transparent" />

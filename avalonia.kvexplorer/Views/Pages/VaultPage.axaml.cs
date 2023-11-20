@@ -6,8 +6,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
-using Avalonia.Styling;
 using Avalonia.Threading;
 using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
@@ -16,19 +14,7 @@ using kvexplorer.shared.Models;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Channels;
-using Avalonia.Platform;
-
-using System.IO;
-
-using System.Reflection.Metadata;
-using kvexplorer.shared;
-using CommunityToolkit.Mvvm.Input;
-using kvexplorer.shared.Exceptions;
-using System.Threading.Tasks;
 using FluentAvalonia.UI.Windowing;
-using Avalonia.Remote.Protocol.Input;
-using System.Reflection;
 
 #nullable disable
 

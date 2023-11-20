@@ -36,7 +36,7 @@ public partial class VaultPage : UserControl
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         KeyUp += MyUserControl_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
-        TabHostSelectionChanged(null, null);
+        TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
 
     private void MyUserControl_KeyUp(object sender, KeyEventArgs e)
@@ -102,7 +102,7 @@ public partial class VaultPage : UserControl
     // cruft. Can't figure out a way to regroup from view model.
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
-        if (ValuesDataGrid?.ItemsSource.Count() > 0 && new int[] {0,1,2}.Contains(TabHost.SelectedIndex))
+        if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
         {
             ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
@@ -127,27 +127,6 @@ public partial class VaultPage : UserControl
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
 
-    public void button_Click(object sender, RoutedEventArgs e)
-    {
-        // Change button text when button is clicked.
-        var not = new Notification("Test", "Button Clicked", NotificationType.Information);
-        var nm = new WindowNotificationManager((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow)
-        {
-            Position = NotificationPosition.BottomRight,
-            MaxItems = 1,
-        };
-
-        var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
-        Notification notif;
-        var dataObject = new DataObject();
-        dataObject.Set(DataFormats.Text, "TEst arthur");
-        clipboard.SetTextAsync("sdfdjkfhsdkjfhd");
-
-        nm.TemplateApplied += (sender, args) =>
-        {
-            nm.Show(not);
-        };
-    }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
     {

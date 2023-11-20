@@ -91,12 +91,15 @@
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
                 ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
-                SelectedValue="{Binding SelectedTab}"
+                SelectedValue="{Binding SelectedTab, Mode=TwoWay}"
                 Theme="{StaticResource AlternateTabStripTheme}">
-                <TabStripItem Content="Secrets" />
-                <TabStripItem Content="Certificates" />
-                <TabStripItem Content="Keys" />
-                <TabStripItem Content="All" />
+                <TabStripItem
+                    Name="Secret"
+                    Content="Secrets"
+                    IsSelected="True" />
+                <TabStripItem Name="Certificate" Content="Certificates" />
+                <TabStripItem Name="Key" Content="Keys" />
+                <TabStripItem Name="All" Content="All" />
 
             </TabStrip>
 
@@ -133,6 +136,7 @@
             DockPanel.Dock="Top"
             HotKeyManager.HotKey="Ctrl+F"
             Text="{Binding SearchQuery, Mode=TwoWay}"
+            TextChanged="SearchBoxChanges"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
         <!--<ui:FontIcon

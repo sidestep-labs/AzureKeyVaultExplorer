@@ -4,6 +4,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
@@ -32,7 +33,6 @@ namespace avalonia.kvexplorer.ViewModels;
 
 public partial class VaultPageViewModel : ViewModelBase
 {
-		
     [ObservableProperty]
     public bool isBusy = true;
 
@@ -40,7 +40,7 @@ public partial class VaultPageViewModel : ViewModelBase
     public string searchQuery;
 
     [ObservableProperty]
-    public object selectedTab;
+    public TabStripItem selectedTab;
 
     [ObservableProperty]
     public Uri vaultUri;
@@ -106,22 +106,25 @@ public partial class VaultPageViewModel : ViewModelBase
     }
 
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
- 
+
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
     {
         if (!LoadedItemTypes.ContainsKey(item))
         {
             switch (item)
             {
-                case KeyVaultItemType.Certificate: 
+                case KeyVaultItemType.Certificate:
                     await GetCertificatesForVault(VaultUri);
                     break;
-                case KeyVaultItemType.Key: 
+
+                case KeyVaultItemType.Key:
                     await GetKeysForVault(VaultUri);
                     break;
-                case KeyVaultItemType.Secret: 
+
+                case KeyVaultItemType.Secret:
                     await GetSecretsForVault(VaultUri);
                     break;
+
                 case KeyVaultItemType.All:
                     Task[] tasks = [];
                     VaultContents.Clear();
@@ -130,17 +133,16 @@ public partial class VaultPageViewModel : ViewModelBase
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Key, true);
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Certificate, true);
                     break;
+
                 default:
                     break;
-
             }
             LoadedItemTypes.Add(item, true);
-
         }
         if (item == KeyVaultItemType.All)
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
-       else
-         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+        else
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
     }
 
     public async Task GetKeysForVault(Uri kvUri)
@@ -201,15 +203,24 @@ public partial class VaultPageViewModel : ViewModelBase
 
     partial void OnSearchQueryChanged(string value)
     {
+        Enum.TryParse(SelectedTab.Name.ToString(), out KeyVaultItemType item);
         string query = value?.Trim().ToLowerInvariant();
-        if (!string.IsNullOrWhiteSpace(query))
+        if (string.IsNullOrWhiteSpace(query))
         {
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents);
+            var contents = _vaultContents;
+            if(item != KeyVaultItemType.All)
+            {
+                contents = contents.Where(k => k.Type == item);
+            }
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(contents);
+            return;
         }
         //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
         //       && toFilter.Contains(v.Type)
 
         var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
+        if(item != KeyVaultItemType.All)
+            list = list.Where(k => k.Type == item);
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 

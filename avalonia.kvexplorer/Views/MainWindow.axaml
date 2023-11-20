@@ -12,8 +12,8 @@
     Height="600"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="{OnPlatform {x:Null},
-                            macOS={DynamicResource DynamicActiveBackgroundFAColor}"
+    Background="{OnPlatform Windows={x:Null},
+                            macOS=Red}"
     ExtendClientAreaChromeHints="Default, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"

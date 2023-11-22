@@ -22,17 +22,23 @@ public partial class MainWindow : AppWindow
         TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
-
-        Activated += (sender, e) =>
+        App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
+        if(OperatingSystem.IsWindows()){
+            Activated += (sender, e) =>
+            {
+                Background = null;
+            };
+            Deactivated += (sender, e) =>
+            {
+                Background = (IBrush)bg;
+            };
+        }
+        else
         {
-            Background = null;
-        };
-        Deactivated += (sender, e) =>
-        {
-            App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
             Background = (IBrush)bg;
-        };
+        }
 
+        
 
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
         // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;

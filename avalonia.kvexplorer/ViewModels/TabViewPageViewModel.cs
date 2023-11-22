@@ -89,6 +89,7 @@ public partial class TabViewPageViewModel : ViewModelBase
         };
         Documents.Add(tab);
         SelectedItem = tab;
+        SelectedItem.Focus();
     }
 
 }

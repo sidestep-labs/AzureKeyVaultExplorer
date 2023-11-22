@@ -17,8 +17,8 @@
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
     Icon="/Assets/kv-noborder.ico"
+    TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
-    TransparencyBackgroundFallback="{DynamicResource ThemeBackgroundColor}"
     mc:Ignorable="d">
     <!--    -->
 

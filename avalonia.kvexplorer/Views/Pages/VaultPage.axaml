@@ -57,7 +57,6 @@
             <!--<ui:MenuFlyoutSeparator />-->
             <ui:MenuFlyoutSubItem IconSource="More" Text="Advanced">
                 <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
-
                 <ui:MenuFlyoutItem IconSource="Copy" Text="Copy URI" />
             </ui:MenuFlyoutSubItem>
             <!--<ui:MenuFlyoutSeparator />-->
@@ -84,7 +83,6 @@
         RowDefinitions="Auto,*">
 
         <StackPanel Orientation="Horizontal">
-
             <TabStrip
                 Name="TabHost"
                 Grid.Row="0"
@@ -100,7 +98,6 @@
                 <TabStripItem Name="Certificate" Content="Certificates" />
                 <TabStripItem Name="Key" Content="Keys" />
                 <TabStripItem Name="All" Content="All" />
-
             </TabStrip>
 
             <!--<Label
@@ -173,10 +170,11 @@
 
                 <DataGrid.Columns>
 
-                    <DataGridTextColumn
+                    <!--<DataGridTextColumn
                         Width="200"
                         Binding="{Binding Type}"
-                        Header="Type" />
+                        Header="Type"
+                        IsVisible="{Binding ShowTypeColumn}" />-->
                     <DataGridTextColumn
                         Width="250"
                         Binding="{Binding Name}"

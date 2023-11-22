@@ -146,14 +146,17 @@
                         FontWeight="Normal"
                         Glyph="{Binding Initials}"
                         IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+
                     <ui:TeachingTip
                         Name="AccountTeachingTip"
                         Title="{Binding AuthenticatedUserClaims.Name}"
                         ActionButtonClick="TeachingTip_ActionButtonClick"
                         ActionButtonContent="Settings"
                         CloseButtonContent="Close"
-                        IsLightDismissEnabled="True"
                         Subtitle="{Binding Email}"
+                        TailVisibility="Collapsed"
+						IsLightDismissEnabled="True"
                         Target="{Binding #AccountIconBorder}" />
 
                 </Canvas>

@@ -7,6 +7,7 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
+using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
 using Avalonia.Remote.Protocol.Input;
 using Avalonia.Threading;
@@ -41,6 +42,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     public TabStripItem selectedTab;
+
 
     [ObservableProperty]
     public Uri vaultUri;

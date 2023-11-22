@@ -62,6 +62,7 @@
             <TextBox
                 Width="265"
                 Margin="12,10,0,0"
+                VerticalContentAlignment="Center"
                 Classes.clearButton="True"
                 FontSize="{StaticResource FontSizeSmall}"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
@@ -100,7 +101,7 @@
                 Click="RefreshKeyVaultList"
                 ToolTip.Tip="Refresh available subscriptions">
                 <ui:FontIcon
-                    FontFamily="Segoe Fluent Icons"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
                     Glyph="&#xE72C;"
                     RenderOptions.TextRenderingMode="SubpixelAntialias" />
             </Button>
@@ -188,7 +189,7 @@
                             <ui:FontIcon
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
-                                FontFamily="Segoe Fluent Icons"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Glyph="&#xE130;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />

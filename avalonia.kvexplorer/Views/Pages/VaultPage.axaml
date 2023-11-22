@@ -134,6 +134,8 @@
             HotKeyManager.HotKey="Ctrl+F"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             TextChanged="SearchBoxChanges"
+            VerticalContentAlignment="Center"
+
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
         <!--<ui:FontIcon

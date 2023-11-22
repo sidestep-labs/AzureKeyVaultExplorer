@@ -1,4 +1,5 @@
 ﻿using avalonia.kvexplorer.ViewModels;
+using avalonia.kvexplorer.Views.Pages;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -15,7 +16,6 @@ namespace avalonia.kvexplorer.Views;
 
 public partial class MainWindow : AppWindow
 {
-
     public MainWindow()
     {
         InitializeComponent();
@@ -23,7 +23,8 @@ public partial class MainWindow : AppWindow
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
-        if(OperatingSystem.IsWindows()){
+        if (OperatingSystem.IsWindows())
+        {
             Activated += (sender, e) =>
             {
                 Background = null;
@@ -38,10 +39,7 @@ public partial class MainWindow : AppWindow
             Background = (IBrush)bg;
         }
 
-        
-
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
         // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
-
 }

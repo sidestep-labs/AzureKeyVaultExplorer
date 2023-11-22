@@ -205,7 +205,8 @@ public partial class VaultPageViewModel : ViewModelBase
 
     partial void OnSearchQueryChanged(string value)
     {
-        Enum.TryParse(SelectedTab.Name.ToString(), out KeyVaultItemType item);
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
         string query = value?.Trim().ToLowerInvariant();
         if (string.IsNullOrWhiteSpace(query))
         {

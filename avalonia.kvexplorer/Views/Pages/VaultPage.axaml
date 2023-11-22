@@ -7,6 +7,7 @@
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:avalonia.kvexplorer.ViewModels"
+    Name="VaultPageControl"
     d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:VaultPageViewModel"
@@ -89,6 +90,7 @@
                 Margin="5,0,5,2"
                 VerticalAlignment="Center"
                 ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
+                SelectedIndex="0"
                 SelectedValue="{Binding SelectedTab, Mode=TwoWay}"
                 Theme="{StaticResource AlternateTabStripTheme}">
                 <TabStripItem
@@ -129,13 +131,13 @@
             Grid.Column="3"
             Grid.ColumnSpan="2"
             Margin="0,0,0,5"
+            VerticalContentAlignment="Center"
             Classes.clearButton="True"
             DockPanel.Dock="Top"
             HotKeyManager.HotKey="Ctrl+F"
             Text="{Binding SearchQuery, Mode=TwoWay}"
             TextChanged="SearchBoxChanges"
-            VerticalContentAlignment="Center"
-
+            TextWrapping="NoWrap"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
         <!--<ui:FontIcon

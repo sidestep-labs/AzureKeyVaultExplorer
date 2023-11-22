@@ -23,7 +23,7 @@ public partial class TabViewPage : UserControl
     {
         InitializeComponent();
         //var vm = new TabViewPageViewModel();
-        KeyUp += TabViewPage_KeyUp;
+        KeyUp += TabViewPage_KeyUpFocusSearchBox;
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
     }
@@ -203,12 +203,12 @@ public void TabStripDragOver(object sender, DragEventArgs e)
     }
 
 
-    private void TabViewPage_KeyUp(object sender, KeyEventArgs e)
+    private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
         {
-            Control control = (Control)sender!;
-            control.RaiseEvent(new RoutedEventArgs(VaultPage.ControlFKeyUpEvent));
+            var vvpage = this.FindDescendantOfType<VaultPage>();
+            vvpage?.FindControl<TextBox>("SearchTextBox")?.Focus();
         }
     }
 

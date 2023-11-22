@@ -27,7 +27,6 @@ public partial class VaultPage : UserControl
     private const string DatGridElementName = "VaultContentDataGrid";
     private readonly INotificationManager _notificationManager;
     private readonly VaultPageViewModel vaultPageViewModel;
-    public static readonly RoutedEvent<RoutedEventArgs> ControlFKeyUpEvent = RoutedEvent.Register<VaultPage, RoutedEventArgs>(nameof(ControlFKeyUpEvent), RoutingStrategies.Tunnel);
 
     public VaultPage()
     {
@@ -40,7 +39,6 @@ public partial class VaultPage : UserControl
         KeyUp += MyUserControl_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
-        AddHandler(VaultPage.ControlFKeyUpEvent, OnControlFRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: true);
     }
 
     public VaultPage(Uri kvUri)
@@ -56,7 +54,6 @@ public partial class VaultPage : UserControl
         KeyUp += MyUserControl_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
-        AddHandler(VaultPage.ControlFKeyUpEvent, OnControlFRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: true);
     }
 
     private void OnControlFRoutedEvent(object sender, RoutedEventArgs e)

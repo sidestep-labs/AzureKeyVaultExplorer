@@ -29,9 +29,7 @@
     </UserControl.Styles>
 
     <UserControl.Resources>
-
         <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
-
             <ui:MenuFlyoutItem
                 Name="CopyMenuFlyoutItem"
                 Command="{Binding CopyCommand}"
@@ -39,23 +37,11 @@
                 HotKey="Ctrl+C"
                 IconSource="Copy"
                 Text="Copy Value" />
-
-            <!--<ui:MenuFlyoutItem.KeyBindings>
-
-                    <KeyBinding
-                        Command="{Binding CopyCommand}"
-                        CommandParameter="{Binding #VaultContentDataGrid.SelectedItem}"
-                        Gesture="Ctrl+L" />
-                </ui:MenuFlyoutItem.KeyBindings>
-            </ui:MenuFlyoutItem>-->
             <ui:MenuFlyoutItem
                 Click="ShowPropertiesFlyoutItem_Click"
                 IconSource="View"
                 Text="Show Properties" />
-            <!--<ui:ToggleMenuFlyoutItem IconSource="Bookmark" Text="Bookmark" />-->
             <ui:MenuFlyoutSeparator />
-
-            <!--<ui:MenuFlyoutSeparator />-->
             <ui:MenuFlyoutItem
                 Command="{Binding OpenInAzureCommand}"
                 CommandParameter="{Binding #VaultContentDataGrid.SelectedItem}"
@@ -66,29 +52,14 @@
                 CommandParameter="{Binding #VaultContentDataGrid.SelectedItem}"
                 IconSource="Copy"
                 Text="Copy URI" />
-            <!--<ui:MenuFlyoutSeparator />-->
-            <!--<ui:MenuFlyoutSeparator />-->
-            <!--<ui:RadioMenuFlyoutItem
-                GroupName="Test Group"
-                IconSource="Games"
-                IsChecked="True"
-                Text="Radio Menu Item" />
-            <ui:RadioMenuFlyoutItem
-                GroupName="Test Group"
-                IconSource="Icons"
-                Text="Radio Menu Item 2" />-->
         </ui:FAMenuFlyout>
-
-
-
     </UserControl.Resources>
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Grid
         Margin="10,10,10,0"
         ColumnDefinitions="*, *, *, *,*"
-        RowDefinitions="Auto,*">
-
+        RowDefinitions="Auto,5,*">
         <StackPanel Orientation="Horizontal">
             <TabStrip
                 Name="TabHost"
@@ -107,6 +78,13 @@
                 <TabStripItem Name="Key" Content="Keys" />
                 <TabStripItem Name="All" Content="All" />
             </TabStrip>
+
+            <Button
+                Click="RefreshButton_OnClick"
+                Content="Refresh"
+                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                ToolTip.ShowDelay="1000"
+                ToolTip.Tip="Refresh values visbible to your identity" />
 
             <!--<Label
                 Content="Show:"
@@ -130,6 +108,14 @@
                 Content="Certificates"
                 IsChecked="{Binding IsCertificatesChecked}" />-->
         </StackPanel>
+        <ProgressBar
+            Grid.Row="1"
+            Grid.ColumnSpan="5"
+            Margin="0"
+            Padding="0"
+            IsIndeterminate="True"
+            IsVisible="{Binding IsBusy}"
+            Orientation="Horizontal" />
 
         <TextBox
             Name="SearchTextBox"
@@ -154,7 +140,8 @@
             Grid.Column="3"
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             Glyph="&#xF80DE;" />-->
-        <DockPanel Grid.Row="1" Grid.ColumnSpan="5">
+
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="5">
 
             <!--
                 IsVisible="{Binding !IsBusy}"

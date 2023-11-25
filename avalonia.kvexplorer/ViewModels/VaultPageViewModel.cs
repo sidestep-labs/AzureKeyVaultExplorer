@@ -37,7 +37,7 @@ namespace avalonia.kvexplorer.ViewModels;
 public partial class VaultPageViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public bool isBusy = true;
+    public bool isBusy = false;
 
     [ObservableProperty]
     public string searchQuery;
@@ -114,10 +114,19 @@ public partial class VaultPageViewModel : ViewModelBase
 
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
+
+    private async Task DelaySetIsBusy(bool val)
+    {
+        await Task.Delay(1000);
+        IsBusy = val;
+    }
+
+
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
     {
         if (!LoadedItemTypes.ContainsKey(item))
         {
+            IsBusy = true;
             switch (item)
             {
                 case KeyVaultItemType.Certificate:
@@ -144,12 +153,15 @@ public partial class VaultPageViewModel : ViewModelBase
                 default:
                     break;
             }
-            LoadedItemTypes.Add(item, true);
+            LoadedItemTypes.TryAdd(item, true);
         }
         if (item == KeyVaultItemType.All)
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
         else
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+
+        await DelaySetIsBusy(false);
+
     }
 
     public async Task GetKeysForVault(Uri kvUri)
@@ -239,6 +251,18 @@ public partial class VaultPageViewModel : ViewModelBase
     }
 
     private readonly INotificationManager _notificationManager;
+
+    [RelayCommand]
+    private async Task Refresh()
+    {
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
+        LoadedItemTypes.Remove(item);
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item)
+        await FilterAndLoadVaultValueType(item);
+    }
+
+
 
     [RelayCommand]
     private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)

@@ -160,6 +160,8 @@
                             <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                             <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                             <Setter Property="Name" Value="SubscriptionTreeItem" />
+
+
                         </Style>
 
                         <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
@@ -201,7 +203,9 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Cursor="Hand"
-                                Orientation="Horizontal">
+                                Orientation="Horizontal"
+                                ToolTip.ShowDelay="1000"
+                                ToolTip.Tip="Double click to open">
                                 <ui:FontIcon
                                     Margin="0,0,10,0"
                                     HorizontalAlignment="Left"

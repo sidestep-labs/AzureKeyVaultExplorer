@@ -17,6 +17,10 @@ using System.Linq;
 using FluentAvalonia.UI.Windowing;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -56,10 +60,7 @@ public partial class VaultPage : UserControl
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
 
-    private void OnControlFRoutedEvent(object sender, RoutedEventArgs e)
-    {
-        // Handle the routed event logic here
-    }
+    
 
     private DataGrid? ValuesDataGrid { get; set; }
 
@@ -109,7 +110,24 @@ public partial class VaultPage : UserControl
         sampleWindow.Show();
     }
 
-    // cruft. Can't figure out a way to regroup from view model.
+    public void RefreshButton_OnClick(object? sender, RoutedEventArgs args)
+    {
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
+            if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
+            {
+                ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+                {
+                    GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+                };
+            }
+        }, DispatcherPriority.Input);
+      
+    }
+
+
+
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
         if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
@@ -133,16 +151,19 @@ public partial class VaultPage : UserControl
 
     private async void ShowPropertiesFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://avalonia.kvexplorer/Assets/kv-noborder.ico")));
+
         var taskDialog =
            new AppWindow
            {
                Title = "Sample Window",
+               Icon = bitmap,
                CanResize = false,
                SizeToContent = SizeToContent.WidthAndHeight,
                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-               ShowAsDialog = true,
+               ShowAsDialog = false,
                Content = new PropertiesPage(),
-               MinWidth = 400,
+               MinWidth = 600,
                MinHeight = 500
            };
 

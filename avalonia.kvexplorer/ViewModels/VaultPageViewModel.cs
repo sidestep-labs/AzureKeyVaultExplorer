@@ -258,7 +258,7 @@ public partial class VaultPageViewModel : ViewModelBase
         var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
         var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
         LoadedItemTypes.Remove(item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item)
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
         await FilterAndLoadVaultValueType(item);
     }
 

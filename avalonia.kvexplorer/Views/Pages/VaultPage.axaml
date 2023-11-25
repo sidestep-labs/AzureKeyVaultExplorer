@@ -57,7 +57,11 @@
 
             <!--<ui:MenuFlyoutSeparator />-->
             <ui:MenuFlyoutSubItem IconSource="More" Text="Advanced">
-                <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
+                <ui:MenuFlyoutItem
+                Command="{Binding OpenInAzureCommand}"
+                    CommandParameter="{Binding #VaultContentDataGrid.SelectedItem}"
+                    IconSource="Open"
+                    Text="Open in Azure Portal" />
                 <ui:MenuFlyoutItem IconSource="Copy" Text="Copy URI" />
             </ui:MenuFlyoutSubItem>
             <!--<ui:MenuFlyoutSeparator />-->
@@ -132,7 +136,9 @@
             Grid.ColumnSpan="2"
             Margin="0,0,0,5"
             VerticalContentAlignment="Center"
+            AcceptsReturn="False"
             Classes.clearButton="True"
+            ClipToBounds="True"
             DockPanel.Dock="Top"
             HotKeyManager.HotKey="Ctrl+F"
             Text="{Binding SearchQuery, Mode=TwoWay}"
@@ -184,13 +190,13 @@
                         Binding="{Binding Name}"
                         Header="Name" />
                     <DataGridTextColumn
-                        Width="400"
-                        Binding="{Binding VaultUri}"
-                        Header="VaultUri" />
+                        Width="230"
+                        Binding="{Binding LastModifiedDate}"
+                        Header="LastModifiedDate" />
                     <DataGridTextColumn
-                        Width="200"
-                        Binding="{Binding Version}"
-                        Header="Version" />
+                        Width="400"
+                        Binding="{Binding ValueUri}"
+                        Header="Value Uri" />
 
                     <DataGridTextColumn
                         Width="300"

@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -43,7 +45,6 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     public TabStripItem selectedTab;
 
-
     [ObservableProperty]
     public Uri vaultUri;
 
@@ -53,10 +54,14 @@ public partial class VaultPageViewModel : ViewModelBase
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     private readonly VaultService _vaultService;
+    private readonly AuthService _authService;
+
 
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
+
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
         for (int i = 0; i < 50; i++)
         {
@@ -158,8 +163,10 @@ public partial class VaultPageViewModel : ViewModelBase
                 Id = key.Id,
                 Type = KeyVaultItemType.Key,
                 VaultUri = key.VaultUri,
+                ValueUri = key.Id,
                 Version = key.Version,
                 KeyProperties = key,
+                LastModifiedDate = key.UpdatedOn.HasValue ? key.UpdatedOn.Value.ToLocalTime() : key.CreatedOn.Value.ToLocalTime()
             });
         }
         _vaultContents = VaultContents;
@@ -177,9 +184,11 @@ public partial class VaultPageViewModel : ViewModelBase
                 Type = KeyVaultItemType.Secret,
                 ContentType = secret.ContentType,
                 VaultUri = secret.VaultUri,
+                ValueUri = secret.Id,
                 Version = secret.Version,
                 SecretProperties = secret,
-            });
+                LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime()
+            }); ;
         }
 
         _vaultContents = VaultContents;
@@ -196,8 +205,10 @@ public partial class VaultPageViewModel : ViewModelBase
                 Id = cert.Id,
                 Type = KeyVaultItemType.Certificate,
                 VaultUri = cert.VaultUri,
+                ValueUri = cert.Id,
                 Version = cert.Version,
                 CertificateProperties = cert,
+                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime()
             });
         }
         _vaultContents = VaultContents;
@@ -211,7 +222,7 @@ public partial class VaultPageViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(query))
         {
             var contents = _vaultContents;
-            if(item != KeyVaultItemType.All)
+            if (item != KeyVaultItemType.All)
             {
                 contents = contents.Where(k => k.Type == item);
             }
@@ -222,7 +233,7 @@ public partial class VaultPageViewModel : ViewModelBase
         //       && toFilter.Contains(v.Type)
 
         var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        if(item != KeyVaultItemType.All)
+        if (item != KeyVaultItemType.All)
             list = list.Where(k => k.Type == item);
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
@@ -290,5 +301,17 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             nm.Show(notif);
         };
+    }
+
+    [RelayCommand]
+    private async Task OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
+    {
+        //https://portal.azure.com/#@sidesteplabs.onmicrosoft.com/asset/Microsoft_Azure_KeyVault/Secret/https://sidestep-kv-dev.vault.azure.net/secrets/bank-details-json
+
+        var tenantName = (await _authService.authenticationClient.GetAccountsAsync()).First().Username.Split("@").TakeLast(1).Single();
+
+        var uri = $"https://portal.azure.com/#@{tenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
+
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 }

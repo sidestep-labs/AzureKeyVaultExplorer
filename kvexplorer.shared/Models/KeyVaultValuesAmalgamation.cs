@@ -9,9 +9,13 @@ public class KeyVaultContentsAmalgamation
     public KeyVaultItemType Type { get; set; }
     public Uri Id { get; set; }
     public Uri VaultUri { get; set; }
+    public Uri ValueUri { get; set; }
+
     public string Name { get; set; }
     public string Version { get; set; }
     public string ContentType { get; set; }
+
+    public DateTimeOffset? LastModifiedDate { get; set; }
 
     public SecretProperties SecretProperties { get; set; } = null!;
 

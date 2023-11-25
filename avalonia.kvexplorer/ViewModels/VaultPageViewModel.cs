@@ -306,12 +306,19 @@ public partial class VaultPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
     {
-        //https://portal.azure.com/#@sidesteplabs.onmicrosoft.com/asset/Microsoft_Azure_KeyVault/Secret/https://sidestep-kv-dev.vault.azure.net/secrets/bank-details-json
-
-        var tenantName = (await _authService.authenticationClient.GetAccountsAsync()).First().Username.Split("@").TakeLast(1).Single();
-
+        if (keyVaultItem is null) return;
+        var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();
         var uri = $"https://portal.azure.com/#@{tenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
-
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
+
+    [RelayCommand]
+    private async Task CopyUri(KeyVaultContentsAmalgamation keyVaultItem)
+    {
+        if (keyVaultItem is null) return;
+        var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+        var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
+        await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
+    }
+
 }

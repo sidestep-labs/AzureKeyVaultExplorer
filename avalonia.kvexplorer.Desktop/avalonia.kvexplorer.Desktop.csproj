@@ -7,17 +7,17 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>0.0.1.5</Version>
+    <Version>0.0.1.7</Version>
     <!--<PublishSingleFile>true</PublishSingleFile>-->
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>partial</TrimMode>
-    <!--<PublishReadyToRun>true</PublishReadyToRun>-->
+    <PublishReadyToRun>true</PublishReadyToRun>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <AssemblyName>KeyVaultExplorer</AssemblyName>
-<!--    <PublishAot>true</PublishAot>
-    <SelfContained>true</SelfContained>-->
+    <PublishAot>true</PublishAot>
+    <SelfContained>true</SelfContained>
 
 	 <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 

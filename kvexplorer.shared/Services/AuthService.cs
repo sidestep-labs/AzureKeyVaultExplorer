@@ -10,6 +10,8 @@ public class AuthService
     public MsalCacheHelper msalCacheHelper;
     // Providing the RedirectionUri to receive the token based on success or failure.
     public bool IsAuthenticated { get; private set; } = false;
+    public IAccount Account { get; private set; }
+
     public AuthService()
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
@@ -64,7 +66,7 @@ public class AuthService
         if (!accounts.Any())
             return null;
 
-        //var account = accounts.First();
+        Account = accounts.First();
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
         IsAuthenticated = true;
         return authenticationResult;
@@ -98,6 +100,7 @@ public class AuthService
     {
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
+        Account = null;
         await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
     }
 
@@ -109,6 +112,7 @@ public class AuthService
         {
             await LoginAsync(CancellationToken.None);
             accounts = await authenticationClient.GetAccountsAsync();
+            Account = accounts.First();
         }
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).ExecuteAsync();
     }

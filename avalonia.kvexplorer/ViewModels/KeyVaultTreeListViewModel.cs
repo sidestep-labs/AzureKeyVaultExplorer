@@ -43,7 +43,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly KvExplorerDb _db;
 
     private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
-    private bool AttemptedLogin = false;
 
     public KeyVaultTreeListViewModel()
     {
@@ -236,13 +235,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
 
-    private async Task Login()
-    {
-        var cancellation = new CancellationToken();
-        var account = await _authService.RefreshTokenAsync(cancellation);
-        if (account == null)
-            await _authService.LoginAsync(cancellation);
-    }
+   
 
     //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     //{
@@ -281,4 +274,16 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             }
         }
     }
+
+
+
+    [RelayCommand]
+    private async Task OpenInAzure(KeyVaultResource model)
+    {
+        if (model is null) return;
+        var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();
+        var uri = $"https://portal.azure.com/#@{tenantName}/resource{model.Id}";
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+    }
+
 }

@@ -41,7 +41,11 @@
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="BookmarkFilled"
                 Text="Remove From Quick Access" />
-            <ui:MenuFlyoutItem IconSource="Open" Text="Open in Azure Portal" />
+            <ui:MenuFlyoutItem
+                Command="{Binding OpenInAzureCommand}"
+                CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
+                IconSource="Open"
+                Text="Open in Azure Portal" />
         </ui:FAMenuFlyout>
     </UserControl.Resources>
 

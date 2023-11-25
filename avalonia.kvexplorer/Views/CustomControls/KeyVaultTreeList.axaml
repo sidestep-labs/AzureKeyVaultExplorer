@@ -49,10 +49,15 @@
         </ui:FAMenuFlyout>
     </UserControl.Resources>
 
+    <!--
+        SolidBackgroundFillColorTertiaryBrush
+        SolidBackgroundFillColorTertiaryBrushCustom
+        LayerOnMicaBaseAltFillColorSecondaryBrush
+    -->
     <Border
         Margin="8"
         Padding="0,8"
-        Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
+        Background="{DynamicResource SolidBackgroundFillColorTertiaryBrushCustom}"
         BorderBrush="{DynamicResource CircleElevationBorderBrush}"
         BorderThickness="1"
         CornerRadius="5">

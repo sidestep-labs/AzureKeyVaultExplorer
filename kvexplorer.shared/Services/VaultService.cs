@@ -64,7 +64,7 @@ public class VaultService
         var placeholder = new KeyVaultResourcePlaceholder();
 
 
-        var subscriptions =  _memoryCache.GetOrCreate($"subscriptions", (f) =>
+        var subscriptions =  _memoryCache.GetOrCreate("subscriptions", (f) =>
         {
             f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
             return armClient.GetSubscriptions();
@@ -190,9 +190,6 @@ public class VaultService
         try
         {
             var response = await client.GetKeyAsync(name);
-
-
-
             return response;
         }
         catch (Exception ex) when (ex.Message.Contains("404"))
@@ -200,5 +197,23 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
-
+    public async Task<List<KeyProperties>> GetKeyProperties(Uri KvUri, string name)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(KvUri, token);
+        List<KeyProperties> keyProperties = new();
+        try
+        {
+            var response =  client.GetPropertiesOfKeyVersionsAsync(name);
+            await foreach(KeyProperties item in response)
+            {
+                keyProperties.Add(item);
+            }
+            return keyProperties;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
 }

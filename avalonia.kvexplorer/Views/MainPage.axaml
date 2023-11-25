@@ -13,7 +13,7 @@
     <Design.DataContext />
 
 
-    <pages:TabViewPage Background="{DynamicResource TabViewBackgroundBrushCustom}" />
-    <!--<pages:TabViewPage Background="{DynamicResource MicaBackgroundFillColorBaseBrush}" />-->
+    <pages:TabViewPage Background="{DynamicResource MicaBackgroundFillColorBaseBrush}" />
+    <!--<pages:TabViewPage Background="{DynamicResource TabViewBackgroundBrushCustom}" />-->
 
 </UserControl>

@@ -60,6 +60,7 @@
         Margin="10,10,10,0"
         ColumnDefinitions="*, *, *, *,*"
         RowDefinitions="Auto,5,*">
+
         <StackPanel Orientation="Horizontal">
             <TabStrip
                 Name="TabHost"
@@ -86,37 +87,13 @@
                 ToolTip.ShowDelay="1000"
                 ToolTip.Tip="Refresh values visbible to your identity" />
 
-            <!--<Label
-                Content="Show:"
-                FontSize="{DynamicResource FontSizeSmall}" />
-            <CheckBox
-                Name="KeyCheckbox"
-                Margin="5,0"
-                Click="CheckBox_Click"
-                Content="Keys"
-                IsChecked="{Binding IsKeysChecked}" />
-            <CheckBox
-                Name="SecretCheckbox"
-                Margin="5,0"
-                Click="CheckBox_Click"
-                Content="Secrets"
-                IsChecked="{Binding IsSecretsChecked}" />
-            <CheckBox
-                Name="CertificateCheckbox"
-                Margin="5,0"
-                Click="CheckBox_Click"
-                Content="Certificates"
-                IsChecked="{Binding IsCertificatesChecked}" />-->
         </StackPanel>
         <ProgressBar
             Grid.Row="1"
             Grid.ColumnSpan="5"
-            Margin="0"
-            Padding="0"
             IsIndeterminate="True"
             IsVisible="{Binding IsBusy}"
             Orientation="Horizontal" />
-
         <TextBox
             Name="SearchTextBox"
             Grid.Row="0"
@@ -134,12 +111,6 @@
             TextWrapping="NoWrap"
             Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
 
-        <!--<ui:FontIcon
-            Grid.Row="0"
-			FontSize="30"
-            Grid.Column="3"
-            FontFamily="{StaticResource SymbolThemeFontFamily}"
-            Glyph="&#xF80DE;" />-->
 
         <DockPanel Grid.Row="2" Grid.ColumnSpan="5">
 

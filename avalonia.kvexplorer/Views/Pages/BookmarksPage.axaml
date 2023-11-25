@@ -23,37 +23,40 @@
                 <TextBlock TextWrapping="Wrap">
                     Use this area to group together values for easy access.<LineBreak />
                 </TextBlock>
+                <ItemsControl>
 
-                <WrapPanel>
-                    <Border
-                        Width="100"
-                        Height="100"
-                        Margin="10"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        CornerRadius="5" />
-                    <Border
-                        Width="100"
-                        Height="100"
-                        Margin="10"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        CornerRadius="5" />
-                    <Border
-                        Width="100"
-                        Height="100"
-                        Margin="10"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        CornerRadius="5" />
-                    <Border
-                        Width="100"
-                        Height="100"
-                        Margin="10"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        CornerRadius="5" />
-                </WrapPanel>
+                    <WrapPanel>
+                        <Border
+                            Width="100"
+                            Height="100"
+                            Margin="10"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            CornerRadius="5" />
+                        <Border
+                            Width="100"
+                            Height="100"
+                            Margin="10"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            CornerRadius="5" />
+                        <Border
+                            Width="100"
+                            Height="100"
+                            Margin="10"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            CornerRadius="5" />
+                        <Border
+                            Width="100"
+                            Height="100"
+                            Margin="10"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            CornerRadius="5" />
+                    </WrapPanel>
+
+                </ItemsControl>
 
             </StackPanel>
 

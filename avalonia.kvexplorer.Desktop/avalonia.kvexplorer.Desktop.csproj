@@ -15,9 +15,9 @@
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
-    <AssemblyName>KeyVaultExplorer</AssemblyName>
-    <PublishAot>true</PublishAot>
-    <SelfContained>true</SelfContained>
+    <AssemblyName>Key Vault Explorer</AssemblyName>
+<!--    <PublishAot>true</PublishAot>
+    <SelfContained>true</SelfContained>-->
 
 	 <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 

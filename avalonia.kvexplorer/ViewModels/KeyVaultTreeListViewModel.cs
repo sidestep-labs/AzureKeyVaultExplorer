@@ -116,6 +116,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 SubscriptionDisplayName = "Quick Access",
                 SubscriptionId = "",
+                IsExpanded = true,
                 KeyVaultResources = new List<KeyVaultResource> { },
                 Subscription = null,
                 GlyphIcon = "ShowResults"

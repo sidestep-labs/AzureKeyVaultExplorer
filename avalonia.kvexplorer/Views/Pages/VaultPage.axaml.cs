@@ -60,8 +60,6 @@ public partial class VaultPage : UserControl
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
 
-    
-
     private DataGrid? ValuesDataGrid { get; set; }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
@@ -123,10 +121,7 @@ public partial class VaultPage : UserControl
                 };
             }
         }, DispatcherPriority.Input);
-      
     }
-
-
 
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
@@ -171,29 +166,25 @@ public partial class VaultPage : UserControl
         taskDialog.Show();
     }
 
-    private void TabHostSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void TabHostSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var vm = (DataContext as VaultPageViewModel);
-        if (vm.VaultUri is not null)
+        if (vm.VaultUri is null) return;
+        var item = TabHost.SelectedIndex switch
         {
-            var item = TabHost.SelectedIndex switch
+            0 => KeyVaultItemType.Secret,
+            1 => KeyVaultItemType.Certificate,
+            2 => KeyVaultItemType.Key,
+            _ => KeyVaultItemType.All
+        }; ;
+        await vm.FilterAndLoadVaultValueType(item);
+
+        if (item == KeyVaultItemType.All)
+        {
+            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
-                0 => KeyVaultItemType.Secret,
-                1 => KeyVaultItemType.Certificate,
-                2 => KeyVaultItemType.Key,
-                _ => KeyVaultItemType.All
-            }; ;
-            Dispatcher.UIThread.Post(async () =>
-            {
-                await vm.FilterAndLoadVaultValueType(item);
-                if (item == KeyVaultItemType.All)
-                {
-                    ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
-                    {
-                        GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-                    };
-                }
-            }, DispatcherPriority.Input);
+                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+            };
         }
     }
 }

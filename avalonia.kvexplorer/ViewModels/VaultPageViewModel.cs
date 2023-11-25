@@ -142,7 +142,6 @@ public partial class VaultPageViewModel : ViewModelBase
                     break;
 
                 case KeyVaultItemType.All:
-                    Task[] tasks = [];
                     VaultContents.Clear();
                     await Task.WhenAll(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Secret, true);

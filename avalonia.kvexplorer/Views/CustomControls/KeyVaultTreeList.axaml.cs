@@ -29,15 +29,7 @@ public partial class KeyVaultTreeList : UserControl
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
-
-        // TODO: Figure out why this breaks NativeAOT, possibly due to DI using reflection? idk FIX:
-        /* System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
-        ---> System.MissingMethodException: No parameterless constructor defined for type 'System.Diagnostics.ActivitySource'.*/
-   
     }
-
-
-
 
 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
@@ -102,10 +94,8 @@ public partial class KeyVaultTreeList : UserControl
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
         var sx = (TreeView)sender;
-
         if (sx.SelectedItem is not null)
         {
-         
             Dispatcher.UIThread.Post(() =>
             {
                 var model = (KeyVaultResource)sx.SelectedItem;

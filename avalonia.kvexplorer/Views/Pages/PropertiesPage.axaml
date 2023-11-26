@@ -16,29 +16,66 @@
     <Design.DataContext>
         <vm:PropertiesPageViewModel />
     </Design.DataContext>
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+                <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+            </Style>
+        </Styles>
 
+    </UserControl.Styles>
 
-    <StackPanel Spacing="10">
+    <StackPanel>
+        <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
+        <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
+
         <ui:CommandBar DefaultLabelPosition="Right">
             <ui:CommandBar.PrimaryCommands>
-                <ui:CommandBarButton IconSource="Copy" Label="Copy Value"  />
+                <ui:CommandBarButton IconSource="Copy" Label="Copy Value" />
                 <ui:CommandBarButton IconSource="Open" Label="Open In Azure" />
-                <ui:CommandBarButton IconSource="Download" Label="Download CER"/>
-				<ui:CommandBarButton IconSource="Download" Label="Download PEM" />
-			</ui:CommandBar.PrimaryCommands>
+                <ui:CommandBarButton IconSource="Download" Label="Download CER" />
+                <ui:CommandBarButton IconSource="Download" Label="Download PEM" />
+            </ui:CommandBar.PrimaryCommands>
         </ui:CommandBar>
 
-        <Label Content="{Binding OpenedItem.Name}" />
-        <TextBlock Text="{Binding OpenedItem.Type}" />
+        <DockPanel LastChildFill="True">
+
+            <StackPanel Margin="10,10,10,0" HorizontalAlignment="Stretch">
+                <DataGrid
+                    Name="KeysContentDataGrid"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="True"
+                    GridLinesVisibility="All"
+                    HorizontalScrollBarVisibility="Visible"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding KeyPropertiesList}"
+                    VerticalScrollBarVisibility="Visible" />
+                <DataGrid
+                    Name="SecretsContentDataGrid"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="True"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    GridLinesVisibility="All"
+                    HorizontalScrollBarVisibility="Visible"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding SecretPropertiesList}"
+                    VerticalScrollBarVisibility="Visible" />
+                <DataGrid
+                    Name="CertsContentDataGrid"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="True"
+                    GridLinesVisibility="All"
+                    HorizontalScrollBarVisibility="Visible"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding CertificatePropertiesList}"
+                    VerticalScrollBarVisibility="Visible" />
+            </StackPanel>
+
+        </DockPanel>
+
     </StackPanel>
-
-
-
-
-
-
-
-
-
-
 </UserControl>

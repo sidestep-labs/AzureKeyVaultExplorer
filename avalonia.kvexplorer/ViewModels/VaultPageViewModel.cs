@@ -356,14 +356,15 @@ public partial class VaultPageViewModel : ViewModelBase
 
         var taskDialog = new AppWindow
         {
-            Title = $"{model.Name} Properties",
+            Title = $"{model.Type} {model.Name} Properties",
             Icon = BitmapImage,
-            SizeToContent = SizeToContent.WidthAndHeight,
+            SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,
+            
             Content = page,
-            MinWidth = 500,
-            MinHeight = 400,
+            Width = 500,
+            Height = 400,
             TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
             Background = null
         };

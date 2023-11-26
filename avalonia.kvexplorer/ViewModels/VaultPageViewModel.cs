@@ -9,6 +9,8 @@ using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Remote.Protocol.Input;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
@@ -17,10 +19,12 @@ using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Windowing;
 using kvexplorer.shared;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -55,14 +59,14 @@ public partial class VaultPageViewModel : ViewModelBase
 
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
-
+    private Bitmap BitmapImage;
 
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
+        BitmapImage =  new Bitmap(AssetLoader.Open(new Uri("avares://avalonia.kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
         for (int i = 0; i < 50; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
@@ -112,15 +116,15 @@ public partial class VaultPageViewModel : ViewModelBase
         }
     }
 
-    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
+
+    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
     private async Task DelaySetIsBusy(bool val)
     {
         await Task.Delay(1000);
         IsBusy = val;
     }
-
 
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
     {
@@ -160,7 +164,6 @@ public partial class VaultPageViewModel : ViewModelBase
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
 
         await DelaySetIsBusy(false);
-
     }
 
     public async Task GetKeysForVault(Uri kvUri)
@@ -261,8 +264,6 @@ public partial class VaultPageViewModel : ViewModelBase
         await FilterAndLoadVaultValueType(item);
     }
 
-
-
     [RelayCommand]
     private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)
     {
@@ -344,4 +345,30 @@ public partial class VaultPageViewModel : ViewModelBase
         await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
+
+    [RelayCommand]
+    private async void ShowProperties(KeyVaultContentsAmalgamation model)
+    {
+        var page = new PropertiesPage
+        {
+            DataContext = new PropertiesPageViewModel(model)
+        };
+
+        var taskDialog = new AppWindow
+        {
+            Title = $"{model.Name} Properties",
+            Icon = BitmapImage,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            ShowAsDialog = false,
+            Content = page,
+            MinWidth = 500,
+            MinHeight = 400,
+            TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+            Background = null
+        };
+
+        // open the window
+        taskDialog.Show();
+    }
 }

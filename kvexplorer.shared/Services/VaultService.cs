@@ -6,6 +6,8 @@ using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 
 namespace kvexplorer.shared;
@@ -201,15 +203,53 @@ public class VaultService
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
         var client = new KeyClient(KvUri, token);
-        List<KeyProperties> keyProperties = new();
+        List<KeyProperties> list = new();
         try
         {
             var response =  client.GetPropertiesOfKeyVersionsAsync(name);
             await foreach(KeyProperties item in response)
             {
-                keyProperties.Add(item);
+                list.Add(item);
             }
-            return keyProperties;
+            return list;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
+    public async Task<List<SecretProperties>> GetSecretProperties(Uri KvUri, string name)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new SecretClient(KvUri, token);
+        List<SecretProperties> list = new();
+        try
+        {
+            var response = client.GetPropertiesOfSecretVersionsAsync(name);
+            await foreach (SecretProperties item in response)
+            {
+                list.Add(item);
+            }
+            return list;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
+    public async Task<List<CertificateProperties>> GetCertificateProperties(Uri KvUri, string name)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new CertificateClient(KvUri, token);
+        List<CertificateProperties> list = new();
+        try
+        {
+            var response = client.GetPropertiesOfCertificateVersionsAsync(name);
+            await foreach (CertificateProperties item in response)
+            {
+                list.Add(item);
+            }
+            return list;
         }
         catch (Exception ex) when (ex.Message.Contains("404"))
         {

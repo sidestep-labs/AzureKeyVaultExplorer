@@ -1,3 +1,4 @@
+using avalonia.kvexplorer.ViewModels;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -9,6 +10,7 @@ public partial class PropertiesPage : UserControl
     public PropertiesPage()
     {
         InitializeComponent();
+        DataContext = new PropertiesPageViewModel();
     }
 
 

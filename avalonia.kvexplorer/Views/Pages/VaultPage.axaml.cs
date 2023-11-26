@@ -144,27 +144,6 @@ public partial class VaultPage : UserControl
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
 
-    private async void ShowPropertiesFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://avalonia.kvexplorer/Assets/kv-noborder.ico")));
-
-        var taskDialog =
-           new AppWindow
-           {
-               Title = "Sample Window",
-               Icon = bitmap,
-               CanResize = false,
-               SizeToContent = SizeToContent.WidthAndHeight,
-               WindowStartupLocation = WindowStartupLocation.CenterOwner,
-               ShowAsDialog = false,
-               Content = new PropertiesPage(),
-               MinWidth = 600,
-               MinHeight = 500
-           };
-
-        // open the window
-        taskDialog.Show();
-    }
 
     private async void TabHostSelectionChanged(object sender, SelectionChangedEventArgs e)
     {

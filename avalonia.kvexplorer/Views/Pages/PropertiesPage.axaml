@@ -2,19 +2,35 @@
     x:Class="avalonia.kvexplorer.PropertiesPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:avalonia.kvexplorer.ViewModels"
+    d:DesignHeight="400"
+    d:DesignWidth="600"
+    x:DataType="vm:PropertiesPageViewModel"
     mc:Ignorable="d">
-    <StackPanel>
 
-        <TextBlock>
-            Secret Properties
-        </TextBlock>
+    <Design.DataContext>
+        <vm:PropertiesPageViewModel />
+    </Design.DataContext>
+
+
+    <StackPanel Spacing="10">
+        <ui:CommandBar DefaultLabelPosition="Right">
+            <ui:CommandBar.PrimaryCommands>
+                <ui:CommandBarButton IconSource="Copy" Label="Copy Value"  />
+                <ui:CommandBarButton IconSource="Open" Label="Open In Azure" />
+                <ui:CommandBarButton IconSource="Download" Label="Download CER"/>
+				<ui:CommandBarButton IconSource="Download" Label="Download PEM" />
+			</ui:CommandBar.PrimaryCommands>
+        </ui:CommandBar>
+
+        <Label Content="{Binding OpenedItem.Name}" />
+        <TextBlock Text="{Binding OpenedItem.Type}" />
     </StackPanel>
-
-
 
 
 

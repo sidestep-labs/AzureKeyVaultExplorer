@@ -21,6 +21,19 @@
             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
                 <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
             </Style>
+
+            <!--<Style Selector="DataGridColumn">
+                <Setter Property="Width" Value="250" />
+            </Style>
+			<Style Selector="DataGridColumnHeader">
+				<Setter Property="Width" Value="250" />
+			</Style>
+			<Style Selector="DataGridColumnHeadersPresenter">
+				<Setter Property="Width" Value="250" />
+			</Style>
+			<Style Selector="DataGridCellsPresenter">
+				<Setter Property="Width" Value="250" />
+			</Style>-->
         </Styles>
 
     </UserControl.Styles>
@@ -46,6 +59,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="True"
+                    ColumnWidth="250" 
                     GridLinesVisibility="All"
                     HorizontalScrollBarVisibility="Visible"
                     IsReadOnly="True"
@@ -58,6 +72,7 @@
                     AutoGenerateColumns="True"
                     CanUserReorderColumns="True"
                     CanUserResizeColumns="True"
+                    ColumnWidth="250"
                     GridLinesVisibility="All"
                     HorizontalScrollBarVisibility="Visible"
                     IsReadOnly="True"
@@ -68,6 +83,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="True"
+                    ColumnWidth="250"
                     GridLinesVisibility="All"
                     HorizontalScrollBarVisibility="Visible"
                     IsReadOnly="True"

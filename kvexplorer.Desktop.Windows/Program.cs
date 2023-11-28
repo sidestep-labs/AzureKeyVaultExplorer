@@ -2,7 +2,7 @@
 using System;
 
 
-namespace kvexplorer.Desktop;
+namespace kvexplorer.Desktop.Windows;
 
 internal class Program
 {

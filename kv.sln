@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer.Desktop.Windows", "kvexplorer.Desktop.Windows\kvexplorer.Desktop.Windows.csproj", "{E14523A4-6AFF-4F4F-8CFA-9D37663DBF86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E14523A4-6AFF-4F4F-8CFA-9D37663DBF86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E14523A4-6AFF-4F4F-8CFA-9D37663DBF86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E14523A4-6AFF-4F4F-8CFA-9D37663DBF86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E14523A4-6AFF-4F4F-8CFA-9D37663DBF86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

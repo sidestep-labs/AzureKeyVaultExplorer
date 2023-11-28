@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer.shared", "kvexplorer.shared\kvexplorer.shared.csproj", "{0C65688F-62C2-4B06-8611-BF94C9598551}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "avalonia.kvexplorer", "avalonia.kvexplorer\avalonia.kvexplorer.csproj", "{8BFCC07A-A60D-49E0-B1F6-8FAD1CD4F986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer", "kvexplorer\kvexplorer.csproj", "{8BFCC07A-A60D-49E0-B1F6-8FAD1CD4F986}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "avalonia.kvexplorer.Desktop", "avalonia.kvexplorer.Desktop\avalonia.kvexplorer.Desktop.csproj", "{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer.Desktop", "kvexplorer.Desktop\kvexplorer.Desktop.csproj", "{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F54C073E-0437-4F14-B96D-670DE6F3AAEE}"
 	ProjectSection(SolutionItems) = preProject

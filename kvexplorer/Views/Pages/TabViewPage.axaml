@@ -1,0 +1,133 @@
+﻿<UserControl
+    x:Class="kvexplorer.Views.Pages.TabViewPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.Security.KeyVault.Secrets;assembly=Azure.Security.KeyVault.Secrets"
+    xmlns:custom="clr-namespace:kvexplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:kvexplorer.ViewModels"
+    xmlns:vmm="using:kvexplorer.ViewModels.Models"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    x:DataType="vm:TabViewPageViewModel"
+    Background="{x:Null}"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:TabViewPageViewModel />
+    </Design.DataContext>
+
+    <!--  FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#LayoutRootBorder  -->
+    <!--
+        FluentAvalonia.UI.Controls.TabView#TabViewDoc /template/ Avalonia.Controls.Presenters.ContentPresenter#RightContentPresenter
+        FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#TabContainerBorder
+        FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#TabContainerBorder
+        Avalonia.Controls.Border#TabContainerBorder
+    -->
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
+                <Setter Property="Margin" Value="0,15,0,0" />
+            </Style>
+            <!--
+                this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
+            -->
+            <Style Selector="ui|TabView /template/ ContentPresenter">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.15" Color="{DynamicResource SystemAccentColorDark1}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+            </Style>
+        </Styles>
+    </UserControl.Styles>
+
+    <Panel>
+        <ui:TabView
+            Name="TabViewDoc"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AddTabButtonCommandParameter="Normal"
+            AllowDropTabs="True"
+            CanDragTabs="True"
+            CanReorderTabs="True"
+            Classes.emptyTabViewDragMargin="{Binding !Documents.Count}"
+            CloseButtonOverlayMode="Auto"
+            IsAddTabButtonVisible="False"
+            SelectedItem="{Binding SelectedItem}"
+            TabCloseRequested="TabCloseRequested"
+            TabDroppedOutside="TabDroppedOutside"
+            TabItems="{Binding Documents}"
+            TabStripDrop="TabStripDrop"
+            TabStripHeader=" "
+            TabWidthMode="Compact">
+
+            <!--<ui:TabView.Styles>
+                <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
+                    <Setter Property="Margin" Value="0,2,0,0" />
+                </Style>
+
+				
+            </ui:TabView.Styles>-->
+            <ui:TabView.TabItemTemplate>
+                <DataTemplate DataType="vmm:DocumentItem">
+                    <ui:TabViewItem
+                        Name="TabViewItem"
+                        BorderThickness="3"
+                        Content="{Binding Content}"
+                        Header="{Binding Header}"
+                        IconSource="{Binding IconSource}" />
+                </DataTemplate>
+
+
+            </ui:TabView.TabItemTemplate>
+        </ui:TabView>
+
+        <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
+            <Image
+                Name="BackgroundImg"
+                Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Opacity=".15"
+                RenderOptions.BitmapInterpolationMode="HighQuality"
+                Source="avares://kvexplorer/Assets/kv-gray.png" />
+
+
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel.Styles>
+                    <Style Selector="TextBlock">
+                        <Setter Property="Foreground" Value="#ababab" />
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                    </Style>
+                </StackPanel.Styles>
+
+                <TextBlock
+                    Margin="10,10"
+                    HorizontalAlignment="Center"
+                    ClipToBounds="True">
+                    You have no key vaults selected.
+                </TextBlock>
+
+                <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
+                    Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
+                    Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
+                    <ui:HyperlinkButton
+                        Padding="0,-1,0,0"
+                        HorizontalAlignment="Center"
+                        Content="Azure RBAC Documentation"
+                        NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
+                </TextBlock>
+
+            </StackPanel>
+
+
+
+        </StackPanel>
+    </Panel>
+
+
+</UserControl>

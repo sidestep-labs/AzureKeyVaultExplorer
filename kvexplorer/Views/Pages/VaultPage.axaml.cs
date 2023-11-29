@@ -29,7 +29,6 @@ namespace kvexplorer.Views.Pages;
 public partial class VaultPage : UserControl
 {
     private const string DatGridElementName = "VaultContentDataGrid";
-    private readonly INotificationManager _notificationManager;
     private readonly VaultPageViewModel vaultPageViewModel;
 
     public VaultPage()

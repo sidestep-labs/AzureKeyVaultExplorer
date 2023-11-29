@@ -349,19 +349,23 @@ public partial class VaultPageViewModel : ViewModelBase
     [RelayCommand]
     private async void ShowProperties(KeyVaultContentsAmalgamation model)
     {
+        if (model == null) return;
         var page = new PropertiesPage
         {
             DataContext = new PropertiesPageViewModel(model)
         };
 
+        using var stream =  AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"));
+        stream.Position = 0;
+
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
-            Icon = BitmapImage,
+            //Icon = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality),
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,
-            
+            Icon = new Bitmap(stream),
             Content = page,
             Width = 500,
             Height = 400,

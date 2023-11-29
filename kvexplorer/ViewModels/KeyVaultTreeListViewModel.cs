@@ -279,7 +279,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
 
     [RelayCommand]
-    private async Task OpenInAzure(KeyVaultResource model)
+    private void OpenInAzure(KeyVaultResource model)
     {
         if (model is null) return;
         var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();

@@ -303,7 +303,7 @@ public partial class VaultPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
+    private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;
         var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();
@@ -321,7 +321,7 @@ public partial class VaultPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async void ShowProperties(KeyVaultContentsAmalgamation model)
+    private void ShowProperties(KeyVaultContentsAmalgamation model)
     {
         if (model == null) return;
         var page = new PropertiesPage
@@ -353,7 +353,7 @@ public partial class VaultPageViewModel : ViewModelBase
 #if WINDOWS
         //ToastNotificationHistoryCompat history = ToastNotificationManagerCompat.History;
         //history.Remove("last-copied-toast");
-        var toast = new ToastContentBuilder().AddText(subject).AddText(message).SetToastDuration(ToastDuration.Short);
+        var toast = new ToastContentBuilder().AddText(message).SetToastDuration(ToastDuration.Short);
         toast.Show(toast =>
         {
             toast.Tag = "last-copied-toast";

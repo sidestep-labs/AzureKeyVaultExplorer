@@ -1,6 +1,7 @@
 ﻿using kvexplorer.ViewModels;
 using Avalonia.Controls;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 
 namespace kvexplorer.Views.Pages;
 
@@ -22,7 +23,10 @@ public partial class BookmarksPage : UserControl
              .AddText("Check this out, The Enchantments in Washington!")
              .SetToastDuration(ToastDuration.Short);
 
-            toast.Show();
+        toast.Show(toast =>
+        {
+            toast.ExpirationTime = DateTime.Now.AddSeconds(10);
+        });
 #endif
     }
 }

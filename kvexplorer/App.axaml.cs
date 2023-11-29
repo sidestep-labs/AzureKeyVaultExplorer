@@ -9,6 +9,7 @@ using kvexplorer.shared.Database;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
+using Avalonia.Controls.Notifications;
 
 namespace kvexplorer;
 

@@ -1,40 +1,26 @@
-﻿using kvexplorer.Views;
-using kvexplorer.Views.Pages;
-using Avalonia.Collections;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Input.Platform;
-using Avalonia.Input.TextInput;
-using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Avalonia.Remote.Protocol.Input;
-using Avalonia.Threading;
-using Azure.ResourceManager.KeyVault;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
 using kvexplorer.shared;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Avalonia.Input.Platform;
 
 namespace kvexplorer.ViewModels;
 
@@ -59,6 +45,10 @@ public partial class VaultPageViewModel : ViewModelBase
 
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
+    private readonly WindowNotificationManager _windowNotification;
+    Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+    IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+
     private Bitmap BitmapImage;
 
     public VaultPageViewModel()
@@ -66,7 +56,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
-        BitmapImage =  new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
         for (int i = 0; i < 50; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
@@ -115,8 +105,6 @@ public partial class VaultPageViewModel : ViewModelBase
             _vaultContents = VaultContents;
         }
     }
-
-
 
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
 
@@ -252,8 +240,6 @@ public partial class VaultPageViewModel : ViewModelBase
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 
-    private readonly INotificationManager _notificationManager;
-
     [RelayCommand]
     private async Task Refresh()
     {
@@ -269,9 +255,6 @@ public partial class VaultPageViewModel : ViewModelBase
     {
         if (keyVaultItem is null) return;
 
-        var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-        var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
-        Notification notif;
         try
         {
             string value = string.Empty;
@@ -305,26 +288,18 @@ public partial class VaultPageViewModel : ViewModelBase
                 var certValue = await _vaultService.GetCertificate(keyVaultItem.VaultUri, keyVaultItem.Name);
             }
 
+            // TODO: figure out why set data object async fails here.
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
             await clipboard.SetTextAsync(value);
-            // TODO: figure out why set data object async fails here.
-            notif = new Notification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
+            ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
         }
         catch (KeyVaultItemNotFoundException ex)
         {
-            notif = new Notification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
+            ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error, topLevel);
         }
 
-        var nm = new WindowNotificationManager(topLevel)
-        {
-            Position = NotificationPosition.BottomRight,
-            MaxItems = 1,
-        };
-        nm.TemplateApplied += (sender, args) =>
-        {
-            nm.Show(notif);
-        };
+      ;
     }
 
     [RelayCommand]
@@ -345,7 +320,6 @@ public partial class VaultPageViewModel : ViewModelBase
         await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
-
     [RelayCommand]
     private async void ShowProperties(KeyVaultContentsAmalgamation model)
     {
@@ -355,9 +329,6 @@ public partial class VaultPageViewModel : ViewModelBase
             DataContext = new PropertiesPageViewModel(model)
         };
 
-        using var stream =  AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"));
-        stream.Position = 0;
-
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
@@ -365,15 +336,43 @@ public partial class VaultPageViewModel : ViewModelBase
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,
-            Icon = new Bitmap(stream),
             Content = page,
             Width = 500,
             Height = 400,
             TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-            Background = null
+            Background = null,
         };
 
         // open the window
         taskDialog.Show();
+    }
+
+    private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
+    {
+
+#if WINDOWS
+        //ToastNotificationHistoryCompat history = ToastNotificationManagerCompat.History;
+        //history.Remove("last-copied-toast");
+        var toast = new ToastContentBuilder().AddText(subject).AddText(message).SetToastDuration(ToastDuration.Short);
+        toast.Show(toast =>
+        {
+            toast.Tag = "last-copied-toast";
+            toast.ExpirationTime = DateTime.Now.AddSeconds(10);
+        });
+#else
+
+        var notif = new Notification(subject, message, notificationType);
+
+        var nm = new WindowNotificationManager(topLevel)
+        {
+            Position = NotificationPosition.BottomRight,
+            MaxItems = 1,
+        };
+        nm.TemplateApplied += (sender, args) =>
+        {
+            nm.Show(notif);
+        };
+     
+#endif
     }
 }

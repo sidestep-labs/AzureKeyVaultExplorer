@@ -34,7 +34,7 @@
                 Command="{Binding CopyCommand}"
                 CommandParameter="{Binding #VaultContentDataGrid.SelectedItem}"
                 HotKey="Ctrl+C"
-                IconSource="Copy"
+				IconSource="Copy"
                 Text="Copy Value" />
             <ui:MenuFlyoutItem
                 Command="{Binding ShowPropertiesCommand}"

@@ -1,0 +1,4 @@
+﻿<linker>
+	<Assembly fullname="Microsoft.Toolkit.Uwp.Notifications" preserve="All" />
+	<Assembly Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required All" />
+</linker>

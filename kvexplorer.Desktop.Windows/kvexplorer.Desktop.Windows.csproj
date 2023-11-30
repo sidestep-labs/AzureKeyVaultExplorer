@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\kvexplorer.Desktop\kvexplorer.Desktop.csproj" />
     <ProjectReference Include="..\kvexplorer\kvexplorer.csproj" />
   </ItemGroup>
 </Project>

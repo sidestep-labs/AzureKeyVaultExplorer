@@ -2,7 +2,7 @@ param(
     [switch]$RunBuild = $false,
     [switch]$RunBuildWindows = $false,
     [System.Diagnostics.Stopwatch]$sw = [System.Diagnostics.Stopwatch]::StartNew(),
-    [string]$BuildNumber = '1.0.0.0',
+    [string]$BuildNumber = '0.0.1.2',
     $VersionPrefix = "1.0.0",
     $VersionSuffix = "99"
 )
@@ -32,10 +32,10 @@ if ($RunBuild) {
 
 if ($RunBuildWindows) {
     
-    Push-Location  C:\repos\sidestep\kvexplorer.Desktop;
+    Push-Location  C:\repos\sidestep\kvexplorer.Desktop.Windows;
 
     $env:KVEXPLORER_APP_VERSION = $BuildNumber
-    dotnet publish  -o publishWin/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f net8.0-windows10.0.19041.0 --publish-aot
+    dotnet publish  -o publish/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f net8.0-windows10.0.19041.0
     #New-Item -Path $ProjectDir -Name "VERSION" -ItemType "file" -Value $BuildNumber -Force
 
     explorer.exe .
@@ -45,9 +45,9 @@ if ($RunBuildWindows) {
 
     $sw
   
-    Push-Location  c:\repos\sidestep\kvexplorer.Desktop/publish
+    Push-Location  c:\repos\sidestep\kvexplorer.Desktop.Windows\publish
 
-    .\KeyVaultExplorer.exe 
+    # .\'Key Vault Explorer.exe' 
 
     return;
 }

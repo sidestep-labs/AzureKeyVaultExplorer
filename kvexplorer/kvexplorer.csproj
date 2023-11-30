@@ -51,6 +51,7 @@
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 	<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" Condition="$([MSBuild]::IsOSPlatform('windows'))" />
 	<PackageReference Include="SkiaSharp" Version="2.88.6" />
+	<PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
 
 
@@ -58,6 +59,14 @@
     <ProjectReference Include="..\kvexplorer.shared\kvexplorer.shared.csproj" />
 
   </ItemGroup>
+
+  
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">
+  <TrimmerRootAssembly Include="Microsoft.Toolkit.Uwp.Notifications" />
+   <TrimmerRootDescriptor Include="Roots.xml" />
+</ItemGroup>
+
+
 
 
   <ItemGroup>

@@ -14,6 +14,10 @@
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <AssemblyName>KeyVaultExplorer</AssemblyName>
 	<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <PublishAot>true</PublishAot>
+    <SelfContained>true</SelfContained>
+    <TrimMode>full<TrimMode>
+    <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="kv-noborder.ico" />

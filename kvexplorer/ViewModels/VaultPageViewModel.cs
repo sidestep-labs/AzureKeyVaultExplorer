@@ -19,7 +19,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Avalonia.Input.Platform;
 
 namespace kvexplorer.ViewModels;
@@ -351,14 +350,7 @@ public partial class VaultPageViewModel : ViewModelBase
     {
 
 #if WINDOWS
-        //ToastNotificationHistoryCompat history = ToastNotificationManagerCompat.History;
-        //history.Remove("last-copied-toast");
-        var toast = new ToastContentBuilder().AddText(message).SetToastDuration(ToastDuration.Short);
-        toast.Show(toast =>
-        {
-            toast.Tag = "last-copied-toast";
-            toast.ExpirationTime = DateTime.Now.AddSeconds(10);
-        });
+       
 #else
 
         var notif = new Notification(subject, message, notificationType);

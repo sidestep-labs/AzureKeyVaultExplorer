@@ -4,11 +4,8 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Security.Cryptography;
-using NotificationHelper;
 
 #if WINDOWS
-using NotificationHelper;
-using System.Runtime.InteropServices;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 #endif
@@ -51,17 +48,8 @@ public partial class BookmarksPage : UserControl
     private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
 #if WINDOWS
-        var process= Process.GetCurrentProcess();
-        Console.WriteLine($"Process ID: {process.Id}");
-        Console.WriteLine($"Full Path: {process.MainModule.FileName}");
-        var toastNotifier = ToastNotificationManagerCompat.CreateToastNotifier(" ");
-        string aumid = process.Id.ToString();
-        string conciseAumid = aumid.Contains('\\') || aumid.Contains('/') ? GenerateGuid(aumid) :aumid;
-
-        var context = WindowsApplicationContext.FromCurrentProcess();
-
-        var toastNotifier2 = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(context.AppUserModelId);
-
+        var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
+        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
         string toastXml = """
           <toast activationType="protocol"> // protocol,Background,Foreground
 
@@ -73,14 +61,13 @@ public partial class BookmarksPage : UserControl
             </visual>
             </toast>
         """;
-
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(toastXml);
         ToastNotification toast = new ToastNotification(doc);
         toast.ExpirationTime = DateTimeOffset.Now + TimeSpan.FromSeconds(10);
 
         //toastNotifier.Show(toast);
-        toastNotifier2.Show(toast);
+        toastNotifier.Show(toast);
         Console.WriteLine("Press any key to exit...");
 #endif
     }

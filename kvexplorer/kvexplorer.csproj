@@ -55,7 +55,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\kvexplorer.shared\kvexplorer.shared.csproj" />
-    <ProjectReference Include="..\NotificationProgram\NotificationHelper.csproj" Condition="$([MSBuild]::IsOSPlatform('windows'))" />
 
   </ItemGroup>
 

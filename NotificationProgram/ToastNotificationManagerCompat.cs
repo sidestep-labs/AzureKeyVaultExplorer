@@ -372,7 +372,7 @@ public class ToastNotificationManagerCompat
     /// Creates a toast notifier.
     /// </summary>
     /// <returns><see cref="ToastNotifierCompat"/>An instance of the toast notifier.</returns>
-    public static ToastNotifierCompat CreateToastNotifier()
+    public static ToastNotifierCompat CreateToastNotifier(string Name = null)
     {
 #if WIN32
             if (_initializeEx != null)
@@ -389,7 +389,7 @@ public class ToastNotificationManagerCompat
                 return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier(_win32Aumid));
             }
 #else
-        return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier("ConsoleApp1"));
+        return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier(Name??"App Name"));
 #endif
     }
 

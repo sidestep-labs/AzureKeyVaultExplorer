@@ -21,6 +21,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
 
+#if WINDOWS
+using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
+#endif
+
 namespace kvexplorer.ViewModels;
 
 public partial class VaultPageViewModel : ViewModelBase
@@ -45,8 +50,8 @@ public partial class VaultPageViewModel : ViewModelBase
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
     private readonly WindowNotificationManager _windowNotification;
-    Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-    IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+    private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+    private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
 
     private Bitmap BitmapImage;
 
@@ -348,9 +353,25 @@ public partial class VaultPageViewModel : ViewModelBase
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
-
 #if WINDOWS
-       
+        var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
+        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
+        string toastXml = $"""
+          <toast activationType="protocol"> // protocol,Background,Foreground
+            <visual>
+                <binding template='ToastGeneric'><text>{message}</text></binding>
+            </visual>
+        </toast>
+        """;
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(toastXml);
+        var toast = new ToastNotification(doc)
+        {
+            ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
+            Tag = "Copied KV Values",
+            ExpiresOnReboot = true
+        };
+        toastNotifier.Show(toast);
 #else
 
         var notif = new Notification(subject, message, notificationType);
@@ -364,7 +385,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             nm.Show(notif);
         };
-     
+
 #endif
     }
 }

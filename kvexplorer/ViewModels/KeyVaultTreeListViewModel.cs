@@ -254,7 +254,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             TreeViewList = new ObservableCollection<KeyVaultModel>(_treeViewList);
         }
-        var list = _treeViewList.Where(v => v.SubscriptionDisplayName.ToLowerInvariant().Contains(query));
+        var list = _treeViewList.Where(v => 
+            v.SubscriptionDisplayName.ToLowerInvariant().Contains(query) || 
+            v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
+        );
         TreeViewList = new ObservableCollection<KeyVaultModel>(list);
     }
 

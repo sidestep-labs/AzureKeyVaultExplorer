@@ -28,9 +28,9 @@
     -->
     <UserControl.Styles>
         <Styles>
-            <!--<Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
+            <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,15,0,0" />
-            </Style>-->
+            </Style>
             <!--
          this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
          <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin>
@@ -70,14 +70,6 @@
             TabStripDrop="TabStripDrop"
             TabStripHeader=" "
             TabWidthMode="Compact">
-
-            <!--<ui:TabView.Styles>
-                <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
-                    <Setter Property="Margin" Value="0,2,0,0" />
-                </Style>
-
-				
-            </ui:TabView.Styles>-->
             <ui:TabView.TabItemTemplate>
                 <DataTemplate DataType="vmm:DocumentItem">
                     <ui:TabViewItem

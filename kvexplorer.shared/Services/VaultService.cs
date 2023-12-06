@@ -125,40 +125,43 @@ public class VaultService
         }
     }
 
-    public async IAsyncEnumerable<KeyProperties> GetVaultAssociatedKeys(Uri KvUri)
+    public async IAsyncEnumerable<KeyProperties> GetVaultAssociatedKeys(Uri kvUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new KeyClient(KvUri, token);
+        var client = new KeyClient(kvUri, token);
         await foreach (var keyProperties in client.GetPropertiesOfKeysAsync())
         {
             yield return keyProperties;
         }
     }
 
-    public async IAsyncEnumerable<SecretProperties> GetVaultAssociatedSecrets(Uri KvUri)
+    public async IAsyncEnumerable<SecretProperties> GetVaultAssociatedSecrets(Uri kvUri)
     {
-        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new SecretClient(KvUri, token);
-        await foreach (var secretProperties in client.GetPropertiesOfSecretsAsync())
+        if (kvUri is not null)
         {
-            yield return secretProperties;
+            var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+            var client = new SecretClient(kvUri, token);
+            await foreach (var secretProperties in client.GetPropertiesOfSecretsAsync())
+            {
+                yield return secretProperties;
+            }
         }
     }
 
-    public async IAsyncEnumerable<CertificateProperties> GetVaultAssociatedCertificates(Uri KvUri)
+    public async IAsyncEnumerable<CertificateProperties> GetVaultAssociatedCertificates(Uri kvUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new CertificateClient(KvUri, token);
+        var client = new CertificateClient(kvUri, token);
         await foreach (var certProperties in client.GetPropertiesOfCertificatesAsync())
         {
             yield return certProperties;
         }
     }
 
-    public async Task<KeyVaultSecret> GetSecret(Uri KvUri, string secretName)
+    public async Task<KeyVaultSecret> GetSecret(Uri kvUri, string secretName)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new SecretClient(KvUri, token);
+        var client = new SecretClient(kvUri, token);
         try
         {
             var secret = await client.GetSecretAsync(secretName);
@@ -170,10 +173,10 @@ public class VaultService
         }
     }
 
-    public async Task<KeyVaultCertificateWithPolicy> GetCertificate(Uri KvUri, string name)
+    public async Task<KeyVaultCertificateWithPolicy> GetCertificate(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new CertificateClient(KvUri, token);
+        var client = new CertificateClient(kvUri, token);
         try
         {
             var response = await client.GetCertificateAsync(name);
@@ -185,10 +188,10 @@ public class VaultService
         }
     }
 
-    public async Task<KeyVaultKey> GetKey(Uri KvUri, string name)
+    public async Task<KeyVaultKey> GetKey(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new KeyClient(KvUri, token);
+        var client = new KeyClient(kvUri, token);
         try
         {
             var response = await client.GetKeyAsync(name);
@@ -199,10 +202,10 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
-    public async Task<List<KeyProperties>> GetKeyProperties(Uri KvUri, string name)
+    public async Task<List<KeyProperties>> GetKeyProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new KeyClient(KvUri, token);
+        var client = new KeyClient(kvUri, token);
         List<KeyProperties> list = new();
         try
         {
@@ -218,10 +221,10 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
-    public async Task<List<SecretProperties>> GetSecretProperties(Uri KvUri, string name)
+    public async Task<List<SecretProperties>> GetSecretProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new SecretClient(KvUri, token);
+        var client = new SecretClient(kvUri, token);
         List<SecretProperties> list = new();
         try
         {
@@ -237,10 +240,10 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
-    public async Task<List<CertificateProperties>> GetCertificateProperties(Uri KvUri, string name)
+    public async Task<List<CertificateProperties>> GetCertificateProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new CertificateClient(KvUri, token);
+        var client = new CertificateClient(kvUri, token);
         List<CertificateProperties> list = new();
         try
         {

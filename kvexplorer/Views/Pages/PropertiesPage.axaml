@@ -42,7 +42,7 @@
         <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
 
-        <ui:CommandBar DefaultLabelPosition="Right">
+        <ui:CommandBar DefaultLabelPosition="Right" Background="{x:Null}">
             <ui:CommandBar.PrimaryCommands>
                 <ui:CommandBarButton IconSource="Copy" Label="Copy Value" />
                 <ui:CommandBarButton IconSource="Open" Label="Open In Azure" />

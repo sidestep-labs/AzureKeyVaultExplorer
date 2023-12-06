@@ -81,6 +81,9 @@
             </TabStrip>
 
             <Button
+                Grid.Row="1"
+                Grid.Column=""
+                Margin="1"
                 Click="RefreshButton_OnClick"
                 Content="Refresh"
                 RenderOptions.TextRenderingMode="SubpixelAntialias"
@@ -99,6 +102,7 @@
             Grid.Row="0"
             Grid.Column="3"
             Grid.ColumnSpan="2"
+            Margin="1"
             VerticalContentAlignment="Center"
             AcceptsReturn="False"
             Classes.clearButton="True"
@@ -161,7 +165,6 @@
                 CanUserResizeColumns="True"
                 CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                 DoubleTapped="OnDoubleTapped"
-                FontSize="12"
                 GridLinesVisibility="Horizontal"
                 HorizontalScrollBarVisibility="Visible"
                 IsReadOnly="True"

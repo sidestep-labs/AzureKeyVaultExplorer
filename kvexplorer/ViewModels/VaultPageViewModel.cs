@@ -341,14 +341,15 @@ public partial class VaultPageViewModel : ViewModelBase
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,
             Content = page,
-            Width = 500,
-            Height = 400,
-            TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-            Background = null,
+            Width = 600,
+            Height = 450,
+           // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+           // Background = null,
         };
 
         // open the window
         taskDialog.Show();
+
     }
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
@@ -356,10 +357,11 @@ public partial class VaultPageViewModel : ViewModelBase
 #if WINDOWS
         var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
         var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
+        var id = new Random().Next(0, 100);
         string toastXml = $"""
           <toast activationType="protocol"> // protocol,Background,Foreground
             <visual>
-                <binding template='ToastGeneric'><text>{message}</text></binding>
+                <binding template='ToastGeneric'><text id="{id}">{message}</text></binding>
             </visual>
         </toast>
         """;
@@ -368,7 +370,7 @@ public partial class VaultPageViewModel : ViewModelBase
         var toast = new ToastNotification(doc)
         {
             ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
-            Tag = "Copied KV Values",
+            //Tag = "Copied KV Values",
             ExpiresOnReboot = true
         };
         toastNotifier.Show(toast);

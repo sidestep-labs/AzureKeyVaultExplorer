@@ -88,7 +88,8 @@ public partial class VaultPage : UserControl
     {
         // Do something when double tapped
         var dg = (DataGrid)sender;
-        var model = dg.SelectedItem as SecretProperties;
+        var model = dg.SelectedItem as KeyVaultContentsAmalgamation;
+        (DataContext as VaultPageViewModel).ShowPropertiesCommand.Execute(model);
         //Debug.Write(model.Name);
     }
 

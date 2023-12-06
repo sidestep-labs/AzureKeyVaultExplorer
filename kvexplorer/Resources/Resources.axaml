@@ -15,7 +15,6 @@
 
     <!--
         This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
-    -->
     <SolidColorBrush
         x:Key="AccentFillColorTertiaryBrush"
         Opacity="0.15"
@@ -29,6 +28,7 @@
         <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="Transparent" />
     </LinearGradientBrush>
+    -->
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">

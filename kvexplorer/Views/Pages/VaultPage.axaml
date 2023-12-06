@@ -34,7 +34,7 @@
                 Command="{Binding CopyCommand}"
                 CommandParameter="{Binding #VaultContentDataGrid.SelectedItem}"
                 HotKey="Ctrl+C"
-				IconSource="Copy"
+                IconSource="Copy"
                 Text="Copy Value" />
             <ui:MenuFlyoutItem
                 Command="{Binding ShowPropertiesCommand}"
@@ -99,7 +99,6 @@
             Grid.Row="0"
             Grid.Column="3"
             Grid.ColumnSpan="2"
-            Margin="0,0,0,5"
             VerticalContentAlignment="Center"
             AcceptsReturn="False"
             Classes.clearButton="True"
@@ -109,7 +108,37 @@
             Text="{Binding SearchQuery, Mode=TwoWay}"
             TextChanged="SearchBoxChanges"
             TextWrapping="NoWrap"
-            Watermark="{Binding VaultContents.Count, StringFormat='Search values ({0:F0})'}" />
+            Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F0} values (Ctrl+F)'}">
+
+
+            <TextBox.Styles>
+                <Style Selector="TextBox">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="InnerRightContent">
+                        <Template>
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                    Command="{Binding $parent[TextBox].Clear}"
+                                    Content="&#xE8BB;"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                    RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                    Theme="{StaticResource TransparentButton}" />
+                                <Button
+                                    Command="{Binding $parent[TextBox].Clear}"
+                                    Content="&#xE721;"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    IsHitTestVisible="False"
+                                    RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                    Theme="{StaticResource TransparentButton}" />
+                            </StackPanel>
+                        </Template>
+                    </Setter>
+
+                </Style>
+            </TextBox.Styles>
+
+        </TextBox>
 
 
         <DockPanel Grid.Row="2" Grid.ColumnSpan="5">
@@ -132,6 +161,7 @@
                 CanUserResizeColumns="True"
                 CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                 DoubleTapped="OnDoubleTapped"
+                FontSize="12"
                 GridLinesVisibility="Horizontal"
                 HorizontalScrollBarVisibility="Visible"
                 IsReadOnly="True"
@@ -168,9 +198,8 @@
                         <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
                     </Style>
                     <Style Selector="DataGridRow">
-                        <Setter Property="Height" Value="22" />
+                        <Setter Property="Height" Value="24" />
                         <Setter Property="Focusable" Value="True" />
-
                     </Style>
 
                     <Style Selector="DataGridRow /template/ DataGridCellsPresenter#PART_CellsPresenter">
@@ -179,6 +208,11 @@
 
                     <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
                         <Setter Property="Height" Value="22" />
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+
+                    <Style Selector="DataGridRow DataGridCell">
+                        <!--<Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />-->
                         <Setter Property="Focusable" Value="False" />
                     </Style>
                 </DataGrid.Styles>

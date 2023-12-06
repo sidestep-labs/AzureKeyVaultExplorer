@@ -28,12 +28,16 @@
     -->
     <UserControl.Styles>
         <Styles>
-            <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
+            <!--<Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,15,0,0" />
-            </Style>
+            </Style>-->
             <!--
-                this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
-            -->
+         this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
+         <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin>
+					<Setter Property="Width" Value="10"/>
+				<Setter Property="Border" Value="0,0,0,1"/>
+				<Setter Property="BorderBrush" Value="Red"/>
+			</Style>
             <Style Selector="ui|TabView /template/ ContentPresenter">
                 <Setter Property="BorderBrush">
                     <Setter.Value>
@@ -41,8 +45,10 @@
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
-            </Style>
+            </Style>	
+			-->
         </Styles>
+
     </UserControl.Styles>
 
     <Panel>

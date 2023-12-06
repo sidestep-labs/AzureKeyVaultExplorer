@@ -24,12 +24,13 @@
 
     <NativeMenu.Menu>
         <NativeMenu>
-            <NativeMenuItem Header="User">
+            <NativeMenuItem Header="Account">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
                         <NativeMenuItem Header="Login" />
                         <NativeMenuItem Header="Logout" />
-                    </NativeMenu>
+						<NativeMenuItem Header="email@example.com" IsEnabled="False"  />
+					</NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
 

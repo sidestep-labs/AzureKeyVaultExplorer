@@ -130,7 +130,7 @@
                         Canvas.Left="2"
                         Canvas.Bottom="2"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="18"
+                        FontSize="16"
                         FontStyle="Normal"
                         FontWeight="Normal"
                         Glyph="&#xE13D;"

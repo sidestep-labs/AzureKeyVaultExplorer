@@ -32,8 +32,6 @@ public partial class MainViewModel : ViewModelBase
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         NavigationFactory = new NavigationFactory();
-
-   
     }
 
     public async Task RefreshTokenAndGetAccountInformation()

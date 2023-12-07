@@ -25,7 +25,7 @@ public partial class KeyVaultTreeList : UserControl
     public KeyVaultTreeList()
     {
         InitializeComponent();
-        DataContext = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>(); ;
+        DataContext = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
@@ -93,7 +93,7 @@ public partial class KeyVaultTreeList : UserControl
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
-        var sx = (TreeView)sender;
+        var sx = (TreeView)sender!;
         if (sx.SelectedItem is not null)
         {
             Dispatcher.UIThread.Post(() =>
@@ -103,6 +103,8 @@ public partial class KeyVaultTreeList : UserControl
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
             }, DispatcherPriority.ContextIdle);
         }
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 
     private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)

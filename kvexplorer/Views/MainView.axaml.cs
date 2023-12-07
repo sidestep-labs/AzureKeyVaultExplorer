@@ -22,6 +22,7 @@ public partial class MainView : UserControl
     private Frame? _frameView;
     private NavigationView? _navView;
     public static MainView? Instance { get; private set; }
+    public static readonly RoutedEvent<RoutedEventArgs> NavigateHomeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateHomeEvent), RoutingStrategies.Tunnel);
 
     public MainView()
     {
@@ -37,12 +38,26 @@ public partial class MainView : UserControl
                 await treeVaultVm.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
             });
         }, DispatcherPriority.MaxValue);
+
+        AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }
 
-    //var menuItems = new List<NavigationViewItemBase>(4);
-    //var footerItems = new List<NavigationViewItemBase>(2);
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+
+private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
+{
+    if (FrameView.Content.GetType().Name != nameof(MainPage))
+    {
+        FrameView.NavigateFromObject(new MainPage());
+    }
+        return;
+    }
+
+
+//var menuItems = new List<NavigationViewItemBase>(4);
+//var footerItems = new List<NavigationViewItemBase>(2);
+
+protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
 

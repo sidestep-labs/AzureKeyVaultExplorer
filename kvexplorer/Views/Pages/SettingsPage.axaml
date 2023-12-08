@@ -19,14 +19,12 @@
 
         <StackPanel Margin="10,5" Orientation="Vertical">
             <TextBlock Margin="0,0,0,15" Theme="{StaticResource SubtitleTextBlockStyle}">Settings</TextBlock>
-
             <ui:SettingsExpander
                 Name="AccountExpander"
                 Margin="0,0,0,10"
                 Description="View account details and perform actions"
                 Header="Account Information"
                 IconSource="Contact">
-
                 <ui:SettingsExpanderItem Click="FetchUserInfoSettingsExpanderItem_Click" IsClickEnabled="True">
                     <ui:SettingsExpanderItem.Content>
                         <StackPanel>
@@ -72,6 +70,21 @@
                     </ui:SettingsExpanderItem.Content>
                 </ui:SettingsExpanderItem>
                 <!--<ui:SettingsExpanderItem Content="This one is clickable" IsClickEnabled="True" />-->
+            </ui:SettingsExpander>
+
+
+            <TextBlock
+                Margin="0,5,0,3"
+                FontSize="15"
+                Text="Miscellaneous" />
+            <ui:SettingsExpander
+                Name="BackgroundTransparency"
+                Description="This will enabled more modern tranparent background on Windows"
+                Header="Background"
+                IconSource="ColorBackground">
+                <ui:SettingsExpander.Footer>
+                    <CheckBox />
+                </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 
             <!--<ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">

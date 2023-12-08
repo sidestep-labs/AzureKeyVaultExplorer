@@ -57,6 +57,12 @@ public partial class KvExplorerDb
                 );
                 COMMIT TRANSACTION;
                 PRAGMA foreign_keys = on;
+
+
+                -- Table: Settings
+                DROP TABLE IF EXISTS Settings;
+                CREATE TABLE IF NOT EXISTS Settings ( Name  TEXT (200)  PRIMARY KEY UNIQUE, Value INTEGER (1) CONSTRAINT DEFAULT_FALSE DEFAULT (0) );
+                INSERT OR IGNORE INTO Settings ( Name, Value ) VALUES ( 'BackgroundTransparency', 0 ); 
                 """;
 
         var createTableCommand = connection.CreateCommand();

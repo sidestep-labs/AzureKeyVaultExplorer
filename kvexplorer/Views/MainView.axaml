@@ -154,9 +154,9 @@
                         ActionButtonClick="TeachingTip_ActionButtonClick"
                         ActionButtonContent="Settings"
                         CloseButtonContent="Close"
+                        IsLightDismissEnabled="True"
                         Subtitle="{Binding Email}"
                         TailVisibility="Collapsed"
-						IsLightDismissEnabled="True"
                         Target="{Binding #AccountIconBorder}" />
 
                 </Canvas>

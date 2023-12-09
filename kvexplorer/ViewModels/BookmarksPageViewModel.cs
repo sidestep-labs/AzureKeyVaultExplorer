@@ -14,7 +14,6 @@ public partial class BookmarksPageViewModel : ViewModelBase
     {
         _authService = new AuthService();
         db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
-        var xv =  db.GetQuickAccessItems();
     }
 
     /// <summary>

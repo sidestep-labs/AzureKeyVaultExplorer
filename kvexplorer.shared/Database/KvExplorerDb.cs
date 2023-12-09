@@ -7,7 +7,6 @@ public partial class KvExplorerDb
 {
     public KvExplorerDb()
     {
-     
     }
 
     private static SqliteConnection NewSqlConnection()

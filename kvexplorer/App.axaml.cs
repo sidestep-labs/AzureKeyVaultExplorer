@@ -20,10 +20,10 @@ public partial class App : Application
         IServiceCollection serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
-        serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
+        serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddMemoryCache();
         serviceCollection.AddSingleton<KvExplorerDb>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());

@@ -78,12 +78,15 @@
                 FontSize="15"
                 Text="Miscellaneous" />
             <ui:SettingsExpander
-                Name="BackgroundTransparency"
-                Description="This will enabled more modern tranparent background on Windows"
-                Header="Background"
+                Name="BackgroundTransparencySetting"
+                Description="When checked, this will enabled more modern Mica tranparent background on Windows 11"
+                Header="Mica Background"
                 IconSource="ColorBackground">
                 <ui:SettingsExpander.Footer>
-                    <CheckBox />
+                    <CheckBox
+                        Name="BackgroundTransparencyCheckbox"
+                        Command="{Binding SetBackgroundColorSettingCommand}"
+                        IsChecked="{Binding IsBackgroundTransparencyEnabled}" />
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 

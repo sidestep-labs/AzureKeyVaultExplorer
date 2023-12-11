@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 using System.IO;
 
 namespace kvexplorer.shared.Database;
@@ -57,11 +58,10 @@ public partial class KvExplorerDb
                 COMMIT TRANSACTION;
                 PRAGMA foreign_keys = on;
 
-
                 -- Table: Settings
                 DROP TABLE IF EXISTS Settings;
                 CREATE TABLE IF NOT EXISTS Settings ( Name  TEXT (200)  PRIMARY KEY UNIQUE, Value INTEGER (1) CONSTRAINT DEFAULT_FALSE DEFAULT (0) );
-                INSERT OR IGNORE INTO Settings ( Name, Value ) VALUES ( 'BackgroundTransparency', 0 ); 
+                INSERT OR IGNORE INTO Settings ( Name, Value ) VALUES ( 'BackgroundTransparency', 0 );
                 """;
 
         var createTableCommand = connection.CreateCommand();
@@ -158,7 +158,6 @@ public partial class KvExplorerDb
                             INSERT INTO QuickAccess (Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location)
                             VALUES (@Name, @VaultUri, @KeyVaultId, @SubscriptionDisplayName, @SubscriptionId, @TenantId, @Location);
                             """;
-
         command.Parameters.Add(new SqliteParameter("@Name", item.Name));
         command.Parameters.Add(new SqliteParameter("@VaultUri", item.VaultUri));
         command.Parameters.Add(new SqliteParameter("@KeyVaultId", item.KeyVaultId));
@@ -166,7 +165,40 @@ public partial class KvExplorerDb
         command.Parameters.Add(new SqliteParameter("@SubscriptionId", item.SubscriptionId ?? (object)DBNull.Value));
         command.Parameters.Add(new SqliteParameter("@TenantId", item.TenantId));
         command.Parameters.Add(new SqliteParameter("@Location", item.Location));
-
         await command.ExecuteNonQueryAsync();
+    }
+
+    public async Task<bool> UpdateToggleSettings(SettingType name, bool value)
+    {
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
+        var command = connection.CreateCommand();
+        command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
+        command.Parameters.Add(new SqliteParameter("@SettingValue", value ? 1 : 0));
+        command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
+        var rowsAffected = await command.ExecuteNonQueryAsync();
+        // Check if any rows were deleted (1 or more indicates success)
+        return rowsAffected > 0;
+    }
+
+    public async Task<List<Settings>> GetToggleSettings()
+    {
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT Name, Value FROM SETTINGS";
+        var items = new List<Settings>();
+        var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            Enum.TryParse(reader.GetString(0), true, out SettingType parsedEnumValue);
+            var item = new Settings
+            {
+                Name = parsedEnumValue,
+                Value = reader.GetBoolean(1),
+            };
+            items.Add(item);
+        }
+        return items;
     }
 }

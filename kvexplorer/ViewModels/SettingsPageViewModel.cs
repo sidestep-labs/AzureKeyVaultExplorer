@@ -3,9 +3,13 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
+using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
+using Microsoft.Extensions.Azure;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,6 +21,8 @@ namespace kvexplorer.ViewModels;
 public partial class SettingsPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
+    private readonly KvExplorerDb _db;
+    //private static Configuration ConfigFile => ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
     [ObservableProperty]
     public string version;
@@ -24,13 +30,24 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty]
     private AuthenticatedUserClaims? authenticatedUserClaims;
 
+
+    [ObservableProperty]
+    private ObservableCollection<Settings> settings;
+
+
+    [ObservableProperty]
+    private bool isBackgroundTransparencyEnabled;
+
     public SettingsPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        Dispatcher.UIThread.Post(async () =>
+        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        Dispatcher.UIThread.Invoke(async () =>
         {
             Version = GetAppVersion();
-        }, DispatcherPriority.ApplicationIdle);
+            Settings = new ObservableCollection<Settings>(await _db.GetToggleSettings());
+            IsBackgroundTransparencyEnabled = Settings.Single(s => s.Name == SettingType.BackgroundTransparency).Value;
+        }, DispatcherPriority.Input);
     }
 
     [RelayCommand]
@@ -60,6 +77,15 @@ public partial class SettingsPageViewModel : ViewModelBase
         AuthenticatedUserClaims = null;
     }
 
+
+
+    // TODO: Create method of changing the background color from transparent to non stranparent 
+
+    [RelayCommand]
+    private async Task SetBackgroundColorSetting()
+    {
+    }
+
     //private async Task LoadApplicationVersion()
     //{
     //    //string buildDirProps = Environment.GetEnvironmentVariable("EnvironmentName");
@@ -80,4 +106,6 @@ public partial class SettingsPageViewModel : ViewModelBase
         var version = assembly.GetName().Version;
         return version == null ? "(Unknown)" : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
+
+
 }

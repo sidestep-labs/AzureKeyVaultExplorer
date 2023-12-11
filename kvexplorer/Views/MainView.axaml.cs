@@ -32,7 +32,8 @@ public partial class MainView : UserControl
         var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
 
-        Dispatcher.UIThread.Post(async () => {
+        Dispatcher.UIThread.Post(async () =>
+        {
             await mainViewModel.RefreshTokenAndGetAccountInformation().ContinueWith(async (t) =>
             {
                 await treeVaultVm.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
@@ -42,22 +43,18 @@ public partial class MainView : UserControl
         AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }
 
-
-
-private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
-{
-    if (FrameView.Content.GetType().Name != nameof(MainPage))
+    private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
     {
-        FrameView.NavigateFromObject(new MainPage());
-    }
+        if (FrameView.Content.GetType().Name != nameof(MainPage))
+            FrameView.NavigateFromObject(new MainPage());
+
         return;
     }
 
+    //var menuItems = new List<NavigationViewItemBase>(4);
+    //var footerItems = new List<NavigationViewItemBase>(2);
 
-//var menuItems = new List<NavigationViewItemBase>(4);
-//var footerItems = new List<NavigationViewItemBase>(2);
-
-protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
 
@@ -72,7 +69,6 @@ protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
 
         FrameView.Navigated += OnFrameViewNavigated;
         NavView.ItemInvoked += OnNavigationViewItemInvoked;
-       
 
         //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
         //  {
@@ -85,7 +81,6 @@ protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         navMenuItems.ElementAt(1).Tag = pages[1];
         footerItems.ElementAt(0).Tag = pages[2];
 
-        
         NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
         NavView.FooterMenuItemsSource = footerItems;
 
@@ -146,8 +141,6 @@ protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
             }
         }
     }
-
-
 
     private IEnumerable<NavigationViewItem> GetNavigationViewItems()
     {

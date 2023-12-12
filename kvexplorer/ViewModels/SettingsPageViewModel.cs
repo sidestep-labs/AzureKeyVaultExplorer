@@ -15,6 +15,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.Json.Nodes;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace kvexplorer.ViewModels;
 
@@ -30,10 +33,8 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty]
     private AuthenticatedUserClaims? authenticatedUserClaims;
 
-
     [ObservableProperty]
     private ObservableCollection<Settings> settings;
-
 
     [ObservableProperty]
     private bool isBackgroundTransparencyEnabled;
@@ -77,13 +78,12 @@ public partial class SettingsPageViewModel : ViewModelBase
         AuthenticatedUserClaims = null;
     }
 
-
-
-    // TODO: Create method of changing the background color from transparent to non stranparent 
+    // TODO: Create method of changing the background color from transparent to non stranparent
 
     [RelayCommand]
     private async Task SetBackgroundColorSetting()
     {
+        AddOrUpdateAppSettings("BackgroundTransparency", IsBackgroundTransparencyEnabled);
     }
 
     //private async Task LoadApplicationVersion()
@@ -96,9 +96,8 @@ public partial class SettingsPageViewModel : ViewModelBase
     //    //    return;
     //    //}
     //    //Version = $"{fullVersion.Major}.{fullVersion.Minor}.{fullVersion.Build}.{fullVersion.Revision}-{buildDirProps}";
-        
-    //}
 
+    //}
 
     public static string GetAppVersion()
     {
@@ -107,5 +106,19 @@ public partial class SettingsPageViewModel : ViewModelBase
         return version == null ? "(Unknown)" : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
+    public static async Task<Dictionary<string, object>> GetSettings()
+    {
+        var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
+        using var stream = File.OpenRead(path);
+        return await JsonSerializer.DeserializeAsync<Dictionary<string, object>>(stream);
+    }
 
+    public static async Task AddOrUpdateAppSettings(string key, object value)
+    {
+        var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
+        var records = await GetSettings();
+        records[key] = value;
+        var newJson = JsonSerializer.Serialize(records, new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(path, newJson);
+    }
 }

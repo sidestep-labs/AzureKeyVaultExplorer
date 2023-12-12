@@ -20,6 +20,8 @@ if ($RunBuild) {
     $sw
     Push-Location  c:\repos\sidestep\kvexplorer.Desktop/publish
     .\KeyVaultExplorer.exe 
+Pop-Location
+
     return;
 }
 Pop-Location

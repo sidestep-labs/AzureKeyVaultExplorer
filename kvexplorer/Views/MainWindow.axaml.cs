@@ -10,8 +10,6 @@ using Avalonia.Styling;
 using FluentAvalonia.Styling;
 using FluentAvalonia.UI.Windowing;
 using System;
-using System.Diagnostics;
-using System.Reflection;
 using kvexplorer.shared.Database;
 using System.Configuration;
 

@@ -2,14 +2,11 @@
 using kvexplorer.Views;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
-using Avalonia.Controls.Notifications;
 
 namespace kvexplorer;
 
@@ -33,9 +30,11 @@ public partial class App : Application
     {
         System.IO.Directory.CreateDirectory(Constants.LocalAppDataFolder);
         var exists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "kvexplorer.db"));
-        if (!exists) {
+        if (!exists)
             KvExplorerDb.InitializeDatabase();
-        }
+        var setitngsExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "settings.json"));
+        if (!setitngsExists)
+            File.Create(Path.Combine(Constants.LocalAppDataFolder, "settings.json"));
     }
 
     public override void Initialize()

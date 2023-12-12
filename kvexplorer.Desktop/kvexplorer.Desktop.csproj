@@ -16,7 +16,7 @@
 	<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <PublishAot>true</PublishAot>
     <SelfContained>true</SelfContained>
-    <TrimMode>full</TrimMode>
+    <TrimMode>partial</TrimMode>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>

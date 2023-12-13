@@ -12,6 +12,11 @@ using FluentAvalonia.UI.Windowing;
 using System;
 using kvexplorer.shared.Database;
 using System.Configuration;
+using System.Threading.Tasks;
+using System.Text.Json;
+using kvexplorer.shared.Models;
+using kvexplorer.shared;
+using System.IO;
 
 namespace kvexplorer.Views;
 
@@ -23,30 +28,34 @@ public partial class MainWindow : AppWindow
 
     private SettingsPageViewModel _settingsPageViewModel;
 
+    private bool TransparencyEnabled { get; set; }
+
     public MainWindow()
     {
         InitializeComponent();
         TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         AddHandler(TransparencyChangedEvent, OnTransparencyChangedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
 
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
         BackgroundBrush = (IBrush)bg;
-        
-        //var  configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        var isMicaEnabled = false;
+        var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
+        TransparencyEnabled = JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(path)).BackgroundTransparency;
+
         // TODO: get background trancy from db to know if to enable this on startup.
-        if (isMicaEnabled)
+        if (TransparencyEnabled)
+        {
             Background = null;
+        }
 
         if (OperatingSystem.IsWindows())
         {
             Activated += (sender, e) =>
             {
-                // TODO: get background trancy from db to know if to enable this on startup.
-                if (isMicaEnabled)
+                if (TransparencyEnabled)
                     Background = null;
             };
             Deactivated += (sender, e) =>
@@ -56,8 +65,7 @@ public partial class MainWindow : AppWindow
         }
         else
         {
-      
-                Background = BackgroundBrush;
+            Background = BackgroundBrush;
         }
 
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
@@ -70,10 +78,12 @@ public partial class MainWindow : AppWindow
         if (OperatingSystem.IsWindows() && isChecked)
         {
             Background = null;
+            TransparencyEnabled = true;
         }
         else
         {
             Background = BackgroundBrush;
+            TransparencyEnabled = false;
         }
         e.Handled = true;
     }

@@ -25,6 +25,7 @@ public partial class SettingsPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
     private readonly KvExplorerDb _db;
+    private const string BackgroundTranparency = "BackgroundTransparency";
     //private static Configuration ConfigFile => ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
     [ObservableProperty]
@@ -42,13 +43,15 @@ public partial class SettingsPageViewModel : ViewModelBase
     public SettingsPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        //_db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         Dispatcher.UIThread.Invoke(async () =>
         {
             Version = GetAppVersion();
-            Settings = new ObservableCollection<Settings>(await _db.GetToggleSettings());
-            IsBackgroundTransparencyEnabled = Settings.Single(s => s.Name == SettingType.BackgroundTransparency).Value;
+            IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
         }, DispatcherPriority.Input);
+
+
+      
     }
 
     [RelayCommand]
@@ -58,9 +61,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         var account = await _authService.RefreshTokenAsync(cancellation);
 
         if (account is null)
-        {
             account = await _authService.LoginAsync(cancellation);
-        }
 
         AuthenticatedUserClaims = new AuthenticatedUserClaims()
         {
@@ -83,7 +84,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task SetBackgroundColorSetting()
     {
-        AddOrUpdateAppSettings("BackgroundTransparency", IsBackgroundTransparencyEnabled);
+        AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
     }
 
     //private async Task LoadApplicationVersion()
@@ -106,19 +107,21 @@ public partial class SettingsPageViewModel : ViewModelBase
         return version == null ? "(Unknown)" : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
-    public static async Task<Dictionary<string, object>> GetSettings()
+
+
+    public  async Task<AppSettings> GetAppSettings()
     {
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         using var stream = File.OpenRead(path);
-        return await JsonSerializer.DeserializeAsync<Dictionary<string, object>>(stream);
+        return await JsonSerializer.DeserializeAsync<AppSettings>(stream);
     }
 
-    public static async Task AddOrUpdateAppSettings(string key, object value)
+    public  async Task AddOrUpdateAppSettings(string key, bool value)
     {
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        var records = await GetSettings();
-        records[key] = value;
-        var newJson = JsonSerializer.Serialize(records, new JsonSerializerOptions { WriteIndented = true });
+        var records = await GetAppSettings();
+        records.BackgroundTransparency = value;
+        var newJson = JsonSerializer.Serialize(records);
         await File.WriteAllTextAsync(path, newJson);
     }
 }

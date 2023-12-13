@@ -10,7 +10,7 @@ param(
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
 if ($RunBuild) {
-    Push-Location  C:\repos\sidestep\kvexplorer.Desktop;
+    Push-Location  C:\repos\kvexplorer\kvexplorer.Desktop;
     $env:KVEXPLORER_APP_VERSION = $BuildNumber
     dotnet publish  -o publish/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform
     #New-Item -Path $ProjectDir -Name "VERSION" -ItemType "file" -Value $BuildNumber -Force
@@ -18,7 +18,7 @@ if ($RunBuild) {
     pop-location
     $sw.Stop()
     $sw
-    Push-Location  c:\repos\sidestep\kvexplorer.Desktop/publish
+    Push-Location  c:\repos\kvexplorer\kvexplorer.Desktop/publish
     .\KeyVaultExplorer.exe 
 Pop-Location
 

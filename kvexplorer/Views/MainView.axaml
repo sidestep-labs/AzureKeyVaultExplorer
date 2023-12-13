@@ -1,0 +1,237 @@
+<UserControl
+    x:Class="kvexplorer.Views.MainView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="using:FluentAvalonia.UI.Controls"
+    xmlns:custom="clr-namespace:kvexplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+    xmlns:views="clr-namespace:kvexplorer.Views.Pages"
+    xmlns:vm="clr-namespace:kvexplorer.ViewModels"
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <!--<UserControl.Styles>
+        <Style Selector="ui|NavigationView.MainAppNav">
+            <Setter Property="Margin" Value="0 31.5 0 0" />
+        </Style>
+    </UserControl.Styles>-->
+
+    <!--<Grid RowDefinitions="Auto, *">
+        <Grid.Margin>
+            <OnPlatform macOS="0,20,0,0" />
+
+    -->
+    <!--<OnPlatform macOS="10,0,10,10" />-->
+    <!--
+        </Grid.Margin>-->
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid
+            Name="TitleBarHost"
+            Background="Transparent"
+            ColumnDefinitions="Auto,Auto,*,330"
+            IsVisible="{OnPlatform True,
+                                   macOS=False}">
+            <Image
+                Name="WindowIcon"
+                Width="20"
+                Height="20"
+                Margin="12,4"
+                DockPanel.Dock="Left"
+                IsHitTestVisible="False"
+                RenderOptions.BitmapInterpolationMode="HighQuality"
+                Source="/Assets/kv-noborder.ico" />
+
+            <!--<ui:IconSourceElement
+                Name="WindowIcon1"
+                Width="50"
+                Height="50"
+                Margin="12,4"
+                DockPanel.Dock="Left"
+                IconSource="{StaticResource KvLogo}"
+                IsHitTestVisible="False"
+                RenderOptions.BitmapInterpolationMode="HighQuality">
+                <ui:IconSourceElement.IsVisible>
+                    <OnPlatform Default="False">
+                        <On Content="True" Options="Windows" />
+                    </OnPlatform>
+                </ui:IconSourceElement.IsVisible>
+            </ui:IconSourceElement>-->
+
+
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                FontSize="12"
+                IsHitTestVisible="False"
+                Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                <TextBlock.IsVisible>
+                    <OnPlatform Default="False">
+                        <On Content="True" Options="Windows" />
+                    </OnPlatform>
+                </TextBlock.IsVisible>
+            </TextBlock>
+
+            <ui:IconSourceElement
+                Width="20"
+                Height="20"
+                IconSource="{StaticResource KvLogo}">
+                <ui:IconSourceElement.IsVisible>
+                    <OnPlatform Default="False">
+                        <On Content="True" Options="Windows" />
+                    </OnPlatform>
+                </ui:IconSourceElement.IsVisible>
+            </ui:IconSourceElement>
+
+
+            <Border
+                Name="AccountIconBorder"
+                Grid.Column="3"
+                Width="22"
+                Height="22"
+                Margin="5,5"
+                HorizontalAlignment="Center"
+                CornerRadius="15"
+                Focusable="True">
+                <Border.Styles>
+                    <Style Selector="Border#AccountIconBorder:pointerover">
+                        <Setter Property="Opacity" Value="0.6" />
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Style>
+                </Border.Styles>
+                <Canvas Name="AccountIcon" Tapped="ShowAccountTeachingTip">
+                    <Ellipse
+                        Canvas.Left="0"
+                        Canvas.Top="0"
+                        Width="22"
+                        Height="22"
+                        Fill="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}"
+                        Focusable="True">
+                        <Ellipse.Styles>
+                            <Style Selector="Ellipse:pointerover">
+                                <Setter Property="Fill" Value="Red" />
+                            </Style>
+                        </Ellipse.Styles>
+                    </Ellipse>
+                    <ui:FontIcon
+                        Canvas.Left="2"
+                        Canvas.Bottom="2"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="16"
+                        FontStyle="Normal"
+                        FontWeight="Normal"
+                        Glyph="&#xE13D;"
+                        IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
+
+                    <ui:FontIcon
+                        Canvas.Left="2"
+                        Canvas.Bottom="5"
+                        Margin="1"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="13"
+                        FontStyle="Normal"
+                        FontWeight="Normal"
+                        Glyph="{Binding Initials}"
+                        IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+
+                    <ui:TeachingTip
+                        Name="AccountTeachingTip"
+                        Title="{Binding AuthenticatedUserClaims.Name}"
+                        ActionButtonClick="TeachingTip_ActionButtonClick"
+                        ActionButtonContent="Settings"
+                        CloseButtonContent="Close"
+                        IsLightDismissEnabled="True"
+                        Subtitle="{Binding Email}"
+                        TailVisibility="Collapsed"
+                        Target="{Binding #AccountIconBorder}" />
+
+                </Canvas>
+            </Border>
+
+
+        </Grid>
+
+        <ui:NavigationView
+            Name="NavView"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Margin="{OnPlatform macOS=0,
+                                Windows=0 31.5 0 0}"
+            Background="Transparent"
+            Classes="MainAppNav"
+            IsBackEnabled="{Binding #FrameView.CanGoBack}"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Left">
+
+
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItemHeader Content="Actions" />
+                <ui:NavigationViewItem
+                    Content="Vault Library"
+                    IconSource="Library"
+                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    RenderOptions.TextRenderingMode="SubpixelAntialias"
+                    Tag="MainPage" />
+
+                <ui:NavigationViewItem
+                    Content="Bookmarks"
+                    IconSource="Bookmarks"
+                    Tag="BookmarksPage" />
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.PaneCustomContent>
+
+                <Panel MaxHeight="420" IsVisible="{Binding #NavView.IsPaneOpen}">
+                    <custom:KeyVaultTreeList />
+                </Panel>
+            </ui:NavigationView.PaneCustomContent>
+
+
+            <ui:NavigationView.FooterMenuItems>
+
+                <ui:NavigationViewItem
+                    Content="Settings"
+                    IconSource="Settings"
+                    Tag="SettingsPage" />
+            </ui:NavigationView.FooterMenuItems>
+            <!--  Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"  -->
+
+            <!--<DockPanel LastChildFill="True">-->
+            <!--<Panel Height="20" DockPanel.Dock="Bottom">
+                    <TextBlock
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        Text="{Binding Path=Email, StringFormat='user: {0}'}" />
+                </Panel>-->
+            <ui:Frame Name="FrameView" />
+            <!--</DockPanel>-->
+        </ui:NavigationView>
+
+    </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+</UserControl>

@@ -1,0 +1,76 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:FluentAvalonia.UI.Controls">
+    <Design.PreviewWith>
+
+
+
+        <StackPanel>
+
+
+
+            <!--<ui:CommandBarFlyoutCommandBar Margin="300" IsOpen="True">
+                <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
+            -->
+            <!--<ui:CommandBarButton IconSource="Save" />
+                    <ui:CommandBarToggleButton IconSource="Globe" />-->
+            <!--
+                </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
+
+                <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
+                    <ui:CommandBarButton
+                        HotKey="Ctrl+S"
+                        IconSource="Save"
+                        Label="Save" />
+                    <ui:CommandBarToggleButton
+                        HotKey="Ctrl+F1"
+                        IconSource="ChevronUp"
+                        IsChecked="True"
+                        Label="Move Up" />
+                </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
+            </ui:CommandBarFlyoutCommandBar>-->
+
+
+
+            <!--<Button Content="Click me for flyout!">
+				<Button.Flyout>
+
+					<ui:FAMenuFlyout  Placement="Bottom">
+						<ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
+					</ui:FAMenuFlyout>
+				</Button.Flyout>
+			</Button>-->
+
+
+
+            <Button Margin="150" ToolTip.Tip="test">
+                test 2
+            </Button>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Style Selector="ui|CommandBarFlyoutCommandBar /template/ Border#LayoutRoot">
+        <Setter Property="Margin" Value="5 5 5 10" />
+        <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
+    </Style>
+
+    <Style Selector="ToolTip Border">
+        <Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
+        <Setter Property="Margin" Value="0 0 2 4" />
+    </Style>
+
+    <Style Selector="ToolTip">
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <!--  Treeviewlist styles  -->
+    <Style Selector="TreeView">
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style Selector="TreeViewItem">
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+</Styles>

@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!--<TargetFramework>net8.0</TargetFramework>-->
+    <TargetFrameworks>net8.0</TargetFrameworks>
+	<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Version>0.0.1.5</Version>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  <!--  <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>-->
+    <SelfContained>true</SelfContained>
+ </PropertyGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaXaml Remove="Resources\Resources.axaml" />
+    <AvaloniaXaml Remove="Resources\Styles.axaml" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <None Remove="Assets\kv-gray.png" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\Resources.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Resources\Styles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="FluentAvaloniaUI" Version="2.0.4" />
+	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+	<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+	<PackageReference Include="SkiaSharp" Version="2.88.6" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\kvexplorer.shared\kvexplorer.shared.csproj" />
+
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\kv-gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\CustomControls\TitleBarControl.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomControls\KeyVaultTreeList.axaml.cs">
+      <DependentUpon>KeyVaultTreeList.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\TabViewWindowingPopout.axaml.cs">
+      <DependentUpon>TabViewWindowingPopout.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\VaultPage.axaml.cs">
+      <DependentUpon>VaultPage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\TabViewPage.axaml.cs">
+      <DependentUpon>TabViewPage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\SettingsPage.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\BookmarksPage.axaml.cs">
+      <DependentUpon>BookmarksPage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainPage.axaml.cs">
+      <DependentUpon>MainPage.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

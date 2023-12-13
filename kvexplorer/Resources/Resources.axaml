@@ -1,0 +1,64 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:FluentAvalonia.UI.Controls">
+
+
+    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+
+
+    <SolidColorBrush
+        x:Key="SolidBackgroundFillColorTertiaryBrushCustom"
+        Opacity=".80"
+        Color="{DynamicResource SolidBackgroundFillColorBase}" />
+
+
+    <!--
+        This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
+    <SolidColorBrush
+        x:Key="AccentFillColorTertiaryBrush"
+        Opacity="0.15"
+        Color="{DynamicResource SystemAccentColorDark1}" />
+
+    <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+
+
+    <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" Opacity="0.15" StartPoint="0,0" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset="0.9" Color="Transparent" />
+    </LinearGradientBrush>
+    -->
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#121A1A1A" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#981A1A1A" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+
+
+    <!--<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />-->
+    <ui:SymbolIconSource x:Key="HomeIcon" Symbol="Home" />
+    <ui:SymbolIconSource x:Key="LibraryIcon" Symbol="Library" />
+    <ui:SymbolIconSource x:Key="HomeIconFilled" Symbol="HomeFilled" />
+    <ui:SymbolIconSource x:Key="SettingsIcon" Symbol="Settings" />
+    <ui:SymbolIconSource x:Key="SettingsIconFilled" Symbol="SettingsFilled" />
+    <ui:FontIconSource
+        x:Key="ShieldIcon"
+        FontSize="18"
+        Glyph="&#xEA18;" />
+
+    <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-noborder.ico" />
+    <ui:FontIconSource
+        x:Key="Home2"
+        FontSize="18"
+        Glyph="&#xE80F;" />
+
+
+</ResourceDictionary>

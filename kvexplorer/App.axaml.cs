@@ -7,6 +7,7 @@ using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
+using kvexplorer.shared.Models;
 
 namespace kvexplorer;
 
@@ -32,9 +33,11 @@ public partial class App : Application
         var exists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "kvexplorer.db"));
         if (!exists)
             KvExplorerDb.InitializeDatabase();
-        var setitngsExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "settings.json"));
+
+        string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
+        var setitngsExists = File.Exists(settingsPath);
         if (!setitngsExists)
-            File.Create(Path.Combine(Constants.LocalAppDataFolder, "settings.json"));
+            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false }""");
     }
 
     public override void Initialize()

@@ -20,6 +20,13 @@ public partial class PropertiesPageViewModel : ViewModelBase
 {
     private readonly VaultService _vaultService;
 
+    [ObservableProperty]
+    public bool isSecret = false;
+    [ObservableProperty]
+    public bool isKey = false;
+    [ObservableProperty]
+    public bool isCert = false;
+
     public PropertiesPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -53,14 +60,17 @@ public partial class PropertiesPageViewModel : ViewModelBase
         {
             case KeyVaultItemType.Certificate:
                 CertificatePropertiesList = new ObservableCollection<CertificateProperties>(await _vaultService.GetCertificateProperties(model.VaultUri, model.Name));
+                IsCert = true;
                 break;
 
             case KeyVaultItemType.Key:
                 KeyPropertiesList = new ObservableCollection<KeyProperties>(await _vaultService.GetKeyProperties(model.VaultUri, model.Name));
+                IsKey = true;
                 break;
 
             case KeyVaultItemType.Secret:
                 SecretPropertiesList = new ObservableCollection<SecretProperties>(await _vaultService.GetSecretProperties(model.VaultUri, model.Name));
+                IsSecret = true;
                 break;
 
             default:

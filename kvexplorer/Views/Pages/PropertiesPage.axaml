@@ -21,7 +21,6 @@
             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
                 <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
             </Style>
-
             <!--<Style Selector="DataGridColumn">
                 <Setter Property="Width" Value="250" />
             </Style>
@@ -38,28 +37,90 @@
 
     </UserControl.Styles>
 
-    <StackPanel>
+    <StackPanel Orientation="Vertical">
         <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
-
-        <ui:CommandBar DefaultLabelPosition="Right" Background="{x:Null}">
+        <ui:CommandBar Height="40" DefaultLabelPosition="Right">
             <ui:CommandBar.PrimaryCommands>
-                <ui:CommandBarButton IconSource="Copy" Label="Copy Value" />
-                <ui:CommandBarButton IconSource="Open" Label="Open In Azure" />
-                <ui:CommandBarButton IconSource="Download" Label="Download CER" />
-                <ui:CommandBarButton IconSource="Download" Label="Download PEM" />
+                <ui:CommandBarButton
+                    Height="40"
+                    IconSource="Copy"
+                    Label="Copy" />
+
+                <ui:CommandBarButton
+                    Height="40"
+                    IconSource="Download"
+                    IsVisible="{Binding IsKey}"
+                    Label="Download Public Key" />
+                <ui:CommandBarButton
+                    Height="40"
+                    IconSource="Download"
+                    IsVisible="{Binding IsCert}"
+                    Label="Download CER" />
+                <ui:CommandBarButton
+                    Height="40"
+                    IconSource="Download"
+                    IsVisible="{Binding IsCert}"
+                    Label="Download PFX/PEM" />
+                <ui:CommandBarButton
+                    Height="40"
+                    IconSource="Open"
+                    Label="Open" />
             </ui:CommandBar.PrimaryCommands>
         </ui:CommandBar>
 
-        <DockPanel LastChildFill="True">
 
-            <StackPanel Margin="10,10,10,0" HorizontalAlignment="Stretch">
+
+        <DockPanel LastChildFill="True">
+            <StackPanel
+                Margin="8,0,8,0"
+                HorizontalAlignment="Stretch"
+                IsVisible="{Binding IsSecret}">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*,*">
+
+                    <Border
+                        Height="33"
+                        Padding="8"
+                        Background="{DynamicResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{StaticResource ControlElevationBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <TextBlock VerticalAlignment="Stretch" Text="************************" />
+
+                    </Border>
+                    <ToggleButton
+                        Grid.Column="1"
+                        VerticalAlignment="Stretch"
+                        Content="&#xE7B3;"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        RenderOptions.TextRenderingMode="Antialias"
+                        ToolTip.Tip="Show/Hide" />
+                    <!--<Button
+                            Grid.Column="1"
+                            VerticalAlignment="Stretch"
+                            Content="&#xE16F;"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            RenderOptions.TextRenderingMode="Antialias" />-->
+
+                    <StackPanel Grid.Row="2">
+
+                        <TextBlock Text="Properties" Theme="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock Text="{Binding CertificatePropertiesList}" />
+
+                    </StackPanel>
+                </Grid>
+
+
+
+
+                <TextBlock Text="Versions" Theme="{StaticResource BodyStrongTextBlockStyle}" />
+
                 <DataGrid
                     Name="KeysContentDataGrid"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="True"
-                    ColumnWidth="250" 
+                    ColumnWidth="250"
                     GridLinesVisibility="All"
                     HorizontalScrollBarVisibility="Visible"
                     IsReadOnly="True"

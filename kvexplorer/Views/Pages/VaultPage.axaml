@@ -88,7 +88,7 @@
                 Content="Refresh"
                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                 ToolTip.ShowDelay="1000"
-                ToolTip.Tip="Refresh values visbible to your identity" />
+                ToolTip.Tip="Refresh values visible to your identity" />
 
         </StackPanel>
         <ProgressBar

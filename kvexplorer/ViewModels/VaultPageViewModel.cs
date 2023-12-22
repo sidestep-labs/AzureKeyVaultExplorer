@@ -20,6 +20,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
+using Avalonia;
+
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -302,8 +304,6 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error, topLevel);
         }
-
-      ;
     }
 
     [RelayCommand]
@@ -343,7 +343,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Content = page,
             Width = 600,
             Height = 450,
-           // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+            // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
            // Background = null,
         };
 

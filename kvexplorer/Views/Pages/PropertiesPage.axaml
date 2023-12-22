@@ -44,28 +44,36 @@
             <ui:CommandBar.PrimaryCommands>
                 <ui:CommandBarButton
                     Height="40"
-                    IconSource="Copy"
-                    Label="Copy" />
-
+                    IconSource="Open"
+                    Label="Open" />
                 <ui:CommandBarButton
                     Height="40"
+                    Command="{Binding CopyCommand}"
+                    IconSource="Copy"
+                    IsVisible="{Binding !IsCertificate}"
+                    Label="Copy" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Key"
                     IconSource="Download"
                     IsVisible="{Binding IsKey}"
                     Label="Download Public Key" />
                 <ui:CommandBarButton
                     Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Cert"
                     IconSource="Download"
-                    IsVisible="{Binding IsCert}"
+                    IsVisible="{Binding IsCertificate}"
                     Label="Download CER" />
                 <ui:CommandBarButton
                     Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Pfx"
                     IconSource="Download"
-                    IsVisible="{Binding IsCert}"
+                    IsVisible="{Binding IsCertificate}"
                     Label="Download PFX/PEM" />
-                <ui:CommandBarButton
-                    Height="40"
-                    IconSource="Open"
-                    Label="Open" />
+
             </ui:CommandBar.PrimaryCommands>
         </ui:CommandBar>
 
@@ -77,24 +85,46 @@
                 HorizontalAlignment="Stretch"
                 IsVisible="{Binding IsSecret}">
                 <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*,*">
-
                     <Border
-                        Height="33"
+                        Height="35"
                         Padding="8"
                         Background="{DynamicResource LayerFillColorDefaultBrush}"
                         BorderBrush="{StaticResource ControlElevationBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="4">
-                        <TextBlock VerticalAlignment="Stretch" Text="************************" />
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="*">
 
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                IsVisible="{Binding !#ShowToggleButton.IsChecked}"
+                                Text="{Binding SecretHidden}" />
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                IsVisible="{Binding #ShowToggleButton.IsChecked}"
+                                Text="{Binding SecretPlainText}" />
+                            <ToggleButton
+                                Name="ShowToggleButton"
+                                Grid.Column="1"
+                                Height="35"
+                                HorizontalAlignment="Right"
+                                Command="{Binding ShouldShowValueCommand}"
+                                CommandParameter="{Binding ShowValue}"
+                                Content="&#xE7B3;"
+                                CornerRadius="4"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="20"
+                                IsChecked="{Binding ShowValue}"
+                                RenderOptions.TextRenderingMode="Antialias"
+                                Theme="{StaticResource TransparentButton}"
+                                ToolTip.Tip="Show/Hide"
+                                ZIndex="1" />
+                        </Grid>
                     </Border>
-                    <ToggleButton
-                        Grid.Column="1"
-                        VerticalAlignment="Stretch"
-                        Content="&#xE7B3;"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        RenderOptions.TextRenderingMode="Antialias"
-                        ToolTip.Tip="Show/Hide" />
+
                     <!--<Button
                             Grid.Column="1"
                             VerticalAlignment="Stretch"

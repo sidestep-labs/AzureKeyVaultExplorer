@@ -13,19 +13,47 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
+using Avalonia.Controls.Notifications;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input.Platform;
+using Avalonia;
+using Avalonia.Input;
+using kvexplorer.shared.Exceptions;
+using System.Security.Cryptography.X509Certificates;
+using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
+using System.IO;
+using System.Runtime.ConstrainedExecution;
+using System.Text;
 
 namespace kvexplorer.ViewModels;
 
 public partial class PropertiesPageViewModel : ViewModelBase
 {
     private readonly VaultService _vaultService;
+    public Window topLevel => (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+    public IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
 
     [ObservableProperty]
     public bool isSecret = false;
+
     [ObservableProperty]
     public bool isKey = false;
+
     [ObservableProperty]
-    public bool isCert = false;
+    public bool isCertificate = false;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ShouldShowValueCommand))]
+    public bool showValue = false;
+
+    [ObservableProperty]
+    public string secretHidden = new('*', 20);
+
+    [ObservableProperty]
+    public string secretPlainText = "";
 
     public PropertiesPageViewModel()
     {
@@ -60,7 +88,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         {
             case KeyVaultItemType.Certificate:
                 CertificatePropertiesList = new ObservableCollection<CertificateProperties>(await _vaultService.GetCertificateProperties(model.VaultUri, model.Name));
-                IsCert = true;
+                IsCertificate = true;
                 break;
 
             case KeyVaultItemType.Key:
@@ -74,7 +102,111 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 break;
 
             default:
+                IsSecret = false;
+                isCertificate = false;
+                IsKey = false;
                 break;
+        }
+    }
+
+    [RelayCommand]
+    private async Task ShouldShowValue(bool val)
+    {
+        if (IsSecret && val)
+        {
+            var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+            SecretPlainText = s.Value;
+        }
+    }
+
+    [RelayCommand]
+    private async Task Copy()
+    {
+        if (OpenedItem is null) return;
+        if (IsCertificate) return;
+        try
+        {
+            string value = string.Empty;
+            if (IsKey)
+            {
+                var key = await _vaultService.GetKey(OpenedItem.KeyProperties.VaultUri, OpenedItem.KeyProperties.Name);
+                if (key.KeyType == KeyType.Rsa)
+                {
+                    using var rsa = key.Key.ToRSA();
+                    var publicKey = rsa.ExportRSAPublicKey();
+                    string pem = "-----BEGIN PUBLIC KEY-----\n" + Convert.ToBase64String(publicKey) + "\n-----END PUBLIC KEY-----";
+                    value = pem;
+                }
+            }
+
+            if (IsSecret)
+            {
+                var sv = await _vaultService.GetSecret(OpenedItem.SecretProperties.VaultUri, OpenedItem.SecretProperties.Name);
+                value = sv.Value;
+            }
+
+            // TODO: figure out why set data object async fails here.
+            var dataObject = new DataObject();
+            dataObject.Set(DataFormats.Text, value);
+            await clipboard.SetTextAsync(value);
+        }
+        catch (KeyVaultItemNotFoundException ex)
+        {
+        }
+    }
+
+    [RelayCommand]
+    private async Task Download(string exportType)
+    {
+        if (exportType == "Key")
+        {
+            var key = await _vaultService.GetKey(OpenedItem.KeyProperties.VaultUri, OpenedItem.KeyProperties.Name);
+            using var rsa = key.Key.ToRSA();
+            var publicKey = rsa.ExportRSAPublicKey();
+            string pem = "-----BEGIN PUBLIC KEY-----\n" + Convert.ToBase64String(publicKey) + "\n-----END PUBLIC KEY-----";
+            SaveFile(OpenedItem.KeyProperties.Name, content: pem, ext: "pem");
+        }
+        else
+        {
+            var certificateWithPolicy = await _vaultService.GetCertificate(OpenedItem.CertificateProperties.VaultUri, OpenedItem.CertificateProperties.Name);
+            // Create X.509 certificate from bytes
+            var certificate = new X509Certificate2(certificateWithPolicy.Cer);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("-----BEGIN CERTIFICATE-----");
+            var ext = "cer";
+            if (exportType == nameof(X509ContentType.Cert))
+            {
+                sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Cert), Base64FormattingOptions.None));
+            }
+            else if (exportType == nameof(X509ContentType.Pfx))
+            {
+                ext = "pfx";
+                sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Pfx), Base64FormattingOptions.None));
+            }
+            sb.AppendLine("-----END CERTIFICATE-----");
+            SaveFile(OpenedItem.CertificateProperties.Name, content: sb.ToString(), ext:ext);
+        }
+    }
+
+    private async void SaveFile(string fileName, string ext, string content)
+    {
+        var desktopFolder = await topLevel.StorageProvider.TryGetWellKnownFolderAsync(WellKnownFolder.Downloads);
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = $"Save {fileName}",
+            SuggestedFileName = fileName,
+            SuggestedStartLocation = desktopFolder,
+            DefaultExtension = ext
+        });
+
+        if (file is not null)
+        {
+            await using var stream = await file.OpenWriteAsync();
+
+            using var streamWriter = new StreamWriter(stream);
+            await streamWriter.WriteLineAsync(content);
+
+
         }
     }
 }

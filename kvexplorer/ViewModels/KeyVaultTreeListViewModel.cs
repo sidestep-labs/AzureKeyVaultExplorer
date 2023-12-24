@@ -1,5 +1,4 @@
-﻿using Avalonia.Animation.Easings;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
@@ -15,7 +14,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using static kvexplorer.shared.VaultService;
 
@@ -235,8 +233,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
     { }
 
-   
-
     //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     //{
     //    if (e.PropertyName == nameof(SelectedTreeItem))
@@ -253,8 +249,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             TreeViewList = new ObservableCollection<KeyVaultModel>(_treeViewList);
         }
-        var list = _treeViewList.Where(v => 
-            v.SubscriptionDisplayName.ToLowerInvariant().Contains(query) || 
+        var list = _treeViewList.Where(v =>
+            v.SubscriptionDisplayName.ToLowerInvariant().Contains(query) ||
             v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
         );
         TreeViewList = new ObservableCollection<KeyVaultModel>(list);
@@ -278,8 +274,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
-
-
     [RelayCommand]
     private void OpenInAzure(KeyVaultResource model)
     {
@@ -288,5 +282,4 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         var uri = $"https://portal.azure.com/#@{tenantName}/resource{model.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
-
 }

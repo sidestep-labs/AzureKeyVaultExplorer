@@ -1,13 +1,12 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
+using kvexplorer.ViewModels;
+using kvexplorer.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
-using kvexplorer.shared.Models;
 
 namespace kvexplorer;
 

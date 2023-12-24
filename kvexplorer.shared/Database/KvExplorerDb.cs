@@ -1,6 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using System.Collections.Generic;
-using System.IO;
 
 namespace kvexplorer.shared.Database;
 

@@ -1,7 +1,6 @@
 ﻿using kvexplorer.ViewModels;
 using Avalonia.Controls;
 using System;
-using System.Diagnostics;
 using System.Text;
 using System.Security.Cryptography;
 

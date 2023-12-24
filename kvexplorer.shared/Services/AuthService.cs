@@ -8,8 +8,10 @@ public class AuthService
 {
     public IPublicClientApplication authenticationClient;
     public MsalCacheHelper msalCacheHelper;
+
     // Providing the RedirectionUri to receive the token based on success or failure.
     public bool IsAuthenticated { get; private set; } = false;
+
     public IAccount Account { get; private set; }
 
     public AuthService()
@@ -123,7 +125,4 @@ public class AuthService
         var accounts = await authenticationClient.GetAccountsAsync();
         return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.First()).ExecuteAsync();
     }
-
-
 }
-

@@ -63,7 +63,4 @@ public static class Constants
     public const string LinuxKeyRingLabel = "MSAL token cache for all Contoso dev tool apps.";
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr2 = new KeyValuePair<string, string>("ProductGroup", "MyApps");
-
-   
-
 }

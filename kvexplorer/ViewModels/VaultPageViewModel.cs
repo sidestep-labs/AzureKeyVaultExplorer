@@ -20,8 +20,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
-using Avalonia;
-
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -344,12 +342,11 @@ public partial class VaultPageViewModel : ViewModelBase
             Width = 600,
             Height = 450,
             // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-           // Background = null,
+            // Background = null,
         };
 
         // open the window
         taskDialog.Show();
-
     }
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)

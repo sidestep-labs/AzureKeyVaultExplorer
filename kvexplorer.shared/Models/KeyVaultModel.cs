@@ -7,8 +7,8 @@ namespace kvexplorer.shared.Models;
 public partial class KeyVaultModel : ObservableObject
 {
     public string SubscriptionDisplayName { get; set; } = null!;
-    
-    public required SubscriptionResource Subscription { get; set; } = null!;
+
+    public SubscriptionResource Subscription { get; set; } = null!;
 
     public string? SubscriptionId { get; set; }
 

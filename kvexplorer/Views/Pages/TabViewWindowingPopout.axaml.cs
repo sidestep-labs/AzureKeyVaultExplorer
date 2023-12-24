@@ -1,19 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Specialized;
-using kvexplorer.ViewModels;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
+using kvexplorer.ViewModels;
+using System;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace kvexplorer.Views.Pages;
 
-
-public partial class TabViewWindowingPopout : AppWindow  
+public partial class TabViewWindowingPopout : AppWindow
 {
     public TabViewWindowingPopout()
     {
@@ -24,7 +22,6 @@ public partial class TabViewWindowingPopout : AppWindow
     }
 
     public static readonly string DataIdentifier = "MyTabItemFromMain";
-
 
     protected override void OnOpened(EventArgs e)
     {
@@ -40,7 +37,6 @@ public partial class TabViewWindowingPopout : AppWindow
                 TitleBar.RightInset : TitleBar.LeftInset;
         }
     }
-
 
     protected override void OnDataContextChanged(EventArgs e)
     {
@@ -90,7 +86,7 @@ public partial class TabViewWindowingPopout : AppWindow
         {
             var destinationTabView = sender as TabView;
 
-            // While the TabView's internal ListView handles placing an insertion point gap, it 
+            // While the TabView's internal ListView handles placing an insertion point gap, it
             // doesn't actually hold that position upon drop - meaning you now must calculate
             // the approximate position of where to insert the tab
             int index = -1;

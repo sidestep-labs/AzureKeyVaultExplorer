@@ -1,26 +1,14 @@
-﻿using kvexplorer.ViewModels;
-using Avalonia;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared.Models;
+using kvexplorer.ViewModels;
 using System;
-using System.IO;
 using System.Linq;
-using FluentAvalonia.UI.Windowing;
-using Avalonia.Controls.Primitives;
-using Avalonia.Markup.Xaml.Templates;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
 
 #nullable disable
 
@@ -143,7 +131,6 @@ public partial class VaultPage : UserControl
         flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
-
 
     private async void TabHostSelectionChanged(object sender, SelectionChangedEventArgs e)
     {

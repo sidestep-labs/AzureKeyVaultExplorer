@@ -1,22 +1,14 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views.Pages;
-using Avalonia.Animation;
-using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.Platform;
-using Avalonia.Styling;
-using FluentAvalonia.Styling;
 using FluentAvalonia.UI.Windowing;
-using System;
-using kvexplorer.shared.Database;
-using System.Configuration;
-using System.Threading.Tasks;
-using System.Text.Json;
-using kvexplorer.shared.Models;
 using kvexplorer.shared;
+using kvexplorer.shared.Database;
+using kvexplorer.shared.Models;
+using kvexplorer.ViewModels;
+using System;
 using System.IO;
+using System.Text.Json;
 
 namespace kvexplorer.Views;
 

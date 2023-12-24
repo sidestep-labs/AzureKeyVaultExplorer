@@ -1,17 +1,11 @@
-﻿using kvexplorer.ViewModels;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Remote.Protocol.Input;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using kvexplorer.shared;
-using kvexplorer.shared.Database;
-using kvexplorer.shared.Models;
+using kvexplorer.ViewModels;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 
 namespace kvexplorer.Views.Pages;
 
@@ -28,8 +22,7 @@ public partial class TabViewPage : UserControl
         // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
     }
 
-
-public void TabStripDragOver(object sender, DragEventArgs e)
+    public void TabStripDragOver(object sender, DragEventArgs e)
     {
         if (e.Data.Contains(DataIdentifier))
         {
@@ -201,7 +194,6 @@ public void TabStripDragOver(object sender, DragEventArgs e)
         //    }
         //}
     }
-
 
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace kvexplorer.shared.Database;
+﻿namespace kvexplorer.shared.Database;
 
 public partial class BookmarkedItem
 {

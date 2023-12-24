@@ -1,23 +1,16 @@
-﻿using Avalonia;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
-using Microsoft.Extensions.Azure;
-using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.Json.Nodes;
-using System.Text.Json;
-using System.Collections.Generic;
 
 namespace kvexplorer.ViewModels;
 
@@ -49,9 +42,6 @@ public partial class SettingsPageViewModel : ViewModelBase
             Version = GetAppVersion();
             IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
         }, DispatcherPriority.Input);
-
-
-      
     }
 
     [RelayCommand]
@@ -107,16 +97,14 @@ public partial class SettingsPageViewModel : ViewModelBase
         return version == null ? "(Unknown)" : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
-
-
-    public  async Task<AppSettings> GetAppSettings()
+    public async Task<AppSettings> GetAppSettings()
     {
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         using var stream = File.OpenRead(path);
         return await JsonSerializer.DeserializeAsync<AppSettings>(stream);
     }
 
-    public  async Task AddOrUpdateAppSettings(string key, bool value)
+    public async Task AddOrUpdateAppSettings(string key, bool value)
     {
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         var records = await GetAppSettings();

@@ -1,9 +1,7 @@
-﻿using kvexplorer.Views.CustomControls;
-using Azure.Security.KeyVault.Secrets;
+﻿using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared.Models;
-using System;
 using System.Collections.ObjectModel;
 
 namespace kvexplorer.ViewModels.Models;
@@ -32,4 +30,3 @@ public partial class DocumentItem : ObservableObject
         };
     }
 }
-

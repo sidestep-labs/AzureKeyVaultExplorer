@@ -1,17 +1,14 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views.Pages;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
+using kvexplorer.ViewModels;
+using kvexplorer.Views.Pages;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 
 #nullable disable
 

@@ -17,6 +17,7 @@
                                                    macOS=True}"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
+	Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
     <!--    -->
 

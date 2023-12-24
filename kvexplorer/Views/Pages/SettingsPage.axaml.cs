@@ -1,10 +1,6 @@
-﻿using kvexplorer.ViewModels;
-using Avalonia.Controls;
-using Avalonia.Threading;
-using FluentAvalonia.UI.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia;
-using System;
+using kvexplorer.ViewModels;
 
 namespace kvexplorer.Views.Pages;
 
@@ -29,5 +25,4 @@ public partial class SettingsPage : UserControl
     {
         (DataContext as SettingsPageViewModel).SignInOrRefreshTokenCommand.Execute(null);
     }
-
 }

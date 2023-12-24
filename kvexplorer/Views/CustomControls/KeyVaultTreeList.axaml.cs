@@ -1,19 +1,12 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views.Pages;
-using Avalonia.Collections;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using kvexplorer.shared;
 using kvexplorer.shared.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
+using kvexplorer.ViewModels;
 using System.Linq;
 
 namespace kvexplorer.Views.CustomControls;
@@ -31,11 +24,10 @@ public partial class KeyVaultTreeList : UserControl
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
     }
 
-
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
         var tv = sender as TreeView;
-        if(tv.SelectedItem is not null)
+        if (tv.SelectedItem is not null)
         {
             var kvm = tv.ItemsSource.ElementAt(0) as KeyVaultModel;
             var showUnpin = kvm.KeyVaultResources.Contains(tv.SelectedItem as KeyVaultResource);
@@ -49,7 +41,7 @@ public partial class KeyVaultTreeList : UserControl
         var flyout = Resources["FAMenuFlyoutSubscriptionTreeView"] as FAMenuFlyout;
 
         // if pinned, enable unpinned item
-        foreach(MenuFlyoutItem item in flyout.Items)
+        foreach (MenuFlyoutItem item in flyout.Items)
         {
             _ = item.Name switch
             {
@@ -80,8 +72,6 @@ public partial class KeyVaultTreeList : UserControl
         var loc = this.FindControl<TreeView>("SubscriptionTreeViewList");
         flyout.ShowAt(loc);
     }
-
-
 
     private void RefreshKeyVaultList(object sender, RoutedEventArgs e)
     {

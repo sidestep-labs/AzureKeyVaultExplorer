@@ -6,9 +6,6 @@ using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using Microsoft.Extensions.Caching.Memory;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -17,7 +14,6 @@ public class VaultService
 {
     public AuthService _authService { get; set; }
     public IMemoryCache _memoryCache { get; set; }
-
 
     public VaultService(AuthService authService, IMemoryCache memoryCache)
     {
@@ -65,13 +61,11 @@ public class VaultService
 
         var placeholder = new KeyVaultResourcePlaceholder();
 
-
-        var subscriptions =  _memoryCache.GetOrCreate("subscriptions", (f) =>
+        var subscriptions = _memoryCache.GetOrCreate("subscriptions", (f) =>
         {
             f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
             return armClient.GetSubscriptions();
         });
-
 
         //foreach (var subscription in armClient.GetSubscriptions())
         foreach (var subscription in subscriptions)
@@ -98,10 +92,9 @@ public class VaultService
 
     public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KeyVaultModel resource)
     {
-
         var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
         resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
-        
+
         foreach (var kvResource in resource.Subscription.GetKeyVaults())
         {
             yield return kvResource;
@@ -202,6 +195,7 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
+
     public async Task<List<KeyProperties>> GetKeyProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
@@ -209,8 +203,8 @@ public class VaultService
         List<KeyProperties> list = new();
         try
         {
-            var response =  client.GetPropertiesOfKeyVersionsAsync(name);
-            await foreach(KeyProperties item in response)
+            var response = client.GetPropertiesOfKeyVersionsAsync(name);
+            await foreach (KeyProperties item in response)
             {
                 list.Add(item);
             }
@@ -221,6 +215,7 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
+
     public async Task<List<SecretProperties>> GetSecretProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
@@ -240,6 +235,7 @@ public class VaultService
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
     }
+
     public async Task<List<CertificateProperties>> GetCertificateProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());

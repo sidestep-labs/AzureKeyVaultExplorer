@@ -1,32 +1,24 @@
-﻿using Azure.Security.KeyVault.Secrets;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
+using Avalonia.Input.Platform;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
+using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
-using kvexplorer.shared;
-using kvexplorer.shared.Database;
-using kvexplorer.shared.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Avalonia.Threading;
-using Avalonia.Controls.Notifications;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input.Platform;
-using Avalonia;
-using Avalonia.Input;
+using kvexplorer.shared;
 using kvexplorer.shared.Exceptions;
-using System.Security.Cryptography.X509Certificates;
-using Avalonia.Interactivity;
-using Avalonia.Platform.Storage;
+using kvexplorer.shared.Models;
+using System;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace kvexplorer.ViewModels;
 
@@ -184,7 +176,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Pfx), Base64FormattingOptions.None));
             }
             sb.AppendLine("-----END CERTIFICATE-----");
-            SaveFile(OpenedItem.CertificateProperties.Name, content: sb.ToString(), ext:ext);
+            SaveFile(OpenedItem.CertificateProperties.Name, content: sb.ToString(), ext: ext);
         }
     }
 
@@ -205,8 +197,6 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
             using var streamWriter = new StreamWriter(stream);
             await streamWriter.WriteLineAsync(content);
-
-
         }
     }
 }

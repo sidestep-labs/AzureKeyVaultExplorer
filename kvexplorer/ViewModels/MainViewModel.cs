@@ -1,14 +1,12 @@
-﻿using kvexplorer.Views.Pages;
-using Avalonia.Controls;
-using Avalonia.Threading;
+﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
+using kvexplorer.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,11 +44,10 @@ public partial class MainViewModel : ViewModelBase
         var email = identity.FindAll("email").First().Value ?? account.Account.Username;
 
         string[] name = identity.FindAll("name").First().Value.Split(" ");
-        if(name.Length > 1)
+        if (name.Length > 1)
             Initials = name[0][0].ToString().ToUpperInvariant() + name[1][0].ToString().ToUpperInvariant();
 
         Email = email.ToLowerInvariant();
-
 
         AuthenticatedUserClaims = new AuthenticatedUserClaims()
         {

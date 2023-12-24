@@ -1,6 +1,5 @@
 ﻿using kvexplorer.shared;
 using kvexplorer.shared.Database;
-using System.Linq;
 
 namespace kvexplorer.ViewModels;
 
@@ -8,7 +7,6 @@ public partial class BookmarksPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
     private readonly KvExplorerDb db;
-
 
     public BookmarksPageViewModel()
     {

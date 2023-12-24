@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using kvexplorer.ViewModels;
-using kvexplorer.ViewModels.Models;
-using kvexplorer.Views.Pages;
-using Avalonia.Styling;
-using Azure.ResourceManager.KeyVault;
-using Azure.Security.KeyVault.Secrets;
+﻿using Azure.ResourceManager.KeyVault;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Data;
-using kvexplorer.shared;
-using kvexplorer.shared.Database;
+using kvexplorer.Views.Pages;
+using System.Collections.ObjectModel;
 
 namespace kvexplorer.ViewModels;
 
 public partial class TabViewPageViewModel : ViewModelBase
 {
-
     public TabViewPageViewModel()
     {
         Documents = new ObservableCollection<TabViewItem>();
@@ -26,7 +17,7 @@ public partial class TabViewPageViewModel : ViewModelBase
             Documents.Add(AddDocument(i));
         }
     }
-     
+
     [ObservableProperty]
     public ObservableCollection<TabViewItem> documents;
 
@@ -79,7 +70,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void AddVaultPage(KeyVaultData model) 
+    private void AddVaultPage(KeyVaultData model)
     {
         var tab = new TabViewItem
         {
@@ -91,5 +82,4 @@ public partial class TabViewPageViewModel : ViewModelBase
         SelectedItem = tab;
         SelectedItem.Focus();
     }
-
 }

@@ -118,6 +118,7 @@
                 <Button
                     Margin="8,10,0,0"
                     VerticalAlignment="Stretch"
+                    Classes="accent"
                     Click="RefreshKeyVaultList"
                     ToolTip.Tip="Refresh available subscriptions">
                     <ui:FontIcon

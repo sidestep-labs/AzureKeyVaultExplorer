@@ -17,9 +17,11 @@
                                                    macOS=True}"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
-	Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
-    <!--    -->
+    <!--
+        Icon="/Assets/avalonia-logo.ico"
+        this just doesnt work with FA and .net 8
+    -->
 
 
 
@@ -30,8 +32,8 @@
                     <NativeMenu>
                         <NativeMenuItem Header="Login" />
                         <NativeMenuItem Header="Logout" />
-						<NativeMenuItem Header="email@example.com" IsEnabled="False"  />
-					</NativeMenu>
+                        <NativeMenuItem Header="email@example.com" IsEnabled="False" />
+                    </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
 

@@ -55,7 +55,7 @@ public partial class BookmarksPage : UserControl
             <visual>
             <binding template='ToastGeneric'>
                 <text id='1'>Hello, World!</text>
-            <image placement="appLogoOverride" src="C:/repos/sidestep/kvexplorer.Desktop/kv-noborder.ico"/>
+            <image placement="appLogoOverride" src="C:/repos/sidestep/kvexplorer.Desktop/kv-icon.ico"/>
             </binding>
             </visual>
             </toast>

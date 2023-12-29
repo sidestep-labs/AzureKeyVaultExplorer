@@ -54,7 +54,7 @@
         FontSize="18"
         Glyph="&#xEA18;" />
 
-    <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-noborder.ico" />
+    <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-icon.ico" />
     <ui:FontIconSource
         x:Key="Home2"
         FontSize="18"

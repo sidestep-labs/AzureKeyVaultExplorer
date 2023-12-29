@@ -94,7 +94,6 @@
                 RenderOptions.BitmapInterpolationMode="HighQuality"
                 Source="avares://kvexplorer/Assets/kv-gray.png" />
 
-
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel.Styles>
                     <Style Selector="TextBlock">

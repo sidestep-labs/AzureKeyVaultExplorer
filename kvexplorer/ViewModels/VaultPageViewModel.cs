@@ -60,7 +60,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
-        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-icon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
         for (int i = 0; i < 50; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
@@ -194,7 +194,7 @@ public partial class VaultPageViewModel : ViewModelBase
                 Version = secret.Version,
                 SecretProperties = secret,
                 LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime()
-            }); ;
+            });
         }
 
         _vaultContents = VaultContents;
@@ -308,8 +308,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;
-        var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();
-        var uri = $"https://portal.azure.com/#@{tenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 

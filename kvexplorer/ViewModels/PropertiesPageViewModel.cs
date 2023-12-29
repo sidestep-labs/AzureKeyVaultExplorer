@@ -15,6 +15,7 @@ using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -25,6 +26,9 @@ namespace kvexplorer.ViewModels;
 public partial class PropertiesPageViewModel : ViewModelBase
 {
     private readonly VaultService _vaultService;
+    private readonly AuthService _authService;
+
+
     public Window topLevel => (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
     public IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
 
@@ -50,6 +54,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
     public PropertiesPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
     }
 
     [ObservableProperty]
@@ -67,6 +72,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
     public PropertiesPageViewModel(KeyVaultContentsAmalgamation model)
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
         OpenedItem = model;
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
@@ -199,4 +205,14 @@ public partial class PropertiesPageViewModel : ViewModelBase
             await streamWriter.WriteLineAsync(content);
         }
     }
+
+    [RelayCommand]
+    private void OpenInAzure()
+    {
+        if (OpenedItem is null) return;
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+    }
+
+
 }

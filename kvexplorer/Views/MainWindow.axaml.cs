@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using FluentAvalonia.UI.Windowing;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;

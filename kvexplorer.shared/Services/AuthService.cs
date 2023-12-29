@@ -12,6 +12,8 @@ public class AuthService
     // Providing the RedirectionUri to receive the token based on success or failure.
     public bool IsAuthenticated { get; private set; } = false;
 
+    public string TenantName { get; private set; }
+
     public IAccount Account { get; private set; }
 
     public AuthService()
@@ -43,6 +45,7 @@ public class AuthService
             result = await authenticationClient.AcquireTokenInteractive(Constants.Scopes).WithExtraScopesToConsent(Constants.AzureRMScope).ExecuteAsync(cancellationToken);
 
             IsAuthenticated = true;
+            TenantName = Account.Username.Split("@").TakeLast(1).Single();
             // set the preferences/settings of the signed in account
             //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
@@ -71,6 +74,7 @@ public class AuthService
         Account = accounts.First();
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
         IsAuthenticated = true;
+        TenantName = Account.Username.Split("@").TakeLast(1).Single();
         return authenticationResult;
     }
 

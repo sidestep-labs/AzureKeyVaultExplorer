@@ -53,7 +53,7 @@
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                Source="/Assets/kv-noborder.ico" />
+                Source="/Assets/kv-icon.ico" />
 
             <!--<ui:IconSourceElement
                 Name="WindowIcon1"

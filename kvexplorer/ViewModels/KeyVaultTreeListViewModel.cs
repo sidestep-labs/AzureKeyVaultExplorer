@@ -278,8 +278,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private void OpenInAzure(KeyVaultResource model)
     {
         if (model is null) return;
-        var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();
-        var uri = $"https://portal.azure.com/#@{tenantName}/resource{model.Id}";
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/resource{model.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 }

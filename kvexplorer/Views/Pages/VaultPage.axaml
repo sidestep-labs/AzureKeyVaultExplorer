@@ -95,6 +95,7 @@
                 HorizontalAlignment="Stretch"
                 AcceptsReturn="False"
                 Classes.clearButton="True"
+                VerticalContentAlignment="Center"
                 ClipToBounds="True"
                 DockPanel.Dock="Right"
                 HotKeyManager.HotKey="Ctrl+F"

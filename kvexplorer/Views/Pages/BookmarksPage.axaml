@@ -18,13 +18,13 @@
         <ScrollViewer>
             <StackPanel Margin="10,5" Orientation="Vertical">
 
-                <TextBlock HorizontalAlignment="Left" Theme="{StaticResource SubtitleTextBlockStyle}">Bookmarks</TextBlock>
+                <TextBlock HorizontalAlignment="Left" Theme="{StaticResource SubtitleTextBlockStyle}">Subscriptions</TextBlock>
                 <Button
                     HorizontalAlignment="Right"
                     Click="Button_Click"
                     Content="New Workspace" />
                 <TextBlock TextWrapping="Wrap">
-                    Use this area to group together values for easy access.<LineBreak />
+                    Select which subscriptions to be show in the left sidebar.<LineBreak />
                 </TextBlock>
                 <ItemsControl>
 

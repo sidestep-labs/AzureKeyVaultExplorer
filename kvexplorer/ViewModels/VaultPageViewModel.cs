@@ -337,7 +337,7 @@ public partial class VaultPageViewModel : ViewModelBase
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = true,
-            CanResize = false,
+            CanResize = true,
             Content = page,
             Width = 620,
             Height = 480,

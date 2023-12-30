@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
@@ -17,7 +18,8 @@ public partial class TabViewWindowingPopout : AppWindow
     {
         InitializeComponent();
         DataContext = new TabViewPageViewModel();
-
+        TitleBar.ExtendsContentIntoTitleBar = true;
+        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         TabView.TabItemsChanged += TabView_TabItemsChanged;
     }
 

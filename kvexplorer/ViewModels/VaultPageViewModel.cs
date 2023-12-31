@@ -342,11 +342,12 @@ public partial class VaultPageViewModel : ViewModelBase
             Content = page,
             Width = 620,
             Height = 480,
-            ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? ExtendClientAreaChromeHints.NoChrome : ExtendClientAreaChromeHints.Default,
             ExtendClientAreaToDecorationsHint = OperatingSystem.IsMacOS() ? true : false
         // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
         // Background = null,
     };
+
+
         // open the window
         taskDialog.Show(topLevel);
     }

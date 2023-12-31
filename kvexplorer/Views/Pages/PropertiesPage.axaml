@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:custom="clr-namespace:kvexplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
@@ -40,6 +41,11 @@
 
 
         <StackPanel Margin="0,0,0,10" Orientation="Vertical">
+            <custom:TitleBarControl
+                DockPanel.Dock="Top"
+                IsHitTestVisible="False"
+                IsVisible="{OnPlatform False,
+                                       macOS=True}" />
             <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
             <ui:CommandBar Height="40" DefaultLabelPosition="Right">
@@ -86,6 +92,10 @@
 
 
             <DockPanel LastChildFill="True">
+
+
+
+
                 <StackPanel Margin="8,0,8,0" HorizontalAlignment="Stretch">
                     <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*,*">
                         <Border

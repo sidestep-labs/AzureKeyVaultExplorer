@@ -333,6 +333,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             DataContext = new PropertiesPageViewModel(model)
         };
+        bool isMac = OperatingSystem.IsMacOS();
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
@@ -344,12 +345,13 @@ public partial class VaultPageViewModel : ViewModelBase
             Content = page,
             Width = 620,
             Height = 480,
-            ExtendClientAreaToDecorationsHint = OperatingSystem.IsMacOS() ? true : false,
+            ExtendClientAreaToDecorationsHint = isMac,
+            
         // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
         // Background = null,
     };
 
-        taskDialog.TitleBar.ExtendsContentIntoTitleBar  = true;
+        taskDialog.TitleBar.ExtendsContentIntoTitleBar = isMac;
         taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window

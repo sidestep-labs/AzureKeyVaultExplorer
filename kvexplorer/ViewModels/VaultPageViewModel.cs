@@ -23,8 +23,6 @@ using Avalonia.Input.Platform;
 using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
 
-
-
 #if WINDOWS
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -346,22 +344,18 @@ public partial class VaultPageViewModel : ViewModelBase
             Width = 620,
             Height = 480,
             ExtendClientAreaToDecorationsHint = isMac,
-            
-        // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-        // Background = null,
-    };
+            // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+            // Background = null,
+        };
 
-        taskDialog.TitleBar.ExtendsContentIntoTitleBar = isMac;
-        taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+        //taskDialog.TitleBar.ExtendsContentIntoTitleBar = isMac;
+        //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
-        // open the window
-        if(isMac){
-        taskDialog.Show();
-
-        }else{
-        taskDialog.Show(topLevel);
-
-        }
+        // open the window with parent on windows but not mac.
+        if (isMac)
+            taskDialog.Show();
+        else
+            taskDialog.Show(topLevel);
     }
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)

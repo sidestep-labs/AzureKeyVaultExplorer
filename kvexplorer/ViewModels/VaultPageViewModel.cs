@@ -20,6 +20,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
+using Avalonia.Controls.Chrome;
+
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -340,9 +342,10 @@ public partial class VaultPageViewModel : ViewModelBase
             Content = page,
             Width = 620,
             Height = 480,
-            // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-            // Background = null,
-        };
+            ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? ExtendClientAreaChromeHints.NoChrome : ExtendClientAreaChromeHints.Default,
+        // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+        // Background = null,
+    };
         // open the window
         taskDialog.Show(topLevel);
     }

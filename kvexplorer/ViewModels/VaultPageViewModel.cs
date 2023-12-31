@@ -316,8 +316,8 @@ public partial class VaultPageViewModel : ViewModelBase
     private async Task CopyUri(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;
-        var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-        var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
+        //var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+        //var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
         await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
@@ -329,14 +329,13 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             DataContext = new PropertiesPageViewModel(model)
         };
-
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
             //Icon = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality),
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            ShowAsDialog = true,
+            ShowAsDialog = false,
             CanResize = true,
             Content = page,
             Width = 620,
@@ -344,9 +343,8 @@ public partial class VaultPageViewModel : ViewModelBase
             // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
             // Background = null,
         };
-
         // open the window
-        taskDialog.Show();
+        taskDialog.Show(topLevel);
     }
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)

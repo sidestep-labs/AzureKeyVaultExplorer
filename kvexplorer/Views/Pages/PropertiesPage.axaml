@@ -11,6 +11,9 @@
     d:DesignHeight="400"
     d:DesignWidth="600"
     x:DataType="vm:PropertiesPageViewModel"
+    ExtendClientAreaChromeHints="Default, PreferSystemChrome"
+    ExtendClientAreaToDecorationsHint="{OnPlatform False,
+                                                   macOS=True}"
     mc:Ignorable="d">
 
     <Design.DataContext>

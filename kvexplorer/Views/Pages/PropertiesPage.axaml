@@ -46,6 +46,8 @@
                 <ui:CommandBar.PrimaryCommands>
                     <ui:CommandBarButton
                         Height="40"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
                         Command="{Binding OpenInAzureCommand}"
                         IconSource="Open"
                         Label="Open"

@@ -27,7 +27,9 @@
     <Window.Styles>
         <Styles>
             <Style Selector="ui|TabView#TabView.macOSTitleBarSafeArea">
-                <Setter Property="Margin" Value="0,15,0,0" />
+                <Style Selector="^ /template/ Border">
+                    <Setter Property="Margin" Value="60,0,0,0" />
+                </Style>
             </Style>
         </Styles>
     </Window.Styles>

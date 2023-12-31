@@ -339,7 +339,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Title = $"{model.Type} {model.Name} Properties",
             //Icon = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality),
             SizeToContent = SizeToContent.Manual,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            WindowStartupLocation = WindowStartupLocation.Manual,
             ShowAsDialog = false,
             CanResize = true,
             Content = page,
@@ -355,7 +355,13 @@ public partial class VaultPageViewModel : ViewModelBase
         taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window
+        if(isMac){
+        taskDialog.Show();
+
+        }else{
         taskDialog.Show(topLevel);
+
+        }
     }
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)

@@ -21,6 +21,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
 using Avalonia.Controls.Chrome;
+using Avalonia.Interactivity;
+
 
 
 #if WINDOWS
@@ -342,11 +344,13 @@ public partial class VaultPageViewModel : ViewModelBase
             Content = page,
             Width = 620,
             Height = 480,
-            ExtendClientAreaToDecorationsHint = OperatingSystem.IsMacOS() ? true : false
+            ExtendClientAreaToDecorationsHint = OperatingSystem.IsMacOS() ? true : false,
         // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
         // Background = null,
     };
 
+        taskDialog.TitleBar.ExtendsContentIntoTitleBar  = true;
+        taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window
         taskDialog.Show(topLevel);

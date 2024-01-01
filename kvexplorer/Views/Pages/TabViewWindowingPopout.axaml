@@ -16,7 +16,7 @@
     ExtendClientAreaChromeHints="Default, OSXThickTitleBar, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
-    TransparencyLevelHint="Mica"
+    TransparencyLevelHint="Mica, AcrylicBlur"
     mc:Ignorable="d">
 
     <!--

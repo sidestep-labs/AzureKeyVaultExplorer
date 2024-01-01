@@ -37,60 +37,58 @@
         </Styles>
 
     </UserControl.Styles>
-    <ScrollViewer>
 
 
-        <StackPanel Margin="0,0,0,10" Orientation="Vertical">
-            <custom:TitleBarControl
-                DockPanel.Dock="Top"
-                IsHitTestVisible="False"
-                IsVisible="{OnPlatform False,
-                                       macOS=True}" />
-            <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
+    <StackPanel Margin="0,0,0,10" Orientation="Vertical">
+        <custom:TitleBarControl
+            DockPanel.Dock="Top"
+            IsHitTestVisible="False"
+            IsVisible="{OnPlatform False,
+                                   macOS=True}" />
+        <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
-            <ui:CommandBar Height="40" DefaultLabelPosition="Right">
-                <ui:CommandBar.PrimaryCommands>
-                    <ui:CommandBarButton
-                        Height="40"
-                        HorizontalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Command="{Binding OpenInAzureCommand}"
-                        IconSource="Open"
-                        Label="Open"
-                        ToolTip.Tip="Open in Azure Portal" />
-                    <ui:CommandBarButton
-                        Height="40"
-                        Command="{Binding CopyCommand}"
-                        IconSource="Copy"
-                        IsVisible="{Binding !IsCertificate}"
-                        Label="Copy" />
-                    <ui:CommandBarButton
-                        Height="40"
-                        Command="{Binding DownloadCommand}"
-                        CommandParameter="Key"
-                        IconSource="Download"
-                        IsVisible="{Binding IsKey}"
-                        Label="Download Public Key" />
-                    <ui:CommandBarButton
-                        Height="40"
-                        Command="{Binding DownloadCommand}"
-                        CommandParameter="Cert"
-                        IconSource="Download"
-                        IsVisible="{Binding IsCertificate}"
-                        Label="Download CER" />
-                    <ui:CommandBarButton
-                        Height="40"
-                        Command="{Binding DownloadCommand}"
-                        CommandParameter="Pfx"
-                        IconSource="Download"
-                        IsVisible="{Binding IsCertificate}"
-                        Label="Download PFX/PEM" />
+        <ui:CommandBar Height="40" DefaultLabelPosition="Right">
+            <ui:CommandBar.PrimaryCommands>
+                <ui:CommandBarButton
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding OpenInAzureCommand}"
+                    IconSource="Open"
+                    Label="Open"
+                    ToolTip.Tip="Open in Azure Portal" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding CopyCommand}"
+                    IconSource="Copy"
+                    IsVisible="{Binding !IsCertificate}"
+                    Label="Copy" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Key"
+                    IconSource="Download"
+                    IsVisible="{Binding IsKey}"
+                    Label="Download Public Key" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Cert"
+                    IconSource="Download"
+                    IsVisible="{Binding IsCertificate}"
+                    Label="Download CER" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Pfx"
+                    IconSource="Download"
+                    IsVisible="{Binding IsCertificate}"
+                    Label="Download PFX/PEM" />
 
-                </ui:CommandBar.PrimaryCommands>
-            </ui:CommandBar>
+            </ui:CommandBar.PrimaryCommands>
+        </ui:CommandBar>
 
-
-
+        <ScrollViewer>
             <DockPanel LastChildFill="True">
 
 
@@ -347,8 +345,8 @@
                 </StackPanel>
 
             </DockPanel>
+        </ScrollViewer>
 
-        </StackPanel>
-    </ScrollViewer>
+    </StackPanel>
 
 </UserControl>

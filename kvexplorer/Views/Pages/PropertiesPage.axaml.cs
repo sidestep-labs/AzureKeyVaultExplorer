@@ -6,12 +6,10 @@ namespace kvexplorer;
 
 public partial class PropertiesPage : UserControl
 {
-    private VaultService _vaultService;
 
     public PropertiesPage()
     {
         InitializeComponent();
         DataContext = new PropertiesPageViewModel();
-        _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
     }
 }

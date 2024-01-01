@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using System.Threading;
 
@@ -12,6 +13,9 @@ public partial class TitleBarViewModel : ViewModelBase
     {
         _authService = authService;
     }
+
+    [ObservableProperty]
+    public string title = "Key Vault Explorer for Azure";
 
     public TitleBarViewModel()
     {

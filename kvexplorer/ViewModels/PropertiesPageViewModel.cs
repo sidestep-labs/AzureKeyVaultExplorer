@@ -51,6 +51,9 @@ public partial class PropertiesPageViewModel : ViewModelBase
     [ObservableProperty]
     public string secretPlainText = "";
 
+    [ObservableProperty]
+    public string title = "Properties";
+
     public PropertiesPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -101,10 +104,11 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
             default:
                 IsSecret = false;
-                isCertificate = false;
+                IsCertificate = false;
                 IsKey = false;
                 break;
         }
+        Title = $"{model.Type} {model.Name} Properties";
     }
 
     [RelayCommand]

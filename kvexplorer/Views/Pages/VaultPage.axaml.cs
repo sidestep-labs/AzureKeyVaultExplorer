@@ -68,7 +68,13 @@ public partial class VaultPage : UserControl
 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
-        ShowMenu(true);
+        var dg = sender as DataGrid;
+        var hideCopyCmd = false;
+        if (dg.SelectedItem is not null && (dg.SelectedItem as KeyVaultContentsAmalgamation).Type == KeyVaultItemType.Certificate)
+        {
+            hideCopyCmd = true;
+        }
+        ShowMenu(isTransient: true, hideCopyCommand: hideCopyCmd);
         e.Handled = true;
     }
 
@@ -79,21 +85,6 @@ public partial class VaultPage : UserControl
         var model = dg.SelectedItem as KeyVaultContentsAmalgamation;
         (DataContext as VaultPageViewModel).ShowPropertiesCommand.Execute(model);
         //Debug.Write(model.Name);
-    }
-
-    private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
-    {
-        // Create the window object
-        var sampleWindow =
-            new Window
-            {
-                Title = "Sample Window",
-                Width = 200,
-                Height = 200
-            };
-
-        // open the window
-        sampleWindow.Show();
     }
 
     public void RefreshButton_OnClick(object? sender, RoutedEventArgs args)
@@ -125,9 +116,14 @@ public partial class VaultPage : UserControl
     // We rely on code behind to show the flyout
     // Listen for the ContextRequested event so we can change the launch behavior based on whether it was a
     // left or right click.
-    private void ShowMenu(bool isTransient)
+    private void ShowMenu(bool isTransient, bool hideCopyCommand)
     {
         var flyout = Resources["FAMenuFlyout"] as FAMenuFlyout;
+
+        // hide the copy value command for the certificate option.
+        MenuFlyoutItem copyMenuItemOption = (MenuFlyoutItem)flyout.Items.ElementAt(0);
+        copyMenuItemOption.IsVisible = !hideCopyCommand;
+
         flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }

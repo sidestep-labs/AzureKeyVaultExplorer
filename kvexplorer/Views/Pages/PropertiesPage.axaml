@@ -62,7 +62,6 @@
             <ui:CommandBar.Styles>
                 <Styles>
                     <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel">
-                        <Setter Property="Background" Value="Red" />
                         <Setter Property="VerticalAlignment" Value="Bottom" />
                     </Style>
                 </Styles>

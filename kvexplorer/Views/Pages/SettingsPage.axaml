@@ -16,7 +16,6 @@
     </Design.DataContext>
 
     <ScrollViewer>
-
         <StackPanel Margin="10,5" Orientation="Vertical">
             <TextBlock Margin="0,0,0,15" Theme="{StaticResource SubtitleTextBlockStyle}">Settings</TextBlock>
             <ui:SettingsExpander

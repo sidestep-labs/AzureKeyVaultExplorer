@@ -20,10 +20,13 @@ if ($RunBuild) {
     $sw
     Push-Location  c:\repos\kvexplorer\kvexplorer.Desktop/publish
     .\KeyVaultExplorer.exe 
-Pop-Location
+    Pop-Location
 
     return;
 }
+Push-Location  c:\repos\kvexplorer\kvexplorer.Desktop/publish
+.\KeyVaultExplorer.exe 
+
 Pop-Location
 $sw.Stop()
 Write-Debug "App elapsed start up: $($sw.Elapsed)"

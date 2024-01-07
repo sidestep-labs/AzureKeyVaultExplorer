@@ -49,6 +49,13 @@
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
         <ui:CommandBar Height="40" DefaultLabelPosition="Right">
             <ui:CommandBar.PrimaryCommands>
+                <ui:CommandBar.Styles>
+                    <Styles>
+                        <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </Styles>
+                </ui:CommandBar.Styles>
                 <ui:CommandBarButton
                     Height="40"
                     HorizontalAlignment="Center"

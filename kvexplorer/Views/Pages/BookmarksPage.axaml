@@ -17,48 +17,6 @@
 
         <ScrollViewer>
             <StackPanel Margin="10,5" Orientation="Vertical">
-                <ui:CommandBar Height="40" DefaultLabelPosition="Right">
-                    <ui:CommandBar.PrimaryCommands>
-                        <ui:CommandBarButton
-                            Height="40"
-                            HorizontalAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            IconSource="Open"
-                            Label="Open"
-                            ToolTip.Tip="Open in Azure Portal" />
-                        <ui:CommandBarButton
-                            Height="40"
-                            IconSource="Copy"
-                            Label="Copy" />
-                        <ui:CommandBarButton
-                            Height="40"
-                            CommandParameter="Key"
-                            IconSource="Download"
-                            Label="Download Public Key" />
-                        <ui:CommandBarButton
-                            Height="40"
-                            CommandParameter="Cert"
-                            IconSource="Download"
-                            Label="Download CER">
-
-                            <ui:CommandBarButton.Styles>
-                                <Styles>
-
-                                    <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel">
-
-                                        <Setter Property="Background" Value="Red" />
-										<Setter Property="HorizontalAlignment" Value="Center" />
-
-									</Style>
-
-                                </Styles>
-
-                            </ui:CommandBarButton.Styles>
-                        </ui:CommandBarButton>
-
-
-                    </ui:CommandBar.PrimaryCommands>
-                </ui:CommandBar>
                 <TextBlock HorizontalAlignment="Left" Theme="{StaticResource SubtitleTextBlockStyle}">Subscriptions</TextBlock>
                 <Button
                     HorizontalAlignment="Right"

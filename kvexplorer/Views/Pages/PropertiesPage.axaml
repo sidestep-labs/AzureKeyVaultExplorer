@@ -22,6 +22,11 @@
             <Style Selector="DataGrid DataGridRow:nth-child(2n)">
                 <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
             </Style>
+            <Styles>
+                <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel.isMacCommandBarButton">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </Styles>
             <!--<Style Selector="DataGridColumn">
                 <Setter Property="Width" Value="250" />
             </Style>
@@ -47,14 +52,12 @@
                                    macOS=True}" />
         <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
-        <ui:CommandBar Height="40" DefaultLabelPosition="Right">
-            <ui:CommandBar.Styles>
-                <Styles>
-                    <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel">
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                    </Style>
-                </Styles>
-            </ui:CommandBar.Styles>
+        <ui:CommandBar
+            Height="40"
+            Classes.isMacCommandBarButton="{OnPlatform False,
+                                       macOS=True}"
+            DefaultLabelPosition="Right">
+
             <ui:CommandBar.PrimaryCommands>
                 <ui:CommandBarButton
                     Height="40"

@@ -120,13 +120,13 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Stretch"
+                                    VerticalAlignment="Bottom"
                                     IsVisible="{Binding !#ShowToggleButton.IsChecked}"
                                     Text="{Binding SecretHidden}" />
                                 <TextBlock
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Stretch"
+                                    VerticalAlignment="Center"
                                     IsVisible="{Binding #ShowToggleButton.IsChecked}"
                                     Text="{Binding SecretPlainText}" />
                                 <ToggleButton

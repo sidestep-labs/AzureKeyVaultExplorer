@@ -23,10 +23,11 @@
                 <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
             </Style>
             <Styles>
-                <Style Selector="ui|CommandBar /template/ ui|CommandBarButton /template/ TextBlock#TextLabel.isMacCommandBarButton">
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Background" Value="RosyBrown" />
-
+                <Style Selector=".isMac">
+                    <Style Selector="^ ui|CommandBarButton /template/ TextBlock#TextLabel">
+                        <Setter Property="VerticalAlignment" Value="Bottom" />
+                        <Setter Property="Background" Value="RosyBrown" />
+                    </Style>
                 </Style>
             </Styles>
             <!--<Style Selector="DataGridColumn">
@@ -56,17 +57,9 @@
         <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
         <ui:CommandBar
             Height="40"
-            Classes.isMacCommandBarButton="True"
+            Classes.isMac="{OnPlatform False,
+                                       macOS=True}"
             DefaultLabelPosition="Right">
-
-            <ui:CommandBar.Styles>
-                <Styles>
-                    <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel">
-                        <Setter Property="VerticalAlignment" Value="Bottom" />
-                    </Style>
-                </Styles>
-            </ui:CommandBar.Styles>
-
             <ui:CommandBar.PrimaryCommands>
                 <ui:CommandBarButton
                     Height="40"

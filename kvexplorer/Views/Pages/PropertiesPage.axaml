@@ -26,7 +26,6 @@
                 <Style Selector=".isMac">
                     <Style Selector="^ ui|CommandBarButton /template/ TextBlock#TextLabel">
                         <Setter Property="VerticalAlignment" Value="Bottom" />
-                        <Setter Property="Background" Value="RosyBrown" />
                     </Style>
                 </Style>
             </Styles>

@@ -8,6 +8,7 @@ using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -249,11 +250,19 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             TreeViewList = new ObservableCollection<KeyVaultModel>(_treeViewList);
         }
-        var list = _treeViewList.Where(v =>
+
+        //  var searchValues = SearchValues.Create(query.AsSpan());
+        //  var listSearched = _treeViewList.Where(v =>
+        //    v.SubscriptionDisplayName.AsSpan().ContainsAny(searchValues) ||
+        //    //v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
+        //    v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.AsSpan().ContainsAny(searchValues))
+        //);
+
+        var listSearched = _treeViewList.Where(v =>
             v.SubscriptionDisplayName.ToLowerInvariant().Contains(query) ||
             v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
         );
-        TreeViewList = new ObservableCollection<KeyVaultModel>(list);
+        TreeViewList = new ObservableCollection<KeyVaultModel>(listSearched);
     }
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

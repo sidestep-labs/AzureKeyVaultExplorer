@@ -1,5 +1,6 @@
 ﻿using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
+using Azure.ResourceManager.Resources;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
@@ -78,6 +79,20 @@ public class VaultService
                 KeyVaultResources = new List<KeyVaultResource>() { placeholder }
             };
             yield return resource;
+        }
+    }
+  
+    public async IAsyncEnumerable<SubscriptionResource> GetAllSubscriptions(CancellationToken cancellationToken = default, string continuationToken = null)
+    {
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        var subscriptionsPageable = armClient.GetSubscriptions().GetAllAsync(cancellationToken).AsPages(continuationToken);
+
+        await foreach (var subscription in subscriptionsPageable)
+        {
+            foreach (var subscriptionResource in subscription.Values)
+            {
+                yield return subscriptionResource;
+            }
         }
     }
 

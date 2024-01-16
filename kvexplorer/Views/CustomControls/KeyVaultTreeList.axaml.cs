@@ -40,7 +40,7 @@ public partial class KeyVaultTreeList : UserControl
     {
         var flyout = Resources["FAMenuFlyoutSubscriptionTreeView"] as FAMenuFlyout;
 
-        // if pinned, enable unpinned item
+        // if pinned, enable unpinned item  
         foreach (MenuFlyoutItem item in flyout.Items)
         {
             _ = item.Name switch

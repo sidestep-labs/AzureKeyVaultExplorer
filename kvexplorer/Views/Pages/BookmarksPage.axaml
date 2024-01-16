@@ -17,87 +17,47 @@
 
         <ScrollViewer>
             <StackPanel Margin="10,5" Orientation="Vertical">
-                <ui:CommandBar Height="40" DefaultLabelPosition="Right">
-                    <ui:CommandBar.PrimaryCommands>
-                        <ui:CommandBarButton
-                            Height="40"
-                            HorizontalAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            IconSource="Open"
-                            Label="Open"
-                            ToolTip.Tip="Open in Azure Portal" />
-                        <ui:CommandBarButton
-                            Height="40"
-                            IconSource="Copy"
-                            Label="Copy" />
-                        <ui:CommandBarButton
-                            Height="40"
-                            CommandParameter="Key"
-                            IconSource="Download"
-                            Label="Download Public Key" />
-                        <ui:CommandBarButton
-                            Height="40"
-                            CommandParameter="Cert"
-                            IconSource="Download"
-                            Label="Download CER">
 
-                            <ui:CommandBarButton.Styles>
-                                <Styles>
-
-                                    <Style Selector="ui|CommandBarButton /template/ TextBlock#TextLabel">
-
-                                        <Setter Property="Background" Value="Red" />
-										<Setter Property="HorizontalAlignment" Value="Center" />
-
-									</Style>
-
-                                </Styles>
-
-                            </ui:CommandBarButton.Styles>
-                        </ui:CommandBarButton>
-
-
-                    </ui:CommandBar.PrimaryCommands>
-                </ui:CommandBar>
                 <TextBlock HorizontalAlignment="Left" Theme="{StaticResource SubtitleTextBlockStyle}">Subscriptions</TextBlock>
-                <Button
+                <!--<Button
                     HorizontalAlignment="Right"
                     Click="Button_Click"
-                    Content="New Workspace" />
+                    Content="New Workspace" />-->
                 <TextBlock TextWrapping="Wrap">
                     Select which subscriptions to be show in the left sidebar.<LineBreak />
                 </TextBlock>
                 <ItemsControl>
 
                     <WrapPanel>
-                        <Border
-                            Width="100"
-                            Height="100"
-                            Margin="10"
-                            BorderBrush="Gray"
-                            BorderThickness="1"
-                            CornerRadius="5" />
-                        <Border
-                            Width="100"
-                            Height="100"
-                            Margin="10"
-                            BorderBrush="Gray"
-                            BorderThickness="1"
-                            CornerRadius="5" />
-                        <Border
-                            Width="100"
-                            Height="100"
-                            Margin="10"
-                            BorderBrush="Gray"
-                            BorderThickness="1"
-                            CornerRadius="5" />
-                        <Border
-                            Width="100"
-                            Height="100"
-                            Margin="10"
-                            BorderBrush="Gray"
-                            BorderThickness="1"
-                            CornerRadius="5" />
+                        <!--
+						<DataGrid Margin="20"
+								GridLinesVisibility="All"
+								BorderThickness="1" BorderBrush="Gray">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="First Name" Width="2*"
+								   Binding="{Binding FirstName}" />
+								<DataGridTextColumn Header="Last Name" Width="2*"
+								   Binding="{Binding LastName}" />
+
+								<DataGridTemplateColumn Header="Age">
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate DataType="model:Person">
+											<TextBlock Text="{Binding AgeInYears, StringFormat='{}{0} years'}"
+											  VerticalAlignment="Center" HorizontalAlignment="Center" />
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+									<DataGridTemplateColumn.CellEditingTemplate>
+										<DataTemplate DataType="model:Person">
+											<NumericUpDown Value="{Binding AgeInYears}"
+											   FormatString="N0" Minimum="0" Maximum="120"
+											   HorizontalAlignment="Stretch"/>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellEditingTemplate>
+								</DataGridTemplateColumn>
+
+							</DataGrid.Columns>
+						</DataGrid>
+						-->
                     </WrapPanel>
 
                 </ItemsControl>

@@ -70,7 +70,8 @@ public partial class VaultPage : UserControl
     {
         var dg = sender as DataGrid;
         var hideCopyCmd = false;
-        if (dg.SelectedItem is not null && (dg.SelectedItem as KeyVaultContentsAmalgamation).Type == KeyVaultItemType.Certificate)
+        //if (dg.SelectedItem is not null && (dg.SelectedItem as KeyVaultContentsAmalgamation).Type == KeyVaultItemType.Certificate)
+        if (dg.SelectedItem is KeyVaultContentsAmalgamation { Type: KeyVaultItemType.Certificate })
         {
             hideCopyCmd = true;
         }

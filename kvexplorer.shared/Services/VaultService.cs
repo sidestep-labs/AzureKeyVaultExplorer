@@ -7,6 +7,8 @@ using Azure.Security.KeyVault.Secrets;
 using kvexplorer.shared.Exceptions;
 using kvexplorer.shared.Models;
 using Microsoft.Extensions.Caching.Memory;
+using Azure.Core.Pipeline;
+using Azure;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -81,8 +83,10 @@ public class VaultService
             yield return resource;
         }
     }
-  
-    public async IAsyncEnumerable<SubscriptionResource> GetAllSubscriptions(CancellationToken cancellationToken = default, string continuationToken = null)
+
+    public record SubscriptionResourceWithNextPageToken(SubscriptionResource SubscriptionResource, string ContinuationToken);
+
+    public async IAsyncEnumerable<SubscriptionResourceWithNextPageToken> GetAllSubscriptions(CancellationToken cancellationToken = default, string continuationToken = null)
     {
         var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
         var subscriptionsPageable = armClient.GetSubscriptions().GetAllAsync(cancellationToken).AsPages(continuationToken);
@@ -91,7 +95,7 @@ public class VaultService
         {
             foreach (var subscriptionResource in subscription.Values)
             {
-                yield return subscriptionResource;
+                yield return new SubscriptionResourceWithNextPageToken(subscriptionResource, subscription.ContinuationToken);
             }
         }
     }

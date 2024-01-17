@@ -40,14 +40,14 @@ public partial class BookmarksPageViewModel : ViewModelBase
     public ObservableCollection<SubscriptionResource> subscriptions;
 
     [RelayCommand]
-    public async Task GetAvailableKeyVaults()
+    public async Task GetAllKeyVaults()
     {
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
             var resource = _vaultService.GetAllSubscriptions();
             await foreach (var item in resource)
             {
-                Subscriptions.Add(item);
+                Subscriptions.Add(item.SubscriptionResource);
             }
         });
     }

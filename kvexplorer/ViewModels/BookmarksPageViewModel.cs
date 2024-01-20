@@ -8,6 +8,7 @@ using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace kvexplorer.ViewModels;
@@ -17,14 +18,21 @@ public partial class BookmarksPageViewModel : ViewModelBase
     private readonly VaultService _vaultService;
     private readonly KvExplorerDb _db;
 
+    [ObservableProperty]
+    public ObservableCollection<SubscriptionData> subscriptions;
+
     public BookmarksPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        SelectedSubscription = new();
+        Subscriptions = new ObservableCollection<SubscriptionData>();
     }
 
+   
+
     [ObservableProperty]
-    public ObservableCollection<string> selectedSubscription;
+    public ObservableCollection<SubscriptionResource> selectedSubscription;
     /// <summary>
     /// The Title of this page
     /// </summary>
@@ -36,9 +44,6 @@ public partial class BookmarksPageViewModel : ViewModelBase
     public string Message => "Press \"Next\" to register yourself.";
 
 
-    [ObservableProperty]
-    public ObservableCollection<SubscriptionResource> subscriptions;
-
     [RelayCommand]
     public async Task GetAllKeyVaults()
     {
@@ -47,7 +52,8 @@ public partial class BookmarksPageViewModel : ViewModelBase
             var resource = _vaultService.GetAllSubscriptions();
             await foreach (var item in resource)
             {
-                Subscriptions.Add(item.SubscriptionResource);
+                Subscriptions.Add(item.SubscriptionResource.Data);
+                Debug.WriteLine(item.ContinuationToken);
             }
         });
     }

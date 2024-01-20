@@ -11,7 +11,4 @@ public partial class BookmarksPage : UserControl
         InitializeComponent();
         DataContext = new BookmarksPageViewModel();
     }
-
-    
-
 }

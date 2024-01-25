@@ -2,6 +2,7 @@
     x:Class="kvexplorer.Views.Pages.BookmarksPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.Resources;assembly=Azure.ResourceManager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
@@ -46,16 +47,40 @@
         <DataGrid
             Grid.Row="1"
             MinHeight="200"
-			Margin="5,5,5,5"
+            Margin="5,5,5,5"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
+            x:DataType="armmodels:SubscriptionData"
             AutoGenerateColumns="True"
+			x:CompileBindings="False"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
             GridLinesVisibility="Horizontal"
             HorizontalScrollBarVisibility="Visible"
             ItemsSource="{Binding Subscriptions}"
-            VerticalScrollBarVisibility="Visible" />
+            VerticalScrollBarVisibility="Visible">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="250"
+                    Binding="{Binding DisplayName}"
+                    Header="DisplayName" />
+                <DataGridTextColumn
+                    Width="250"
+                    Binding="{Binding SubscriptionId}"
+                    Header="SubscriptionId" />
+                <DataGridTextColumn
+                    Width="250"
+                    Binding="{Binding Tags}"
+                    Header="Tags" />
+                <DataGridTextColumn
+                    Width="250"
+                    Binding="{Binding TenantId}"
+                    Header="TenantId" />
+                <DataGridCheckBoxColumn Width="250" Header="Show In Sidebar" />
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 
 

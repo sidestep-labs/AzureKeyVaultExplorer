@@ -1,6 +1,5 @@
 ﻿using Avalonia.Threading;
 using Azure.ResourceManager.Resources;
-using Azure.ResourceManager.Resources.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;

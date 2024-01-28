@@ -20,7 +20,7 @@
             <TextBlock Margin="0,0,0,15" Theme="{StaticResource SubtitleTextBlockStyle}">Settings</TextBlock>
             <ui:SettingsExpander
                 Name="AccountExpander"
-                Margin="0,0,0,10"
+                Margin="0,0,0,3"
                 Description="View account details and perform actions"
                 Header="Account Information"
                 IconSource="Contact">
@@ -75,7 +75,25 @@
             <TextBlock
                 Margin="0,5,0,3"
                 FontSize="15"
-                Text="Miscellaneous" />
+                Text="General" />
+
+            <ui:SettingsExpander
+                Name="ClearFromClipboardAfter"
+                Margin="0,0,0,3"
+                Description="This will clear the clipboard after a set amount of time in seconds"
+                Header="Clear Clipboard secret after"
+                IconSource="ColorBackground">
+                <ui:SettingsExpander.Footer>
+                    <NumericUpDown
+                        Width="120"
+                        FormatString="0"
+                        Increment="10"
+                        Maximum="60"
+                        Minimum="0"
+                        Spinned="NumericUpDown_Spinned"
+                        Value="{Binding ClearClipboardTimeout, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
             <ui:SettingsExpander
                 Name="BackgroundTransparencySetting"
                 Description="When checked, this will enabled more modern Mica tranparent background on Windows 11"

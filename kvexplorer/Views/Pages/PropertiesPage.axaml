@@ -73,7 +73,8 @@
                     Command="{Binding CopyCommand}"
                     IconSource="Copy"
                     IsVisible="{Binding !IsCertificate}"
-                    Label="Copy" />
+                    Label="Copy"
+                    ToolTip.Tip="Copy Value (cleared after 30 seconds) " />
                 <ui:CommandBarButton
                     Height="40"
                     Command="{Binding DownloadCommand}"

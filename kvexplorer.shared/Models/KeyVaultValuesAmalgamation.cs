@@ -22,6 +22,8 @@ public class KeyVaultContentsAmalgamation
     public KeyProperties KeyProperties { get; set; } = null!;
 
     public CertificateProperties? CertificateProperties { get; set; } = null!;
+
+    public IDictionary<string, string> Tags { get; set; } = null!;
 }
 
 public enum KeyVaultItemType

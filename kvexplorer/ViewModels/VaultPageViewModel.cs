@@ -22,6 +22,9 @@ using System.Threading.Tasks;
 using Avalonia.Input.Platform;
 using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
+using kvexplorer.shared.Database;
+using Avalonia.Remote.Protocol.Input;
+using System.Net.Sockets;
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -48,6 +51,9 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
+
+    [ObservableProperty]
+    public KeyVaultContentsAmalgamation selectedRow;
 
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
@@ -79,6 +85,7 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        
                     });
                     break;
 
@@ -174,7 +181,8 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = key.Id,
                 Version = key.Version,
                 KeyProperties = key,
-                LastModifiedDate = key.UpdatedOn.HasValue ? key.UpdatedOn.Value.ToLocalTime() : key.CreatedOn.Value.ToLocalTime()
+                LastModifiedDate = key.UpdatedOn.HasValue ? key.UpdatedOn.Value.ToLocalTime() : key.CreatedOn.Value.ToLocalTime(),
+                Tags = key.Tags
             });
         }
         _vaultContents = VaultContents;
@@ -195,7 +203,9 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = secret.Id,
                 Version = secret.Version,
                 SecretProperties = secret,
-                LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime()
+                LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime(),
+                Tags = secret.Tags
+
             });
         }
 
@@ -216,7 +226,8 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = cert.Id,
                 Version = cert.Version,
                 CertificateProperties = cert,
-                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime()
+                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime(),
+                Tags = cert.Tags
             });
         }
         _vaultContents = VaultContents;
@@ -306,7 +317,16 @@ public partial class VaultPageViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
+
+        public async Task ClearClickBoardAsync(KvExplorerDb kvExplorerDb)
+        {
+            await Task.Delay(10000);
+    }
+
+
+
+
+[RelayCommand]
     private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;

@@ -33,14 +33,20 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty]
     private bool isBackgroundTransparencyEnabled;
 
+    [ObservableProperty]
+    private int clearClipboardTimeout  = 30;
+
     public SettingsPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        //_db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         Dispatcher.UIThread.Invoke(async () =>
         {
             Version = GetAppVersion();
+            var s = await _db.GetToggleSettings();
+            ClearClipboardTimeout = s.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
+
         }, DispatcherPriority.Input);
     }
 
@@ -76,6 +82,17 @@ public partial class SettingsPageViewModel : ViewModelBase
     {
         AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
     }
+
+
+
+
+    [RelayCommand]
+    private async Task SetClearClipboardTimeout()
+    {
+        await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propogate.
+        await _db.UpdateToggleSettings(SettingType.ClipboardTimeout, ClearClipboardTimeout);
+    }
+
 
     //private async Task LoadApplicationVersion()
     //{

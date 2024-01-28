@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using kvexplorer.shared.Models;
+using Microsoft.Data.Sqlite;
 
 namespace kvexplorer.shared.Database;
 
@@ -59,7 +60,8 @@ public partial class KvExplorerDb
                 -- Table: Settings
                 DROP TABLE IF EXISTS Settings;
                 CREATE TABLE IF NOT EXISTS Settings ( Name  TEXT (200)  PRIMARY KEY UNIQUE, Value INTEGER (1) CONSTRAINT DEFAULT_FALSE DEFAULT (0) );
-                INSERT OR IGNORE INTO Settings ( Name, Value ) VALUES ( 'BackgroundTransparency', 0 );
+                INSERT OR IGNORE INTO Settings ( Name, Value )
+                VALUES ( 'BackgroundTransparency', 0 ), ( 'ClipboardTimeout', 20 );
                 """;
 
         var createTableCommand = connection.CreateCommand();
@@ -179,24 +181,43 @@ public partial class KvExplorerDb
         return rowsAffected > 0;
     }
 
-    public async Task<List<Settings>> GetToggleSettings()
+    public async Task<T> UpdateToggleSettings<T>(SettingType name, T value)
+    {
+        var connection = NewSqlConnection();
+        await connection.OpenAsync();
+        var command = connection.CreateCommand();
+        command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
+        command.Parameters.Add(new SqliteParameter("@SettingValue", value));
+        command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
+        var rowsAffected = await command.ExecuteNonQueryAsync();
+        // Check if any rows were deleted (1 or more indicates success)
+        return rowsAffected > 0 ? value : default;
+    }
+
+    public async Task<AppSettings> GetToggleSettings()
     {
         var connection = NewSqlConnection();
         await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "SELECT Name, Value FROM SETTINGS";
-        var items = new List<Settings>();
+        var settings = new AppSettings();
         var reader = command.ExecuteReader();
         while (reader.Read())
         {
             Enum.TryParse(reader.GetString(0), true, out SettingType parsedEnumValue);
-            var item = new Settings
+            switch (parsedEnumValue)
             {
-                Name = parsedEnumValue,
-                Value = reader.GetBoolean(1),
-            };
-            items.Add(item);
+                case SettingType.BackgroundTransparency:
+                    settings.BackgroundTransparency = reader.GetBoolean(1);
+                    break;
+                case SettingType.ClipboardTimeout:
+                    settings.ClipboardTimeout = reader.GetInt32(1);
+                    break;
+                default:
+                    break;
+            }
         }
-        return items;
+        return settings;
     }
+
 }

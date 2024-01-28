@@ -93,9 +93,9 @@
                 Name="SearchTextBox"
                 Margin="100,0,0,0"
                 HorizontalAlignment="Stretch"
+                VerticalContentAlignment="Center"
                 AcceptsReturn="False"
                 Classes.clearButton="True"
-                VerticalContentAlignment="Center"
                 ClipToBounds="True"
                 DockPanel.Dock="Right"
                 HotKeyManager.HotKey="Ctrl+F"
@@ -171,32 +171,51 @@
                 HorizontalScrollBarVisibility="Visible"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"
+                SelectedItem="{Binding SelectedRow}"
+                SelectionMode="Single"
                 VerticalScrollBarVisibility="Visible">
+                <DataGrid.Styles>
+                    <Styles>
+                        <Style Selector="DataGridColumnHeader">
+                            <Setter Property="MinHeight" Value="25" />
+                            <Setter Property="Height" Value="25" />
+                        </Style>
+                    </Styles>
 
+                </DataGrid.Styles>
                 <DataGrid.Columns>
-
                     <!--<DataGridTextColumn
                         Width="200"
                         Binding="{Binding Type}"
                         Header="Type"
                         IsVisible="{Binding ShowTypeColumn}" />-->
                     <DataGridTextColumn
-                        Width="250"
+                        Width="150"
                         Binding="{Binding Name}"
+                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="Name" />
                     <DataGridTextColumn
-                        Width="230"
+                        Width="300"
+                        Binding="{Binding Id}"
+                        FontSize="{DynamicResource FontSizeSmall}"
+                        Header="Identifier" />
+                    <DataGridTextColumn
+                        Width="200"
                         Binding="{Binding LastModifiedDate}"
-                        Header="LastModifiedDate" />
+                        FontSize="{DynamicResource FontSizeSmall}"
+                        Header="Last Modified Date" />
                     <DataGridTextColumn
                         Width="400"
                         Binding="{Binding ValueUri}"
+                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="Value Uri" />
 
                     <DataGridTextColumn
                         Width="300"
                         Binding="{Binding ContentType}"
+                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="ContentType" />
+
                 </DataGrid.Columns>
                 <DataGrid.Styles>
                     <Style Selector="DataGrid DataGridRow:nth-child(2n)">

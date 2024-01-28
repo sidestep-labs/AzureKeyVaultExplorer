@@ -25,4 +25,12 @@ public partial class SettingsPage : UserControl
     {
         (DataContext as SettingsPageViewModel).SignInOrRefreshTokenCommand.Execute(null);
     }
+
+
+    private void NumericUpDown_Spinned(object? sender, Avalonia.Controls.SpinEventArgs e)
+    {
+        var x = (sender as NumericUpDown);
+        (DataContext as SettingsPageViewModel).SetClearClipboardTimeoutCommand.Execute(null);
+
+    }
 }

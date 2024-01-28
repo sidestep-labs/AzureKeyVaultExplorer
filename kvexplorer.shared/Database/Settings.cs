@@ -2,11 +2,14 @@
 
 public enum SettingType
 {
-    BackgroundTransparency
+    BackgroundTransparency,
+    ClipboardTimeout
 }
+
 
 public class Settings
 {
     public SettingType Name { get; set; }
-    public bool Value { get; set; }
+    public object Value { get; set; } 
 }
+

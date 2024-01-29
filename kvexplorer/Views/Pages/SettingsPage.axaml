@@ -80,7 +80,7 @@
             <ui:SettingsExpander
                 Name="ClearFromClipboardAfter"
                 Margin="0,0,0,3"
-                Description="This will clear the clipboard after a set amount of time in seconds"
+                Description="This will clear the clipboard after a set amount of time in seconds."
                 Header="Clear Clipboard secret after"
                 IconSource="ColorBackground">
                 <ui:SettingsExpander.Footer>
@@ -89,7 +89,7 @@
                         FormatString="0"
                         Increment="10"
                         Maximum="60"
-                        Minimum="0"
+                        Minimum="10"
                         Spinned="NumericUpDown_Spinned"
                         Value="{Binding ClearClipboardTimeout, Mode=TwoWay}" />
                 </ui:SettingsExpander.Footer>

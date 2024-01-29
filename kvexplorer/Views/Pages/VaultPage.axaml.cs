@@ -27,7 +27,7 @@ public partial class VaultPage : UserControl
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
-        KeyUp += MyUserControl_KeyUp;
+        KeyUp += SearchControl_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
@@ -42,7 +42,7 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
-        KeyUp += MyUserControl_KeyUp;
+        KeyUp += SearchControl_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
@@ -57,7 +57,7 @@ public partial class VaultPage : UserControl
         });
     }
 
-    private void MyUserControl_KeyUp(object sender, KeyEventArgs e)
+    private void SearchControl_KeyUp(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
         {

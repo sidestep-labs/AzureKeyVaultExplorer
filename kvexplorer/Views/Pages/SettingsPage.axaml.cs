@@ -9,7 +9,6 @@ public partial class SettingsPage : UserControl
     public SettingsPage()
     {
         InitializeComponent();
-        //DataContext = new SettingsPageViewModel();
         DataContext = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
         var bgCheckbox = this.FindControl<CheckBox>("BackgroundTransparencyCheckbox");
         bgCheckbox.IsCheckedChanged += BackgroundTransparency_ChangedEvent;

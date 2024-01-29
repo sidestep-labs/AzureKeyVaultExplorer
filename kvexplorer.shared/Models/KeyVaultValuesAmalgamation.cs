@@ -1,6 +1,8 @@
 ﻿using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
+using System.Diagnostics;
+using System.Linq;
 
 namespace kvexplorer.shared.Models;
 
@@ -24,6 +26,11 @@ public class KeyVaultContentsAmalgamation
     public CertificateProperties? CertificateProperties { get; set; } = null!;
 
     public IDictionary<string, string> Tags { get; set; } = null!;
+
+    public string TagNames => string.Join(", ",Tags.Values);
+  
+    public string TagKeys => string.Join(", ", Tags.Keys);
+
 }
 
 public enum KeyVaultItemType

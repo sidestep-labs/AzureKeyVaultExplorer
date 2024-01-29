@@ -60,13 +60,14 @@ public partial class VaultPageViewModel : ViewModelBase
     private readonly WindowNotificationManager _windowNotification;
     private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
     private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
-
+    private SettingsPageViewModel _settingsPageViewModel;
     private Bitmap BitmapImage;
 
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
+        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
         BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-icon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
         for (int i = 0; i < 50; i++)
@@ -85,7 +86,6 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
-                        
                     });
                     break;
 
@@ -205,7 +205,6 @@ public partial class VaultPageViewModel : ViewModelBase
                 SecretProperties = secret,
                 LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime(),
                 Tags = secret.Tags
-
             });
         }
 
@@ -310,23 +309,23 @@ public partial class VaultPageViewModel : ViewModelBase
             dataObject.Set(DataFormats.Text, value);
             await clipboard.SetTextAsync(value);
             ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
+            await ClearClipboardAsync().ConfigureAwait(false);
+
+
         }
         catch (KeyVaultItemNotFoundException ex)
         {
             ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error, topLevel);
-        }
+        } 
     }
 
-
-        public async Task ClearClickBoardAsync(KvExplorerDb kvExplorerDb)
-        {
-            await Task.Delay(10000);
+    public async Task ClearClipboardAsync()
+    {
+        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
+        await clipboard.ClearAsync();
     }
 
-
-
-
-[RelayCommand]
+    [RelayCommand]
     private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;

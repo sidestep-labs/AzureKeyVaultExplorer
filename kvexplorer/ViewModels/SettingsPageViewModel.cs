@@ -89,7 +89,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task SetClearClipboardTimeout()
     {
-        await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propogate.
+        await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
         await _db.UpdateToggleSettings(SettingType.ClipboardTimeout, ClearClipboardTimeout);
     }
 

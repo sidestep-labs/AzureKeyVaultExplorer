@@ -71,11 +71,14 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
     [ObservableProperty]
     public KeyVaultContentsAmalgamation openedItem;
+    private SettingsPageViewModel _settingsPageViewModel;
 
     public PropertiesPageViewModel(KeyVaultContentsAmalgamation model)
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
+        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+
         OpenedItem = model;
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
@@ -124,8 +127,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task Copy()
     {
-        if (OpenedItem is null) return;
-        if (IsCertificate) return;
+        if (OpenedItem is null || IsCertificate) return;
         try
         {
             string value = string.Empty;
@@ -151,12 +153,19 @@ public partial class PropertiesPageViewModel : ViewModelBase
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
             await clipboard.SetTextAsync(value);
+            ClearClipboardAsync().ConfigureAwait(false);
         }
         catch (KeyVaultItemNotFoundException ex)
         {
         }
-    }
 
+
+    }
+    public async Task ClearClipboardAsync()
+    {
+        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
+        await clipboard.ClearAsync();
+    }
     [RelayCommand]
     private async Task Download(string exportType)
     {

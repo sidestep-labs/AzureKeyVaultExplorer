@@ -57,8 +57,8 @@
 
     <Style Selector="ToolTip Border">
         <Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
-        <Setter Property="Margin" Value="0 0 2 4" />
-    </Style>
+		<Setter Property="Margin" Value="5 2 2 4" />
+	</Style>
 
     <Style Selector="ToolTip">
         <Setter Property="CornerRadius" Value="5" />
@@ -66,11 +66,11 @@
 
     <!--  Treeviewlist styles  -->
     <Style Selector="TreeView">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
 
     <Style Selector="TreeViewItem">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
 
 </Styles>

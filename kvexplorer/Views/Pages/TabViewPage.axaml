@@ -37,16 +37,17 @@
 					<Setter Property="Width" Value="10"/>
 				<Setter Property="Border" Value="0,0,0,1"/>
 				<Setter Property="BorderBrush" Value="Red"/>
-			</Style>
+			</Style>	
+			-->
             <Style Selector="ui|TabView /template/ ContentPresenter">
                 <Setter Property="BorderBrush">
                     <Setter.Value>
-                        <SolidColorBrush Opacity="0.15" Color="{DynamicResource SystemAccentColorDark1}" />
+                        <SolidColorBrush Opacity="0.15" Color="{DynamicResource TabViewBackgroundBrushCustom}" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
-            </Style>	
-			-->
+            </Style>
+
         </Styles>
 
     </UserControl.Styles>

@@ -180,6 +180,10 @@
                             <Setter Property="MinHeight" Value="25" />
                             <Setter Property="Height" Value="25" />
                         </Style>
+                        <Style Selector="DataGridRowGroupHeader">
+                            <Setter Property="MinHeight" Value="25" />
+                            <Setter Property="Height" Value="25" />
+                        </Style>
                     </Styles>
 
                 </DataGrid.Styles>
@@ -204,6 +208,13 @@
                         Binding="{Binding LastModifiedDate}"
                         FontSize="{DynamicResource FontSizeSmall}"
                         Header="Last Modified Date" />
+
+                    <DataGridTextColumn
+                        Width="300"
+                        Binding="{Binding TagKeys}"
+                        FontSize="{DynamicResource FontSizeSmall}"
+                        Header="Tags" />
+
                     <DataGridTextColumn
                         Width="400"
                         Binding="{Binding ValueUri}"

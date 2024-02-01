@@ -174,19 +174,7 @@
                 SelectedItem="{Binding SelectedRow}"
                 SelectionMode="Single"
                 VerticalScrollBarVisibility="Visible">
-                <DataGrid.Styles>
-                    <Styles>
-                        <Style Selector="DataGridColumnHeader">
-                            <Setter Property="MinHeight" Value="25" />
-                            <Setter Property="Height" Value="25" />
-                        </Style>
-                        <Style Selector="DataGridRowGroupHeader">
-                            <Setter Property="MinHeight" Value="25" />
-                            <Setter Property="Height" Value="25" />
-                        </Style>
-                    </Styles>
-
-                </DataGrid.Styles>
+         
                 <DataGrid.Columns>
                     <!--<DataGridTextColumn
                         Width="200"

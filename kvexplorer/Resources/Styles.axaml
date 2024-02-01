@@ -57,8 +57,8 @@
 
     <Style Selector="ToolTip Border">
         <Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
-		<Setter Property="Margin" Value="5 2 2 4" />
-	</Style>
+        <Setter Property="Margin" Value="5 2 2 4" />
+    </Style>
 
     <Style Selector="ToolTip">
         <Setter Property="CornerRadius" Value="5" />
@@ -72,5 +72,25 @@
     <Style Selector="TreeViewItem">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
+
+    <!--  Datagrid styles  -->
+
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Height" Value="25" />
+    </Style>
+    <Style Selector="DataGridRowGroupHeader">
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Height" Value="25" />
+    </Style>
+
+	<Style Selector="DataGridRow">
+		<Setter Property="Height" Value="25" />
+	</Style>
+
+	<Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+		<Setter Property="Height" Value="25" />
+	</Style>
+
 
 </Styles>

@@ -199,11 +199,22 @@
 
                     <DataGridTextColumn
                         Width="300"
-                        Binding="{Binding TagKeys}"
+                        Binding="{Binding TagKeyString}"
                         FontSize="{DynamicResource FontSizeSmall}"
                         Header="Tags" />
 
-                    <DataGridTextColumn
+					<DataGridTemplateColumn Header="HeaderName">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<ItemsRepeater ItemsSource="{Binding TagNames}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+				
+					</DataGridTemplateColumn>
+
+
+
+					<DataGridTextColumn
                         Width="400"
                         Binding="{Binding ValueUri}"
                         FontSize="{DynamicResource FontSizeSmall}"

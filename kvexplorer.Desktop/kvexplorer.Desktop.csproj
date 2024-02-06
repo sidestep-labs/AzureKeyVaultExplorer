@@ -20,6 +20,12 @@
     <PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
   <ItemGroup>
+    <AvaloniaXaml Remove="publish-aot\**" />
+    <Compile Remove="publish-aot\**" />
+    <EmbeddedResource Remove="publish-aot\**" />
+    <None Remove="publish-aot\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="kv-noborder.ico" />
   </ItemGroup>
 

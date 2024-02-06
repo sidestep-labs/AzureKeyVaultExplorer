@@ -27,9 +27,13 @@ public class KeyVaultContentsAmalgamation
 
     public IDictionary<string, string> Tags { get; set; } = null!;
 
-    public string TagNames => string.Join(", ",Tags.Values);
-  
-    public string TagKeys => string.Join(", ", Tags.Keys);
+    public string[] TagNames => Tags is not null ? [.. Tags.Values] : [];
+
+    public string[] TagKeys => Tags.Keys.ToArray();
+
+    public string TagNameString => "";//string.Join(", ",Tags?.Values ?? []);
+
+    public string TagKeyString => "";
 
 }
 

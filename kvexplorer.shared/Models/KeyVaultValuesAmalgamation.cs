@@ -27,7 +27,7 @@ public class KeyVaultContentsAmalgamation
 
     public IDictionary<string, string> Tags { get; set; } = null!;
 
-    public string[] TagNames => Tags is not null ? [.. Tags.Values] : [];
+    public string[] TagValues => Tags is not null ? [.. Tags.Values] : [];
 
     public string[] TagKeys => Tags.Keys.ToArray();
 

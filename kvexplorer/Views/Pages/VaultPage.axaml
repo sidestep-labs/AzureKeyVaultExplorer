@@ -220,7 +220,7 @@
                                                     CornerRadius="5">
                                                     <TextBlock
                                                         FontSize="{DynamicResource FontSizeSmall}"
-                                                        Foreground="{DynamicResource TextOnAccentFillColorSecondaryBrush}"
+                                                        Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
                                                         Text="{Binding .}" />
                                                 </Border>
                                             </StackPanel>

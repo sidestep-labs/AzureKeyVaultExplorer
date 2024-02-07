@@ -56,8 +56,10 @@
     </Style>
 
     <Style Selector="ToolTip Border">
-        <Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
-        <Setter Property="Margin" Value="5 2 2 4" />
+        <Setter Property="Margin" Value="5 5 5 10" />
+        <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
+        <!--<Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
+		<Setter Property="Margin" Value="0 0 2 4" />-->
     </Style>
 
     <Style Selector="ToolTip">
@@ -84,13 +86,13 @@
         <Setter Property="Height" Value="25" />
     </Style>
 
-	<Style Selector="DataGridRow">
-		<Setter Property="Height" Value="25" />
-	</Style>
+    <Style Selector="DataGridRow">
+        <Setter Property="Height" Value="25" />
+    </Style>
 
-	<Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
-		<Setter Property="Height" Value="25" />
-	</Style>
+    <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+        <Setter Property="Height" Value="25" />
+    </Style>
 
 
 </Styles>

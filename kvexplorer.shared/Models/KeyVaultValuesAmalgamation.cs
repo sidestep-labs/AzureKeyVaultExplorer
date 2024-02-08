@@ -31,7 +31,7 @@ public class KeyVaultContentsAmalgamation
 
     public string[] TagKeys => Tags.Keys.ToArray();
 
-    public string TagNameString => "";//string.Join(", ",Tags?.Values ?? []);
+    public string TagValuesString => string.Join(", ",Tags?.Values ?? []);
 
     public string TagKeyString => "";
 

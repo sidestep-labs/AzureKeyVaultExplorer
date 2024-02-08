@@ -196,16 +196,13 @@
                         Binding="{Binding LastModifiedDate}"
                         FontSize="{DynamicResource FontSizeSmall}"
                         Header="Last Modified Date" />
-
-                    <!--<DataGridTextColumn
-                        Width="300"
-                        Binding="{Binding TagKeyString}"
-                        FontSize="{DynamicResource FontSizeSmall}"
-                        Header="Tags" />-->
-                    <DataGridTemplateColumn Width="200" Header="Tags">
+       
+                    <DataGridTemplateColumn
+                        Width="200"
+                        Header="Tags"
+                        SortMemberPath="TagValuesString">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-
                                 <ItemsRepeater ItemsSource="{Binding TagValues}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Orientation="Horizontal" />
@@ -227,31 +224,9 @@
                                         </DataTemplate>
                                     </ItemsRepeater.ItemTemplate>
                                 </ItemsRepeater>
-
-
-
-
-
-
-
-
-                                <!--<ItemsRepeater ItemsSource="{Binding TagValues}" Layout="Horizontal">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="40" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="{DynamicResource FontSizeSmall}" Text="{Binding .}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>-->
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-
                     </DataGridTemplateColumn>
-
 
 
                     <DataGridTextColumn

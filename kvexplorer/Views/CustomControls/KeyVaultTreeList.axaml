@@ -29,6 +29,11 @@
     <UserControl.Resources>
         <ui:FAMenuFlyout x:Key="FAMenuFlyoutSubscriptionTreeView" Placement="Pointer">
             <ui:MenuFlyoutItem
+                Click="MenuFlyoutItem_Click"
+                DataContext="{Binding #SubscriptionTreeViewList.SelectedItem}"
+                IconSource="OpenFolder"
+                Text="Open Vault in Tab" />
+            <ui:MenuFlyoutItem
                 Name="PinToQuickAccess"
                 Command="{Binding PinVaultToQuickAccessCommand}"
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
@@ -45,6 +50,7 @@
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="Open"
                 Text="Open in Azure Portal" />
+
         </ui:FAMenuFlyout>
     </UserControl.Resources>
 

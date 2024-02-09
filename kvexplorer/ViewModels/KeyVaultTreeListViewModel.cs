@@ -290,4 +290,5 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         var uri = $"https://portal.azure.com/#@{_authService.TenantName}/resource{model.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
+
 }

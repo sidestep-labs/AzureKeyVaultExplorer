@@ -97,6 +97,7 @@ public partial class KeyVaultTreeList : UserControl
         control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 
+ 
     private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)
     {
         var s = (TreeView)sender;
@@ -105,5 +106,24 @@ public partial class KeyVaultTreeList : UserControl
         {
             var model = (KeyVaultModel)s.SelectedItem;
         }
+    }
+
+    private void MenuFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+
+    {
+
+        var sx = (MenuFlyoutItem)sender!;
+
+        if (sx.DataContext is KeyVaultResource)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                var model = (KeyVaultTreeListViewModel)DataContext;
+
+                _tabViewViewModel.AddVaultPageCommand.Execute(model.SelectedTreeItem.Data);
+            }, DispatcherPriority.ContextIdle);
+        }
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 }

@@ -40,7 +40,7 @@ public partial class KeyVaultTreeList : UserControl
     {
         var flyout = Resources["FAMenuFlyoutSubscriptionTreeView"] as FAMenuFlyout;
 
-        // if pinned, enable unpinned item  
+        // if pinned, enable unpinned item
         foreach (MenuFlyoutItem item in flyout.Items)
         {
             _ = item.Name switch
@@ -97,21 +97,8 @@ public partial class KeyVaultTreeList : UserControl
         control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 
- 
-    private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)
+    private void TreeListFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var s = (TreeView)sender;
-
-        if (s.SelectedItem is not null)
-        {
-            var model = (KeyVaultModel)s.SelectedItem;
-        }
-    }
-
-    private void MenuFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-
-    {
-
         var sx = (MenuFlyoutItem)sender!;
 
         if (sx.DataContext is KeyVaultResource)

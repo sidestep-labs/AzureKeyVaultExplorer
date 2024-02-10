@@ -50,9 +50,9 @@
             Margin="5,5,5,5"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
+            x:CompileBindings="False"
             x:DataType="armmodels:SubscriptionData"
             AutoGenerateColumns="True"
-			x:CompileBindings="False"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
             GridLinesVisibility="Horizontal"
@@ -61,6 +61,7 @@
             VerticalScrollBarVisibility="Visible">
 
             <DataGrid.Columns>
+                <DataGridCheckBoxColumn Width="250" Header="Show In Sidebar" />
                 <DataGridTextColumn
                     Width="250"
                     Binding="{Binding DisplayName}"
@@ -77,7 +78,6 @@
                     Width="250"
                     Binding="{Binding TenantId}"
                     Header="TenantId" />
-                <DataGridCheckBoxColumn Width="250" Header="Show In Sidebar" />
 
             </DataGrid.Columns>
         </DataGrid>

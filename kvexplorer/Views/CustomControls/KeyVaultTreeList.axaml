@@ -29,7 +29,7 @@
     <UserControl.Resources>
         <ui:FAMenuFlyout x:Key="FAMenuFlyoutSubscriptionTreeView" Placement="Pointer">
             <ui:MenuFlyoutItem
-                Click="MenuFlyoutItem_Click"
+                Click="TreeListFlyoutItem_Click"
                 DataContext="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="OpenFolder"
                 Text="Open Vault in Tab" />

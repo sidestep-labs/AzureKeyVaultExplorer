@@ -89,6 +89,7 @@
 
     <Style Selector="DataGridRow">
         <Setter Property="Height" Value="25" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
 
     <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">

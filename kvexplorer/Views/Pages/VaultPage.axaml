@@ -184,19 +184,16 @@
                     <DataGridTextColumn
                         Width="150"
                         Binding="{Binding Name}"
-                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="Name" />
                     <DataGridTextColumn
                         Width="300"
                         Binding="{Binding Id}"
-                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="Identifier" />
                     <DataGridTextColumn
                         Width="200"
                         Binding="{Binding LastModifiedDate}"
-                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="Last Modified Date" />
-       
+
                     <DataGridTemplateColumn
                         Width="200"
                         Header="Tags"
@@ -215,10 +212,7 @@
                                                     Padding="5,0,5,0"
                                                     Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
                                                     CornerRadius="5">
-                                                    <TextBlock
-                                                        FontSize="{DynamicResource FontSizeSmall}"
-                                                        Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
-                                                        Text="{Binding .}" />
+                                                    <TextBlock Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}" Text="{Binding .}" />
                                                 </Border>
                                             </StackPanel>
                                         </DataTemplate>
@@ -232,13 +226,11 @@
                     <DataGridTextColumn
                         Width="400"
                         Binding="{Binding ValueUri}"
-                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="Value Uri" />
 
                     <DataGridTextColumn
                         Width="300"
                         Binding="{Binding ContentType}"
-                        FontSize="{DynamicResource FontSizeSmall}"
                         Header="ContentType" />
 
                 </DataGrid.Columns>
@@ -259,9 +251,13 @@
                         <Setter Property="Height" Value="22" />
                         <Setter Property="Focusable" Value="False" />
                     </Style>
+                    <Style Selector="DataGridCell">
+                        <Setter Property="Height" Value="22" />
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeLarge}" />					
+                    </Style>
 
-                    <Style Selector="DataGridRow DataGridCell">
-                        <!--<Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />-->
+                    <Style Selector="DataGridRow">
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeLarge}" />
                         <Setter Property="Focusable" Value="False" />
                     </Style>
                 </DataGrid.Styles>

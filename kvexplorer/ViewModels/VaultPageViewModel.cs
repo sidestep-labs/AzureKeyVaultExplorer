@@ -354,7 +354,7 @@ public partial class VaultPageViewModel : ViewModelBase
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
-            //Icon = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality),
+            Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.Manual,
             ShowAsDialog = false,

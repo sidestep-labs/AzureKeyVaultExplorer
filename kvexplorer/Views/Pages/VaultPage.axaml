@@ -251,15 +251,15 @@
                         <Setter Property="Height" Value="22" />
                         <Setter Property="Focusable" Value="False" />
                     </Style>
-                    <Style Selector="DataGridCell">
+                    <!--<Style Selector="DataGridCell">
                         <Setter Property="Height" Value="22" />
-                        <Setter Property="FontSize" Value="{DynamicResource FontSizeLarge}" />					
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />					
                     </Style>
 
                     <Style Selector="DataGridRow">
-                        <Setter Property="FontSize" Value="{DynamicResource FontSizeLarge}" />
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
                         <Setter Property="Focusable" Value="False" />
-                    </Style>
+                    </Style>-->
                 </DataGrid.Styles>
                 <!--<DataGrid.KeyBindings>
 					<KeyBinding Gesture="Enter" Command="{Binding CopyCommand}" />

@@ -15,12 +15,11 @@
     ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
+    Icon="/Assets/kv-icon.ico"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
     mc:Ignorable="d">
     <!--
-        Icon="/Assets/kv-icon.ico"
-        
         this just doesnt work with FA and .net 8
     -->
 

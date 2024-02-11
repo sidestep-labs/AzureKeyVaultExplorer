@@ -399,6 +399,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Content = page,
             Width = 620,
             Height = 480,
+            MinWidth = 300,
             ExtendClientAreaToDecorationsHint = isMac,
             // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
             // Background = null,

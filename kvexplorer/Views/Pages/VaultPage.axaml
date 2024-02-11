@@ -232,9 +232,6 @@
 
                 </DataGrid.Columns>
                 <DataGrid.Styles>
-                    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-                    </Style>
                     <Style Selector="DataGridRow">
                         <Setter Property="Height" Value="24" />
                         <Setter Property="Focusable" Value="True" />

@@ -16,36 +16,19 @@
     x:DataType="vm:PropertiesPageViewModel"
     mc:Ignorable="d">
 
+
     <Design.DataContext>
         <vm:PropertiesPageViewModel />
     </Design.DataContext>
+
     <UserControl.Styles>
         <Styles>
-            <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-                <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-            </Style>
+
             <Style Selector=".isMac">
                 <Style Selector="^ ui|CommandBarButton /template/ TextBlock#TextLabel">
                     <Setter Property="VerticalAlignment" Value="Bottom" />
                 </Style>
             </Style>
-
-
-
-
-
-            <!--<Style Selector="DataGridColumn">
-                <Setter Property="Width" Value="250" />
-            </Style>
-			<Style Selector="DataGridColumnHeader">
-				<Setter Property="Width" Value="250" />
-			</Style>
-			<Style Selector="DataGridColumnHeadersPresenter">
-				<Setter Property="Width" Value="250" />
-			</Style>
-			<Style Selector="DataGridCellsPresenter">
-				<Setter Property="Width" Value="250" />
-			</Style>-->
         </Styles>
 
     </UserControl.Styles>
@@ -310,9 +293,11 @@
 
                                     </Grid>
 
-                                    <StackPanel>
-                                        <TextBlock Text="Tags" Theme="{StaticResource BodyStrongTextBlockStyle}" />
-                                        <!--  IsVisible="{Binding OpenedItem.Tags.Values.Count > 0}"  -->
+                                    <StackPanel IsVisible="{Binding OpenedItem.Tags.Keys.Count > 0}">
+                                        <TextBlock
+                                            Margin="0,5"
+                                            Text="Tags"
+                                            Theme="{StaticResource BodyStrongTextBlockStyle}" />
                                         <ItemsControl>
                                             <ItemsRepeater ItemsSource="{Binding OpenedItem.Tags}">
                                                 <ItemsRepeater.Layout>
@@ -329,7 +314,7 @@
                                                             Padding="5,0,5,0"
                                                             Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
                                                             CornerRadius="5">
-                                                            <StackPanel Orientation="Horizontal" xml:space="preserve">
+                                                            <StackPanel Orientation="Horizontal">
                                                                 <SelectableTextBlock Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}" TextWrapping="Wrap">
                                                                     <Label Content="{Binding Key, StringFormat={}{0:n0}:}" />
                                                                     <Label Content="{Binding Value}" />

@@ -19,10 +19,6 @@
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
     mc:Ignorable="d">
-    <!--
-        this just doesnt work with FA and .net 8
-    -->
-
 
 
     <NativeMenu.Menu>

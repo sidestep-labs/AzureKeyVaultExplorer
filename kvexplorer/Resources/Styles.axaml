@@ -63,10 +63,12 @@
 		<Setter Property="Margin" Value="0 0 2 4" />-->
     </Style>
 
+    <Style Selector="SelectableTextBlock">
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}" />
+    </Style>
     <Style Selector="ToolTip">
         <Setter Property="CornerRadius" Value="5" />
     </Style>
-
     <!--  Treeviewlist styles  -->
     <Style Selector="TreeView">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />

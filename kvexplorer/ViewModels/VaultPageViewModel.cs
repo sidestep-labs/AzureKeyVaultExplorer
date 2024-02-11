@@ -42,27 +42,22 @@ public partial class VaultPageViewModel : ViewModelBase
     public string searchQuery;
 
     [ObservableProperty]
-    public TabStripItem selectedTab;
+    public KeyVaultContentsAmalgamation selectedRow;
 
     [ObservableProperty]
-    public Uri vaultUri;
-
-    public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
+    public TabStripItem selectedTab;
 
     [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     [ObservableProperty]
-    public KeyVaultContentsAmalgamation selectedRow;
+    public Uri vaultUri;
 
-    private readonly VaultService _vaultService;
     private readonly AuthService _authService;
+    private readonly VaultService _vaultService;
     private readonly WindowNotificationManager _windowNotification;
-    private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-    private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
     private SettingsPageViewModel _settingsPageViewModel;
     private Bitmap BitmapImage;
-
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -119,12 +114,14 @@ public partial class VaultPageViewModel : ViewModelBase
         }
     }
 
+    public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
-
-    private async Task DelaySetIsBusy(bool val)
+    private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+    private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+    public async Task ClearClipboardAsync()
     {
-        await Task.Delay(1000);
-        IsBusy = val;
+        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
+        await clipboard.ClearAsync();
     }
 
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
@@ -165,6 +162,27 @@ public partial class VaultPageViewModel : ViewModelBase
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
 
         await DelaySetIsBusy(false);
+    }
+
+    public async Task GetCertificatesForVault(Uri kvUri)
+    {
+        var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
+        await foreach (var cert in certs)
+        {
+            VaultContents.Add(new KeyVaultContentsAmalgamation
+            {
+                Name = cert.Name,
+                Id = cert.Id,
+                Type = KeyVaultItemType.Certificate,
+                VaultUri = cert.VaultUri,
+                ValueUri = cert.Id,
+                Version = cert.Version,
+                CertificateProperties = cert,
+                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime(),
+                Tags = cert.Tags
+            });
+        }
+        _vaultContents = VaultContents;
     }
 
     public async Task GetKeysForVault(Uri kvUri)
@@ -211,61 +229,6 @@ public partial class VaultPageViewModel : ViewModelBase
         _vaultContents = VaultContents;
     }
 
-    public async Task GetCertificatesForVault(Uri kvUri)
-    {
-        var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
-        await foreach (var cert in certs)
-        {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
-            {
-                Name = cert.Name,
-                Id = cert.Id,
-                Type = KeyVaultItemType.Certificate,
-                VaultUri = cert.VaultUri,
-                ValueUri = cert.Id,
-                Version = cert.Version,
-                CertificateProperties = cert,
-                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime(),
-                Tags = cert.Tags
-            });
-        }
-        _vaultContents = VaultContents;
-    }
-
-    partial void OnSearchQueryChanged(string value)
-    {
-        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
-        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
-        string query = value?.Trim().ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(query))
-        {
-            var contents = _vaultContents;
-            if (item != KeyVaultItemType.All)
-            {
-                contents = contents.Where(k => k.Type == item);
-            }
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(contents);
-            return;
-        }
-        //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
-        //       && toFilter.Contains(v.Type)
-
-        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        if (item != KeyVaultItemType.All)
-            list = list.Where(k => k.Type == item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
-    }
-
-    [RelayCommand]
-    private async Task Refresh()
-    {
-        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
-        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
-        LoadedItemTypes.Remove(item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
-        await FilterAndLoadVaultValueType(item);
-    }
-
     [RelayCommand]
     private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)
     {
@@ -310,27 +273,11 @@ public partial class VaultPageViewModel : ViewModelBase
             await clipboard.SetTextAsync(value);
             ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
             await ClearClipboardAsync().ConfigureAwait(false);
-
-
         }
         catch (KeyVaultItemNotFoundException ex)
         {
             ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error, topLevel);
-        } 
-    }
-
-    public async Task ClearClipboardAsync()
-    {
-        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
-        await clipboard.ClearAsync();
-    }
-
-    [RelayCommand]
-    private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
-    {
-        if (keyVaultItem is null) return;
-        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
-        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+        }
     }
 
     [RelayCommand]
@@ -342,41 +289,57 @@ public partial class VaultPageViewModel : ViewModelBase
         await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
-    [RelayCommand]
-    private void ShowProperties(KeyVaultContentsAmalgamation model)
+    private async Task DelaySetIsBusy(bool val)
     {
-        if (model == null) return;
-        var page = new PropertiesPage
+        await Task.Delay(1000);
+        IsBusy = val;
+    }
+    partial void OnSearchQueryChanged(string value)
+    {
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
+        string query = value?.Trim().ToLowerInvariant();
+        if (string.IsNullOrWhiteSpace(query))
         {
-            DataContext = new PropertiesPageViewModel(model)
-        };
-        bool isMac = OperatingSystem.IsMacOS();
-        var taskDialog = new AppWindow
-        {
-            Title = $"{model.Type} {model.Name} Properties",
-            Icon = BitmapImage,
-            SizeToContent = SizeToContent.Manual,
-            WindowStartupLocation = WindowStartupLocation.Manual,
-            ShowAsDialog = false,
-            CanResize = true,
-            Content = page,
-            Width = 620,
-            Height = 480,
-            ExtendClientAreaToDecorationsHint = isMac,
-            // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-            // Background = null,
-        };
+            var contents = _vaultContents;
+            if (item != KeyVaultItemType.All)
+            {
+                contents = contents.Where(k => k.Type == item);
+            }
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(contents);
+            return;
+        }
+        //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
+        //       && toFilter.Contains(v.Type)
 
-        //taskDialog.TitleBar.ExtendsContentIntoTitleBar = isMac;
-        //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query)
+                || (v.Tags is not null
+                && v.Tags.Any(x => x.Value.ToLowerInvariant().Contains(query)
+                || x.Key.ToLowerInvariant().Contains(query))
+              ));
 
-        // open the window with parent on windows but not mac.
-        if (isMac)
-            taskDialog.Show();
-        else
-            taskDialog.Show(topLevel);
+        if (item != KeyVaultItemType.All)
+            list = list.Where(k => k.Type == item);
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
     }
 
+    [RelayCommand]
+    private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
+    {
+        if (keyVaultItem is null) return;
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+    }
+
+    [RelayCommand]
+    private async Task Refresh()
+    {
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
+        LoadedItemTypes.Remove(item);
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
+        await FilterAndLoadVaultValueType(item);
+    }
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
 #if WINDOWS
@@ -414,5 +377,40 @@ public partial class VaultPageViewModel : ViewModelBase
         };
 
 #endif
+    }
+
+    [RelayCommand]
+    private void ShowProperties(KeyVaultContentsAmalgamation model)
+    {
+        if (model == null) return;
+        var page = new PropertiesPage
+        {
+            DataContext = new PropertiesPageViewModel(model)
+        };
+        bool isMac = OperatingSystem.IsMacOS();
+        var taskDialog = new AppWindow
+        {
+            Title = $"{model.Type} {model.Name} Properties",
+            Icon = BitmapImage,
+            SizeToContent = SizeToContent.Manual,
+            WindowStartupLocation = WindowStartupLocation.Manual,
+            ShowAsDialog = false,
+            CanResize = true,
+            Content = page,
+            Width = 620,
+            Height = 480,
+            ExtendClientAreaToDecorationsHint = isMac,
+            // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+            // Background = null,
+        };
+
+        //taskDialog.TitleBar.ExtendsContentIntoTitleBar = isMac;
+        //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+
+        // open the window with parent on windows but not mac.
+        if (isMac)
+            taskDialog.Show();
+        else
+            taskDialog.Show(topLevel);
     }
 }

@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using kvexplorer.ViewModels;
@@ -25,6 +26,7 @@ public partial class MainView : UserControl
     {
         Instance = this;
         InitializeComponent();
+        KeyUp += TabViewPage_KeyUpFocusSearchBox;
 
         var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
@@ -186,4 +188,15 @@ public partial class MainView : UserControl
             return;
         FrameView.NavigateFromObject(new SettingsPage());
     }
+
+
+    private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
+        {
+            var vvpage = this.FindDescendantOfType<VaultPage>();
+            vvpage?.FindControl<TextBox>("SearchTextBox")?.Focus();
+        }
+    }
+
 }

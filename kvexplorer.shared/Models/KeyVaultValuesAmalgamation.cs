@@ -29,11 +29,10 @@ public class KeyVaultContentsAmalgamation
 
     public string[] TagValues => Tags is not null ? [.. Tags.Values] : [];
 
-    public string[] TagKeys => Tags.Keys.ToArray();
+    public string[] TagKeys => Tags is not null ? [.. Tags.Keys] : [];
 
     public string TagValuesString => string.Join(", ",Tags?.Values ?? []);
 
-    public string TagKeyString => "";
 
 }
 

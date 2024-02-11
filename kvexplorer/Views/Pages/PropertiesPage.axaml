@@ -108,7 +108,6 @@
 
 
 
-
                 <StackPanel Margin="8,0,8,0" HorizontalAlignment="Stretch">
                     <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*,*">
                         <Border
@@ -127,11 +126,13 @@
                                     VerticalAlignment="Bottom"
                                     IsVisible="{Binding !#ShowToggleButton.IsChecked}"
                                     Text="{Binding SecretHidden}" />
-                                <TextBlock
+                                <SelectableTextBlock
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
+                                    xml:space="preserve"
                                     IsVisible="{Binding #ShowToggleButton.IsChecked}"
+                                    SelectionBrush="Red"
                                     Text="{Binding SecretPlainText}" />
                                 <ToggleButton
                                     Name="ShowToggleButton"
@@ -198,21 +199,25 @@
                                             Grid.Row="3"
                                             Grid.Column="0"
                                             Text="Expires:" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="0"
                                             Grid.Column="1"
+                                            xml:space="preserve"
                                             Text="{Binding OpenedItem.SecretProperties.CreatedOn}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
+                                            xml:space="preserve"
                                             Text="{Binding OpenedItem.SecretProperties.UpdatedOn}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="2"
                                             Grid.Column="1"
+                                            xml:space="preserve"
                                             Text="{Binding OpenedItem.SecretProperties.Id}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="3"
                                             Grid.Column="1"
+                                            xml:space="preserve"
                                             Text="{Binding OpenedItem.SecretProperties.ExpiresOn}" />
 
                                     </Grid>
@@ -243,19 +248,19 @@
                                             Grid.Column="0"
                                             Text="Expires:" />
 
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="0"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.KeyProperties.CreatedOn}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.KeyProperties.UpdatedOn}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="2"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.KeyProperties.Id}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="3"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.KeyProperties.ExpiresOn}" />
@@ -288,19 +293,19 @@
                                             Grid.Column="0"
                                             Text="Expires:" />
 
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="0"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.CertificateProperties.CreatedOn}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.CertificateProperties.UpdatedOn}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="2"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.CertificateProperties.Id}" />
-                                        <TextBlock
+                                        <SelectableTextBlock
                                             Grid.Row="3"
                                             Grid.Column="1"
                                             Text="{Binding OpenedItem.CertificateProperties.ExpiresOn}" />

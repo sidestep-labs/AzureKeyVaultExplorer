@@ -17,7 +17,7 @@ public partial class TabViewPage : UserControl
     {
         InitializeComponent();
         //var vm = new TabViewPageViewModel();
-        KeyUp += TabViewPage_KeyUpFocusSearchBox;
+        //KeyUp += TabViewPage_KeyUpFocusSearchBox;
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
     }

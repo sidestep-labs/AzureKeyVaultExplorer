@@ -93,7 +93,7 @@ public partial class VaultPage : UserControl
         Dispatcher.UIThread.Post(async () =>
         {
             await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
-            if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
+            if (ValuesDataGrid?.ItemsSource.Count() > 0 && !new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex))
             {
                 ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
                 {

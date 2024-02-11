@@ -178,7 +178,7 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = cert.Id,
                 Version = cert.Version,
                 CertificateProperties = cert,
-                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime(),
+                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert?.CreatedOn.Value.ToLocalTime(),
                 Tags = cert.Tags
             });
         }

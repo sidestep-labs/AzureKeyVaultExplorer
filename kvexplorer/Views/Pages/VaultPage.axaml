@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:kvexplorer.ViewModels"
     Name="VaultPageControl"
@@ -102,9 +104,7 @@
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 TextChanged="SearchBoxChanges"
                 TextWrapping="NoWrap"
-                Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F0} values (Ctrl+F)'}">
-
-
+                Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F0} values/tags (Ctrl+F)'}">
                 <TextBox.Styles>
                     <Style Selector="TextBox">
                         <Setter Property="Background" Value="Transparent" />
@@ -128,13 +128,9 @@
                                 </StackPanel>
                             </Template>
                         </Setter>
-
                     </Style>
                 </TextBox.Styles>
-
             </TextBox>
-
-
         </DockPanel>
 
 
@@ -144,8 +140,6 @@
             IsIndeterminate="True"
             IsVisible="{Binding IsBusy}"
             Orientation="Horizontal" />
-
-
 
         <DockPanel Grid.Row="2" Grid.ColumnSpan="5">
 
@@ -206,6 +200,9 @@
                                     </ItemsRepeater.Layout>
                                     <ItemsRepeater.ItemTemplate>
                                         <DataTemplate>
+                                            <DataTemplate.DataType>
+                                                <x:Type x:TypeArguments="sys:String" TypeName="scg:List" />
+                                            </DataTemplate.DataType>
                                             <StackPanel Orientation="Horizontal">
                                                 <Border
                                                     Margin="2"

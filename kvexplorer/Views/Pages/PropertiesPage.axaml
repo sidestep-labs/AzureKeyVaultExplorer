@@ -7,6 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:kvexplorer.ViewModels"
     d:DesignHeight="400"
@@ -105,9 +107,6 @@
 
         <ScrollViewer>
             <DockPanel LastChildFill="True">
-
-
-
                 <StackPanel Margin="8,0,8,0" HorizontalAlignment="Stretch">
                     <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*,*">
                         <Border
@@ -132,7 +131,6 @@
                                     VerticalAlignment="Center"
                                     xml:space="preserve"
                                     IsVisible="{Binding #ShowToggleButton.IsChecked}"
-                                    SelectionBrush="Red"
                                     Text="{Binding SecretPlainText}" />
                                 <ToggleButton
                                     Name="ShowToggleButton"
@@ -163,7 +161,7 @@
 
                         <Border
                             Grid.Row="2"
-                            Height="120"
+                            Height="200"
                             Margin="0,10,0,0"
                             Padding="8"
                             Background="{DynamicResource LayerFillColorDefaultBrush}"
@@ -311,11 +309,41 @@
                                             Text="{Binding OpenedItem.CertificateProperties.ExpiresOn}" />
 
                                     </Grid>
+
+                                    <StackPanel>
+                                        <TextBlock Text="Tags" Theme="{StaticResource BodyStrongTextBlockStyle}" />
+                                        <!--  IsVisible="{Binding OpenedItem.Tags.Values.Count > 0}"  -->
+                                        <ItemsControl>
+                                            <ItemsRepeater ItemsSource="{Binding OpenedItem.Tags}">
+                                                <ItemsRepeater.Layout>
+                                                    <!--<StackLayout Orientation="Horizontal" />-->
+                                                    <WrapLayout Orientation="Horizontal" />
+                                                </ItemsRepeater.Layout>
+                                                <ItemsRepeater.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <DataTemplate.DataType>
+                                                            <x:Type x:TypeArguments="x:String, x:String" TypeName="scg:KeyValuePair" />
+                                                        </DataTemplate.DataType>
+                                                        <Border
+                                                            Margin="2"
+                                                            Padding="5,0,5,0"
+                                                            Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
+                                                            CornerRadius="5">
+                                                            <StackPanel Orientation="Horizontal" xml:space="preserve">
+                                                                <SelectableTextBlock Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}" TextWrapping="Wrap">
+                                                                    <Label Content="{Binding Key, StringFormat={}{0:n0}:}" />
+                                                                    <Label Content="{Binding Value}" />
+                                                                </SelectableTextBlock>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsRepeater.ItemTemplate>
+                                            </ItemsRepeater>
+                                        </ItemsControl>
+                                    </StackPanel>
                                 </StackPanel>
                             </ScrollViewer>
                         </Border>
-
-
                     </Grid>
 
                     <StackPanel Margin="0,10,0,0">
@@ -323,6 +351,8 @@
                             Padding="2"
                             Text="Versions"
                             Theme="{StaticResource BodyStrongTextBlockStyle}" />
+
+
                     </StackPanel>
                     <DataGrid
                         Name="KeysContentDataGrid"

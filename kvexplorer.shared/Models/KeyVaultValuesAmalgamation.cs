@@ -25,7 +25,7 @@ public class KeyVaultContentsAmalgamation
 
     public CertificateProperties? CertificateProperties { get; set; } = null!;
 
-    public IDictionary<string, string> Tags { get; set; } = null!;
+    public IDictionary<string, string>? Tags { get; set; } = new Dictionary<string, string>();
 
     public string[] TagValues => Tags is not null ? [.. Tags.Values] : [];
 

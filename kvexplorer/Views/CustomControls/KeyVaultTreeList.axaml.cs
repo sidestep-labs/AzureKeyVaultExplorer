@@ -20,7 +20,7 @@ public partial class KeyVaultTreeList : UserControl
         InitializeComponent();
         DataContext = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-        SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
+        SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList")!;
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
     }
 
@@ -77,19 +77,17 @@ public partial class KeyVaultTreeList : UserControl
     {
         Dispatcher.UIThread.Post(async () =>
         {
-            await (DataContext as KeyVaultTreeListViewModel).GetAvailableKeyVaultsCommand.ExecuteAsync(true);
+            await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true);
         }, DispatcherPriority.Input);
     }
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
         var sx = (TreeView)sender!;
-        if (sx.SelectedItem is not null)
+        if (sx.SelectedItem is KeyVaultResource model)
         {
             Dispatcher.UIThread.Post(() =>
             {
-                var model = (KeyVaultResource)sx.SelectedItem;
-
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
             }, DispatcherPriority.ContextIdle);
         }

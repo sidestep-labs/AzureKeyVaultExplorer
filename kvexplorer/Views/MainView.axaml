@@ -176,15 +176,22 @@
             IsBackEnabled="{Binding #FrameView.CanGoBack}"
             IsSettingsVisible="False"
             PaneDisplayMode="Auto">
-            <ui:NavigationView.Styles>
-                <Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ ContentPresenter#PART_PanePresenter">
-                    <Setter Property="CornerRadius" Value="10,0,0,20" />
-                </Style>
-            </ui:NavigationView.Styles>
+
+            <!--<ui:NavigationView.Styles>
+                   <Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
+                        <Setter Property="Background" Value="{x:Null}" />
+                    </Style>
+                    <Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ ContentPresenter#PART_PanePresenter">
+                        <Setter Property="CornerRadius" Value="0,10,0,0" />
+                        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}" />
+                    </Style>
+            </ui:NavigationView.Styles>-->
+
 
             <ui:NavigationView.MenuItems>
                 <!--<ui:NavigationViewItemHeader Content="Actions" />-->
                 <ui:NavigationViewItem
+                    Margin="0,-18,0,0"
                     Content="Vault Library"
                     IconSource="Library"
                     RenderOptions.BitmapInterpolationMode="HighQuality"
@@ -198,7 +205,6 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.PaneCustomContent>
-
                 <Panel MaxHeight="420" IsVisible="{Binding #NavView.IsPaneOpen}">
                     <custom:KeyVaultTreeList />
                 </Panel>
@@ -212,15 +218,17 @@
                     IconSource="Settings"
                     Tag="SettingsPage" />
             </ui:NavigationView.FooterMenuItems>
-            <!--  Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"  -->
+            <!--  Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
 
-            <!--<DockPanel LastChildFill="True">-->
-            <!--<Panel Height="20" DockPanel.Dock="Bottom">
-                    <TextBlock
-                        Margin="0,0,5,0"
-                        HorizontalAlignment="Right"
-                        Text="{Binding Path=Email, StringFormat='user: {0}'}" />
-                </Panel>-->
+            <DockPanel LastChildFill="True">
+            <Panel Height="20" DockPanel.Dock="Bottom">
+                <TextBlock
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    Text="{Binding Path=Email, StringFormat='user: {0}'}" />
+            </Panel>-->
+
+
             <ui:Frame Name="FrameView" />
             <!--</DockPanel>-->
         </ui:NavigationView>

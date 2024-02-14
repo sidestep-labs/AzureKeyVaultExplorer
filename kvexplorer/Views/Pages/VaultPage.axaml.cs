@@ -93,19 +93,19 @@ public partial class VaultPage : UserControl
         Dispatcher.UIThread.Post(async () =>
         {
             await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
-            if (ValuesDataGrid?.ItemsSource.Count() > 0 && !new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex))
+            if (TabHost.SelectedIndex > 2)
             {
                 ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
                 {
                     GroupDescriptions = { new DataGridPathGroupDescription("Type") }
                 };
             }
-        }, DispatcherPriority.Input);
+        }, DispatcherPriority.MaxValue);
     }
 
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
-        if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
+        if (TabHost.SelectedIndex > 2)
         {
             ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
@@ -139,7 +139,8 @@ public partial class VaultPage : UserControl
             1 => KeyVaultItemType.Certificate,
             2 => KeyVaultItemType.Key,
             _ => KeyVaultItemType.All
-        }; ;
+        };
+
         await vm.FilterAndLoadVaultValueType(item);
 
         if (item == KeyVaultItemType.All)

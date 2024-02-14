@@ -38,11 +38,58 @@
                 Select which subscriptions to be show in the left sidebar.<LineBreak />
             </TextBlock>
 
-            <Button
-                HorizontalAlignment="Right"
-                Command="{Binding GetAllKeyVaultsCommand}"
-                Content="Load Subscriptions" />
+            <Grid ColumnDefinitions="*,*">
+
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="2">
+                    <Button
+                        Margin="0"
+                        Padding="5,3"
+                        Content="Deselect all"
+                        FontSize="{DynamicResource FontSizeSmall}" />
+                    <Button
+                        Margin="0"
+                        Padding="5,3"
+                        Content="Select all"
+                        FontSize="{DynamicResource FontSizeSmall}" />
+                    <Button
+                        Margin="0"
+                        Padding="5,3"
+                        Command="{Binding GetAllKeyVaultsCommand}"
+                        Content="Load Subscriptions"
+                        FontSize="{DynamicResource FontSizeSmall}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                    <Button
+                        Margin="0"
+                        Padding="5,3"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="{DynamicResource FontSizeSmall}"
+                        ToolTip.Tip="Save selected items to sidebar">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                Margin="0"
+                                VerticalAlignment="Bottom"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="15"
+                                Glyph="&#xE105;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label>Save</Label>
+                        </StackPanel>
+
+                    </Button>
+
+
+                </StackPanel>
+            </Grid>
+
         </StackPanel>
+
+
 
         <DataGrid
             Grid.Row="1"
@@ -61,23 +108,39 @@
             VerticalScrollBarVisibility="Visible">
 
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Width="250" Header="Show In Sidebar" />
+                <DataGridCheckBoxColumn
+                    Width="130"
+                    CanUserSort="False"
+                    Header="Show In Sidebar" />
                 <DataGridTextColumn
-                    Width="250"
+                    Width="200"
                     Binding="{Binding DisplayName}"
                     Header="DisplayName" />
                 <DataGridTextColumn
-                    Width="250"
+                    Width="200"
                     Binding="{Binding SubscriptionId}"
                     Header="SubscriptionId" />
                 <DataGridTextColumn
-                    Width="250"
+                    Width="150"
                     Binding="{Binding Tags}"
                     Header="Tags" />
                 <DataGridTextColumn
-                    Width="250"
+                    Width="150"
                     Binding="{Binding TenantId}"
                     Header="TenantId" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding State}"
+                    Header="State" />
+
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding ManagedByTenants}"
+                    Header="Managed By" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding AuthorizationSource}"
+                    Header="AuthorizationSource" />
 
             </DataGrid.Columns>
         </DataGrid>

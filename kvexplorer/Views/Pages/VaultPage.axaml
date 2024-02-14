@@ -75,6 +75,7 @@
 
             <Button
                 Margin="5,0,0,0"
+                VerticalAlignment="Bottom"
                 Click="RefreshButton_OnClick"
                 Content="Refresh"
                 ToolTip.ShowDelay="1000"
@@ -152,8 +153,6 @@
                 CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                 DoubleTapped="OnDoubleTapped"
                 GridLinesVisibility="Horizontal"
-				
-				
                 HorizontalScrollBarVisibility="Visible"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"

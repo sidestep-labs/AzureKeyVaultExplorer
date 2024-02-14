@@ -152,6 +152,8 @@
                 CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                 DoubleTapped="OnDoubleTapped"
                 GridLinesVisibility="Horizontal"
+				
+				
                 HorizontalScrollBarVisibility="Visible"
                 IsReadOnly="True"
                 ItemsSource="{Binding VaultContents}"

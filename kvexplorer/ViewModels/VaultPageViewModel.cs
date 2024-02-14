@@ -141,28 +141,31 @@ public partial class VaultPageViewModel : ViewModelBase
             {
                 case KeyVaultItemType.Certificate:
                     await GetCertificatesForVault(VaultUri);
+                    LoadedItemTypes.TryAdd(item, true);
                     break;
 
                 case KeyVaultItemType.Key:
                     await GetKeysForVault(VaultUri);
+                    LoadedItemTypes.TryAdd(item, true);
                     break;
 
                 case KeyVaultItemType.Secret:
                     await GetSecretsForVault(VaultUri);
+                    LoadedItemTypes.TryAdd(item, true);
                     break;
 
                 case KeyVaultItemType.All:
                     VaultContents.Clear();
-                    await Task.WhenAll(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
+                    await Task.WhenAny(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Secret, true);
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Key, true);
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Certificate, true);
+                    LoadedItemTypes.TryAdd(KeyVaultItemType.All, true);
                     break;
 
                 default:
                     break;
             }
-            LoadedItemTypes.TryAdd(item, true);
         }
         if (item == KeyVaultItemType.All)
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));

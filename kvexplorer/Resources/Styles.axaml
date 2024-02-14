@@ -111,4 +111,16 @@
     </Style>
 
 
+
+
+    <!--  fly out  -->
+    <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
+    </Style>
+    <Style Selector="ui|FAMenuFlyoutPresenter">
+        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
+        <Setter Property="CornerRadius" Value="6" />
+    </Style>
+
 </Styles>

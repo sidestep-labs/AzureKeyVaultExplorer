@@ -57,7 +57,6 @@
             Name="TabViewDoc"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            AddTabButtonCommandParameter="Normal"
             AllowDropTabs="True"
             CanDragTabs="True"
             CanReorderTabs="True"

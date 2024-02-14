@@ -65,7 +65,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
         BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-icon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 5; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
 
@@ -81,6 +81,8 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        CreatedOn = new System.DateTime(),
+                        UpdatedOn = new System.DateTime(),
                     });
                     break;
 
@@ -94,6 +96,9 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        UpdatedOn = new System.DateTime(),
+                        CreatedOn = new System.DateTime(),
+
                     });
                     break;
 
@@ -107,6 +112,9 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        CreatedOn = new System.DateTime(),
+                        UpdatedOn = new System.DateTime(),
+
                     });
                     break;
             }
@@ -178,8 +186,9 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = cert.Id,
                 Version = cert.Version,
                 CertificateProperties = cert,
-                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert?.CreatedOn.Value.ToLocalTime(),
-                Tags = cert.Tags
+                Tags = cert.Tags,
+                UpdatedOn = cert.UpdatedOn,
+                CreatedOn = cert.CreatedOn,
             });
         }
         _vaultContents = VaultContents;
@@ -199,8 +208,9 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = key.Id,
                 Version = key.Version,
                 KeyProperties = key,
-                LastModifiedDate = key.UpdatedOn.HasValue ? key.UpdatedOn.Value.ToLocalTime() : key.CreatedOn.Value.ToLocalTime(),
-                Tags = key.Tags
+                Tags = key.Tags,
+                CreatedOn= key.CreatedOn,
+                UpdatedOn= key.UpdatedOn,
             });
         }
         _vaultContents = VaultContents;
@@ -221,8 +231,9 @@ public partial class VaultPageViewModel : ViewModelBase
                 ValueUri = secret.Id,
                 Version = secret.Version,
                 SecretProperties = secret,
-                LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime(),
-                Tags = secret.Tags
+                Tags = secret.Tags,
+                UpdatedOn = secret.UpdatedOn,
+                CreatedOn   = secret.CreatedOn,
             });
         }
 

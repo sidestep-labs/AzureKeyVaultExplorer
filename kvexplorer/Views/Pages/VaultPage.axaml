@@ -19,16 +19,6 @@
         <vm:VaultPageViewModel />
     </Design.DataContext>
 
-    <UserControl.Styles>
-        <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder#LayoutRoot">
-            <Setter Property="Margin" Value="10" />
-            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
-        </Style>
-        <Style Selector="ui|FAMenuFlyoutPresenter">
-            <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}" />
-        </Style>
-    </UserControl.Styles>
-
     <UserControl.Resources>
         <ui:FAMenuFlyout x:Key="FAMenuFlyout" Placement="Pointer">
             <ui:MenuFlyoutItem
@@ -183,10 +173,6 @@
                         Width="300"
                         Binding="{Binding Id}"
                         Header="Identifier" />
-                    <DataGridTextColumn
-                        Width="200"
-                        Binding="{Binding LastModifiedDate}"
-                        Header="Last Modified Date" />
 
                     <DataGridTemplateColumn
                         Width="200"
@@ -218,6 +204,24 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+
+
+                    <DataGridTextColumn
+                        Width="180"
+                        Binding="{Binding WhenLastModified}"
+                        Header="Last Modified Date"
+                        SortMemberPath="LastModifiedDate" />
+
+
+                    <DataGridTextColumn
+                        Width="200"
+                        Binding="{Binding UpdatedOn}"
+                        Header="Updated" />
+
+                    <DataGridTextColumn
+                        Width="200"
+                        Binding="{Binding CreatedOn}"
+                        Header="Created" />
 
 
                     <DataGridTextColumn

@@ -18,70 +18,89 @@
 
 
     <Grid RowDefinitions="100,*">
-
         <StackPanel
             Grid.Row="0"
             Margin="10,5"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Orientation="Vertical">
-
             <TextBlock HorizontalAlignment="Left" Theme="{StaticResource SubtitleTextBlockStyle}">Subscriptions</TextBlock>
-
-            <!--<Button
-                    HorizontalAlignment="Right"
-                    Click="Button_Click"
-                    Content="New Workspace" />-->
-
-
             <TextBlock TextWrapping="Wrap">
                 Select which subscriptions to be show in the left sidebar.<LineBreak />
             </TextBlock>
 
             <Grid ColumnDefinitions="*,*">
-
                 <StackPanel
                     Grid.Column="0"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal"
                     Spacing="2">
                     <Button
-                        Margin="0"
-                        Padding="5,3"
-                        Content="Deselect all"
-                        FontSize="{DynamicResource FontSizeSmall}" />
+                        Padding="6,3"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        ToolTip.Tip="Clear selected items">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <ui:FontIcon
+                                VerticalAlignment="Bottom"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE8E6;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label>Clear Selection</Label>
+                        </StackPanel>
+                    </Button>
                     <Button
-                        Margin="0"
-                        Padding="5,3"
-                        Content="Select all"
-                        FontSize="{DynamicResource FontSizeSmall}" />
+                        Padding="6,3"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        ToolTip.Tip="Select all visible items">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <ui:FontIcon
+                                VerticalAlignment="Bottom"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE8B3;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label>Select all</Label>
+                        </StackPanel>
+                    </Button>
                     <Button
-                        Margin="0"
-                        Padding="5,3"
-                        Command="{Binding GetAllKeyVaultsCommand}"
-                        Content="Load Subscriptions"
-                        FontSize="{DynamicResource FontSizeSmall}" />
+                        Padding="6,3"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                        ToolTip.Tip="Save selected items to sidebar">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <ui:FontIcon
+                                VerticalAlignment="Bottom"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE117;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label>Load More</Label>
+                        </StackPanel>
+                    </Button>
+
+
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                     <Button
                         Margin="0"
-                        Padding="5,3"
+                        Padding="6,3"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="{DynamicResource FontSizeSmall}"
                         ToolTip.Tip="Save selected items to sidebar">
                         <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
                                 Margin="0"
                                 VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                FontSize="15"
+                                FontSize="18"
                                 Glyph="&#xE105;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
-                            <Label>Save</Label>
+                            <Label>Save Selected</Label>
                         </StackPanel>
 
                     </Button>
+
 
 
                 </StackPanel>
@@ -90,16 +109,23 @@
         </StackPanel>
 
 
-
+        <StackPanel
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsBusy}">
+            <ui:ProgressRing
+                Width="80"
+                Height="100"
+                BorderThickness="5"
+                IsIndeterminate="True" />
+        </StackPanel>
         <DataGrid
             Grid.Row="1"
-            MinHeight="200"
-            Margin="5,5,5,5"
+            Margin="5,5,5,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:CompileBindings="False"
             x:DataType="armmodels:SubscriptionData"
-            AutoGenerateColumns="True"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
             GridLinesVisibility="Horizontal"
@@ -144,6 +170,12 @@
 
             </DataGrid.Columns>
         </DataGrid>
+
+
+
+
+
+
     </Grid>
 
 

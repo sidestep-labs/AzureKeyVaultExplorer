@@ -46,6 +46,7 @@
 
   <ItemGroup>
 	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.0.9" />
+	<PackageReference Include="FluentAvalonia.ProgressRing" Version="1.69.2" />
 	<PackageReference Include="FluentAvaloniaUI" Version="2.0.5" />
 	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 	<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.9" />

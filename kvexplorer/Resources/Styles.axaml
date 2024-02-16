@@ -111,7 +111,9 @@
     </Style>
 
 
-
+    <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
 
     <!--  fly out  -->
     <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder">

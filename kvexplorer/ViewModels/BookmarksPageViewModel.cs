@@ -1,10 +1,13 @@
 ﻿using Avalonia.Threading;
+using Azure.Core;
 using Azure.ResourceManager.Resources;
+using Azure.ResourceManager.Resources.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -21,22 +24,27 @@ public partial class BookmarksPageViewModel : ViewModelBase
     public ObservableCollection<SubscriptionResource> selectedSubscriptions;
 
     [ObservableProperty]
-    public ObservableCollection<SubscriptionData> subscriptions;
-
+    public ObservableCollection<SubscriptionDataItems> subscriptions;
 
     [ObservableProperty]
-    public string continuationToken; 
+    public string continuationToken;
 
     private readonly KvExplorerDb _db;
     private readonly VaultService _vaultService;
+
     public BookmarksPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         SelectedSubscriptions = new();
-        Subscriptions = new ObservableCollection<SubscriptionData>();
-        GetAllKeyVaults().Wait();
+        Subscriptions = new ObservableCollection<SubscriptionDataItems>();
+
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            await GetAllKeyVaults();
+        });
     }
+
     /// <summary>
     /// The content of this page
     /// </summary>
@@ -46,25 +54,28 @@ public partial class BookmarksPageViewModel : ViewModelBase
     /// The Title of this page
     /// </summary>
     public string Title => "Welcome to our Wizard-Sample.";
+
     [RelayCommand]
     public async Task GetAllKeyVaults()
     {
         int count = 0;
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+
+        var resource = _vaultService.GetAllSubscriptions();
+        await foreach (var item in resource)
         {
-            var resource = _vaultService.GetAllSubscriptions();
-            await foreach (var item in resource)
+            Subscriptions.Add(new SubscriptionDataItems
             {
-                Subscriptions.Add(item.SubscriptionResource.Data);
-                count++;
-                if (item.ContinuationToken != null && count >= 100)
-                {
-                    ContinuationToken = item.ContinuationToken;
-                    Debug.WriteLine(item.ContinuationToken);
-                    break;
-                }
+                Data = item.SubscriptionResource.Data,
+                IsPinned = false
+            });
+            count++;
+            if (item.ContinuationToken != null && count >= 100)
+            {
+                ContinuationToken = item.ContinuationToken;
+                Debug.WriteLine(item.ContinuationToken);
+                break;
             }
-            IsBusy = false;
-        });
+        }
+        IsBusy = false;
     }
 }

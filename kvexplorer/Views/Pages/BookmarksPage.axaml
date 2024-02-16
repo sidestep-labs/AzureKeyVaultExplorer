@@ -5,6 +5,7 @@
     xmlns:armmodels="clr-namespace:Azure.ResourceManager.Resources;assembly=Azure.ResourceManager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:kvexplorer.ViewModels"
     d:DesignHeight="450"
@@ -44,7 +45,7 @@
                                 VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
-                                Glyph="&#xE8E6;"
+                                Glyph="&#xE1C5;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
                             <Label>Clear Selection</Label>
                         </StackPanel>
@@ -58,7 +59,7 @@
                                 VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
-                                Glyph="&#xE8B3;"
+                                Glyph="&#xE14E;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
                             <Label>Select all</Label>
                         </StackPanel>
@@ -125,47 +126,48 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:CompileBindings="False"
-            x:DataType="armmodels:SubscriptionData"
+            x:DataType="models:SubscriptionDataItems"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
             GridLinesVisibility="Horizontal"
             HorizontalScrollBarVisibility="Visible"
-            ItemsSource="{Binding Subscriptions}"
+            IsScrollInertiaEnabled="True"
+            ItemsSource="{Binding Subscriptions, Mode=TwoWay}"
             VerticalScrollBarVisibility="Visible">
-
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn
                     Width="130"
-                    CanUserSort="False"
-                    Header="Show In Sidebar" />
+                    Binding="{Binding IsPinned}"
+                    CanUserSort="True"
+                    Header="Pin to Sidebar" />
                 <DataGridTextColumn
                     Width="200"
-                    Binding="{Binding DisplayName}"
+                    Binding="{Binding Data.DisplayName}"
                     Header="DisplayName" />
                 <DataGridTextColumn
                     Width="200"
-                    Binding="{Binding SubscriptionId}"
+                    Binding="{Binding Data.SubscriptionId}"
                     Header="SubscriptionId" />
                 <DataGridTextColumn
                     Width="150"
-                    Binding="{Binding Tags}"
+                    Binding="{Binding Data.Tags}"
                     Header="Tags" />
                 <DataGridTextColumn
                     Width="150"
-                    Binding="{Binding TenantId}"
+                    Binding="{Binding Data.TenantId}"
                     Header="TenantId" />
                 <DataGridTextColumn
                     Width="200"
-                    Binding="{Binding State}"
+                    Binding="{Binding Data.State}"
                     Header="State" />
 
                 <DataGridTextColumn
                     Width="200"
-                    Binding="{Binding ManagedByTenants}"
+                    Binding="{Binding Data.ManagedByTenants}"
                     Header="Managed By" />
                 <DataGridTextColumn
                     Width="200"
-                    Binding="{Binding AuthorizationSource}"
+                    Binding="{Binding Data.AuthorizationSource}"
                     Header="AuthorizationSource" />
 
             </DataGrid.Columns>

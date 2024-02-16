@@ -293,7 +293,7 @@
 
                                     </Grid>
 
-                                    <StackPanel IsVisible="{Binding OpenedItem.Tags.Keys.Count > 0}">
+                                    <StackPanel IsVisible="{Binding !!OpenedItem.Tags.Keys.Count}">
                                         <TextBlock
                                             Margin="0,5"
                                             Text="Tags"

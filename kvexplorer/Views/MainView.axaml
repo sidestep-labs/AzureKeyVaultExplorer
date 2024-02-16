@@ -177,15 +177,15 @@
             IsSettingsVisible="False"
             PaneDisplayMode="Auto">
 
-            <!--<ui:NavigationView.Styles>
-                   <Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
+            <ui:NavigationView.Styles>
+                <!--<Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
                         <Setter Property="Background" Value="{x:Null}" />
                     </Style>
                     <Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ ContentPresenter#PART_PanePresenter">
                         <Setter Property="CornerRadius" Value="0,10,0,0" />
                         <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}" />
-                    </Style>
-            </ui:NavigationView.Styles>-->
+                    </Style>-->
+            </ui:NavigationView.Styles>
 
 
             <ui:NavigationView.MenuItems>
@@ -205,7 +205,7 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.PaneCustomContent>
-                <Panel MaxHeight="420" IsVisible="{Binding #NavView.IsPaneOpen}">
+                <Panel MaxHeight="450" IsVisible="{Binding #NavView.IsPaneOpen}">
                     <custom:KeyVaultTreeList />
                 </Panel>
             </ui:NavigationView.PaneCustomContent>

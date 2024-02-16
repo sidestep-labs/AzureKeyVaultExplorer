@@ -18,16 +18,13 @@ namespace kvexplorer.ViewModels;
 public partial class BookmarksPageViewModel : ViewModelBase
 {
     [ObservableProperty]
+    public string continuationToken = "";
+
+    [ObservableProperty]
     public bool isBusy = true;
 
     [ObservableProperty]
-    public ObservableCollection<SubscriptionResource> selectedSubscriptions;
-
-    [ObservableProperty]
     public ObservableCollection<SubscriptionDataItems> subscriptions;
-
-    [ObservableProperty]
-    public string continuationToken;
 
     private readonly KvExplorerDb _db;
     private readonly VaultService _vaultService;
@@ -36,13 +33,11 @@ public partial class BookmarksPageViewModel : ViewModelBase
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
-        SelectedSubscriptions = new();
         Subscriptions = new ObservableCollection<SubscriptionDataItems>();
-
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
             await GetAllKeyVaults();
-        });
+        }, DispatcherPriority.SystemIdle);
     }
 
     /// <summary>
@@ -59,9 +54,7 @@ public partial class BookmarksPageViewModel : ViewModelBase
     public async Task GetAllKeyVaults()
     {
         int count = 0;
-
-        var resource = _vaultService.GetAllSubscriptions();
-        await foreach (var item in resource)
+        await foreach (var item in _vaultService.GetAllSubscriptions())
         {
             Subscriptions.Add(new SubscriptionDataItems
             {

@@ -15,8 +15,8 @@
 
     <!--
         This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
-	   -->
-	<SolidColorBrush
+    -->
+    <SolidColorBrush
         x:Key="AccentFillColorTertiaryBrush"
         Opacity="0.15"
         Color="{DynamicResource SystemAccentColorDark1}" />
@@ -29,7 +29,7 @@
         <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="Transparent" />
     </LinearGradientBrush>
- 
+
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
@@ -55,7 +55,6 @@
         FontSize="18"
         Glyph="&#xEA18;" />
 
-    <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-icon.ico" />
     <ui:FontIconSource
         x:Key="Home2"
         FontSize="18"

@@ -131,7 +131,6 @@
             CanUserResizeColumns="True"
             GridLinesVisibility="Horizontal"
             HorizontalScrollBarVisibility="Visible"
-            IsScrollInertiaEnabled="True"
             ItemsSource="{Binding Subscriptions, Mode=TwoWay}"
             VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>

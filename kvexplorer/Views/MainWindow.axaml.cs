@@ -35,7 +35,6 @@ public partial class MainWindow : AppWindow
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
         BackgroundBrush = (IBrush)bg;
-
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         TransparencyEnabled = JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(path)).BackgroundTransparency;
 

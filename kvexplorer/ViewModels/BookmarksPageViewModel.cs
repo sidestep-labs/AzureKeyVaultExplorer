@@ -18,7 +18,7 @@ namespace kvexplorer.ViewModels;
 public partial class BookmarksPageViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public string continuationToken = "";
+    public string continuationToken;
 
     [ObservableProperty]
     public bool isBusy = true;
@@ -34,21 +34,10 @@ public partial class BookmarksPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         Subscriptions = new ObservableCollection<SubscriptionDataItems>();
-        Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            await GetAllKeyVaults();
-        }, DispatcherPriority.SystemIdle);
+       
     }
 
-    /// <summary>
-    /// The content of this page
-    /// </summary>
-    public string Message => "Press \"Next\" to register yourself.";
-
-    /// <summary>
-    /// The Title of this page
-    /// </summary>
-    public string Title => "Welcome to our Wizard-Sample.";
+ 
 
     [RelayCommand]
     public async Task GetAllKeyVaults()
@@ -62,7 +51,7 @@ public partial class BookmarksPageViewModel : ViewModelBase
                 IsPinned = false
             });
             count++;
-            if (item.ContinuationToken != null && count >= 100)
+            if (item.ContinuationToken != null && count == 2)
             {
                 ContinuationToken = item.ContinuationToken;
                 Debug.WriteLine(item.ContinuationToken);
@@ -71,4 +60,6 @@ public partial class BookmarksPageViewModel : ViewModelBase
         }
         IsBusy = false;
     }
+
+
 }

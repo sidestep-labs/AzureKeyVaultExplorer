@@ -68,7 +68,7 @@
                         Padding="6,3"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                        ToolTip.Tip="Save selected items to sidebar">
+                        ToolTip.Tip="Load additional subscriptions in batches of 100">
                         <StackPanel Margin="0" Orientation="Horizontal">
                             <ui:FontIcon
                                 VerticalAlignment="Bottom"

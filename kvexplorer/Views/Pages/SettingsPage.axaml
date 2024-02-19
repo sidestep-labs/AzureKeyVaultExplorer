@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:kvexplorer.ViewModels"
     d:DesignHeight="450"
@@ -96,6 +97,7 @@
             </ui:SettingsExpander>
             <ui:SettingsExpander
                 Name="BackgroundTransparencySetting"
+                Margin="0,0,0,3"
                 Description="When checked, this will enabled more modern Mica tranparent background on Windows 11"
                 Header="Mica Background"
                 IconSource="ColorBackground">
@@ -107,6 +109,19 @@
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 
+            <!--<ui:SettingsExpander
+                Name="NavigationLayoutSetting2"
+                Description="Changing the option will move the navigation bar from the top or to the left hand side"
+                Header="Navigation Layout"
+                IconSource="DockLeft">
+                <ui:SettingsExpander.Footer>
+                    <ComboBox>
+                        <ComboBoxItem Content="test" />
+                    </ComboBox>
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>-->
+
+
             <ui:SettingsExpander
                 Name="NavigationLayoutSetting"
                 Description="Changing the option will move the navigation bar from the top or to the left hand side"
@@ -114,22 +129,23 @@
                 IconSource="DockLeft">
                 <ui:SettingsExpander.Footer>
                     <ui:FAComboBox
-                        Name="NavigationLayoutSettingComboBox"
                         Width="100"
-                        IsEditable="False"
-                        IsTextSearchEnabled="False"
-                        SelectionChanged="FAComboBox_SelectionChanged">
-                        <ui:FAComboBoxItem Content="Left" />
-                        <ui:FAComboBoxItem Content="Top" />
-                        <ui:FAComboBoxItem Content="Auto" />
-                    </ui:FAComboBox>
+                        ItemsSource="{Binding Items}"
+                        SelectedItem="{Binding NavigationLayoutMode}" />
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 
-            <!--<ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">
+            <!--  Text="{Binding NavigationLayoutMode, Mode=TwoWay}"  -->
+
+
+
+
+
+            <!--
+			<ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">
                 <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-            -->
-            <!--<ui:CommandBarButton IconSource="Save" />
+
+            <ui:CommandBarButton IconSource="Save" />
                     <ui:CommandBarToggleButton IconSource="Globe" />-->
             <!--
                 </ui:CommandBarFlyoutCommandBar.PrimaryCommands>

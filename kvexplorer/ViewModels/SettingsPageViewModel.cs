@@ -1,9 +1,11 @@
 ﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -34,7 +36,12 @@ public partial class SettingsPageViewModel : ViewModelBase
     private bool isBackgroundTransparencyEnabled;
 
     [ObservableProperty]
-    private int clearClipboardTimeout  = 30;
+    private string navigationLayoutMode;
+
+    [ObservableProperty]
+    private int clearClipboardTimeout = 30;
+
+    public List<string> Items => ["Auto", "Left", "Top"];
 
     public SettingsPageViewModel()
     {
@@ -46,8 +53,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             var s = await _db.GetToggleSettings();
             ClearClipboardTimeout = s.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
-
         }, DispatcherPriority.Input);
+
     }
 
     [RelayCommand]
@@ -83,16 +90,12 @@ public partial class SettingsPageViewModel : ViewModelBase
         AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
     }
 
-
-
-
     [RelayCommand]
     private async Task SetClearClipboardTimeout()
     {
         await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
         await _db.UpdateToggleSettings(SettingType.ClipboardTimeout, ClearClipboardTimeout);
     }
-
 
     //private async Task LoadApplicationVersion()
     //{
@@ -129,4 +132,14 @@ public partial class SettingsPageViewModel : ViewModelBase
         var newJson = JsonSerializer.Serialize(records);
         await File.WriteAllTextAsync(path, newJson);
     }
+}
+
+public class ComboItem
+{
+    public ComboItem(string name)
+    {
+        DisplayName = name;
+    }
+
+    public string DisplayName { get; }
 }

@@ -49,7 +49,10 @@
                 <ui:FAComboBoxItem Content="ComboBoxItem4" />
                 <ui:FAComboBoxItem Content="Item 5" />
             </ui:FAComboBox>
-
+            <ComboBox>
+                <ComboBoxItem Content="Item 1" />
+                <ComboBoxItem Content="Item 5" />
+            </ComboBox>
 
             <Button ToolTip.Tip="test">
                 test 2
@@ -137,7 +140,9 @@
         <Setter Property="Margin" Value="10" />
         <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
     </Style>
-
+    <!--<Style Selector="ComboBox /template/ ui|FABorder#PopupBorder">
+        <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
+    </Style>-->
 </Styles>
 
 

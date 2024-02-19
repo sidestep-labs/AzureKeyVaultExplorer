@@ -7,7 +7,7 @@ public class AppSettings
     public int ClipboardTimeout { get; set; }
 
     [AllowedValues("Left", "Auto", "Top")]
-    public string NavigationLayout { get; set; } = "Left";
+    public string NavigationLayoutMode { get; set; } = "Left";
 
 
 }

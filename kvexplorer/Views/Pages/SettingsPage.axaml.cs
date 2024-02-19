@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
@@ -48,7 +49,11 @@ public partial class SettingsPage : UserControl
         (DataContext as SettingsPageViewModel).SetClearClipboardTimeoutCommand.Execute(null);
     }
 
-    private void ui:FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    private void FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
+        Console.WriteLine((sender as FAComboBoxItem).Content);
+
     }
+
+    
 }

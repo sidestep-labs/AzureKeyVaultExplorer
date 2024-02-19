@@ -24,6 +24,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 {
     public IEnumerable<KeyVaultModel> _treeViewList;
 
+ 
     [ObservableProperty]
     public string searchQuery;
 
@@ -49,30 +50,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
-        TreeViewList = new ObservableCollection<KeyVaultModel>
-        {
-            // new KeyVaultModel
-            //{
-            //    SubscriptionDisplayName = "Quick Access",
-            //    SubscriptionId = "123",
-            //    KeyVaultResources = new List<KeyVaultResource>{ },
-            //    Subscription = null,
-            //    GlyphIcon = "Pin"
-            //}, new KeyVaultModel
-            //{
-            //    SubscriptionDisplayName = "2 Subscription",
-            //    SubscriptionId = "123",
-            //    KeyVaultResources = new List<KeyVaultResource>{ },
-            //    Subscription = null
-            //}, new KeyVaultModel
-            //{
-            //    SubscriptionDisplayName = "3 Subscription",
-            //    SubscriptionId = "123",
-            //    KeyVaultResources = new List<KeyVaultResource>{ },
-            //    Subscription = null
-            //},
-        };
-
+        TreeViewList = [];
         //foreach (var item in TreeViewList)
         //{
         //    item.PropertyChanged += KeyVaultModel_PropertyChanged;
@@ -132,7 +110,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 quickAccess.PropertyChanged += KeyVaultModel_PropertyChanged;
             }
             TreeViewList[0] = quickAccess;
-        });
+        }, DispatcherPriority.Background);
 
         _treeViewList = TreeViewList;
     }
@@ -260,7 +238,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
         var listSearched = _treeViewList.Where(v =>
             v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-            v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            v.KeyVaultResources.Any(r => r.HasData && r.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
         );
         TreeViewList = new ObservableCollection<KeyVaultModel>(listSearched);
     }

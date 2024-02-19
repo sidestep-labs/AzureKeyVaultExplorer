@@ -18,10 +18,10 @@
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <AssemblyName>KeyVaultExplorer</AssemblyName>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-    <PublishAot>true</PublishAot>
+    <!--<PublishAot>true</PublishAot>-->
     <SelfContained>true</SelfContained>
-    <TrimMode>partial</TrimMode>
-    <PublishTrimmed>true</PublishTrimmed>
+    <!--<TrimMode>partial</TrimMode>
+    <PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="publish-aot\**" />

@@ -11,11 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace kvexplorer.ViewModels;
 
-public partial class BookmarksPageViewModel : ViewModelBase
+public partial class SubscriptionsPageViewModel : ViewModelBase
 {
     [ObservableProperty]
     public string continuationToken;
@@ -29,11 +30,11 @@ public partial class BookmarksPageViewModel : ViewModelBase
     private readonly KvExplorerDb _db;
     private readonly VaultService _vaultService;
 
-    public BookmarksPageViewModel()
+    public SubscriptionsPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
-        Subscriptions = new ObservableCollection<SubscriptionDataItems>();
+        Subscriptions = [];
        
     }
 
@@ -51,7 +52,7 @@ public partial class BookmarksPageViewModel : ViewModelBase
                 IsPinned = false
             });
             count++;
-            if (item.ContinuationToken != null && count == 2)
+            if (item.ContinuationToken != null && count > 50)
             {
                 ContinuationToken = item.ContinuationToken;
                 Debug.WriteLine(item.ContinuationToken);
@@ -59,6 +60,24 @@ public partial class BookmarksPageViewModel : ViewModelBase
             }
         }
         IsBusy = false;
+    }
+
+    [RelayCommand]
+    public void SelectAllSubscriptions()
+    {
+        var items = Subscriptions.ToArray();
+        foreach (var item in items)
+            item.IsPinned = true;
+        Subscriptions = new ObservableCollection<SubscriptionDataItems>(items);
+    }
+
+    [RelayCommand]
+    public void ClearSelectedSubscriptions()
+    {
+        var items = Subscriptions.ToArray();
+        foreach (var item in items)
+            item.IsPinned = false;
+        Subscriptions = new ObservableCollection<SubscriptionDataItems>(items);
     }
 
 

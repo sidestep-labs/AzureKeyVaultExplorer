@@ -197,7 +197,7 @@
                 <ui:NavigationViewItem
                     Content="Subscriptions"
                     IconSource="Bookmarks"
-                    Tag="BookmarksPage" />
+                    Tag="SubscriptionsPage" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.PaneCustomContent>
                 <Panel MaxHeight="450" IsVisible="{Binding #NavView.IsPaneOpen}">

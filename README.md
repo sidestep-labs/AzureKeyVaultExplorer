@@ -31,5 +31,5 @@ The code is very much in the learning phase of things at the moment, with lots o
 - **Microsoft.Extensions.Caching.Memory** 
 - **Microsoft.Identity.Client.Extensions.Msal**
 - **FluentAvaloniaUI** (Version: 2.0.4)
-- **Avalonia.Diagnostics** (Version: 11.0.6) 
+- **Avalonia.Diagnostics** (Version: 11.0.9) 
 - **Microsoft.Extensions.DependencyInjection** 

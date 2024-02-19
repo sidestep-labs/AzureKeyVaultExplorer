@@ -9,6 +9,9 @@ using kvexplorer.shared.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Azure.Core.Pipeline;
 using Azure;
+using System.Collections;
+using Azure.Core;
+using System.Diagnostics;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -66,7 +69,7 @@ public class VaultService
 
         var subscriptions = _memoryCache.GetOrCreate("subscriptions", (f) =>
         {
-            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3);
             return armClient.GetSubscriptions();
         });
 
@@ -83,6 +86,29 @@ public class VaultService
             yield return resource;
         }
     }
+
+
+    public async Task<IEnumerable<SubscriptionData>> GetStoredSelectedVaults()
+    {
+        var id = "/subscriptions/c8dca0c8-548c-4c91-a62f-5a0a9c93d42e";
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+
+        var resource = new ResourceIdentifier(id);
+        SubscriptionResource subscription = armClient.GetSubscriptionResource(resource);
+
+        var vaults = subscription.GetKeyVaultsAsync();
+
+        await foreach (var vault in vaults)
+        {
+            Debug.WriteLine(vault.Data.Name);
+        }
+
+        return Array.Empty<SubscriptionData>();
+    }
+
+
+
 
     public record SubscriptionResourceWithNextPageToken(SubscriptionResource SubscriptionResource, string ContinuationToken);
 

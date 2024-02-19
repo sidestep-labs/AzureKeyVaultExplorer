@@ -69,14 +69,14 @@ public class NavigationFactory : INavigationPageFactory
     private readonly Control[] _pages =
     {
         new MainPage(),
-        new BookmarksPage(),
+        new SubscriptionsPage(),
         new SettingsPage(),
     };
 
     private readonly Dictionary<string, Func<Control>> CorePages = new Dictionary<string, Func<Control>>
     {
         { "MainPage", () => new MainPage() },
-        { "BookmarksPage", () => new BookmarksPage() },
+        { "SubscriptionsPage", () => new SubscriptionsPage() },
         { "SettingsPage", () => new SettingsPage() },
     };
 
@@ -108,7 +108,7 @@ public class NavigationFactory : INavigationPageFactory
         return target switch
         {
             MainPage => _pages[0],
-            BookmarksPage => _pages[1],
+            SubscriptionsPage => _pages[1],
             SettingsPage => _pages[2],
 
             _ => throw new Exception()

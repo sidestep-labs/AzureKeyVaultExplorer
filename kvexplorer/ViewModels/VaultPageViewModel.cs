@@ -425,9 +425,9 @@ public partial class VaultPageViewModel : ViewModelBase
         //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window with parent on windows but not mac.
-        if (isMac)
+        //if (isMac)
             taskDialog.Show();
-        else
-            taskDialog.Show(topLevel);
+        //else
+            //taskDialog.Show(topLevel);
     }
 }

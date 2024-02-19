@@ -34,6 +34,21 @@ public partial class KvExplorerDb
                     ContentType             TEXT,
                     Version                 TEXT    NOT NULL
                 );
+                -- Table: Subscriptions
+                CREATE TABLE Subscriptions (
+                    DisplayName    TEXT,
+                    SubscriptionId TEXT (200) PRIMARY KEY,
+                    TenantId       TEXT (200),
+                    CONSTRAINT UQ_SubscriptionId UNIQUE (
+                        SubscriptionId ASC
+                    )
+                    ON CONFLICT IGNORE
+                );
+                CREATE UNIQUE INDEX IX_Subscriptions_DisplayName_SubscriptionsId ON Subscriptions (
+                    SubscriptionId ASC,
+                    DisplayName ASC
+                );
+
                 -- Table: QuickAccess
                 CREATE TABLE IF NOT EXISTS QuickAccess (
                     Id                      INTEGER NOT NULL CONSTRAINT PK_QuickAccess PRIMARY KEY AUTOINCREMENT,
@@ -210,9 +225,11 @@ public partial class KvExplorerDb
                 case SettingType.BackgroundTransparency:
                     settings.BackgroundTransparency = reader.GetBoolean(1);
                     break;
+
                 case SettingType.ClipboardTimeout:
                     settings.ClipboardTimeout = reader.GetInt32(1);
                     break;
+
                 default:
                     break;
             }
@@ -220,4 +237,44 @@ public partial class KvExplorerDb
         return settings;
     }
 
+    public static IEnumerable<Subscriptions> GetAllSubscriptions()
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT DisplayName, SubscriptionId, TenantId FROM Subscriptions;";
+
+        var reader = command.ExecuteReader();
+
+        var subscriptions = new List<Subscriptions>();
+        while (reader.Read())
+        {
+            var subscription = new Subscriptions
+            {
+                DisplayName = reader.GetString(0),
+                SubscriptionId = reader.GetString(1),
+                TenantId = reader.GetString(2)
+            };
+            subscriptions.Add(subscription);
+        }
+        return subscriptions;
+    }
+
+    public static async Task InsertSubscription(Subscriptions subscription)
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+        var command = connection.CreateCommand();
+        command.CommandText = "INSERT INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
+        command.Parameters.AddWithValue("@DisplayName", subscription.DisplayName);
+        command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+        command.Parameters.AddWithValue("@TenantId", subscription.TenantId);
+        await command.ExecuteNonQueryAsync();
+    }
+
+    public IEnumerable<Subscriptions> QuerySubscriptions(Func<Subscriptions, bool> predicate)
+    {
+        return GetAllSubscriptions().Where(predicate);
+    }
 }

@@ -104,7 +104,7 @@ public partial class MainView : UserControl
         item.IconSource = t switch
         {
             MainPage => this.TryFindResource(selected ? "LibraryIcon" : "LibraryIcon", out var value) ? (IconSource)value! : null,
-            BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
+            SubscriptionsPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
             SettingsPage => this.TryFindResource(selected ? "SettingsIcon" : "SettingsIcon", out var value) ? (IconSource)value! : null,
             _ => item.IconSource
         };

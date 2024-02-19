@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="kvexplorer.Views.Pages.BookmarksPage"
+    x:Class="kvexplorer.Views.Pages.SubscriptionsPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:armmodels="clr-namespace:Azure.ResourceManager.Resources;assembly=Azure.ResourceManager"
@@ -10,11 +10,11 @@
     xmlns:vm="using:kvexplorer.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="vm:BookmarksPageViewModel"
+    x:DataType="vm:SubscriptionsPageViewModel"
     mc:Ignorable="d">
 
     <Design.DataContext>
-        <vm:BookmarksPageViewModel />
+        <vm:SubscriptionsPageViewModel />
     </Design.DataContext>
 
 
@@ -38,6 +38,12 @@
                     Spacing="2">
                     <Button
                         Padding="6,3"
+                        Click="Button_Click"
+                        Content="Test" />
+
+                    <Button
+                        Padding="6,3"
+                        Command="{Binding ClearSelectedSubscriptionsCommand}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Clear selected items">
                         <StackPanel Margin="0" Orientation="Horizontal">
@@ -52,6 +58,7 @@
                     </Button>
                     <Button
                         Padding="6,3"
+                        Command="{Binding SelectAllSubscriptionsCommand}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Select all visible items">
                         <StackPanel Margin="0" Orientation="Horizontal">
@@ -129,6 +136,7 @@
             x:DataType="models:SubscriptionDataItems"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
+            Focusable="True"
             GridLinesVisibility="Horizontal"
             HorizontalScrollBarVisibility="Visible"
             ItemsSource="{Binding Subscriptions, Mode=TwoWay}"
@@ -136,7 +144,7 @@
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn
                     Width="130"
-                    Binding="{Binding IsPinned}"
+                    Binding="{Binding IsPinned, Mode=TwoWay}"
                     CanUserSort="True"
                     Header="Pin to Sidebar" />
                 <DataGridTextColumn

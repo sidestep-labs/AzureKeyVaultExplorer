@@ -175,7 +175,7 @@
             Classes="MainAppNav"
             IsBackEnabled="{Binding #FrameView.CanGoBack}"
             IsSettingsVisible="False"
-            PaneDisplayMode="Left">
+            PaneDisplayMode="{Binding NavigationLayoutMode}">
 
             <ui:NavigationView.Styles>
                 <!--<Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
@@ -195,7 +195,7 @@
                     IconSource="Library"
                     Tag="MainPage" />
                 <ui:NavigationViewItem
-                    Content="Bookmarks"
+                    Content="Subscriptions"
                     IconSource="Bookmarks"
                     Tag="BookmarksPage" />
             </ui:NavigationView.MenuItems>

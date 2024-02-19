@@ -53,8 +53,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             var s = await _db.GetToggleSettings();
             ClearClipboardTimeout = s.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
-        }, DispatcherPriority.Input);
-
+            NavigationLayoutMode = s.NavigationLayoutMode;
+        }, DispatcherPriority.MaxValue);
     }
 
     [RelayCommand]
@@ -87,7 +87,13 @@ public partial class SettingsPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task SetBackgroundColorSetting()
     {
-        AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
+        await AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
+    }
+
+    [RelayCommand]
+    private async Task SetNavigationLayout()
+    {
+        await AddOrUpdateAppSettings(nameof(NavigationLayoutMode), NavigationLayoutMode);
     }
 
     [RelayCommand]
@@ -132,14 +138,18 @@ public partial class SettingsPageViewModel : ViewModelBase
         var newJson = JsonSerializer.Serialize(records);
         await File.WriteAllTextAsync(path, newJson);
     }
-}
 
-public class ComboItem
-{
-    public ComboItem(string name)
+    public async Task AddOrUpdateAppSettings<T>(string key, T value)
     {
-        DisplayName = name;
+        var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
+        var records = await GetAppSettings();
+        // Assuming records is a class with a property that matches the key
+        var property = records.GetType().GetProperty(key);
+        if (property != null && property.PropertyType == typeof(T))
+        {
+            property.SetValue(records, value);
+            var newJson = JsonSerializer.Serialize(records);
+            await File.WriteAllTextAsync(path, newJson);
+        }
     }
-
-    public string DisplayName { get; }
 }

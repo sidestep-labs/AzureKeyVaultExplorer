@@ -51,9 +51,6 @@ public partial class SettingsPage : UserControl
 
     private void FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
-        Console.WriteLine((sender as FAComboBoxItem).Content);
-
+        (DataContext as SettingsPageViewModel)!.SetNavigationLayoutCommand.Execute(null);
     }
-
-    
 }

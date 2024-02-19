@@ -18,9 +18,6 @@ public partial class MainWindow : AppWindow
 {
     public static readonly RoutedEvent<RoutedEventArgs> TransparencyChangedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(TransparencyChangedEvent), RoutingStrategies.Tunnel);
     private IBrush BackgroundBrush;
-    private readonly KvExplorerDb _db;
-
-    private SettingsPageViewModel _settingsPageViewModel;
 
     private bool TransparencyEnabled { get; set; }
 
@@ -30,15 +27,15 @@ public partial class MainWindow : AppWindow
         TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         AddHandler(TransparencyChangedEvent, OnTransparencyChangedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
-        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
 
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
         BackgroundBrush = (IBrush)bg;
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        TransparencyEnabled = JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(path)).BackgroundTransparency;
+        var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
+        TransparencyEnabled = settings.AppSettings.BackgroundTransparency;
 
-        // TODO: get background trancy from db to know if to enable this on startup.
+        // TODO: get background transparency from db to know if to enable this on startup.
         if (TransparencyEnabled)
         {
             Background = null;

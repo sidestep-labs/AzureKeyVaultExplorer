@@ -124,14 +124,15 @@
 
             <ui:SettingsExpander
                 Name="NavigationLayoutSetting"
-                Description="Changing the option will move the navigation bar from the top or to the left hand side"
+                Description="Changing the option will move the navigation bar from the top or to the left hand side. Requires app restart."
                 Header="Navigation Layout"
                 IconSource="DockLeft">
                 <ui:SettingsExpander.Footer>
                     <ui:FAComboBox
                         Width="100"
                         ItemsSource="{Binding Items}"
-                        SelectedItem="{Binding NavigationLayoutMode}" />
+                        SelectedItem="{Binding NavigationLayoutMode, Mode=TwoWay}"
+                        SelectionChanged="FAComboBox_SelectionChanged" />
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 

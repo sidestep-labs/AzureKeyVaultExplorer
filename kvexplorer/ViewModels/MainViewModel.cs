@@ -26,10 +26,16 @@ public partial class MainViewModel : ViewModelBase
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
 
+
+    [ObservableProperty]
+    public string navigationLayoutMode;
+
     public MainViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
+        var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
         NavigationFactory = new NavigationFactory();
+        NavigationLayoutMode = settings.AppSettings.NavigationLayoutMode;
     }
 
     public async Task RefreshTokenAndGetAccountInformation()

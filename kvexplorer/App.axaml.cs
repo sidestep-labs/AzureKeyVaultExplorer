@@ -23,6 +23,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddMemoryCache();
         serviceCollection.AddSingleton<KvExplorerDb>();
+        serviceCollection.AddTransient<AppSettingReader>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 

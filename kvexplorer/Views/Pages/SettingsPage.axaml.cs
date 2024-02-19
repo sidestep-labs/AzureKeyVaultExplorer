@@ -49,8 +49,8 @@ public partial class SettingsPage : UserControl
         (DataContext as SettingsPageViewModel).SetClearClipboardTimeoutCommand.Execute(null);
     }
 
-    private void FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
-    {
-        (DataContext as SettingsPageViewModel)!.SetNavigationLayoutCommand.Execute(null);
-    }
+    //private void FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    //{
+    //    (DataContext as SettingsPageViewModel)!.SetNavigationLayoutCommand.Execute(null);
+    //}
 }

@@ -27,7 +27,7 @@ public partial class VaultPage : UserControl
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
-        KeyUp += SearchControl_KeyUp;
+        KeyUp += Control_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
@@ -42,7 +42,7 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
-        KeyUp += SearchControl_KeyUp;
+        KeyUp += Control_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
@@ -57,11 +57,26 @@ public partial class VaultPage : UserControl
         });
     }
 
-    private void SearchControl_KeyUp(object sender, KeyEventArgs e)
+    private void Control_KeyUp(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
         {
             SearchTextBox.Focus();
+            e.Handled = true;
+        }
+        if (e.Key == Avalonia.Input.Key.F5)
+        {
+            Dispatcher.UIThread.Post(async () =>
+            {
+                await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
+                if (TabHost.SelectedIndex > 2)
+                {
+                    ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+                    {
+                        GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+                    };
+                }
+            }, DispatcherPriority.Background);
             e.Handled = true;
         }
     }

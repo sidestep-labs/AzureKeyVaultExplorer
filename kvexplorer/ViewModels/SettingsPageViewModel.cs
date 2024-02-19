@@ -35,8 +35,8 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty]
     private bool isBackgroundTransparencyEnabled;
 
-    [ObservableProperty]
-    private string navigationLayoutMode;
+    //[ObservableProperty]
+    //private string navigationLayoutMode;
 
     [ObservableProperty]
     private int clearClipboardTimeout = 30;
@@ -53,7 +53,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             var s = await _db.GetToggleSettings();
             ClearClipboardTimeout = s.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
-            NavigationLayoutMode = s.NavigationLayoutMode;
+            //NavigationLayoutMode = s.NavigationLayoutMode;
         }, DispatcherPriority.MaxValue);
     }
 
@@ -90,11 +90,11 @@ public partial class SettingsPageViewModel : ViewModelBase
         await AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
     }
 
-    [RelayCommand]
-    private async Task SetNavigationLayout()
-    {
-        await AddOrUpdateAppSettings(nameof(NavigationLayoutMode), NavigationLayoutMode);
-    }
+    //[RelayCommand]
+    //private async Task SetNavigationLayout()
+    //{
+    //    await AddOrUpdateAppSettings(nameof(NavigationLayoutMode), NavigationLayoutMode);
+    //}
 
     [RelayCommand]
     private async Task SetClearClipboardTimeout()

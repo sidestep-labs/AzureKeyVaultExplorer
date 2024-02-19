@@ -78,8 +78,9 @@
                 VerticalAlignment="Bottom"
                 Click="RefreshButton_OnClick"
                 Content="Refresh"
+                HotKey="F5"
                 ToolTip.ShowDelay="1000"
-                ToolTip.Tip="Refresh values visible to your identity" />
+                ToolTip.Tip="Refresh values visible to your identity (F5)" />
 
 
             <TextBox

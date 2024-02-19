@@ -110,19 +110,6 @@
             </ui:SettingsExpander>
 
             <!--<ui:SettingsExpander
-                Name="NavigationLayoutSetting2"
-                Description="Changing the option will move the navigation bar from the top or to the left hand side"
-                Header="Navigation Layout"
-                IconSource="DockLeft">
-                <ui:SettingsExpander.Footer>
-                    <ComboBox>
-                        <ComboBoxItem Content="test" />
-                    </ComboBox>
-                </ui:SettingsExpander.Footer>
-            </ui:SettingsExpander>-->
-
-
-            <ui:SettingsExpander
                 Name="NavigationLayoutSetting"
                 Description="Changing the option will move the navigation bar from the top or to the left hand side. Requires app restart."
                 Header="Navigation Layout"
@@ -134,62 +121,8 @@
                         SelectedItem="{Binding NavigationLayoutMode, Mode=TwoWay}"
                         SelectionChanged="FAComboBox_SelectionChanged" />
                 </ui:SettingsExpander.Footer>
-            </ui:SettingsExpander>
+            </ui:SettingsExpander>-->
 
-            <!--  Text="{Binding NavigationLayoutMode, Mode=TwoWay}"  -->
-
-
-
-
-
-            <!--
-			<ui:CommandBarFlyoutCommandBar Margin="30" IsOpen="True">
-                <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-
-            <ui:CommandBarButton IconSource="Save" />
-                    <ui:CommandBarToggleButton IconSource="Globe" />-->
-            <!--
-                </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-
-                <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-                    <ui:CommandBarButton
-                        HotKey="Ctrl+S"
-                        IconSource="Save"
-                        Label="Save" />
-                    <ui:CommandBarToggleButton
-                        HotKey="Ctrl+F1"
-                        IconSource="ChevronUp"
-                        IsChecked="True"
-                        Label="Move Up" />
-                </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-            </ui:CommandBarFlyoutCommandBar>-->
-            <!--<Button Content="Click me for flyout!">
-                <Button.Flyout>
-
-                    <ui:FAMenuFlyout Placement="Bottom">
-                        <ui:MenuFlyoutItem IconSource="Copy" Text="Item 1" />
-                        <ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
-                        <ui:MenuFlyoutSeparator />
-                        <ui:MenuFlyoutSubItem Text="SubMenu">
-                            <ui:MenuFlyoutItem Text="Subitem 1" />
-                            <ui:MenuFlyoutItem Text="Subitem 2" />
-                            <ui:MenuFlyoutItem Text="Subitem 3" />
-                        </ui:MenuFlyoutSubItem>
-                        <ui:MenuFlyoutSeparator />
-                        <ui:ToggleMenuFlyoutItem IconSource="Bold" Text="Toggle Item" />
-                        <ui:MenuFlyoutSeparator />
-                        <ui:RadioMenuFlyoutItem
-                            GroupName="Test Group"
-                            IconSource="Games"
-                            IsChecked="True"
-                            Text="Radio Menu Item" />
-                        <ui:RadioMenuFlyoutItem
-                            GroupName="Test Group"
-                            IconSource="Icons"
-                            Text="Radio Menu Item 2" />
-                    </ui:FAMenuFlyout>
-                </Button.Flyout>
-            </Button>-->
         </StackPanel>
     </ScrollViewer>
 </UserControl>

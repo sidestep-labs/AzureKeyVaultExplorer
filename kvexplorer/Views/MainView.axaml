@@ -175,8 +175,8 @@
             Classes="MainAppNav"
             IsBackEnabled="{Binding #FrameView.CanGoBack}"
             IsSettingsVisible="False"
-            PaneDisplayMode="{Binding NavigationLayoutMode}">
-
+            PaneDisplayMode="Auto">
+            <!--  PaneDisplayMode="{Binding NavigationLayoutMode}"  -->
             <ui:NavigationView.Styles>
                 <!--<Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
                         <Setter Property="Background" Value="{x:Null}" />

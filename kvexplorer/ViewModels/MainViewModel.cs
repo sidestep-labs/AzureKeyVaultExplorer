@@ -27,15 +27,12 @@ public partial class MainViewModel : ViewModelBase
     public NavigationFactory NavigationFactory { get; }
 
 
-    [ObservableProperty]
-    public string navigationLayoutMode;
-
     public MainViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
+        //var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
         NavigationFactory = new NavigationFactory();
-        NavigationLayoutMode = settings.AppSettings.NavigationLayoutMode;
+        //NavigationLayoutMode = settings.AppSettings.NavigationLayoutMode;
     }
 
     public async Task RefreshTokenAndGetAccountInformation()

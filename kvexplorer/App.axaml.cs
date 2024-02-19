@@ -34,9 +34,8 @@ public partial class App : Application
             KvExplorerDb.InitializeDatabase();
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        var setitngsExists = File.Exists(settingsPath);
-        if (!setitngsExists)
-            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false }""");
+        if (!File.Exists(settingsPath))
+            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false, "NavigationLayout": "Left" }""");
     }
 
     public override void Initialize()

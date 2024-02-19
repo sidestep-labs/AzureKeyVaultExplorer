@@ -175,7 +175,7 @@
             Classes="MainAppNav"
             IsBackEnabled="{Binding #FrameView.CanGoBack}"
             IsSettingsVisible="False"
-            PaneDisplayMode="Auto">
+            PaneDisplayMode="Left">
 
             <ui:NavigationView.Styles>
                 <!--<Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
@@ -191,19 +191,14 @@
             <ui:NavigationView.MenuItems>
                 <!--<ui:NavigationViewItemHeader Content="Actions" />-->
                 <ui:NavigationViewItem
-                    Margin="0,-18,0,0"
                     Content="Vault Library"
                     IconSource="Library"
-                    RenderOptions.BitmapInterpolationMode="HighQuality"
-                    RenderOptions.TextRenderingMode="SubpixelAntialias"
                     Tag="MainPage" />
-
                 <ui:NavigationViewItem
                     Content="Bookmarks"
                     IconSource="Bookmarks"
                     Tag="BookmarksPage" />
             </ui:NavigationView.MenuItems>
-
             <ui:NavigationView.PaneCustomContent>
                 <Panel MaxHeight="450" IsVisible="{Binding #NavView.IsPaneOpen}">
                     <custom:KeyVaultTreeList />

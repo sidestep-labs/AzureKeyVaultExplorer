@@ -47,4 +47,8 @@ public partial class SettingsPage : UserControl
     {
         (DataContext as SettingsPageViewModel).SetClearClipboardTimeoutCommand.Execute(null);
     }
+
+    private void ui:FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    {
+    }
 }

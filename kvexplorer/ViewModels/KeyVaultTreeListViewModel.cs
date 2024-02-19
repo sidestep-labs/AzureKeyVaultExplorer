@@ -245,7 +245,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     partial void OnSearchQueryChanged(string value)
     {
-        string query = value.Trim().ToLowerInvariant();
+        string query = value.Trim();
         if (!string.IsNullOrWhiteSpace(query))
         {
             TreeViewList = new ObservableCollection<KeyVaultModel>(_treeViewList);
@@ -259,8 +259,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         //);
 
         var listSearched = _treeViewList.Where(v =>
-            v.SubscriptionDisplayName.ToLowerInvariant().Contains(query) ||
-            v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
+            v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+            v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
         );
         TreeViewList = new ObservableCollection<KeyVaultModel>(listSearched);
     }

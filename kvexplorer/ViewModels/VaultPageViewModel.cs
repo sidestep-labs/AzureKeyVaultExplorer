@@ -58,6 +58,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private readonly WindowNotificationManager _windowNotification;
     private SettingsPageViewModel _settingsPageViewModel;
     private Bitmap BitmapImage;
+
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -98,7 +99,6 @@ public partial class VaultPageViewModel : ViewModelBase
                         SecretProperties = sp,
                         UpdatedOn = new System.DateTime(),
                         CreatedOn = new System.DateTime(),
-
                     });
                     break;
 
@@ -114,7 +114,6 @@ public partial class VaultPageViewModel : ViewModelBase
                         SecretProperties = sp,
                         CreatedOn = new System.DateTime(),
                         UpdatedOn = new System.DateTime(),
-
                     });
                     break;
             }
@@ -126,6 +125,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
     private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
     private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+
     public async Task ClearClipboardAsync()
     {
         await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
@@ -168,9 +168,9 @@ public partial class VaultPageViewModel : ViewModelBase
             }
         }
         if (item == KeyVaultItemType.All)
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
         else
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
 
         await DelaySetIsBusy(false);
     }
@@ -212,8 +212,8 @@ public partial class VaultPageViewModel : ViewModelBase
                 Version = key.Version,
                 KeyProperties = key,
                 Tags = key.Tags,
-                CreatedOn= key.CreatedOn,
-                UpdatedOn= key.UpdatedOn,
+                CreatedOn = key.CreatedOn,
+                UpdatedOn = key.UpdatedOn,
             });
         }
         _vaultContents = VaultContents;
@@ -236,7 +236,7 @@ public partial class VaultPageViewModel : ViewModelBase
                 SecretProperties = secret,
                 Tags = secret.Tags,
                 UpdatedOn = secret.UpdatedOn,
-                CreatedOn   = secret.CreatedOn,
+                CreatedOn = secret.CreatedOn,
             });
         }
 
@@ -308,11 +308,12 @@ public partial class VaultPageViewModel : ViewModelBase
         await Task.Delay(1000);
         IsBusy = val;
     }
+
     partial void OnSearchQueryChanged(string value)
     {
         var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
         var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
-        string query = value?.Trim().ToLowerInvariant();
+        string? query = value?.Trim();
         if (string.IsNullOrWhiteSpace(query))
         {
             var contents = _vaultContents;
@@ -326,10 +327,10 @@ public partial class VaultPageViewModel : ViewModelBase
         //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
         //       && toFilter.Contains(v.Type)
 
-        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query)
+        var list = _vaultContents.Where(v => v.Name.Contains(query, StringComparison.OrdinalIgnoreCase)
                 || (v.Tags is not null
-                && v.Tags.Any(x => x.Value.ToLowerInvariant().Contains(query)
-                || x.Key.ToLowerInvariant().Contains(query))
+                && v.Tags.Any(x => x.Value.Contains(query, StringComparison.OrdinalIgnoreCase)
+                || x.Key.Contains(query, StringComparison.OrdinalIgnoreCase))
               ));
 
         if (item != KeyVaultItemType.All)
@@ -354,6 +355,7 @@ public partial class VaultPageViewModel : ViewModelBase
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
         await FilterAndLoadVaultValueType(item);
     }
+
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
 #if WINDOWS

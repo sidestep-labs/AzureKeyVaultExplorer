@@ -82,7 +82,7 @@
                 Margin="0,0,0,3"
                 Description="This will clear the clipboard after a set amount of time in seconds."
                 Header="Clear Clipboard secret after"
-                IconSource="ColorBackground">
+                IconSource="Clock">
                 <ui:SettingsExpander.Footer>
                     <NumericUpDown
                         Width="120"
@@ -104,6 +104,25 @@
                         Name="BackgroundTransparencyCheckbox"
                         Command="{Binding SetBackgroundColorSettingCommand}"
                         IsChecked="{Binding IsBackgroundTransparencyEnabled}" />
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander
+                Name="NavigationLayoutSetting"
+                Description="Changing the option will move the navigation bar from the top or to the left hand side"
+                Header="Navigation Layout"
+                IconSource="DockLeft">
+                <ui:SettingsExpander.Footer>
+                    <ui:FAComboBox
+                        Name="NavigationLayoutSettingComboBox"
+                        Width="100"
+                        IsEditable="False"
+                        IsTextSearchEnabled="False"
+                        SelectionChanged="FAComboBox_SelectionChanged">
+                        <ui:FAComboBoxItem Content="Left" />
+                        <ui:FAComboBoxItem Content="Top" />
+                        <ui:FAComboBoxItem Content="Auto" />
+                    </ui:FAComboBox>
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 

@@ -6,7 +6,7 @@
 
 
 
-        <StackPanel>
+        <StackPanel Margin="120">
 
 
 
@@ -42,10 +42,16 @@
 					</ui:FAMenuFlyout>
 				</Button.Flyout>
 			</Button>-->
+            <ui:FAComboBox IsEditable="False" IsTextSearchEnabled="True">
+                <ui:FAComboBoxItem Content="Item 1" />
+                <ui:FAComboBoxItem Content="Item 2" />
+                <ui:FAComboBoxItem Content="Different Name" />
+                <ui:FAComboBoxItem Content="ComboBoxItem4" />
+                <ui:FAComboBoxItem Content="Item 5" />
+            </ui:FAComboBox>
 
 
-
-            <Button Margin="150" ToolTip.Tip="test">
+            <Button ToolTip.Tip="test">
                 test 2
             </Button>
         </StackPanel>
@@ -126,4 +132,14 @@
         <Setter Property="CornerRadius" Value="6" />
     </Style>
 
+
+    <Style Selector="ui|FAComboBox /template/ ui|FABorder#PopupBorder">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
+    </Style>
+
 </Styles>
+
+
+
+<!--  FluentAvalonia.UI.Controls.FAComboBox /template/ FluentAvalonia.UI.Controls.FABorder#PopupBorder  -->

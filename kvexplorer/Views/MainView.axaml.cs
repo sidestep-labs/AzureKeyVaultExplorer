@@ -80,12 +80,12 @@ public partial class MainView : UserControl
         navMenuItems.ElementAt(1).Tag = pages[1];
         footerItems.ElementAt(0).Tag = pages[2];
 
-        NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
+        //NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
         NavView.FooterMenuItemsSource = footerItems;
 
         //NavView.MenuItemsSource = GetNavigationViewItems();
         //NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
-        NavView.IsPaneOpen = false;
+        NavView.IsPaneOpen = true;
 
         //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
         FrameView.NavigateFromObject(new MainPage());

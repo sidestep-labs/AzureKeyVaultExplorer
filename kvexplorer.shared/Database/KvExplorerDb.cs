@@ -272,6 +272,21 @@ public partial class KvExplorerDb
         command.Parameters.AddWithValue("@TenantId", subscription.TenantId);
         await command.ExecuteNonQueryAsync();
     }
+    public static async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+
+        foreach (var subscription in subscriptions)
+        {
+            var command = connection.CreateCommand();
+            command.CommandText = "INSERT INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
+            command.Parameters.AddWithValue("@DisplayName", subscription.DisplayName);
+            command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+            command.Parameters.AddWithValue("@TenantId", subscription.TenantId);
+            await command.ExecuteNonQueryAsync();
+        }
+    }
 
     public IEnumerable<Subscriptions> QuerySubscriptions(Func<Subscriptions, bool> predicate)
     {

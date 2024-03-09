@@ -65,20 +65,29 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [RelayCommand]
     public void SelectAllSubscriptions()
     {
-        var items = Subscriptions.ToArray();
-        foreach (var item in items)
+        foreach (var item in Subscriptions)
             item.IsPinned = true;
-        Subscriptions = new ObservableCollection<SubscriptionDataItems>(items);
+        Subscriptions = new ObservableCollection<SubscriptionDataItems>(Subscriptions);
     }
 
     [RelayCommand]
     public void ClearSelectedSubscriptions()
     {
-        var items = Subscriptions.ToArray();
-        foreach (var item in items)
+        foreach (var item in Subscriptions)
             item.IsPinned = false;
-        Subscriptions = new ObservableCollection<SubscriptionDataItems>(items);
+        Subscriptions = new ObservableCollection<SubscriptionDataItems>(Subscriptions);
     }
+
+    [RelayCommand]
+    public void SaveSelectedSubscriptions()
+    {
+        var selectedItems = Subscriptions.Where(i => i.IsPinned);
+        _db.
+
+
+    }
+
+
 
 
 }

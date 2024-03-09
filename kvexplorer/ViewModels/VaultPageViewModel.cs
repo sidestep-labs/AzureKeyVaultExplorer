@@ -349,7 +349,7 @@ public partial class VaultPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task Refresh()
     {
-        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name, true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
         var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
         LoadedItemTypes.Remove(item);
         VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
@@ -409,7 +409,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Title = $"{model.Type} {model.Name} Properties",
             Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
-            WindowStartupLocation = WindowStartupLocation.Manual,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,
             CanResize = true,
             Content = page,
@@ -425,9 +425,9 @@ public partial class VaultPageViewModel : ViewModelBase
         //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window with parent on windows but not mac.
-        //if (isMac)
+        if (isMac)
             taskDialog.Show();
-        //else
-            //taskDialog.Show(topLevel);
+        else
+            taskDialog.Show(topLevel);
     }
 }

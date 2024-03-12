@@ -19,7 +19,7 @@ namespace kvexplorer.ViewModels;
 public partial class SettingsPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
-    private readonly KvExplorerDb _db;
+    private readonly KvExplorerDb _dbContext;
     private const string BackgroundTranparency = "BackgroundTransparency";
     //private static Configuration ConfigFile => ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -46,11 +46,11 @@ public partial class SettingsPageViewModel : ViewModelBase
     public SettingsPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         Dispatcher.UIThread.Invoke(async () =>
         {
             Version = GetAppVersion();
-            var s = await _db.GetToggleSettings();
+            var s = await _dbContext.GetToggleSettings();
             ClearClipboardTimeout = s.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = (await GetAppSettings()).BackgroundTransparency;
             //NavigationLayoutMode = s.NavigationLayoutMode;
@@ -100,7 +100,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     private async Task SetClearClipboardTimeout()
     {
         await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
-        await _db.UpdateToggleSettings(SettingType.ClipboardTimeout, ClearClipboardTimeout);
+        await _dbContext.UpdateToggleSettings(SettingType.ClipboardTimeout, ClearClipboardTimeout);
     }
 
     //private async Task LoadApplicationVersion()

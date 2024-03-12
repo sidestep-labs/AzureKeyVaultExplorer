@@ -39,7 +39,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
-    private readonly KvExplorerDb _db;
+    private readonly KvExplorerDb _dbContext;
 
     private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
 
@@ -47,7 +47,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
         TreeViewList = [];
@@ -99,7 +99,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             };
             TreeViewList.Insert(0, quickAccess);
 
-            var savedItems = _db.GetQuickAccessItemsAsyncEnumerable();
+            var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
             var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
             var armClient = new ArmClient(token);
             await foreach (var item in savedItems)
@@ -118,7 +118,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [RelayCommand]
     public async Task PinVaultToQuickAccess(KeyVaultResource model)
     {
-        var exists = await _db.QuickAccessItemByKeyVaultIdExists(model.Id);
+        var exists = await _dbContext.QuickAccessItemByKeyVaultIdExists(model.Id);
         if (exists) return;
         var qa = new QuickAccess
         {
@@ -130,7 +130,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             //SubscriptionDisplayName = model.Data.s
         };
 
-        await _db.InsertQuickAccessItemAsync(qa);
+        await _dbContext.InsertQuickAccessItemAsync(qa);
 
         TreeViewList[0].KeyVaultResources.Add(model);
         var quickAccess = new KeyVaultModel
@@ -166,10 +166,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [RelayCommand]
     public async Task RemovePinVaultToQuickAccess(KeyVaultResource model)
     {
-        var exists = await _db.QuickAccessItemByKeyVaultIdExists(model.Id);
+        var exists = await _dbContext.QuickAccessItemByKeyVaultIdExists(model.Id);
         if (!exists) return;
 
-        await _db.DeleteQuickAccessItemByKeyVaultId(model.Id);
+        await _dbContext.DeleteQuickAccessItemByKeyVaultId(model.Id);
 
         var quickAccess = new KeyVaultModel
         {

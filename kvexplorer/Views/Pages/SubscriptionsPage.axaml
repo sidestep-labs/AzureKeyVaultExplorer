@@ -94,6 +94,7 @@
                     <Button
                         Margin="0"
                         Padding="6,3"
+                        Command="{Binding SaveSelectedSubscriptionsCommand}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Save selected items to sidebar">
                         <StackPanel Orientation="Horizontal">

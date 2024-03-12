@@ -23,26 +23,11 @@ public partial class KvExplorerDb
         string tableCommand = """
                 PRAGMA foreign_keys = off;
                 BEGIN TRANSACTION;
-                -- Table: BookmarkedItems
-                CREATE TABLE IF NOT EXISTS BookmarkedItems (
-                    Id                      INTEGER NOT NULL
-                                                    CONSTRAINT PK_BookmarkedItems PRIMARY KEY AUTOINCREMENT,
-                    Name                    TEXT    NOT NULL,
-                    VaultUri                TEXT    NOT NULL,
-                    Type                    INT     NOT NULL,
-                    SubscriptionDisplayName TEXT,
-                    ContentType             TEXT,
-                    Version                 TEXT    NOT NULL
-                );
                 -- Table: Subscriptions
                 CREATE TABLE Subscriptions (
-                    DisplayName    TEXT,
-                    SubscriptionId TEXT (200) PRIMARY KEY,
-                    TenantId       TEXT (200),
-                    CONSTRAINT UQ_SubscriptionId UNIQUE (
-                        SubscriptionId ASC
-                    )
-                    ON CONFLICT IGNORE
+                    DisplayName    TEXT NOT NULL CONSTRAINT UQ_DisplayName UNIQUE ON CONFLICT IGNORE,
+                    SubscriptionId TEXT (200) PRIMARY KEY  UNIQUE ON CONFLICT IGNORE,
+                    TenantId       TEXT (200)
                 );
                 CREATE UNIQUE INDEX IX_Subscriptions_DisplayName_SubscriptionsId ON Subscriptions (
                     SubscriptionId ASC,
@@ -59,11 +44,6 @@ public partial class KvExplorerDb
                     SubscriptionId          TEXT,
                     TenantId                TEXT    NOT NULL,
                     Location                TEXT    NOT NULL
-                );
-                -- Index: IX_BookmarkedItems_Name_Version
-                CREATE UNIQUE INDEX IF NOT EXISTS IX_BookmarkedItems_Name_Version ON BookmarkedItems (
-                    "Name",
-                    "Version"
                 );
                 -- Index: IX_QuickAccess_KeyVaultId
                 CREATE INDEX IF NOT EXISTS IX_QuickAccess_KeyVaultId ON QuickAccess (
@@ -254,25 +234,15 @@ public partial class KvExplorerDb
             {
                 DisplayName = reader.GetString(0),
                 SubscriptionId = reader.GetString(1),
-                TenantId = reader.GetString(2)
+                TenantId = reader.GetGuid(2)
             };
             subscriptions.Add(subscription);
         }
         return subscriptions;
     }
 
-    public static async Task InsertSubscription(Subscriptions subscription)
-    {
-        var connection = NewSqlConnection();
-        connection.Open();
-        var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
-        command.Parameters.AddWithValue("@DisplayName", subscription.DisplayName);
-        command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
-        command.Parameters.AddWithValue("@TenantId", subscription.TenantId);
-        await command.ExecuteNonQueryAsync();
-    }
-    public static async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
+
+    public async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
     {
         var connection = NewSqlConnection();
         connection.Open();
@@ -280,7 +250,7 @@ public partial class KvExplorerDb
         foreach (var subscription in subscriptions)
         {
             var command = connection.CreateCommand();
-            command.CommandText = "INSERT INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
+            command.CommandText = "INSERT OR IGNORE INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
             command.Parameters.AddWithValue("@DisplayName", subscription.DisplayName);
             command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
             command.Parameters.AddWithValue("@TenantId", subscription.TenantId);

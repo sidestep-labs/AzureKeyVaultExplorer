@@ -27,13 +27,13 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [ObservableProperty]
     public ObservableCollection<SubscriptionDataItems> subscriptions;
 
-    private readonly KvExplorerDb _db;
+    private readonly KvExplorerDb _dbContext;
     private readonly VaultService _vaultService;
 
     public SubscriptionsPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        _db = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         Subscriptions = [];
        
     }
@@ -79,10 +79,17 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void SaveSelectedSubscriptions()
+    public async Task SaveSelectedSubscriptions()
     {
-        var selectedItems = Subscriptions.Where(i => i.IsPinned);
-        _db.
+        var selectedItems = Subscriptions.Where(i => i.IsPinned).Select(s => new Subscriptions
+        {
+
+            DisplayName = s.Data.DisplayName,
+            SubscriptionId = s.Data.SubscriptionId,
+            TenantId = s.Data.TenantId ?? Guid.Empty,
+        });
+
+        await _dbContext.InsertSubscriptions(selectedItems);
 
 
     }

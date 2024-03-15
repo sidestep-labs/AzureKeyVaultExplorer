@@ -8,4 +8,5 @@ public partial class SubscriptionDataItems : ObservableObject
 {
     public SubscriptionData Data { get; set; }
     public bool IsPinned { get; set; }
+    public bool IsChanged { get; set; }
 }

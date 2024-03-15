@@ -35,21 +35,21 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         Subscriptions = [];
-       
     }
-
- 
 
     [RelayCommand]
     public async Task GetAllKeyVaults()
     {
         int count = 0;
+
+        var savedSubscriptions = (await _dbContext.GetAllSubscriptions()).ToDictionary(s => s.SubscriptionId);
+
         await foreach (var item in _vaultService.GetAllSubscriptions())
         {
             Subscriptions.Add(new SubscriptionDataItems
             {
                 Data = item.SubscriptionResource.Data,
-                IsPinned = false
+                IsPinned = savedSubscriptions.GetValueOrDefault(item.SubscriptionResource.Data.SubscriptionId).SubscriptionId is not null
             });
             count++;
             if (item.ContinuationToken != null && count > 50)
@@ -83,18 +83,11 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     {
         var selectedItems = Subscriptions.Where(i => i.IsPinned).Select(s => new Subscriptions
         {
-
             DisplayName = s.Data.DisplayName,
             SubscriptionId = s.Data.SubscriptionId,
             TenantId = s.Data.TenantId ?? Guid.Empty,
         });
 
         await _dbContext.InsertSubscriptions(selectedItems);
-
-
     }
-
-
-
-
 }

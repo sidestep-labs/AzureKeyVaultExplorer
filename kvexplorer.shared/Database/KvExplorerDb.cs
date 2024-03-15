@@ -217,7 +217,7 @@ public partial class KvExplorerDb
         return settings;
     }
 
-    public static IEnumerable<Subscriptions> GetAllSubscriptions()
+    public async Task<IEnumerable<Subscriptions>> GetAllSubscriptions()
     {
         var connection = NewSqlConnection();
         connection.Open();
@@ -228,7 +228,7 @@ public partial class KvExplorerDb
         var reader = command.ExecuteReader();
 
         var subscriptions = new List<Subscriptions>();
-        while (reader.Read())
+        while (await reader.ReadAsync())
         {
             var subscription = new Subscriptions
             {
@@ -240,7 +240,6 @@ public partial class KvExplorerDb
         }
         return subscriptions;
     }
-
 
     public async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
     {
@@ -258,8 +257,22 @@ public partial class KvExplorerDb
         }
     }
 
-    public IEnumerable<Subscriptions> QuerySubscriptions(Func<Subscriptions, bool> predicate)
+    public async Task RemoveSubscriptionsBySubscriptionIDs(IEnumerable<string> subscriptionIds)
     {
-        return GetAllSubscriptions().Where(predicate);
+        var connection = NewSqlConnection();
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        string paramString = "";
+        command.CommandText = "DELETE FROM Subscriptions WHERE SubscriptionId IN (";
+
+        foreach (var (subscriptionId, index) in subscriptionIds.Select((id, index) => (id, index)))
+        {
+            command.Parameters.AddWithValue("@SubscriptionId" + index, subscriptionId);
+            paramString += index > 0 && index > subscriptionId.Length ? "," : "";
+            paramString += $"@SubscriptionId{index}";
+        }
+        paramString += ")";
+        //await command.ExecuteNonQueryAsync();
     }
 }

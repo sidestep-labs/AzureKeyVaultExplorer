@@ -120,6 +120,8 @@
 
         <StackPanel
             Grid.Row="1"
+            Margin="0,-100,0,0"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsVisible="{Binding IsBusy}">
             <ui:ProgressRing

@@ -136,20 +136,20 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:CompileBindings="False"
-            x:DataType="models:SubscriptionDataItems"
+            x:DataType="models:SubscriptionDataItem"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
-            Focusable="True"
             GridLinesVisibility="Horizontal"
             HorizontalScrollBarVisibility="Visible"
-            ItemsSource="{Binding Subscriptions, Mode=TwoWay}"
+            ItemsSource="{Binding Subscriptions, Mode=OneTime}"
             VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn
-                    Width="130"
+                    Width="120"
                     Binding="{Binding IsPinned, Mode=TwoWay}"
                     CanUserSort="True"
-                    Header="Pin to Sidebar" />
+                    Header="Pin to Sidebar"
+                    PropertyChanged="DataGridCheckBoxColumn_PropertyChanged" />
                 <DataGridTextColumn
                     Width="200"
                     Binding="{Binding Data.DisplayName}"

@@ -87,25 +87,24 @@ public class VaultService
         }
     }
 
-
-    public async Task<IEnumerable<SubscriptionData>> GetStoredSelectedVaults()
+    public async Task<Dictionary<string, KeyVaultResource>> GetStoredSelectedSubscriptions(string subsriptionId)
     {
-        var id = "/subscriptions/c8dca0c8-548c-4c91-a62f-5a0a9c93d42e";
-        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-        var armClient = new ArmClient(token);
-
-        var resource = new ResourceIdentifier(id);
+        var resource = new ResourceIdentifier(subsriptionId);
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
         SubscriptionResource subscription = armClient.GetSubscriptionResource(resource);
 
         var vaults = subscription.GetKeyVaultsAsync();
-
+        Dictionary<string, KeyVaultResource> savedSubs= [];
         await foreach (var vault in vaults)
         {
-            Debug.WriteLine(vault.Data.Name);
+            Debug.WriteLine(vault.Data.Id);
+            savedSubs.Add(resource.SubscriptionId!, vault);
         }
 
-        return Array.Empty<SubscriptionData>();
+        return savedSubs;
     }
+
+
 
 
 

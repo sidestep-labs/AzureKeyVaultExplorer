@@ -41,6 +41,14 @@ public partial class SubscriptionsPage : UserControl
     {
 
         var x = Defaults.Locator.GetRequiredService<VaultService>();
-        await x.GetStoredSelectedVaults();
+
+        var id = "/subscriptions/c8dca0c8-548c-4c91-a62f-5a0a9c93d42e";
+       // await x.GetStoredSelectedVaults(id);
+    }
+
+    private void DataGridCheckBoxColumn_PropertyChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)
+    {
+        Debug.WriteLine("test");
+       // (DataContext as SubscriptionsPageViewModel)!.MarkChanged(sender);
     }
 }

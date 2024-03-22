@@ -25,7 +25,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     public bool isBusy = true;
 
     [ObservableProperty]
-    public ObservableCollection<SubscriptionDataItems> subscriptions;
+    public ObservableCollection<SubscriptionDataItem> subscriptions;
 
     private readonly KvExplorerDb _dbContext;
     private readonly VaultService _vaultService;
@@ -46,7 +46,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
 
         await foreach (var item in _vaultService.GetAllSubscriptions())
         {
-            Subscriptions.Add(new SubscriptionDataItems
+            Subscriptions.Add(new SubscriptionDataItem
             {
                 Data = item.SubscriptionResource.Data,
                 IsPinned = savedSubscriptions.GetValueOrDefault(item.SubscriptionResource.Data.SubscriptionId).SubscriptionId is not null
@@ -62,12 +62,14 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         IsBusy = false;
     }
 
+
+
     [RelayCommand]
     public void SelectAllSubscriptions()
     {
         foreach (var item in Subscriptions)
             item.IsPinned = true;
-        Subscriptions = new ObservableCollection<SubscriptionDataItems>(Subscriptions);
+        Subscriptions = new ObservableCollection<SubscriptionDataItem>(Subscriptions);
     }
 
     [RelayCommand]
@@ -75,7 +77,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     {
         foreach (var item in Subscriptions)
             item.IsPinned = false;
-        Subscriptions = new ObservableCollection<SubscriptionDataItems>(Subscriptions);
+        Subscriptions = new ObservableCollection<SubscriptionDataItem>(Subscriptions);
     }
 
     [RelayCommand]

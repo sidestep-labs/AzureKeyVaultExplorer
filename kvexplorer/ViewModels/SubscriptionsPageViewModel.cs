@@ -49,7 +49,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
             Subscriptions.Add(new SubscriptionDataItem
             {
                 Data = item.SubscriptionResource.Data,
-                IsPinned = savedSubscriptions.GetValueOrDefault(item.SubscriptionResource.Data.SubscriptionId).SubscriptionId is not null
+                IsPinned = savedSubscriptions.GetValueOrDefault(item.SubscriptionResource.Data.SubscriptionId)?.SubscriptionId is not null
             });
             count++;
             if (item.ContinuationToken != null && count > 50)
@@ -61,8 +61,6 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         }
         IsBusy = false;
     }
-
-
 
     [RelayCommand]
     public void SelectAllSubscriptions()
@@ -83,13 +81,18 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [RelayCommand]
     public async Task SaveSelectedSubscriptions()
     {
-        var selectedItems = Subscriptions.Where(i => i.IsPinned).Select(s => new Subscriptions
+        var updatedItems = Subscriptions.Where(i => i.IsUpdated is not null);
+
+        var added = updatedItems.Where(i => i.IsPinned).Select(s => new Subscriptions
         {
             DisplayName = s.Data.DisplayName,
             SubscriptionId = s.Data.SubscriptionId,
             TenantId = s.Data.TenantId ?? Guid.Empty,
         });
 
-        await _dbContext.InsertSubscriptions(selectedItems);
+        var removed = updatedItems.Where(i => !i.IsPinned).Select(s =>s.Data.SubscriptionId);
+
+        await _dbContext.InsertSubscriptions(added);
+        await _dbContext.RemoveSubscriptionsBySubscriptionIDs(removed);
     }
 }

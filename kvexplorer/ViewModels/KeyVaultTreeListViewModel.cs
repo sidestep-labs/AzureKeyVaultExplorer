@@ -79,6 +79,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             //if(!_authService.IsAuthenticated)
             //    return;
             // all items
+            //TODO: get all saved items, otherwise get the first item only.
             var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
             await foreach (var item in resource)
             {

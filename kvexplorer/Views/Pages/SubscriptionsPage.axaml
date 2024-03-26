@@ -38,11 +38,7 @@
                     Spacing="2">
                     <Button
                         Padding="6,3"
-                        Click="Button_Click"
-                        Content="Test" />
-
-                    <Button
-                        Padding="6,3"
+                        VerticalAlignment="Center"
                         Command="{Binding ClearSelectedSubscriptionsCommand}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Clear selected items">
@@ -58,6 +54,7 @@
                     </Button>
                     <Button
                         Padding="6,3"
+                        VerticalAlignment="Center"
                         Command="{Binding SelectAllSubscriptionsCommand}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Select all visible items">
@@ -73,6 +70,7 @@
                     </Button>
                     <Button
                         Padding="6,3"
+                        VerticalAlignment="Center"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         ToolTip.Tip="Load additional subscriptions in batches of 100">
@@ -94,6 +92,7 @@
                     <Button
                         Margin="0"
                         Padding="6,3"
+                        VerticalAlignment="Center"
                         Command="{Binding SaveSelectedSubscriptionsCommand}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Save selected items to sidebar">

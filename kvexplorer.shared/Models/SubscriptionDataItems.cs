@@ -10,13 +10,23 @@ public partial class SubscriptionDataItem : ObservableObject
     public SubscriptionData Data { get; set; }
 
     [ObservableProperty]
-    private bool isPinned;
+    public bool isPinned;
 
-    public bool IsUpdated { get; set; }
+    [ObservableProperty]
+    public bool? isUpdated;
 
-    partial void OnIsPinnedChanged(bool value)
+    //partial void OnIsPinnedChanged(bool value)
+    //{
+    //    Console.WriteLine($"Name has changed to {value}");
+    //    isUpdated = value;
+    //}
+
+    // this sets the default value to make sure we're not tracking intitially loaded items, only changed.
+    partial void OnIsPinnedChanging(bool oldValue, bool newValue)
     {
-        Console.WriteLine($"Name has changed to {value}");
-        IsUpdated = true;
+        if (IsUpdated is null)
+            IsUpdated = false;
+        else
+            IsUpdated = true;
     }
 }

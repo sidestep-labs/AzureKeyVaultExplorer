@@ -199,7 +199,10 @@
                                                     Padding="5,0,5,0"
                                                     Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
                                                     CornerRadius="5">
-                                                    <TextBlock Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}" Text="{Binding .}" />
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
+                                                        Text="{Binding .}" />
                                                 </Border>
                                             </StackPanel>
                                         </DataTemplate>

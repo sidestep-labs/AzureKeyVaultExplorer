@@ -23,14 +23,12 @@
 
     <UserControl.Styles>
         <Styles>
-
             <Style Selector=".isMac">
                 <Style Selector="^ ui|CommandBarButton /template/ TextBlock#TextLabel">
                     <Setter Property="VerticalAlignment" Value="Bottom" />
                 </Style>
             </Style>
         </Styles>
-
     </UserControl.Styles>
 
 
@@ -315,7 +313,10 @@
                                                             Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
                                                             CornerRadius="5">
                                                             <StackPanel Orientation="Horizontal">
-                                                                <SelectableTextBlock Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}" TextWrapping="Wrap">
+                                                                <SelectableTextBlock
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
+                                                                    TextWrapping="Wrap">
                                                                     <Label Content="{Binding Key, StringFormat={}{0:n0}:}" />
                                                                     <Label Content="{Binding Value}" />
                                                                 </SelectableTextBlock>

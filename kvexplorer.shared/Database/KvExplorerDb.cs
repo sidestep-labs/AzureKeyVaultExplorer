@@ -1,5 +1,6 @@
 ﻿using kvexplorer.shared.Models;
 using Microsoft.Data.Sqlite;
+using System.Text;
 
 namespace kvexplorer.shared.Database;
 
@@ -263,16 +264,19 @@ public partial class KvExplorerDb
         connection.Open();
 
         var command = connection.CreateCommand();
-        string paramString = "";
-        command.CommandText = "DELETE FROM Subscriptions WHERE SubscriptionId IN (";
+        var paramString = new StringBuilder("DELETE FROM Subscriptions WHERE SubscriptionId IN (");
 
+        subscriptionIds.TryGetNonEnumeratedCount(out int count);
         foreach (var (subscriptionId, index) in subscriptionIds.Select((id, index) => (id, index)))
         {
             command.Parameters.AddWithValue("@SubscriptionId" + index, subscriptionId);
-            paramString += index > 0 && index > subscriptionId.Length ? "," : "";
-            paramString += $"@SubscriptionId{index}";
+            paramString.Append(index > 0 && index > count ? ',' : "");
+            paramString.Append($"@SubscriptionId{index}");
         }
-        paramString += ")";
-        //await command.ExecuteNonQueryAsync();
+        paramString.Append(')');
+
+        command.CommandText = paramString.ToString();
+
+        await command.ExecuteNonQueryAsync();
     }
 }

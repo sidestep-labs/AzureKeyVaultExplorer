@@ -49,16 +49,48 @@
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Grid
-        Margin="10,10,10,0"
+        Margin="10,2,10,0"
         ColumnDefinitions="*, *, *, *, *"
-        RowDefinitions="Auto,5,*">
+        RowDefinitions="30,Auto,5,*">
 
-        <DockPanel Grid.Column="0" Grid.ColumnSpan="5">
+
+        <DockPanel
+            Grid.Row="0"
+            Grid.ColumnSpan="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Transparent">
+
+
+
+
+
+            <Button
+                HorizontalAlignment="Left"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                Theme="{StaticResource TransparentButton}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon FontSize="18" Glyph="&#xE1D3;" />
+                        <TextBlock Text="Vault List" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+
+            <Button
+                HorizontalAlignment="Right"
+                Content="&#xE115;"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                Theme="{StaticResource TransparentButton}" />
+        </DockPanel>
+
+        <DockPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="5">
             <TabStrip
                 Name="TabHost"
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
                 VerticalAlignment="Center"
                 ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
                 SelectedIndex="0"
@@ -129,13 +161,13 @@
 
 
         <ProgressBar
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.ColumnSpan="5"
             IsIndeterminate="True"
             IsVisible="{Binding IsBusy}"
             Orientation="Horizontal" />
 
-        <DockPanel Grid.Row="2" Grid.ColumnSpan="5">
+        <DockPanel Grid.Row="3" Grid.ColumnSpan="5">
 
             <!--
                 IsVisible="{Binding !IsBusy}"

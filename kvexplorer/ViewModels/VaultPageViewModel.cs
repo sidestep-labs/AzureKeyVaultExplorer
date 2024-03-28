@@ -25,6 +25,8 @@ using Avalonia.Interactivity;
 using kvexplorer.shared.Database;
 using Avalonia.Remote.Protocol.Input;
 using System.Net.Sockets;
+using FluentAvalonia.UI.Controls;
+using kvexplorer.Views.Pages;
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -356,6 +358,7 @@ public partial class VaultPageViewModel : ViewModelBase
         await FilterAndLoadVaultValueType(item);
     }
 
+ 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
 #if WINDOWS

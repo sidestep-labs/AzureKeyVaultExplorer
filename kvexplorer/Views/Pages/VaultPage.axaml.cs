@@ -166,4 +166,16 @@ public partial class VaultPage : UserControl
             };
         }
     }
+
+    private void SettingsButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateSettingsEvent));
+    }
+
+    private void SubscriptionsButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateSubscriptionsEvent));
+    }
 }

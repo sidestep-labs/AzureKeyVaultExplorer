@@ -169,15 +169,20 @@
             Name="NavView"
             Grid.Row="0"
             Grid.RowSpan="2"
-            Margin="{OnPlatform macOS=0,
-                                Windows=0 31.5 0 0}"
+            AlwaysShowHeader="False"
             Background="Transparent"
-            Classes="MainAppNav"
+            Classes="SampleAppNav"
             IsBackEnabled="{Binding #FrameView.CanGoBack}"
             IsSettingsVisible="False"
-            PaneDisplayMode="Auto">
-            <!--  PaneDisplayMode="{Binding NavigationLayoutMode}"  -->
+            PaneDisplayMode="Top">
+            <!--
+                PaneDisplayMode="{Binding NavigationLayoutMode}"
+                IsBackEnabled="{Binding #FrameView.CanGoBack}"
+            -->
             <ui:NavigationView.Styles>
+                <Style Selector="ui|NavigationView#NavView.SampleAppNav /template/ StackPanel#TopNavArea">
+                    <Setter Property="IsVisible" Value="False" />
+                </Style>
                 <!--<Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
                         <Setter Property="Background" Value="{x:Null}" />
                     </Style>

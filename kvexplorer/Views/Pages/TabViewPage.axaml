@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="clr-namespace:FluentAvalonia.UI.Controls.Primitives;assembly=FluentAvalonia"
     xmlns:vm="using:kvexplorer.ViewModels"
     xmlns:vmm="using:kvexplorer.ViewModels.Models"
     d:DesignHeight="550"
@@ -31,6 +32,11 @@
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,15,0,0" />
             </Style>
+
+            <Style Selector="ui|TabView#TabViewDoc /template/ uip|TabViewListView#TabListView">
+                <Setter Property="Margin" Value="40,0,40,0" />
+            </Style>
+
             <!--
          this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
          <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin>
@@ -51,80 +57,122 @@
         </Styles>
 
     </UserControl.Styles>
+    <SplitView
+        Name="SplitView"
+        MinHeight="400"
+        Background="Transparent"
+        CompactPaneLength="0"
+        DisplayMode="CompactInline"
+        IsPaneOpen="{Binding #IsPaneOpen.IsChecked}"
+        OpenPaneLength="330">
+        <SplitView.Styles>
 
-    <Panel>
-        <ui:TabView
-            Name="TabViewDoc"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            AllowDropTabs="True"
-            CanDragTabs="True"
-            CanReorderTabs="True"
-            Classes.emptyTabViewDragMargin="{Binding !Documents.Count}"
-            CloseButtonOverlayMode="Auto"
-            IsAddTabButtonVisible="False"
-            SelectedItem="{Binding SelectedItem}"
-            TabCloseRequested="TabCloseRequested"
-            TabDroppedOutside="TabDroppedOutside"
-            TabItems="{Binding Documents}"
-            TabStripDrop="TabStripDrop"
-            TabStripHeader=" "
-            TabWidthMode="Compact">
-            <ui:TabView.TabItemTemplate>
-                <DataTemplate DataType="vmm:DocumentItem">
-                    <ui:TabViewItem
-                        Name="TabViewItem"
-                        BorderThickness="3"
-                        Content="{Binding Content}"
-                        Header="{Binding Header}"
-                        IconSource="{Binding IconSource}" />
-                </DataTemplate>
+            <Style Selector="SplitView#SplitView /template/ Panel#PART_PaneRoot">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </SplitView.Styles>
+        <SplitView.Pane>
+            <Grid RowDefinitions="*">
+                <!--<TextBlock
+                    Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="Vault List">
+                    <TextBlock.RenderTransform>
+                        <RotateTransform Angle="-90" />
+                    </TextBlock.RenderTransform>
+                </TextBlock>-->
+                <Panel
+                    Grid.Row="0"
+                    MaxHeight="450"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    IsVisible="{Binding #IsPaneOpen.IsChecked}">
+                    <custom:KeyVaultTreeList />
+                </Panel>
+            </Grid>
+        </SplitView.Pane>
 
-
-            </ui:TabView.TabItemTemplate>
-        </ui:TabView>
-
-        <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
-            <Image
-                Name="BackgroundImg"
-                Width="150"
-                HorizontalAlignment="Center"
+        <Panel>
+            <CheckBox
+                Name="IsPaneOpen"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Opacity=".15"
-                RenderOptions.BitmapInterpolationMode="HighQuality"
-                Source="avares://kvexplorer/Assets/kv-gray.png" />
+                IsChecked="False"
+                ZIndex="999" />
+            <ui:TabView
+                Name="TabViewDoc"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AllowDropTabs="True"
+                CanDragTabs="True"
+                CanReorderTabs="True"
+                Classes.emptyTabViewDragMargin="{Binding !Documents.Count}"
+                CloseButtonOverlayMode="Auto"
+                IsAddTabButtonVisible="False"
+                SelectedItem="{Binding SelectedItem}"
+                TabCloseRequested="TabCloseRequested"
+                TabDroppedOutside="TabDroppedOutside"
+                TabItems="{Binding Documents}"
+                TabStripDrop="TabStripDrop"
+                TabWidthMode="Equal">
 
-            <StackPanel HorizontalAlignment="Center">
-                <StackPanel.Styles>
-                    <Style Selector="TextBlock">
-                        <Setter Property="Foreground" Value="#ababab" />
-                        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
-                    </Style>
-                </StackPanel.Styles>
+                <ui:TabView.TabItemTemplate>
+                    <DataTemplate DataType="vmm:DocumentItem">
+                        <ui:TabViewItem
+                            Name="TabViewItem"
+                            BorderThickness="3"
+                            Content="{Binding Content}"
+                            Header="{Binding Header}"
+                            IconSource="{Binding IconSource}" />
+                    </DataTemplate>
 
-                <TextBlock
-                    Margin="10,10"
+
+                </ui:TabView.TabItemTemplate>
+            </ui:TabView>
+
+            <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
+                <Image
+                    Name="BackgroundImg"
+                    Width="150"
                     HorizontalAlignment="Center"
-                    ClipToBounds="True">
-                    You have no key vaults selected.
-                </TextBlock>
+                    VerticalAlignment="Top"
+                    Opacity=".15"
+                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    Source="avares://kvexplorer/Assets/kv-gray.png" />
 
-                <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
-                    Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
-                    Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
-                    <ui:HyperlinkButton
-                        Padding="0,-1,0,0"
+                <StackPanel HorizontalAlignment="Center">
+                    <StackPanel.Styles>
+                        <Style Selector="TextBlock">
+                            <Setter Property="Foreground" Value="#ababab" />
+                            <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                        </Style>
+                    </StackPanel.Styles>
+
+                    <TextBlock
+                        Margin="10,10"
                         HorizontalAlignment="Center"
-                        Content="Azure RBAC Documentation"
-                        NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
-                </TextBlock>
+                        ClipToBounds="True">
+                        You have no key vaults selected.
+                    </TextBlock>
+
+                    <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
+                        Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
+                        Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
+                        <ui:HyperlinkButton
+                            Padding="0,-1,0,0"
+                            HorizontalAlignment="Center"
+                            Content="Azure RBAC Documentation"
+                            NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
+                    </TextBlock>
+
+                </StackPanel>
+
+
 
             </StackPanel>
+        </Panel>
 
-
-
-        </StackPanel>
-    </Panel>
-
+    </SplitView>
 
 </UserControl>

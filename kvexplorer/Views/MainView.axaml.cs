@@ -1,13 +1,16 @@
 ﻿using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using kvexplorer.ViewModels;
 using kvexplorer.Views.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,13 +24,16 @@ public partial class MainView : UserControl
     private NavigationView? _navView;
     public static MainView? Instance { get; private set; }
     public static readonly RoutedEvent<RoutedEventArgs> NavigateHomeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateHomeEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> NavigateSettingsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSettingsEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> NavigateSubscriptionsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSubscriptionsEvent), RoutingStrategies.Tunnel);
+
 
     public MainView()
     {
         Instance = this;
         InitializeComponent();
         KeyUp += TabViewPage_KeyUpFocusSearchBox;
-
+        NavView.BackRequested += OnNavigationViewBackRequested;
         var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
 
@@ -40,16 +46,31 @@ public partial class MainView : UserControl
         }, DispatcherPriority.MaxValue);
 
         AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(NavigateSettingsEvent,OnNavigateSettingsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(NavigateSubscriptionsEvent, OnNavigateSubscriptionsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+
+
+    }
+    private void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs e)
+    {
+        FrameView.GoBack();
     }
 
     private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
     {
         if (FrameView.Content.GetType().Name != nameof(MainPage))
             FrameView.NavigateFromObject(new MainPage());
-
-        return;
     }
-
+    private void OnNavigateSettingsEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(SettingsPage))
+            FrameView.NavigateFromObject(new SettingsPage());
+    }
+    private void OnNavigateSubscriptionsEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(SubscriptionsPage))
+            FrameView.NavigateFromObject(new SubscriptionsPage());
+    }
     //var menuItems = new List<NavigationViewItemBase>(4);
     //var footerItems = new List<NavigationViewItemBase>(2);
 
@@ -139,6 +160,86 @@ public partial class MainView : UserControl
                 SetNVIIcon(nvi, false);
             }
         }
+
+        if (FrameView.BackStackDepth > 0 && !NavView.IsBackButtonVisible)
+        {
+            AnimateContentForBackButton(true);
+        }
+        else if (FrameView.BackStackDepth == 0 && NavView.IsBackButtonVisible)
+        {
+            AnimateContentForBackButton(false);
+        }
+    }
+
+    private async void AnimateContentForBackButton(bool show)
+    {
+        if (!WindowIcon.IsVisible)
+            return;
+
+        if (show)
+        {
+            var ani = new Animation
+            {
+                Duration = TimeSpan.FromMilliseconds(250),
+                FillMode = FillMode.Forward,
+                Children =
+                {
+                    new KeyFrame
+                    {
+                        Cue = new Cue(0d),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(12, 4, 12, 4))
+                        }
+                    },
+                    new KeyFrame
+                    {
+                        Cue = new Cue(1d),
+                        KeySpline = new KeySpline(0,0,0,1),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(48,4,12,4))
+                        }
+                    }
+                }
+            };
+
+            await ani.RunAsync(WindowIcon);
+
+            NavView.IsBackButtonVisible = true;
+        }
+        else
+        {
+            NavView.IsBackButtonVisible = false;
+
+            var ani = new Animation
+            {
+                Duration = TimeSpan.FromMilliseconds(250),
+                FillMode = FillMode.Forward,
+                Children =
+                {
+                    new KeyFrame
+                    {
+                        Cue = new Cue(0d),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(48, 4, 12, 4))
+                        }
+                    },
+                    new KeyFrame
+                    {
+                        Cue = new Cue(1d),
+                        KeySpline = new KeySpline(0,0,0,1),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(12,4,12,4))
+                        }
+                    }
+                }
+            };
+
+            await ani.RunAsync(WindowIcon);
+        }
     }
 
     private IEnumerable<NavigationViewItem> GetNavigationViewItems()
@@ -189,7 +290,6 @@ public partial class MainView : UserControl
         FrameView.NavigateFromObject(new SettingsPage());
     }
 
-
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
@@ -198,5 +298,4 @@ public partial class MainView : UserControl
             vvpage?.FindControl<TextBox>("SearchTextBox")?.Focus();
         }
     }
-
 }

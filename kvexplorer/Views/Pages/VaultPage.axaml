@@ -13,6 +13,7 @@
     d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:VaultPageViewModel"
+    Background="{x:Null}"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -54,36 +55,64 @@
         RowDefinitions="30,Auto,5,*">
 
 
-        <DockPanel
+        <Border
             Grid.Row="0"
             Grid.ColumnSpan="5"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="Transparent">
+            BorderBrush="{DynamicResource TabViewSelectedItemBorderBrush}"
+            BorderThickness="0,0,0,1">
+
+            <DockPanel
+                Grid.Row="0"
+                Grid.ColumnSpan="5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent">
+                <Button
+                    Name="MainPage"
+                    HorizontalAlignment="Left"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Theme="{StaticResource TransparentButton}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                Margin="0,0,2,0"
+                                FontSize="18"
+                                Glyph="&#xE1D3;" />
+                            <TextBlock Text="Vault List" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
+                <Button
+                    Name="SubscriptionsPage"
+                    HorizontalAlignment="Left"
+                    Click="SubscriptionsButton_Click"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Theme="{StaticResource TransparentButton}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                Margin="0,0,2,0"
+                                FontSize="18"
+                                Glyph="&#xE13C;" />
+                            <TextBlock Text="Subscriptions" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
+                <Button
+                    Name="SettingsPage"
+                    HorizontalAlignment="Right"
+                    Click="SettingsButton_Click"
+                    Content="&#xE115;"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    FontSize="15"
+                    Theme="{StaticResource TransparentButton}" />
 
 
-
-
-
-            <Button
-                HorizontalAlignment="Left"
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                Theme="{StaticResource TransparentButton}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <ui:FontIcon FontSize="18" Glyph="&#xE1D3;" />
-                        <TextBlock Text="Vault List" />
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-
-
-            <Button
-                HorizontalAlignment="Right"
-                Content="&#xE115;"
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                Theme="{StaticResource TransparentButton}" />
-        </DockPanel>
+            </DockPanel>
+        </Border>
 
         <DockPanel
             Grid.Row="1"

@@ -30,7 +30,7 @@
     <UserControl.Styles>
         <Styles>
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,35,0,0" />
+                <Setter Property="Margin" Value="0,32,0,0" />
             </Style>
 
             <Style Selector="ui|TabView#TabViewDoc /template/ uip|TabViewListView#TabListView">
@@ -60,7 +60,7 @@
     <SplitView
         Name="VaultListSplitView"
         VerticalAlignment="Stretch"
-        DisplayMode="CompactInline"
+        DisplayMode="Inline"
         IsPaneOpen="{Binding IsTabPaneOpen}"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
@@ -98,9 +98,6 @@
                     </DataTemplate>
                 </ui:TabView.TabItemTemplate>
                 <ui:TabView.TabStripFooter>
-
-
-
                     <!--
                         Use this so we can set the margin in the tabstrip so it
                         doesn't end up underneath the caption buttons
@@ -109,12 +106,13 @@
                         On Mac/Linux this is irrelevant since we don't replace the
                         system titlebar
                     -->
-
-
                     <Panel Name="CustomDragRegion" Background="Transparent" />
                 </ui:TabView.TabStripFooter>
             </ui:TabView>
             <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
+                <Grid RowDefinitions="112">
+                    <custom:ToolBar Grid.Row="0" Margin="10,0,10,0" />
+                </Grid>
                 <Image
                     Name="BackgroundImg"
                     Width="150"
@@ -123,7 +121,6 @@
                     Opacity=".15"
                     RenderOptions.BitmapInterpolationMode="HighQuality"
                     Source="avares://kvexplorer/Assets/kv-gray.png" />
-
                 <StackPanel HorizontalAlignment="Center">
                     <StackPanel.Styles>
                         <Style Selector="TextBlock">
@@ -131,14 +128,12 @@
                             <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
                         </Style>
                     </StackPanel.Styles>
-
                     <TextBlock
                         Margin="10,10"
                         HorizontalAlignment="Center"
                         ClipToBounds="True">
                         You have no key vaults selected.
                     </TextBlock>
-
                     <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
                         Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
                         Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />

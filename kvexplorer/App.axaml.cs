@@ -18,6 +18,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
+        serviceCollection.AddSingleton<ToolBarViewModel>();
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();

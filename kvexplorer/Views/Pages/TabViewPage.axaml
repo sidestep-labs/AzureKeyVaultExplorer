@@ -34,7 +34,7 @@
             </Style>
 
             <Style Selector="ui|TabView#TabViewDoc /template/ uip|TabViewListView#TabListView">
-                <Setter Property="Margin" Value="40,0,40,0" />
+                <Setter Property="Margin" Value="30,0,0,0" />
             </Style>
 
             <!--
@@ -58,51 +58,21 @@
 
     </UserControl.Styles>
     <SplitView
-        Name="SplitView"
-        MinHeight="400"
-        Background="Transparent"
-        CompactPaneLength="0"
-        DisplayMode="CompactInline"
-        IsPaneOpen="{Binding #IsPaneOpen.IsChecked}"
-        OpenPaneLength="330">
-        <SplitView.Styles>
-
-            <Style Selector="SplitView#SplitView /template/ Panel#PART_PaneRoot">
-                <Setter Property="Background" Value="Transparent" />
-            </Style>
-        </SplitView.Styles>
+        Name="VaultListSplitView"
+        VerticalAlignment="Stretch"
+        DisplayMode="Inline"
+        IsPaneOpen="{Binding IsTabPaneOpen}"
+        PaneBackground="{x:Null}">
         <SplitView.Pane>
-            <Grid RowDefinitions="*">
-                <!--<TextBlock
-                    Grid.Row="0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="Vault List">
-                    <TextBlock.RenderTransform>
-                        <RotateTransform Angle="-90" />
-                    </TextBlock.RenderTransform>
-                </TextBlock>-->
-                <Panel
-                    Grid.Row="0"
-                    MaxHeight="450"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    IsVisible="{Binding #IsPaneOpen.IsChecked}">
-                    <custom:KeyVaultTreeList />
-                </Panel>
-            </Grid>
+            <custom:KeyVaultTreeList
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
         </SplitView.Pane>
 
         <Panel>
-            <CheckBox
-                Name="IsPaneOpen"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                IsChecked="False"
-                ZIndex="999" />
             <ui:TabView
                 Name="TabViewDoc"
-                HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 AllowDropTabs="True"
                 CanDragTabs="True"
@@ -115,7 +85,7 @@
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
-                TabWidthMode="Equal">
+                TabWidthMode="SizeToContent">
 
                 <ui:TabView.TabItemTemplate>
                     <DataTemplate DataType="vmm:DocumentItem">
@@ -126,9 +96,23 @@
                             Header="{Binding Header}"
                             IconSource="{Binding IconSource}" />
                     </DataTemplate>
-
-
                 </ui:TabView.TabItemTemplate>
+                <ui:TabView.TabStripFooter>
+
+
+
+                    <!--
+                        Use this so we can set the margin in the tabstrip so it
+                        doesn't end up underneath the caption buttons
+                        This also forms our custom drag region for the titlebar so we
+                        can still drag the window around
+                        On Mac/Linux this is irrelevant since we don't replace the
+                        system titlebar
+                    -->
+
+
+                    <Panel Name="CustomDragRegion" Background="Transparent" />
+                </ui:TabView.TabStripFooter>
             </ui:TabView>
 
             <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
@@ -172,7 +156,5 @@
 
             </StackPanel>
         </Panel>
-
     </SplitView>
-
 </UserControl>

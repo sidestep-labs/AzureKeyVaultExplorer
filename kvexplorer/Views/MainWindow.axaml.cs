@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -8,8 +9,11 @@ using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
 using kvexplorer.ViewModels;
+using kvexplorer.Views.Pages;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 
 namespace kvexplorer.Views;
@@ -62,6 +66,25 @@ public partial class MainWindow : AppWindow
         // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
     }
 
+    protected override void OnOpened(EventArgs e)
+    {
+        base.OnOpened(e);
+
+        if (TitleBar != null)
+        {
+            TitleBar.ExtendsContentIntoTitleBar = true;
+            TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+
+            var parent = this.FindControl<Views.MainView>("MainView")!
+                .FindControl<FluentAvalonia.UI.Controls.Frame>("FrameView");
+
+            var tab = ((MainPage)parent.Content).Content as TabViewPage;
+            var dragRegion = tab.FindControl<Panel>("CustomDragRegion");
+
+            dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
+                TitleBar.RightInset : TitleBar.LeftInset;
+        }
+    }
     private void OnTransparencyChangedEvent(object sender, RoutedEventArgs e)
     {
         var isChecked = (e.Source as CheckBox)?.IsChecked ?? false;

@@ -21,6 +21,6 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.59.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.60.0" />
 	</ItemGroup>
 </Project>

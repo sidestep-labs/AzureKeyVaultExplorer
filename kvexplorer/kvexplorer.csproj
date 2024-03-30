@@ -68,6 +68,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\CustomControls\ToolBar.axaml.cs">
+      <DependentUpon>ToolBar.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CustomControls\KeyVaultTreeList.axaml.cs">
       <DependentUpon>KeyVaultTreeList.axaml</DependentUpon>
     </Compile>

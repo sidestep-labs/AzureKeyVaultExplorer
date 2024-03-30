@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.Views.Pages;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace kvexplorer.ViewModels;
 
@@ -18,6 +19,11 @@ public partial class TabViewPageViewModel : ViewModelBase
         }
     }
 
+    [ObservableProperty]
+    public bool isTabPaneOpen = true;
+
+
+   
     [ObservableProperty]
     public ObservableCollection<TabViewItem> documents;
 
@@ -78,8 +84,10 @@ public partial class TabViewPageViewModel : ViewModelBase
             IconSource = new SymbolIconSource { Symbol = Symbol.ProtectedDocument },
             Content = new VaultPage(model.Properties.VaultUri)
         };
-        Documents.Add(tab);
-        SelectedItem = tab;
+       
+        Documents.Insert(0, tab);
+
+        SelectedItem = tab;// Documents[0];
         SelectedItem.Focus();
     }
 }

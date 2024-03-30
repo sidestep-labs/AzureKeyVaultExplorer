@@ -145,10 +145,10 @@
         <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
     </Style>-->
 
-    <Style Selector="ui|NavigationView.SampleAppNav">
+    <!--<Style Selector="ui|NavigationView.SampleAppNav">
         <Setter Property="IsPaneToggleButtonVisible" Value="False" />
         <Setter Property="OpenPaneLength" Value="72" />
-        <Setter Property="IsPaneOpen" Value="True" />
+        <Setter Property="IsPaneOpen" Value="False" />
     </Style>
     <Style Selector="ui|NavigationView.SampleAppNav /template/ Button#NavigationViewBackButton">
         <Setter Property="Width" Value="{DynamicResource NavigationBackButtonWidth}" />
@@ -237,7 +237,7 @@
     </Style>
     <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:selected /template/ ContentPresenter#Icon">
         <Setter Property="Foreground" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-    </Style>
+    </Style>-->
 
 </Styles>
 

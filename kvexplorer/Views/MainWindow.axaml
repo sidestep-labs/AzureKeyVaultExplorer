@@ -82,6 +82,6 @@
             IsVisible="{OnPlatform False,
                                    macOS=True}" />
 
-        <views:MainView />
+        <views:MainView Name="MainView" />
     </DockPanel>
 </Window>

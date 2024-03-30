@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="kvexplorer.Views.CustomControls.ToolBar"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:kvexplorer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="925"
+    x:DataType="vm:ToolBarViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:ToolBarViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources />
+
+    <DockPanel
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="Transparent">
+        <ToggleButton
+            Name="IsPaneOpen"
+            Click="IsPaneOpenToggleButton_Click"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"
+            IsChecked="{Binding IsPaneButtonToggled}"
+            Theme="{StaticResource TransparentToggleButton}">
+            <ToggleButton.Content>
+                <StackPanel Orientation="Horizontal">
+                    <ui:FontIcon
+                        Margin="0,0,2,0"
+                        FontSize="18"
+                        Glyph="&#xE1D3;" />
+                    <TextBlock Text="Vault List" />
+                </StackPanel>
+            </ToggleButton.Content>
+        </ToggleButton>
+        <Button
+            Name="SubscriptionsPage"
+            HorizontalAlignment="Left"
+            Click="SubscriptionsButton_Click"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"
+            Theme="{StaticResource TransparentButton}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <ui:FontIcon
+                        Margin="0,0,2,0"
+                        FontSize="18"
+                        Glyph="&#xE13C;" />
+                    <TextBlock Text="Subscriptions" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+        <Button
+            Name="SettingsPage"
+            HorizontalAlignment="Right"
+            Click="SettingsButton_Click"
+            Content="&#xE115;"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"
+            FontSize="15"
+            Theme="{StaticResource TransparentButton}" />
+
+
+    </DockPanel>
+
+
+</UserControl>

@@ -2,6 +2,7 @@
     x:Class="kvexplorer.Views.Pages.VaultPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:custom="clr-namespace:kvexplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
@@ -60,58 +61,9 @@
             Grid.ColumnSpan="5"
             HorizontalAlignment="Stretch"
             BorderBrush="{DynamicResource TabViewSelectedItemBorderBrush}"
-            BorderThickness="0,0,0,1">
+            BorderThickness="0,0,0,2">
 
-            <DockPanel
-                Grid.Row="0"
-                Grid.ColumnSpan="5"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="Transparent">
-                <Button
-                    Name="MainPage"
-                    HorizontalAlignment="Left"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    Theme="{StaticResource TransparentButton}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:FontIcon
-                                Margin="0,0,2,0"
-                                FontSize="18"
-                                Glyph="&#xE1D3;" />
-                            <TextBlock Text="Vault List" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-
-                <Button
-                    Name="SubscriptionsPage"
-                    HorizontalAlignment="Left"
-                    Click="SubscriptionsButton_Click"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    Theme="{StaticResource TransparentButton}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:FontIcon
-                                Margin="0,0,2,0"
-                                FontSize="18"
-                                Glyph="&#xE13C;" />
-                            <TextBlock Text="Subscriptions" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-
-                <Button
-                    Name="SettingsPage"
-                    HorizontalAlignment="Right"
-                    Click="SettingsButton_Click"
-                    Content="&#xE115;"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    FontSize="15"
-                    Theme="{StaticResource TransparentButton}" />
-
-
-            </DockPanel>
+            <custom:ToolBar />
         </Border>
 
         <DockPanel

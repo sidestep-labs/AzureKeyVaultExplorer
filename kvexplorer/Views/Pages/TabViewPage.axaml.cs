@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
@@ -12,6 +13,8 @@ namespace kvexplorer.Views.Pages;
 public partial class TabViewPage : UserControl
 {
     public static readonly string DataIdentifier = "MyTabItemFromMain";
+    public static readonly RoutedEvent<RoutedEventArgs> PaneOpenRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneOpenRoutedEvent), RoutingStrategies.Tunnel);
+
 
     public TabViewPage()
     {
@@ -20,6 +23,18 @@ public partial class TabViewPage : UserControl
         //KeyUp += TabViewPage_KeyUpFocusSearchBox;
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
+
+        var dragRegion = this.FindControl<Panel>("CustomDragRegion");
+
+        dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ? 138 : 138;
+        AddHandler(PaneOpenRoutedEvent, OnPaneOpenRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+
+    }
+
+    private void OnPaneOpenRoutedEvent(object? sender, RoutedEventArgs e)
+    {
+        var splitView =  this.FindControl<SplitView>("VaultListSplitView")!;
+        (DataContext as TabViewPageViewModel).IsTabPaneOpen = !splitView.IsPaneOpen;
     }
 
     public void TabStripDragOver(object sender, DragEventArgs e)

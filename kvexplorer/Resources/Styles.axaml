@@ -5,60 +5,6 @@
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives">
     <Design.PreviewWith>
 
-
-
-        <StackPanel Margin="120">
-
-
-
-            <!--<ui:CommandBarFlyoutCommandBar Margin="300" IsOpen="True">
-                <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-            -->
-            <!--<ui:CommandBarButton IconSource="Save" />
-                    <ui:CommandBarToggleButton IconSource="Globe" />-->
-            <!--
-                </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-
-                <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-                <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-                    <ui:CommandBarButton
-                        HotKey="Ctrl+S"
-                        IconSource="Save"
-                        Label="Save" />
-                    <ui:CommandBarToggleButton
-                        HotKey="Ctrl+F1"
-                        IconSource="ChevronUp"
-                        IsChecked="True"
-                        Label="Move Up" />
-                </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-            </ui:CommandBarFlyoutCommandBar>-->
-
-
-
-            <!--<Button Content="Click me for flyout!">
-				<Button.Flyout>
-
-					<ui:FAMenuFlyout  Placement="Bottom">
-						<ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
-					</ui:FAMenuFlyout>
-				</Button.Flyout>
-			</Button>-->
-            <ui:FAComboBox IsEditable="False" IsTextSearchEnabled="True">
-                <ui:FAComboBoxItem Content="Item 1" />
-                <ui:FAComboBoxItem Content="Item 2" />
-                <ui:FAComboBoxItem Content="Different Name" />
-                <ui:FAComboBoxItem Content="ComboBoxItem4" />
-                <ui:FAComboBoxItem Content="Item 5" />
-            </ui:FAComboBox>
-            <ComboBox>
-                <ComboBoxItem Content="Item 1" />
-                <ComboBoxItem Content="Item 5" />
-            </ComboBox>
-
-            <Button ToolTip.Tip="test">
-                test 2
-            </Button>
-        </StackPanel>
     </Design.PreviewWith>
 
     <Style Selector="ui|CommandBarFlyoutCommandBar /template/ Border#LayoutRoot">
@@ -145,7 +91,7 @@
         <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
     </Style>-->
 
-    <!--<Style Selector="ui|NavigationView.SampleAppNav">
+    <Style Selector="ui|NavigationView.SampleAppNav">
         <Setter Property="IsPaneToggleButtonVisible" Value="False" />
         <Setter Property="OpenPaneLength" Value="72" />
         <Setter Property="IsPaneOpen" Value="False" />
@@ -157,87 +103,9 @@
         <Setter Property="Margin" Value="0 40 0 0" />
     </Style>
 
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter">
-        <Setter Property="Width" Value="72" />
-        <Setter Property="MinHeight" Value="60" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Name="LayoutRoot"
-                    Margin="4,2"
-                    Background="{TemplateBinding Background}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    TemplatedControl.IsTemplateFocusTarget="True">
-                    <Panel>
-                        <Panel HorizontalAlignment="Left" VerticalAlignment="Center">
-
-                            <Border
-                                Name="SelectionIndicator"
-                                Width="3"
-                                Height="20"
-                                VerticalAlignment="Center"
-                                Background="{DynamicResource NavigationViewSelectionIndicatorForeground}"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                Opacity="0" />
-                        </Panel>
 
 
-                        <DockPanel>
-                            <ContentPresenter
-                                Name="ContentPresenter"
-                                Grid.Row="1"
-                                Margin="0,-15,0,3"
-                                Padding="0,4"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                DockPanel.Dock="Bottom"
-                                FontSize="10"
-                                IsVisible="False">
-                                <ContentPresenter.Styles>
-                                    <Style Selector="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                    </Style>
-                                </ContentPresenter.Styles>
-                            </ContentPresenter>
-
-                            <Viewbox
-                                Name="IconBox"
-                                Height="28"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                                <ContentPresenter Name="Icon" Content="{Binding TemplateSettings.Icon, RelativeSource={RelativeSource TemplatedParent}}" />
-                            </Viewbox>
-
-                        </DockPanel>
-                    </Panel>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-    </Style>
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:pointerover /template/ ContentPresenter#ContentPresenter">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-    </Style>
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:pointerover /template/ ContentPresenter#Icon">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-    </Style>
-
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:pressed /template/ ContentPresenter#ContentPresenter">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-    </Style>
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:pressed /template/ ContentPresenter#Icon">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-    </Style>
-
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:selected /template/ ContentPresenter#ContentPresenter">
-        <Setter Property="IsVisible" Value="False" />
-    </Style>
-    <Style Selector="ui|NavigationViewItem.SampleAppNav uip|NavigationViewItemPresenter:selected /template/ ContentPresenter#Icon">
-        <Setter Property="Foreground" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-    </Style>-->
+   
 
 </Styles>
 

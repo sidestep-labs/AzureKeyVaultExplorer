@@ -30,11 +30,11 @@
     <UserControl.Styles>
         <Styles>
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,15,0,0" />
+                <Setter Property="Margin" Value="0,35,0,0" />
             </Style>
 
             <Style Selector="ui|TabView#TabViewDoc /template/ uip|TabViewListView#TabListView">
-                <Setter Property="Margin" Value="30,0,0,0" />
+                <Setter Property="Margin" Value="10,0,0,0" />
             </Style>
 
             <!--
@@ -60,7 +60,7 @@
     <SplitView
         Name="VaultListSplitView"
         VerticalAlignment="Stretch"
-        DisplayMode="Inline"
+        DisplayMode="CompactInline"
         IsPaneOpen="{Binding IsTabPaneOpen}"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
@@ -70,7 +70,7 @@
                 Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
         </SplitView.Pane>
 
-        <Panel>
+        <Grid>
             <ui:TabView
                 Name="TabViewDoc"
                 VerticalAlignment="Stretch"
@@ -114,7 +114,6 @@
                     <Panel Name="CustomDragRegion" Background="Transparent" />
                 </ui:TabView.TabStripFooter>
             </ui:TabView>
-
             <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
                 <Image
                     Name="BackgroundImg"
@@ -155,6 +154,6 @@
 
 
             </StackPanel>
-        </Panel>
+        </Grid>
     </SplitView>
 </UserControl>

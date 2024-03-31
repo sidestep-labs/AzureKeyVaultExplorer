@@ -53,16 +53,17 @@
     <Grid
         Margin="10,2,10,0"
         ColumnDefinitions="*, *, *, *, *"
-        RowDefinitions="30,Auto,5,*">
-
-
+        RowDefinitions="Auto,Auto,5,*">
         <Border
             Grid.Row="0"
             Grid.ColumnSpan="5"
+            Margin="0,2"
+            Padding="1"
             HorizontalAlignment="Stretch"
-            BorderBrush="{DynamicResource TabViewSelectedItemBorderBrush}"
-            BorderThickness="0,0,0,2">
-
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
+            BorderThickness="1"
+            CornerRadius="5">
             <custom:ToolBar />
         </Border>
 

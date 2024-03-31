@@ -6,7 +6,6 @@
 
     <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
 
-
     <SolidColorBrush
         x:Key="SolidBackgroundFillColorTertiaryBrushCustom"
         Opacity=".80"
@@ -22,6 +21,7 @@
         Color="{DynamicResource SystemAccentColorDark1}" />
 
     <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+
 
 
     <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" Opacity="0.15" StartPoint="0,0" EndPoint="0%,100%">
@@ -40,7 +40,7 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-
+    <CornerRadius x:Key="CornerRadius">4</CornerRadius>
 
     <!--<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
@@ -87,6 +87,7 @@
                             Name="ItemsPresenterBorder"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             DockPanel.Dock="{TemplateBinding TabStripPlacement}">
                             <ItemsPresenter
                                 Name="PART_ItemsPresenter"
@@ -107,13 +108,13 @@
                             </ItemsPresenter>
                         </Border>
                         <!--<Border
-                            Name="ItemsPresenterBorder2"
-                            Height="{Binding #ItemsPresenterBorder.Height}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            BorderBrush="Red"
-                            BorderThickness="0,0,0,1"
-                            DockPanel.Dock="{TemplateBinding TabStripPlacement}" />-->
+                        Name="ItemsPresenterBorder2"
+                        Height="{Binding #ItemsPresenterBorder.Height}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        BorderBrush="Red"
+                        BorderThickness="0,0,0,1"
+                        DockPanel.Dock="{TemplateBinding TabStripPlacement}" />-->
                         <ContentPresenter
                             Name="PART_SelectedContentHost"
                             Margin="{TemplateBinding Padding}"

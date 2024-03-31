@@ -184,6 +184,15 @@
                 <Style Selector="ui|NavigationView#NavView.SampleAppNav /template/ StackPanel#TopNavArea">
                     <Setter Property="IsVisible" Value="False" />
                 </Style>
+
+
+                <Style Selector="ui|NavigationView#NavView.SampleAppNav /template/ Border#ContentGridBorder">
+                    <Setter Property="Background" Value="{x:Null}" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0" />
+
+                </Style>
+
                 <!--<Style Selector="ui|NavigationView#NavView.MainAppNav /template/ SplitView#RootSplitView /template/ Panel#PART_PaneRoot">
                         <Setter Property="Background" Value="{x:Null}" />
                     </Style>

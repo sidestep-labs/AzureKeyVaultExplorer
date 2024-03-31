@@ -37,51 +37,46 @@
                     Orientation="Horizontal"
                     Spacing="2">
                     <Button
-                        Padding="6,3"
-                        VerticalAlignment="Center"
+                        Padding="2,0"
+                        VerticalAlignment="Top"
                         Command="{Binding ClearSelectedSubscriptionsCommand}"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Clear selected items">
-                        <StackPanel Margin="0" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
-                                VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
                                 Glyph="&#xE1C5;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
-                            <Label>Clear Selection</Label>
+                            <Label VerticalAlignment="Top">Clear Selection</Label>
                         </StackPanel>
                     </Button>
                     <Button
-                        Padding="6,3"
-                        VerticalAlignment="Center"
+                        Padding="2,0"
+                        VerticalAlignment="Top"
                         Command="{Binding SelectAllSubscriptionsCommand}"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        ToolTip.Tip="Select all visible items">
-                        <StackPanel Margin="0" Orientation="Horizontal">
+                        ToolTip.Tip="Select all items">
+                        <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
-                                VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
                                 Glyph="&#xE14E;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
-                            <Label>Select all</Label>
+                            <Label VerticalAlignment="Top">Select all</Label>
                         </StackPanel>
                     </Button>
+
                     <Button
-                        Padding="6,3"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Padding="2,0"
+                        VerticalAlignment="Top"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         ToolTip.Tip="Load additional subscriptions in batches of 100">
-                        <StackPanel Margin="0" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
-                                VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
                                 Glyph="&#xE117;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
-                            <Label>Load More</Label>
+                            <Label VerticalAlignment="Top">Load More..</Label>
                         </StackPanel>
                     </Button>
 
@@ -90,27 +85,19 @@
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                     <Button
-                        Margin="0"
-                        Padding="6,3"
-                        VerticalAlignment="Center"
+                        Padding="2,0"
+                        VerticalAlignment="Top"
                         Command="{Binding SaveSelectedSubscriptionsCommand}"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTip.Tip="Save selected items to sidebar">
                         <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
-                                Margin="0"
-                                VerticalAlignment="Bottom"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
                                 Glyph="&#xE105;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
-                            <Label>Save Selected</Label>
+                            <Label VerticalAlignment="Top">Save Selected</Label>
                         </StackPanel>
-
                     </Button>
-
-
-
                 </StackPanel>
             </Grid>
 

@@ -361,6 +361,7 @@ public partial class VaultPageViewModel : ViewModelBase
  
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
+        //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
 #if WINDOWS
         var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
         var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);

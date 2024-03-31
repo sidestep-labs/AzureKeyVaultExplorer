@@ -55,10 +55,10 @@
 
     <Border
         Margin="8"
-        Padding="0,20"
+        Padding="0,8"
         Background="{DynamicResource SolidBackgroundFillColorTertiaryBrushCustom}"
         BorderBrush="{DynamicResource CircleElevationBorderBrush}"
-        BorderThickness="1,1,1,0"
+        BorderThickness="1,1,1,1"
         CornerRadius="5">
 
 
@@ -73,8 +73,8 @@
                     <Styles>
                         <Style Selector="TabItem">
                             <Setter Property="FontSize" Value="12" />
-                            <Setter Property="MinHeight" Value="25" />
-                            <Setter Property="MaxHeight" Value="25" />
+                            <Setter Property="MinHeight" Value="20" />
+                            <Setter Property="MaxHeight" Value="20" />
 
                         </Style>
                         <Style Selector="TabItem:focus /template/ ContentPresenter#PART_ContentPresenter" />
@@ -87,28 +87,14 @@
                         </Style>
 
                         <Style Selector="TabItem:selected">
-
                             <Setter Property="Background" Value="{DynamicResource CardBackgroundTertiaryBrush}" />
                             <Style Selector="^ /template/ Rectangle#PART_SelectedPipe">
                                 <Setter Property="IsVisible" Value="False" />
                             </Style>
 
                             <Style Selector="^ /template/ Border#PART_LayoutRoot">
-                                <Setter Property="BorderBrush" Value="Red" />
-                                <Setter Property="BorderThickness" Value="0,0,0,0" />
-                            </Style>
-                        </Style>
-
-                        <Style Selector="TabItem:selected:nth-child(1)">
-                            <Style Selector="^ /template/ Border#PART_LayoutRoot">
-                                <Setter Property="BorderBrush" Value="Blue" />
-                                <Setter Property="BorderThickness" Value="1,0,1,1" />
-                            </Style>
-                        </Style>
-                        <Style Selector="TabItem:selected:nth-child(n)">
-                            <Style Selector="^ /template/ Border#PART_LayoutRoot">
-                                <Setter Property="BorderBrush" Value="Blue" />
-                                <Setter Property="BorderThickness" Value="1,0,1,1" />
+                                <!--<Setter Property="BorderBrush" Value="Red" />-->
+                                <Setter Property="BorderThickness" Value="1" />
                             </Style>
                         </Style>
                     </Styles>

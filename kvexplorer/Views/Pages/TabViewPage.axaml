@@ -85,7 +85,7 @@
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
-                TabWidthMode="SizeToContent">
+                TabWidthMode="Equal">
 
                 <ui:TabView.TabItemTemplate>
                     <DataTemplate DataType="vmm:DocumentItem">

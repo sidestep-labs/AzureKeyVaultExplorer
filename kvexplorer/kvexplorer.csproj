@@ -26,6 +26,11 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\folder-classic.ico" />
+    <None Remove="Assets\folder-classic.png" />
+    <None Remove="Assets\folder.png" />
+    <None Remove="Assets\FolderClosed.png" />
+    <None Remove="Assets\KeyVault.png" />
     <None Remove="Assets\kv-gray.png" />
   </ItemGroup>
 

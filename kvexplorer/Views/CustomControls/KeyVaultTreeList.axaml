@@ -54,7 +54,7 @@
 
 
     <Border
-        Margin="8"
+        Margin="4"
         Padding="0,8"
         Background="{DynamicResource SolidBackgroundFillColorTertiaryBrushCustom}"
         BorderBrush="{DynamicResource CircleElevationBorderBrush}"
@@ -212,13 +212,18 @@
                                             Cursor="Hand"
                                             Orientation="Horizontal">
 
-                                            <ui:SymbolIcon
+                                            <!--<ui:SymbolIcon
                                                 Margin="0,0,10,0"
                                                 HorizontalAlignment="Left"
                                                 IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                                Symbol="{Binding GlyphIcon}" />
+                                                Symbol="{Binding GlyphIcon}" />-->
+
+                                            <ui:BitmapIcon
+                                                Margin="0,1,5,0"
+                                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                                UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
                                             <TextBlock
                                                 x:Name="SubscriptionDisplayName"
                                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
@@ -235,12 +240,17 @@
                                             Orientation="Horizontal"
                                             ToolTip.ShowDelay="1000"
                                             ToolTip.Tip="Double click to open">
-                                            <ui:FontIcon
+                                            <!--<ui:FontIcon
                                                 Margin="0,0,10,0"
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                 Glyph="&#xE130;"
-                                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                                                RenderOptions.TextRenderingMode="SubpixelAntialias" />-->
+                                            <ui:BitmapIcon
+                                                Margin="0,1,5,0"
+                                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                                ShowAsMonochrome="True"
+                                                UriSource="avares://kvexplorer/Assets/KeyVault.png" />
                                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
                                         </StackPanel>
                                     </DataTemplate>

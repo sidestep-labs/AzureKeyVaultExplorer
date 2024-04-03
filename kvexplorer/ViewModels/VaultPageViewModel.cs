@@ -288,7 +288,7 @@ public partial class VaultPageViewModel : ViewModelBase
             dataObject.Set(DataFormats.Text, value);
             await clipboard.SetTextAsync(value);
             ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
-            await ClearClipboardAsync().ConfigureAwait(false);
+            _ = ClearClipboardAsync().ConfigureAwait(false);
         }
         catch (KeyVaultItemNotFoundException ex)
         {

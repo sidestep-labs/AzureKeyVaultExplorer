@@ -100,19 +100,46 @@
                     Margin="5,3,0,0"
                     FontSize="{DynamicResource FontSizeSmall}"
                     Text="Subscription Explorer" />
-                <Button
+
+
+                <Border
                     Grid.Row="1"
                     Margin="4"
+                    Padding="1"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Classes="accent"
-                    Click="RefreshKeyVaultList"
-                    Theme="{StaticResource TransparentButton}"
-                    ToolTip.Tip="Refresh available subscriptions">
-                    <ui:BitmapIcon
-                        RenderOptions.BitmapInterpolationMode="HighQuality"
-                        ShowAsMonochrome="True"
-                        UriSource="avares://kvexplorer/Assets/Refresh.png" />
-                </Button>
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Classes="accent"
+                            Click="RefreshKeyVaultList"
+                            Theme="{StaticResource TransparentButton}"
+                            ToolTip.Tip="Refresh available subscriptions">
+                            <ui:BitmapIcon
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                ShowAsMonochrome="True"
+                                UriSource="avares://kvexplorer/Assets/Refresh.png" />
+                        </Button>
+
+                        <Button
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Theme="{StaticResource TransparentButton}"
+                            ToolTip.Tip="Collapse All">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:BitmapIcon
+                                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                                    ShowAsMonochrome="True"
+                                    UriSource="avares://kvexplorer/Assets/CollapseAll.png" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Border>
+
                 <StackPanel
                     Grid.Row="2"
                     Margin="4,0"

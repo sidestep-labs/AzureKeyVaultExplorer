@@ -101,6 +101,7 @@
                         UriSource="avares://kvexplorer/Assets/Refresh.png" />
                 </StackPanel>
             </Button>
+
             <TextBox
                 Name="SearchTextBox"
                 Margin="80,0,0,0"

@@ -89,17 +89,21 @@
 
             <Button
                 Margin="5,0,0,0"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 Click="RefreshButton_OnClick"
-                Content="Refresh"
-                HotKey="F5"
+                Theme="{StaticResource TransparentButton}"
                 ToolTip.ShowDelay="1000"
-                ToolTip.Tip="Refresh values visible to your identity (F5)" />
-
-
+                ToolTip.Tip="Refresh values visible to your identity (F5)">
+                <StackPanel Orientation="Horizontal">
+                    <ui:BitmapIcon
+                        RenderOptions.BitmapInterpolationMode="HighQuality"
+                        ShowAsMonochrome="True"
+                        UriSource="avares://kvexplorer/Assets/Refresh.png" />
+                </StackPanel>
+            </Button>
             <TextBox
                 Name="SearchTextBox"
-                Margin="100,0,0,0"
+                Margin="80,0,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalContentAlignment="Center"
                 AcceptsReturn="False"

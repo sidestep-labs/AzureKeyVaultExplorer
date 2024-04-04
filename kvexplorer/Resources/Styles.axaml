@@ -25,13 +25,13 @@
         <Setter Property="CornerRadius" Value="5" />
     </Style>
     <!--  Treeviewlist styles  -->
-    <!--<Style Selector="TreeView">
+    <Style Selector="TreeView">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
 
     <Style Selector="TreeViewItem">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
-    </Style>-->
+    </Style>
 
     <!--  Datagrid styles  -->
 

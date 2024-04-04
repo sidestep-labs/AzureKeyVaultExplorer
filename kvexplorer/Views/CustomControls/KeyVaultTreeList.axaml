@@ -91,7 +91,7 @@
             <Grid
                 Margin="0"
                 ColumnDefinitions="*, Auto"
-                RowDefinitions="Auto, Auto,30,*">
+                RowDefinitions="Auto, Auto,35,*">
                 <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
 
                 <TextBlock
@@ -108,12 +108,11 @@
                     Click="RefreshKeyVaultList"
                     Theme="{StaticResource TransparentButton}"
                     ToolTip.Tip="Refresh available subscriptions">
-                    <ui:FontIcon
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Glyph="&#xE72C;"
-                        RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                    <ui:BitmapIcon
+                        RenderOptions.BitmapInterpolationMode="HighQuality"
+                        ShowAsMonochrome="True"
+                        UriSource="avares://kvexplorer/Assets/Refresh.png" />
                 </Button>
-
                 <StackPanel
                     Grid.Row="2"
                     Margin="4,0"
@@ -179,15 +178,9 @@
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>-->
 
-
-
-
-
-
                         <TreeView.Styles>
                             <Style Selector="TreeViewItem">
                                 <Setter Property="Focusable" Value="False" />
-                                <Setter Property="FontSize" Value="12" />
                                 <Setter Property="Padding" Value="0" />
                                 <Setter Property="Margin" Value="0" />
                                 <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

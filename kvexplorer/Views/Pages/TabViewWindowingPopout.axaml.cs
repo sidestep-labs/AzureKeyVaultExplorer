@@ -34,7 +34,7 @@ public partial class TabViewWindowingPopout : AppWindow
 
             var dragRegion = this.FindControl<Panel>("CustomDragRegion");
             dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
-                TitleBar.RightInset : TitleBar.LeftInset;
+                TitleBar.RightInset * 3: TitleBar.LeftInset;
         }
     }
 

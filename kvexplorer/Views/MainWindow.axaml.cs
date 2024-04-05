@@ -28,10 +28,10 @@ public partial class MainWindow : AppWindow
     public MainWindow()
     {
         InitializeComponent();
-        TitleBar.ExtendsContentIntoTitleBar = true;
+        //TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
-        AddHandler(TransparencyChangedEvent, OnTransparencyChangedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
 
+        AddHandler(TransparencyChangedEvent, OnTransparencyChangedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
         BackgroundBrush = (IBrush)bg;
@@ -85,6 +85,7 @@ public partial class MainWindow : AppWindow
                 TitleBar.RightInset : TitleBar.LeftInset;
         }
     }
+
     private void OnTransparencyChangedEvent(object sender, RoutedEventArgs e)
     {
         var isChecked = (e.Source as CheckBox)?.IsChecked ?? false;

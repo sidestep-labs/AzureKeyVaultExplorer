@@ -183,6 +183,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         };
         TreeViewList[0] = quickAccess;
     }
+    [RelayCommand]
+    public void CollpaseAll()
+    {
+        foreach (KeyVaultModel item in TreeViewList)
+        {
+            item.IsExpanded = false;
+        }
+    }
 
     private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

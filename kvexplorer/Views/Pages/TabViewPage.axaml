@@ -60,7 +60,7 @@
     <SplitView
         Name="VaultListSplitView"
         VerticalAlignment="Stretch"
-        DisplayMode="Inline"
+        DisplayMode="{Binding SplitViewDisplayMode}"
         IsPaneOpen="{Binding IsTabPaneOpen}"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
@@ -72,7 +72,7 @@
 
         <Grid>
             <ui:TabView
-                Name="TabViewDoc"
+                Name="TabView"
                 VerticalAlignment="Stretch"
                 AllowDropTabs="True"
                 CanDragTabs="True"
@@ -107,7 +107,7 @@
                         system titlebar
                         BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
                     -->
-                    <Panel Name="CustomDragRegion" Background="Transparent" />
+                    <Panel Name="CustomDragRegion" IsHitTestVisible="False" />
                 </ui:TabView.TabStripFooter>
             </ui:TabView>
             <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">

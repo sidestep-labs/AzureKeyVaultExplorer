@@ -93,19 +93,31 @@
                 ColumnDefinitions="*, Auto"
                 RowDefinitions="Auto, Auto,35,*">
                 <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
-
-                <TextBlock
+                <DockPanel
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="5,3,0,0"
-                    FontSize="{DynamicResource FontSizeSmall}"
-                    Text="Subscription Explorer" />
+                    Margin="5,4,5,0">
 
+                    <TextBlock
+                        DockPanel.Dock="Left"
+                        FontSize="{DynamicResource FontSizeSmall}"
+                        Text="Subscription Explorer" />
+
+                    <Button
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Classes="accent"
+                        Theme="{StaticResource TransparentButton}"
+                        ToolTip.Tip="Unpin sidebar">
+                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
+                    </Button>
+
+
+                </DockPanel>
 
                 <Border
                     Grid.Row="1"
                     Margin="4"
-                    Padding="1"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
@@ -127,6 +139,7 @@
                         <Button
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
+                            Command="{Binding CollpaseAllCommand}"
                             Theme="{StaticResource TransparentButton}"
                             ToolTip.Tip="Collapse All">
                             <StackPanel Orientation="Horizontal">
@@ -151,7 +164,7 @@
                         VerticalContentAlignment="Center"
                         AcceptsReturn="False"
                         Classes.clearButton="True"
-                        FontSize="{StaticResource FontSizeLarge}"
+                        FontSize="{StaticResource FontSizeSmall}"
                         Text="{Binding SearchQuery, Mode=TwoWay}"
                         TextWrapping="NoWrap"
                         Watermark="Search">

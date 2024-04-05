@@ -1,4 +1,5 @@
-﻿using Azure.ResourceManager.KeyVault;
+﻿using Avalonia.Controls;
+using Azure.ResourceManager.KeyVault;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
@@ -23,7 +24,10 @@ public partial class TabViewPageViewModel : ViewModelBase
     public bool isTabPaneOpen = true;
 
 
-   
+    [ObservableProperty]
+    public SplitViewDisplayMode splitViewDisplayMode = Avalonia.Controls.SplitViewDisplayMode.Inline;
+
+
     [ObservableProperty]
     public ObservableCollection<TabViewItem> documents;
 

@@ -33,7 +33,9 @@
     <None Remove="Assets\FolderClosed.png" />
     <None Remove="Assets\KeyVault.png" />
     <None Remove="Assets\kv-gray.png" />
+    <None Remove="Assets\Pin.png" />
     <None Remove="Assets\Refresh.png" />
+    <None Remove="Assets\Unpin.png" />
   </ItemGroup>
 
   

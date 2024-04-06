@@ -14,6 +14,7 @@ public partial class TabViewPage : UserControl
 {
     public static readonly string DataIdentifier = "MyTabItemFromMain";
     public static readonly RoutedEvent<RoutedEventArgs> PaneOpenRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneOpenRoutedEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> PaneClosedRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneClosedRoutedEvent), RoutingStrategies.Tunnel);
 
 
     public TabViewPage()
@@ -25,17 +26,25 @@ public partial class TabViewPage : UserControl
         // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
 
         var dragRegion = this.FindControl<Panel>("CustomDragRegion");
-
         dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ? 138 : 138;
         AddHandler(PaneOpenRoutedEvent, OnPaneOpenRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(PaneClosedRoutedEvent, OnPaneClosedRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+
 
     }
 
     private void OnPaneOpenRoutedEvent(object? sender, RoutedEventArgs e)
     {
         var splitView =  this.FindControl<SplitView>("VaultListSplitView")!;
-        (DataContext as TabViewPageViewModel).IsTabPaneOpen = !splitView.IsPaneOpen;
+        (DataContext as TabViewPageViewModel).IsPaneOpen = !splitView.IsPaneOpen;
     }
+
+    private void OnPaneClosedRoutedEvent(object? sender, RoutedEventArgs e)
+    {
+        var splitView = this.FindControl<SplitView>("VaultListSplitView")!;
+        (DataContext as TabViewPageViewModel).IsPaneOpen = false;
+    }
+
 
     public void TabStripDragOver(object sender, DragEventArgs e)
     {

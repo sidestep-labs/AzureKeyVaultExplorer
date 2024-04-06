@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -7,6 +8,7 @@ using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared.Models;
 using kvexplorer.ViewModels;
+using kvexplorer.Views.Pages;
 using System.Linq;
 
 namespace kvexplorer.Views.CustomControls;
@@ -14,7 +16,12 @@ namespace kvexplorer.Views.CustomControls;
 public partial class KeyVaultTreeList : UserControl
 {
     private readonly TabViewPageViewModel _tabViewViewModel;
-
+    public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<KeyVaultTreeList, string>(nameof(Title), defaultValue: "test");
+    public string Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
     public KeyVaultTreeList()
     {
         InitializeComponent();
@@ -22,6 +29,18 @@ public partial class KeyVaultTreeList : UserControl
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList")!;
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
+    }
+
+    private void ClosedButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneClosedRoutedEvent));
+    }
+
+    private void UnpinButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneClosedRoutedEvent));
     }
 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)

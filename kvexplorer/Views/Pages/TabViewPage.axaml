@@ -61,13 +61,46 @@
         Name="VaultListSplitView"
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
-        IsPaneOpen="{Binding IsTabPaneOpen}"
+        IsPaneOpen="{Binding IsPaneOpen}"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
-            <custom:KeyVaultTreeList
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
+
+            <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrushCustom}">
+                <Border
+                    Margin="4"
+                    Padding="4"
+                    BorderBrush="{DynamicResource CircleElevationBorderBrush}"
+                    BorderThickness="1,1,1,1"
+                    CornerRadius="5">
+
+                    <StackPanel>
+                        <DockPanel Margin="4,4,4,0">
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                FontSize="{DynamicResource FontSizeSmall}"
+                                Text="Subscription Explorer" />
+
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button
+                                    Padding="4"
+                                    Theme="{StaticResource TransparentButton}"
+                                    ToolTip.Tip="Unpin sidebar">
+                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
+                                </Button>
+                                <Button
+                                    Padding="4"
+                                    Theme="{StaticResource TransparentButton}"
+                                    ToolTip.Tip="Close">
+                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Close.png" />
+                                </Button>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <custom:KeyVaultTreeList HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                    </StackPanel>
+                </Border>
+            </Panel>
         </SplitView.Pane>
 
         <Grid>

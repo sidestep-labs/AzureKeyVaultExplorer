@@ -21,8 +21,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public bool isTabPaneOpen = true;
-
+    public bool isPaneOpen = true;
 
     [ObservableProperty]
     public SplitViewDisplayMode splitViewDisplayMode = Avalonia.Controls.SplitViewDisplayMode.Inline;

@@ -26,6 +26,7 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\Close.png" />
     <None Remove="Assets\CollapseAll.png" />
     <None Remove="Assets\folder-classic.ico" />
     <None Remove="Assets\folder-classic.png" />

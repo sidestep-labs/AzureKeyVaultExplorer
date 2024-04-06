@@ -52,16 +52,7 @@
         LayerOnMicaBaseAltFillColorSecondaryBrush
     -->
 
-
-    <Border
-        Margin="4"
-        Background="{DynamicResource SolidBackgroundFillColorTertiaryBrushCustom}"
-        BorderBrush="{DynamicResource CircleElevationBorderBrush}"
-        BorderThickness="1,1,1,1"
-        CornerRadius="5">
-
-        <Grid>
-            <!--<TabControl HorizontalAlignment="Stretch" TabStripPlacement="Bottom">
+    <!--<TabControl HorizontalAlignment="Stretch" TabStripPlacement="Bottom">
                 <TabControl.Styles>
                     <Styles>
                         <Style Selector="TabItem">
@@ -79,138 +70,113 @@
                             <Style Selector="^ /template/ Rectangle#PART_SelectedPipe">
                                 <Setter Property="IsVisible" Value="True" />
                                 <Setter Property="MinHeight" Value="1" />
-            -->
-            <!--<Setter Property="Width" Value="111" />-->
-            <!--
+    -->
+    <!--<Setter Property="Width" Value="111" />-->
+    <!--
                             </Style>
                             <Style Selector="^ /template/ Border#PART_LayoutRoot" />
                         </Style>
                     </Styles>
                 </TabControl.Styles>-->
-            <!--<TabItem Header="Vaults..">-->
-            <Grid
-                Margin="0"
-                ColumnDefinitions="*, Auto"
-                RowDefinitions="Auto, Auto,35,*">
-                <!--<Button Click="OpenWindowButton_Click" Content="test"> </Button>-->
-                <DockPanel
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="5,4,5,0">
+    <!--<TabItem Header="Vaults..">-->
+    <StackPanel>
+        <Border
+            Grid.Row="1"
+            Margin="4"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
+            BorderThickness="1"
+            CornerRadius="5">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Classes="accent"
+                    Click="RefreshKeyVaultList"
+                    Theme="{StaticResource TransparentButton}"
+                    ToolTip.Tip="Refresh available subscriptions">
+                    <ui:BitmapIcon
+                        RenderOptions.BitmapInterpolationMode="HighQuality"
+                        ShowAsMonochrome="True"
+                        UriSource="avares://kvexplorer/Assets/Refresh.png" />
+                </Button>
 
-                    <TextBlock
-                        DockPanel.Dock="Left"
-                        FontSize="{DynamicResource FontSizeSmall}"
-                        Text="Subscription Explorer" />
-
-                    <Button
-                        Padding="4"
-                        HorizontalAlignment="Right"
-                        Classes="accent"
-                        Theme="{StaticResource TransparentButton}"
-                        ToolTip.Tip="Unpin sidebar">
-                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
-                    </Button>
-
-
-                </DockPanel>
-
-                <Border
-                    Grid.Row="1"
-                    Margin="4"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
-                    BorderThickness="1"
-                    CornerRadius="5">
+                <Button
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding CollpaseAllCommand}"
+                    Theme="{StaticResource TransparentButton}"
+                    ToolTip.Tip="Collapse All">
                     <StackPanel Orientation="Horizontal">
-                        <Button
-                            Classes="accent"
-                            Click="RefreshKeyVaultList"
-                            Theme="{StaticResource TransparentButton}"
-                            ToolTip.Tip="Refresh available subscriptions">
-                            <ui:BitmapIcon
-                                RenderOptions.BitmapInterpolationMode="HighQuality"
-                                ShowAsMonochrome="True"
-                                UriSource="avares://kvexplorer/Assets/Refresh.png" />
-                        </Button>
-
-                        <Button
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Command="{Binding CollpaseAllCommand}"
-                            Theme="{StaticResource TransparentButton}"
-                            ToolTip.Tip="Collapse All">
-                            <StackPanel Orientation="Horizontal">
-                                <ui:BitmapIcon
-                                    RenderOptions.BitmapInterpolationMode="HighQuality"
-                                    ShowAsMonochrome="True"
-                                    UriSource="avares://kvexplorer/Assets/CollapseAll.png" />
-                            </StackPanel>
-                        </Button>
+                        <ui:BitmapIcon
+                            RenderOptions.BitmapInterpolationMode="HighQuality"
+                            ShowAsMonochrome="True"
+                            UriSource="avares://kvexplorer/Assets/CollapseAll.png" />
                     </StackPanel>
+                </Button>
+            </StackPanel>
 
-                </Border>
+        </Border>
 
-                <StackPanel
-                    Grid.Row="2"
-                    Margin="4,0"
-                    HorizontalAlignment="Stretch"
-                    Orientation="Vertical">
-                    <TextBox
-                        Name="SearchTextBox"
-                        HorizontalAlignment="Stretch"
-                        VerticalContentAlignment="Center"
-                        AcceptsReturn="False"
-                        Classes.clearButton="True"
-                        FontSize="{StaticResource FontSizeSmall}"
-                        Text="{Binding SearchQuery, Mode=TwoWay}"
-                        TextWrapping="NoWrap"
-                        Watermark="Search">
-                        <TextBox.Styles>
-                            <Style Selector="TextBox">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="InnerRightContent">
-                                    <Template>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button
-                                                Command="{Binding $parent[TextBox].Clear}"
-                                                Content="&#xE8BB;"
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                                RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                                Theme="{StaticResource TransparentButton}" />
-                                            <Button
-                                                Command="{Binding $parent[TextBox].Clear}"
-                                                Content="&#xE721;"
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                IsHitTestVisible="False"
-                                                RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                                Theme="{StaticResource TransparentButton}" />
-                                        </StackPanel>
-                                    </Template>
-                                </Setter>
+        <StackPanel
+            Grid.Row="2"
+            Margin="4,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Orientation="Vertical">
+            <TextBox
+                Name="SearchTextBox"
+                HorizontalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="False"
+                Classes.clearButton="True"
+                FontSize="{StaticResource FontSizeSmall}"
+                Text="{Binding SearchQuery, Mode=TwoWay}"
+                TextWrapping="NoWrap"
+                Watermark="Search">
+                <TextBox.Styles>
+                    <Style Selector="TextBox">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="InnerRightContent">
+                            <Template>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Command="{Binding $parent[TextBox].Clear}"
+                                        Content="&#xE8BB;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                        Theme="{StaticResource TransparentButton}" />
+                                    <Button
+                                        Command="{Binding $parent[TextBox].Clear}"
+                                        Content="&#xE721;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        IsHitTestVisible="False"
+                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                        Theme="{StaticResource TransparentButton}" />
+                                </StackPanel>
+                            </Template>
+                        </Setter>
 
-                            </Style>
-                        </TextBox.Styles>
-                    </TextBox>
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
 
-                </StackPanel>
-                <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible">
+        </StackPanel>
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible">
 
-                    <TreeView
-                        Name="SubscriptionTreeViewList"
-                        Margin="0"
-                        Padding="0"
-                        AutoScrollToSelectedItem="True"
-                        DoubleTapped="OnDoubleClicked"
-                        Focusable="False"
-                        ItemsSource="{Binding TreeViewList}"
-                        SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
-                        SelectionMode="Single">
+            <TreeView
+                Name="SubscriptionTreeViewList"
+                Margin="0"
+                Padding="0"
+                AutoScrollToSelectedItem="True"
+                DoubleTapped="OnDoubleClicked"
+                Focusable="False"
+                ItemsSource="{Binding TreeViewList}"
+                SelectedItem="{Binding SelectedTreeItem, Mode=TwoWay}"
+                SelectionMode="Single">
 
-                        <!--
+                <!--
 				
 				<i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="SelectionChanged" SourceObject="{Binding SelectedTreeItem}">
@@ -218,34 +184,34 @@
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>-->
 
-                        <TreeView.Styles>
-                            <Style Selector="TreeViewItem">
-                                <Setter Property="Focusable" Value="False" />
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="Margin" Value="0" />
-                                <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                <Setter Property="Name" Value="SubscriptionTreeItem" />
-                            </Style>
+                <TreeView.Styles>
+                    <Style Selector="TreeViewItem">
+                        <Setter Property="Focusable" Value="False" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="Name" Value="SubscriptionTreeItem" />
+                    </Style>
 
-                            <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
-                                <Setter Property="Cursor" Value="Hand" />
-                            </Style>
-                            <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
-                                <Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
-                            </Style>
+                    <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Style>
+                    <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
+                        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
+                    </Style>
 
-                        </TreeView.Styles>
-                        <TreeView.DataTemplates>
+                </TreeView.Styles>
+                <TreeView.DataTemplates>
 
-                            <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
-                                <StackPanel
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Cursor="Hand"
-                                    Orientation="Horizontal">
+                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                        <StackPanel
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Cursor="Hand"
+                            Orientation="Horizontal">
 
-                                    <!--<ui:SymbolIcon
+                            <!--<ui:SymbolIcon
                                                 Margin="0,0,10,0"
                                                 HorizontalAlignment="Left"
                                                 IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
@@ -253,50 +219,48 @@
                                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                                                 Symbol="{Binding GlyphIcon}" />-->
 
-                                    <ui:BitmapIcon
-                                        Margin="0,1,5,0"
-                                        RenderOptions.BitmapInterpolationMode="HighQuality"
-                                        UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
-                                    <TextBlock
-                                        x:Name="SubscriptionDisplayName"
-                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                        Text="{Binding SubscriptionDisplayName}" />
+                            <ui:BitmapIcon
+                                Margin="0,1,5,0"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
+                            <TextBlock
+                                x:Name="SubscriptionDisplayName"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                Text="{Binding SubscriptionDisplayName}" />
 
-                                </StackPanel>
-                            </TreeDataTemplate>
+                        </StackPanel>
+                    </TreeDataTemplate>
 
-                            <DataTemplate DataType="armmodels:KeyVaultResource">
-                                <StackPanel
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Cursor="Hand"
-                                    Orientation="Horizontal"
-                                    ToolTip.ShowDelay="1000"
-                                    ToolTip.Tip="Double click to open">
-                                    <!--<ui:FontIcon
+                    <DataTemplate DataType="armmodels:KeyVaultResource">
+                        <StackPanel
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Cursor="Hand"
+                            Orientation="Horizontal"
+                            ToolTip.ShowDelay="1000"
+                            ToolTip.Tip="Double click to open">
+                            <!--<ui:FontIcon
                                                 Margin="0,0,10,0"
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                 Glyph="&#xE130;"
                                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />-->
-                                    <ui:BitmapIcon
-                                        Margin="0,1,5,0"
-                                        RenderOptions.BitmapInterpolationMode="HighQuality"
-                                        ShowAsMonochrome="True"
-                                        UriSource="avares://kvexplorer/Assets/KeyVault.png" />
-                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </TreeView.DataTemplates>
-                    </TreeView>
-                </ScrollViewer>
-                <!--<Label IsVisible="{Binding !TreeViewList.Count() && #SearchTextBox.Length}"  Content="No Items or child items matched. "/>-->
-            </Grid>
-            <!--</TabItem>-->
-            <!--<TabItem Header="Tab 2" IsEnabled="False">
+                            <ui:BitmapIcon
+                                Margin="0,1,5,0"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                ShowAsMonochrome="True"
+                                UriSource="avares://kvexplorer/Assets/KeyVault.png" />
+                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.DataTemplates>
+            </TreeView>
+        </ScrollViewer>
+        <!--<Label IsVisible="{Binding !TreeViewList.Count() && #SearchTextBox.Length}"  Content="No Items or child items matched. "/>-->
+    </StackPanel>
+    <!--</TabItem>-->
+    <!--<TabItem Header="Tab 2" IsEnabled="False">
                     <TextBlock Margin="5">This is tab 2 content</TextBlock>
                 </TabItem>-->
-            <!--</TabControl>-->
-        </Grid>
-    </Border>
+    <!--</TabControl>-->
 </UserControl>

@@ -21,7 +21,12 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowPin))]
     public SplitViewDisplayMode splitViewDisplayMode = SplitViewDisplayMode.Inline;
+
+
+    public bool ShowPin => SplitViewDisplayMode == SplitViewDisplayMode.Inline;
+
 
     [RelayCommand]
     private void ChangePaneDisplay()

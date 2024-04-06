@@ -82,8 +82,17 @@
                                 <Button
                                     Padding="4"
                                     Command="{Binding ChangePaneDisplayCommand}"
+                                    IsVisible="{Binding ShowPin}"
                                     Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Unpin sidebar">
+                                    ToolTip.Tip="Pin">
+                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Pin.png" />
+                                </Button>
+                                <Button
+                                    Padding="4"
+                                    Command="{Binding ChangePaneDisplayCommand}"
+                                    IsVisible="{Binding !ShowPin}"
+                                    Theme="{StaticResource TransparentButton}"
+                                    ToolTip.Tip="Unpin">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
                                 </Button>
                                 <ToggleButton

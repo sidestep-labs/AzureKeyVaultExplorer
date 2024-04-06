@@ -54,6 +54,10 @@
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
             </Style>
 
+            <!--<Style Selector="SplitView#VaultListSplitView /template/ ContentPresenter#PART_PanePresenter">
+				<Setter Property="Margin" Value="0,0,60,0" />
+				<Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
+			</Style>-->
         </Styles>
 
     </UserControl.Styles>
@@ -67,8 +71,9 @@
 
             <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
                 <Border
-                    Margin="4"
+                    Margin="6"
                     Padding="4"
+                    Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                     BorderBrush="{DynamicResource CircleElevationBorderBrush}"
                     BorderThickness="1,1,1,1"
                     CornerRadius="5">
@@ -82,7 +87,7 @@
                                 <Button
                                     Padding="4"
                                     Command="{Binding ChangePaneDisplayCommand}"
-                                    IsVisible="{Binding ShowPin}"
+                                    IsVisible="{Binding !ShowPin}"
                                     Theme="{StaticResource TransparentButton}"
                                     ToolTip.Tip="Pin">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Pin.png" />
@@ -90,7 +95,7 @@
                                 <Button
                                     Padding="4"
                                     Command="{Binding ChangePaneDisplayCommand}"
-                                    IsVisible="{Binding !ShowPin}"
+                                    IsVisible="{Binding ShowPin}"
                                     Theme="{StaticResource TransparentButton}"
                                     ToolTip.Tip="Unpin">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />

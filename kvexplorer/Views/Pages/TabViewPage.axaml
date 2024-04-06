@@ -61,44 +61,45 @@
         Name="VaultListSplitView"
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
-        IsPaneOpen="{Binding IsPaneOpen}"
+        IsPaneOpen="True"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
 
-            <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrushCustom}">
+            <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
                 <Border
                     Margin="4"
                     Padding="4"
                     BorderBrush="{DynamicResource CircleElevationBorderBrush}"
                     BorderThickness="1,1,1,1"
                     CornerRadius="5">
-
-                    <StackPanel>
-                        <DockPanel Margin="4,4,4,0">
+                    <DockPanel>
+                        <DockPanel Grid.Row="0" DockPanel.Dock="Top">
                             <TextBlock
                                 DockPanel.Dock="Left"
                                 FontSize="{DynamicResource FontSizeSmall}"
-                                Text="Subscription Explorer" />
-
+                                Text="Explorer" />
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <Button
                                     Padding="4"
+                                    Command="{Binding ChangePaneDisplayCommand}"
                                     Theme="{StaticResource TransparentButton}"
                                     ToolTip.Tip="Unpin sidebar">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
                                 </Button>
-                                <Button
+                                <ToggleButton
                                     Padding="4"
+                                    Click="IsPaneToggled_ButtonClick"
                                     Theme="{StaticResource TransparentButton}"
                                     ToolTip.Tip="Close">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Close.png" />
-                                </Button>
+                                </ToggleButton>
                             </StackPanel>
                         </DockPanel>
-
-                        <custom:KeyVaultTreeList HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
-                    </StackPanel>
+                        <custom:KeyVaultTreeList
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" />
+                    </DockPanel>
                 </Border>
             </Panel>
         </SplitView.Pane>

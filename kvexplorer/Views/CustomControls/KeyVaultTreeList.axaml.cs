@@ -31,18 +31,7 @@ public partial class KeyVaultTreeList : UserControl
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
     }
 
-    private void ClosedButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        Control control = (Control)sender!;
-        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneClosedRoutedEvent));
-    }
-
-    private void UnpinButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        Control control = (Control)sender!;
-        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneClosedRoutedEvent));
-    }
-
+ 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
         var tv = sender as TreeView;

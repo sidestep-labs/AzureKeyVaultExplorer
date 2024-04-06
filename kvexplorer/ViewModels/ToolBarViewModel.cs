@@ -24,14 +24,7 @@ public partial class ToolBarViewModel : ViewModelBase
     [ObservableProperty]
     public bool isBusy;
 
-    [ObservableProperty]
-    public bool isPaneButtonToggled = true;
-
     public ToolBarViewModel()
     {
     }
-
-  
-
-
 }

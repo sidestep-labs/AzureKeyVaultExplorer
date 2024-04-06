@@ -21,11 +21,16 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public bool isPaneOpen = true;
+    public SplitViewDisplayMode splitViewDisplayMode = SplitViewDisplayMode.Inline;
 
-    [ObservableProperty]
-    public SplitViewDisplayMode splitViewDisplayMode = Avalonia.Controls.SplitViewDisplayMode.Inline;
-
+    [RelayCommand]
+    private void ChangePaneDisplay()
+    {
+        if (SplitViewDisplayMode is SplitViewDisplayMode.Inline) 
+            SplitViewDisplayMode = SplitViewDisplayMode.Overlay; 
+        else
+            SplitViewDisplayMode = SplitViewDisplayMode.Inline;
+    }
 
     [ObservableProperty]
     public ObservableCollection<TabViewItem> documents;
@@ -87,7 +92,7 @@ public partial class TabViewPageViewModel : ViewModelBase
             IconSource = new SymbolIconSource { Symbol = Symbol.ProtectedDocument },
             Content = new VaultPage(model.Properties.VaultUri)
         };
-       
+
         Documents.Insert(0, tab);
 
         SelectedItem = tab;// Documents[0];

@@ -21,14 +21,13 @@
 
 
     <DockPanel>
-        <ToggleButton
-            Name="IsPaneOpen"
+        <Button
+            Name="IsPaneOpenToggleButton"
             Height="25"
-            Click="IsPaneOpenToggleButton_Click"
+            Click="IsPaneToggledButton_Click"
             FontSize="13"
-            IsChecked="{Binding IsPaneButtonToggled}"
-            Theme="{StaticResource TransparentToggleButton}">
-            <ToggleButton.Content>
+            Theme="{StaticResource TransparentButton}">
+            <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <ui:FontIcon
                         Margin="0,0,2,0"
@@ -37,8 +36,8 @@
                         Glyph="&#xE1D3;" />
                     <TextBlock VerticalAlignment="Center" Text="Vault List" />
                 </StackPanel>
-            </ToggleButton.Content>
-        </ToggleButton>
+            </Button.Content>
+        </Button>
         <Button
             Name="SubscriptionsPage"
             Height="25"

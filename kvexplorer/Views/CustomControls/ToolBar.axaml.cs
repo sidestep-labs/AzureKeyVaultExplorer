@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -14,11 +15,11 @@ namespace kvexplorer.Views.CustomControls;
 
 public partial class ToolBar : UserControl
 {
-
     public ToolBar()
     {
         InitializeComponent();
         DataContext = Defaults.Locator.GetRequiredService<ToolBarViewModel>();
+
     }
 
 
@@ -34,12 +35,11 @@ public partial class ToolBar : UserControl
         control.RaiseEvent(new RoutedEventArgs(MainView.NavigateSubscriptionsEvent));
     }
 
-    private void IsPaneOpenToggleButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+  
+
+    private void IsPaneToggledButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         Control control = (Control)sender!;
-        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneOpenRoutedEvent));
+        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneToggledRoutedEvent));
     }
-
-
-
 }

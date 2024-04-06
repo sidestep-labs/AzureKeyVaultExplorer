@@ -5,6 +5,7 @@ using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.ViewModels;
+using kvexplorer.Views.CustomControls;
 using System;
 using System.Collections;
 
@@ -13,8 +14,7 @@ namespace kvexplorer.Views.Pages;
 public partial class TabViewPage : UserControl
 {
     public static readonly string DataIdentifier = "MyTabItemFromMain";
-    public static readonly RoutedEvent<RoutedEventArgs> PaneOpenRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneOpenRoutedEvent), RoutingStrategies.Tunnel);
-    public static readonly RoutedEvent<RoutedEventArgs> PaneClosedRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneClosedRoutedEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> PaneToggledRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneToggledRoutedEvent), RoutingStrategies.Tunnel);
 
 
     public TabViewPage()
@@ -27,24 +27,20 @@ public partial class TabViewPage : UserControl
 
         var dragRegion = this.FindControl<Panel>("CustomDragRegion");
         dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ? 138 : 138;
-        AddHandler(PaneOpenRoutedEvent, OnPaneOpenRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
-        AddHandler(PaneClosedRoutedEvent, OnPaneClosedRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
-
-
+        AddHandler(PaneToggledRoutedEvent, OnPaneToggledRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }
 
-    private void OnPaneOpenRoutedEvent(object? sender, RoutedEventArgs e)
+    private void OnPaneToggledRoutedEvent(object? sender, RoutedEventArgs e)
     {
         var splitView =  this.FindControl<SplitView>("VaultListSplitView")!;
-        (DataContext as TabViewPageViewModel).IsPaneOpen = !splitView.IsPaneOpen;
+        splitView.IsPaneOpen = !splitView.IsPaneOpen;
     }
 
-    private void OnPaneClosedRoutedEvent(object? sender, RoutedEventArgs e)
+    private void IsPaneToggled_ButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var splitView = this.FindControl<SplitView>("VaultListSplitView")!;
-        (DataContext as TabViewPageViewModel).IsPaneOpen = false;
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneToggledRoutedEvent));
     }
-
 
     public void TabStripDragOver(object sender, DragEventArgs e)
     {

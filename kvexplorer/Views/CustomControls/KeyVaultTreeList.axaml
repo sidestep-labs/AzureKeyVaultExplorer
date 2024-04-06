@@ -79,9 +79,12 @@
                     </Styles>
                 </TabControl.Styles>-->
     <!--<TabItem Header="Vaults..">-->
-    <StackPanel>
+    <Grid
+        Margin="0"
+        ColumnDefinitions="*, Auto"
+        RowDefinitions="Auto, Auto,*">
         <Border
-            Grid.Row="1"
+            Grid.Row="0"
             Margin="4"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -119,7 +122,7 @@
         </Border>
 
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="4,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -163,12 +166,11 @@
             </TextBox>
 
         </StackPanel>
-        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
 
             <TreeView
                 Name="SubscriptionTreeViewList"
-                Margin="0"
-                Padding="0"
+                VerticalAlignment="Top"
                 AutoScrollToSelectedItem="True"
                 DoubleTapped="OnDoubleClicked"
                 Focusable="False"
@@ -257,7 +259,7 @@
             </TreeView>
         </ScrollViewer>
         <!--<Label IsVisible="{Binding !TreeViewList.Count() && #SearchTextBox.Length}"  Content="No Items or child items matched. "/>-->
-    </StackPanel>
+    </Grid>
     <!--</TabItem>-->
     <!--<TabItem Header="Tab 2" IsEnabled="False">
                     <TextBlock Margin="5">This is tab 2 content</TextBlock>

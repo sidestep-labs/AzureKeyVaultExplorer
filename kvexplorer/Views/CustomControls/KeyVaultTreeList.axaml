@@ -93,7 +93,7 @@
             BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
             BorderThickness="1"
             CornerRadius="5">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="1" Orientation="Horizontal">
                 <Button
                     Classes="accent"
                     Click="RefreshKeyVaultList"

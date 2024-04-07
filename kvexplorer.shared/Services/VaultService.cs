@@ -87,7 +87,6 @@ public class VaultService
                 SubscriptionId = subscription.Data.Id,
                 Subscription = subscription,
                 ResourceGroups = [rgPlaceholder],
-                KeyVaultResources = new List<KeyVaultResource>() { placeholder }
             };
             yield return resource;
         }
@@ -131,14 +130,6 @@ public class VaultService
         }
     }
 
-    public void UpdateSubscriptionWithKeyVaults(ref KvSubscriptionModel resource)
-    {
-        resource.KeyVaultResources.Clear();
-        foreach (var kvResource in resource.Subscription.GetKeyVaults())
-        {
-            resource.KeyVaultResources.Add(kvResource);
-        }
-    }
 
     public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KvSubscriptionModel resource)
     {
@@ -172,15 +163,6 @@ public class VaultService
     }
 
 
-
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
-    {
-        resource.KeyVaultResources.Clear();
-        foreach (var kvResource in resource.Subscription.GetKeyVaults())
-        {
-            yield return kvResource;
-        }
-    }
 
     public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
     {

@@ -38,7 +38,7 @@ public partial class KeyVaultTreeList : UserControl
         if (tv.SelectedItem is not null)
         {
             var kvm = tv.ItemsSource.ElementAt(0) as KvSubscriptionModel;
-            var showUnpin = kvm.KeyVaultResources.Contains(tv.SelectedItem as KeyVaultResource);
+            var showUnpin = kvm.ResourceGroups[0].KeyVaultResources.Contains(tv.SelectedItem as KeyVaultResource);
             ShowMenu(isTransient: true, isCurrentlyPinned: showUnpin);
         }
         e.Handled = true;

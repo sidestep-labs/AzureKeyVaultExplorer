@@ -203,7 +203,7 @@
                     <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
                         <Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
                     </Style>
-                 
+
 
                 </TreeView.Styles>
                 <TreeView.DataTemplates>

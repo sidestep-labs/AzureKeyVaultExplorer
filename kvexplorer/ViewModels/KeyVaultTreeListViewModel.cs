@@ -25,6 +25,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public IEnumerable<KvSubscriptionModel> _treeViewList;
 
     [ObservableProperty]
+    public bool isBusy;
+
+    [ObservableProperty]
     public string searchQuery;
 
     [ObservableProperty]
@@ -32,15 +35,11 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     [ObservableProperty]
     public ObservableCollection<KvSubscriptionModel> treeViewList;
-
-    [ObservableProperty]
-    public bool isBusy;
-
     private readonly AuthService _authService;
-    private readonly VaultService _vaultService;
     private readonly KvExplorerDb _dbContext;
-
+    private readonly VaultService _vaultService;
     private readonly string[] WatchedNameOfProps = { nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected) };
+    private readonly string[] WatchedNameOfPropsSubTreeNode = { nameof(KvExplorerResourceGroup.IsExpanded), nameof(KvExplorerResourceGroup.IsSelected) };
 
     public KeyVaultTreeListViewModel()
     {
@@ -52,14 +51,22 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         TreeViewList = [];
         //foreach (var item in TreeViewList)
         //{
-        //    item.PropertyChanged += KeyVaultModel_PropertyChanged;
+        //    item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
         //}
         // Handle CollectionChanged to attach/detach event handlers for new items
         TreeViewList.CollectionChanged += TreeViewList_CollectionChanged;
         //Dispatcher.UIThread.Post(() => GetAvailableKeyVaults(), DispatcherPriority.Default);
     }
 
-   
+    [RelayCommand]
+    public void CollpaseAll()
+    {
+        foreach (KvSubscriptionModel item in TreeViewList)
+        {
+            item.IsExpanded = false;
+        }
+    }
+
     [RelayCommand]
     public async Task GetAvailableKeyVaults(bool isRefresh = false)
     {
@@ -76,7 +83,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
             await foreach (var item in resource)
             {
-                item.PropertyChanged += KeyVaultModel_PropertyChanged;
+                item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
                 item.GlyphIcon = "Permissions";
                 TreeViewList.Add(item);
             }
@@ -87,7 +94,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 SubscriptionDisplayName = "Quick Access",
                 SubscriptionId = "",
                 IsExpanded = true,
-                KeyVaultResources = new List<KeyVaultResource> {new KeyVaultResourcePlaceholder() },
+                KeyVaultResources = new List<KeyVaultResource> { new KeyVaultResourcePlaceholder() },
                 Subscription = null,
                 GlyphIcon = "ShowResults"
             };
@@ -101,13 +108,16 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
                 var kvrResponse = await kvr.GetAsync();
                 quickAccess.KeyVaultResources.Add(kvrResponse);
-                quickAccess.PropertyChanged += KeyVaultModel_PropertyChanged;
+                quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
             TreeViewList[0] = quickAccess;
         }, DispatcherPriority.Background);
 
         _treeViewList = TreeViewList;
     }
+
+    public void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
+    { }
 
     [RelayCommand]
     public async Task PinVaultToQuickAccess(KeyVaultResource model)
@@ -142,7 +152,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         //    var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
         //    await foreach (var item in resource)
         //    {
-        //        item.PropertyChanged += KeyVaultModel_PropertyChanged;
+        //        item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
         //        TreeViewList.Add(item);
         //    }
         //    _treeViewList = TreeViewList;
@@ -176,18 +186,35 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         };
         TreeViewList[0] = quickAccess;
     }
-
-    [RelayCommand]
-    public void CollpaseAll()
+    private void KvResourceGroupNode_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        foreach (KvSubscriptionModel item in TreeViewList)
+        if (WatchedNameOfPropsSubTreeNode.Contains(e.PropertyName))
         {
-            item.IsExpanded = false;
+            var kvResourceModel = (KvExplorerResourceGroup)sender;
+            // if they are selecting the list item, expand it as a courtesy
+            if (e.PropertyName == nameof(KvExplorerResourceGroup.IsSelected))
+                kvResourceModel.IsExpanded = true;
+
+            var hasPlaceholder = kvResourceModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder));
+            // if its being expanded and there are no items in the array reach out to azure
+            if (kvResourceModel.IsExpanded && hasPlaceholder)
+            {
+                kvResourceModel.KeyVaultResources.Clear();
+
+                Dispatcher.UIThread.Invoke(async () =>
+                {
+                    var vaults = _vaultService.GetKeyVaultsByResourceGroup(kvResourceModel.ResourceGroupResource);
+
+                    await foreach (var vault in vaults)
+                    {
+                        kvResourceModel.KeyVaultResources.Add(vault);
+                    }
+                }, DispatcherPriority.ContextIdle);
+            }
         }
     }
- 
 
-    private void KeyVaultModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void KvSubscriptionModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
@@ -209,50 +236,19 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
                     await foreach (var rg in resourceGroups)
                     {
-                        kvSubModel.ResourceGroups.Add(new KvExplorerResourceGroup { ResourceGroupDisplayName = rg.Data.Name, ResourceGroupResource = rg, KeyVaultResources = [placeholder] });
-                        kvSubModel.ResourceGroups.CollectionChanged  += TreeViewSubNode_CollectionChanged;
-
+                        kvSubModel.ResourceGroups.Add(
+                            new KvExplorerResourceGroup
+                            {
+                                ResourceGroupDisplayName = rg.Data.Name,
+                                ResourceGroupResource = rg,
+                                KeyVaultResources = [placeholder]
+                            });
                     }
-
-                    //await foreach (var vault in vaults)
-                    //{
-                    //    kvSubModel.KeyVaultResources.Add(vault);
-                    //}
+                    kvSubModel.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
                 }, DispatcherPriority.ContextIdle);
             }
         }
     }
-
-    private void KvResourceGroupNode_PropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (WatchedNameOfProps.Contains(e.PropertyName))
-        {
-            var kvResourceModel = (KvExplorerResourceGroup)sender;
-            // if they are selecting the list item, expand it as a courtesy
-            if (e.PropertyName == nameof(KvSubscriptionModel.IsSelected))
-                kvResourceModel.IsExpanded = true;
-
-            bool isExpanded = kvResourceModel.IsExpanded;
-            var placeholder = new KeyVaultResourcePlaceholder();
-            // && kvSubModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KvExplorerResourceGroup)
-            if (isExpanded)
-            {
-                Dispatcher.UIThread.Invoke(async () =>
-                {
-                    kvResourceModel.KeyVaultResources.Clear();
-                    var vaults = _vaultService.GetKeyVaultsByResourceGroup(kvResourceModel.ResourceGroupResource);
-                   
-                    await foreach (var vault in vaults)
-                    {
-                        kvResourceModel.KeyVaultResources.Add(vault);
-                    }
-                }, DispatcherPriority.ContextIdle);
-            }
-        }
-    }
-    public void KeyVaultModel_PropertyRemoved(object sender, PropertyChangedEventArgs e)
-    { }
-
     //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     //{
     //    if (e.PropertyName == nameof(SelectedTreeItem))
@@ -279,9 +275,18 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
         var listSearched = _treeViewList.Where(v =>
             v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-            v.KeyVaultResources.Any(r => r.HasData && r.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            v.ResourceGroups.Any(r => r.ResourceGroupDisplayName is not null && r.ResourceGroupDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase)
+            || r.KeyVaultResources.Any(kr => kr.HasData && kr.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase)))
         );
         TreeViewList = new ObservableCollection<KvSubscriptionModel>(listSearched);
+    }
+
+    [RelayCommand]
+    private void OpenInAzure(KeyVaultResource model)
+    {
+        if (model is null) return;
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/resource{model.Id}";
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -290,7 +295,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             foreach (KvSubscriptionModel newItem in e.NewItems)
             {
-                newItem.PropertyChanged += KeyVaultModel_PropertyChanged;
+                newItem.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -301,6 +306,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             }
         }
     }
+
     private void TreeViewSubNode_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add)
@@ -317,12 +323,5 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 oldItem.PropertyChanged -= KvResourceGroupNode_PropertyChanged;
             }
         }
-    }
-    [RelayCommand]
-    private void OpenInAzure(KeyVaultResource model)
-    {
-        if (model is null) return;
-        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/resource{model.Id}";
-        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 }

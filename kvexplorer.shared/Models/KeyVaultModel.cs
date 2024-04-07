@@ -24,6 +24,7 @@ public partial class KvSubscriptionModel : ObservableObject
 public partial class KvExplorerResourceGroup : ObservableObject
 {
     public string? GlyphIcon { get; set; } = null;
+
     [ObservableProperty]
     private bool isExpanded;
 
@@ -31,6 +32,6 @@ public partial class KvExplorerResourceGroup : ObservableObject
     private bool isSelected;
     public string ResourceGroupDisplayName { get; set; } = null!;
     public ResourceGroupResource ResourceGroupResource { get; set; } = null!;
-    public List<KeyVaultResource> KeyVaultResources { get; set; } = [];
+    public ObservableCollection<KeyVaultResource> KeyVaultResources { get; set; } = [];
 
 }

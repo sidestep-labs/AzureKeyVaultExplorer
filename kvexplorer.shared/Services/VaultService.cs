@@ -69,7 +69,7 @@ public class VaultService
         var placeholder = new KeyVaultResourcePlaceholder();
         var rgPlaceholder = new KvExplorerResourceGroup() //needed to show chevron
         {
-            KeyVaultResources = new List<KeyVaultResource>() { placeholder }
+            KeyVaultResources = [placeholder]
         }; 
 
         var subscriptions = _memoryCache.GetOrCreate("subscriptions", (f) =>

@@ -12,6 +12,7 @@ using Azure;
 using System.Collections;
 using Azure.Core;
 using System.Diagnostics;
+using Microsoft.Extensions.Azure;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -149,9 +150,17 @@ public class VaultService
             yield return kvResource;
         }
     }
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsByResourceGroup(ResourceGroupResource resource)
+    {
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        
+       await foreach (var kvResource in resource.GetKeyVaults())
+        {
+            yield return kvResource;
+        }
+    }
 
-
-    public async IAsyncEnumerable<ResourceGroupResource> GetKeyVaultsByResourceGroup(KvSubscriptionModel resource)
+    public async IAsyncEnumerable<ResourceGroupResource> GetResourceGroupBySubscription(KvSubscriptionModel resource)
     {
         var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
         resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);

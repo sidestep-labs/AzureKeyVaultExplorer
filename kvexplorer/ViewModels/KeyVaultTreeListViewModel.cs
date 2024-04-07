@@ -114,8 +114,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
             quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Quick Access";
-            TreeViewList[0] = quickAccess;
 
+            
+            TreeViewList[0] = quickAccess;
+            
+            foreach(var sub in TreeViewList)
+            {
+                sub.ResourceGroups.CollectionChanged  += TreeViewSubNode_CollectionChanged;
+            }
         }, DispatcherPriority.Background);
 
         _treeViewList = TreeViewList;

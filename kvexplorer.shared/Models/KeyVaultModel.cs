@@ -4,16 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace kvexplorer.shared.Models;
 
-public partial class KeyVaultModel : ObservableObject
+public partial class KvSubscriptionModel : ObservableObject
 {
-    public string SubscriptionDisplayName { get; set; } = null!;
-
-    public SubscriptionResource Subscription { get; set; } = null!;
-
-    public string? SubscriptionId { get; set; }
-
-    public List<KeyVaultResource> KeyVaultResources { get; set; } = new List<KeyVaultResource>() { };
-
     [ObservableProperty]
     private bool isExpanded;
 
@@ -21,4 +13,17 @@ public partial class KeyVaultModel : ObservableObject
     private bool isSelected;
 
     public string? GlyphIcon { get; set; } = null;
+    public List<KeyVaultResource> KeyVaultResources { get; set; } = [];
+    public SubscriptionResource Subscription { get; set; } = null!;
+    public string SubscriptionDisplayName { get; set; } = null!;
+    public string? SubscriptionId { get; set; }
+    public List<KvExplorerResourceGroup> ResourceGroups { get; set; } = [];
+}
+
+public partial class KvExplorerResourceGroup : ObservableObject
+{
+    public string ResourceGroupDisplayName { get; set; } = null!;
+    public ResourceGroupResource ResourceGroupResource { get; set; } = null!;
+    public List<KeyVaultResource> KeyVaultResources { get; set; } = [];
+
 }

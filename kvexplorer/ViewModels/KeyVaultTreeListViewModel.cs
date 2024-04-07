@@ -22,7 +22,7 @@ namespace kvexplorer.ViewModels;
 
 public partial class KeyVaultTreeListViewModel : ViewModelBase
 {
-    public IEnumerable<KeyVaultModel> _treeViewList;
+    public IEnumerable<KvSubscriptionModel> _treeViewList;
 
  
     [ObservableProperty]
@@ -32,7 +32,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public KeyVaultResource selectedTreeItem;
 
     [ObservableProperty]
-    public ObservableCollection<KeyVaultModel> treeViewList;
+    public ObservableCollection<KvSubscriptionModel> treeViewList;
 
     [ObservableProperty]
     public bool isBusy;
@@ -41,7 +41,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly VaultService _vaultService;
     private readonly KvExplorerDb _dbContext;
 
-    private readonly string[] WatchedNameOfProps = { nameof(KeyVaultModel.IsExpanded), nameof(KeyVaultModel.IsSelected) };
+    private readonly string[] WatchedNameOfProps = { nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected) };
 
     public KeyVaultTreeListViewModel()
     {
@@ -89,7 +89,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             }
 
             //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
-            var quickAccess = new KeyVaultModel
+            var quickAccess = new KvSubscriptionModel
             {
                 SubscriptionDisplayName = "Quick Access",
                 SubscriptionId = "",
@@ -134,7 +134,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         await _dbContext.InsertQuickAccessItemAsync(qa);
 
         TreeViewList[0].KeyVaultResources.Add(model);
-        var quickAccess = new KeyVaultModel
+        var quickAccess = new KvSubscriptionModel
         {
             SubscriptionDisplayName = "Quick Access",
             IsExpanded = true,
@@ -155,7 +155,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         //    _treeViewList = TreeViewList;
         //}, DispatcherPriority.Default);
 
-        //var quickAccess = new KeyVaultModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
+        //var quickAccess = new KvSubscriptionModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
 
         //quickAccess.KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != item.KeyVaultId).ToList();
 
@@ -172,7 +172,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
         await _dbContext.DeleteQuickAccessItemByKeyVaultId(model.Id);
 
-        var quickAccess = new KeyVaultModel
+        var quickAccess = new KvSubscriptionModel
         {
             SubscriptionDisplayName = "Quick Access",
             IsExpanded = true,
@@ -186,7 +186,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     [RelayCommand]
     public void CollpaseAll()
     {
-        foreach (KeyVaultModel item in TreeViewList)
+        foreach (KvSubscriptionModel item in TreeViewList)
         {
             item.IsExpanded = false;
         }
@@ -196,9 +196,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
-            var keyVaultModel = (KeyVaultModel)sender;
+            var keyVaultModel = (KvSubscriptionModel)sender;
             // if they are selecting the list item, expand it as a courtesy
-            if (e.PropertyName == nameof(KeyVaultModel.IsSelected))
+            if (e.PropertyName == nameof(KvSubscriptionModel.IsSelected))
                 keyVaultModel.IsExpanded = true;
 
             bool isExpanded = keyVaultModel.IsExpanded;
@@ -206,13 +206,20 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 Dispatcher.UIThread.Invoke(async () =>
                 {
-                    //_vaultService.UpdateSubscriptionWithKeyVaults(ref keyVaultModel); /* This does not work with AOT */
                     keyVaultModel.KeyVaultResources.Clear();
                     var vaults = _vaultService.GetKeyVaultsBySubscription(keyVaultModel);
+                    var resourceGroups = _vaultService.GetKeyVaultsByResourceGroup(keyVaultModel);
+
                     await foreach (var vault in vaults)
                     {
                         keyVaultModel.KeyVaultResources.Add(vault);
                     }
+
+                    //await foreach (var rg in resourceGroups)
+                    //{
+                    //    keyVaultModel.ResourceGroups.Add(rg);
+                    //}
+
                 }, DispatcherPriority.ContextIdle);
             }
         }
@@ -235,7 +242,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         string query = value.Trim();
         if (!string.IsNullOrWhiteSpace(query))
         {
-            TreeViewList = new ObservableCollection<KeyVaultModel>(_treeViewList);
+            TreeViewList = new ObservableCollection<KvSubscriptionModel>(_treeViewList);
         }
 
         //  var searchValues = SearchValues.Create(query.AsSpan());
@@ -249,21 +256,21 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
             v.KeyVaultResources.Any(r => r.HasData && r.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
         );
-        TreeViewList = new ObservableCollection<KeyVaultModel>(listSearched);
+        TreeViewList = new ObservableCollection<KvSubscriptionModel>(listSearched);
     }
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add)
         {
-            foreach (KeyVaultModel newItem in e.NewItems)
+            foreach (KvSubscriptionModel newItem in e.NewItems)
             {
                 newItem.PropertyChanged += KeyVaultModel_PropertyChanged;
             }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove)
         {
-            foreach (KeyVaultModel oldItem in e.OldItems)
+            foreach (KvSubscriptionModel oldItem in e.OldItems)
             {
                 oldItem.PropertyChanged -= KeyVaultModel_PropertyRemoved;
             }

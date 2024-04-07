@@ -66,6 +66,10 @@ public class VaultService
         var armClient = new ArmClient(token);
 
         var placeholder = new KeyVaultResourcePlaceholder();
+        var rgPlaceholder = new KvExplorerResourceGroup() //needed to show chevron
+        {
+            KeyVaultResources = new List<KeyVaultResource>() { placeholder }
+        }; 
 
         var subscriptions = _memoryCache.GetOrCreate("subscriptions", (f) =>
         {
@@ -81,6 +85,7 @@ public class VaultService
                 SubscriptionDisplayName = subscription.Data.DisplayName,
                 SubscriptionId = subscription.Data.Id,
                 Subscription = subscription,
+                ResourceGroups = [rgPlaceholder],
                 KeyVaultResources = new List<KeyVaultResource>() { placeholder }
             };
             yield return resource;

@@ -1,6 +1,7 @@
 ﻿using Azure.ResourceManager.KeyVault;
 using Azure.ResourceManager.Resources;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace kvexplorer.shared.Models;
 
@@ -17,7 +18,7 @@ public partial class KvSubscriptionModel : ObservableObject
     public SubscriptionResource Subscription { get; set; } = null!;
     public string SubscriptionDisplayName { get; set; } = null!;
     public string? SubscriptionId { get; set; }
-    public List<KvExplorerResourceGroup> ResourceGroups { get; set; } = [];
+    public ObservableCollection<KvExplorerResourceGroup> ResourceGroups { get; set; } = [];
 }
 
 public partial class KvExplorerResourceGroup : ObservableObject

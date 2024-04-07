@@ -203,6 +203,7 @@
                     <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon:pointerover">
                         <Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
                     </Style>
+                 
 
                 </TreeView.Styles>
                 <TreeView.DataTemplates>
@@ -236,18 +237,19 @@
 
                     <TreeDataTemplate DataType="models:KvExplorerResourceGroup" ItemsSource="{Binding KeyVaultResources}">
                         <StackPanel
+                            Name="ResourceGroupTreeItem"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
                             Orientation="Horizontal">
 
-                            <ui:SymbolIcon
+                            <!--<ui:SymbolIcon
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Left"
                                 IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                Symbol="{Binding GlyphIcon}" />
+                                Symbol="{Binding GlyphIcon}" />-->
 
                             <ui:BitmapIcon
                                 Margin="0,1,5,0"

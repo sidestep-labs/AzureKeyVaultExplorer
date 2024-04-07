@@ -12,6 +12,7 @@ using Azure;
 using System.Collections;
 using Azure.Core;
 using System.Diagnostics;
+using Microsoft.Extensions.Azure;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -60,12 +61,16 @@ public class VaultService
     /// returns all key vaults based on all the subscriptions the user has rights to view.
     /// </summary>
     /// <returns></returns>
-    public async IAsyncEnumerable<KeyVaultModel> GetKeyVaultResourceBySubscriptionAndResourceGroup()
+    public async IAsyncEnumerable<KvSubscriptionModel> GetKeyVaultResourceBySubscriptionAndResourceGroup()
     {
         var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
         var armClient = new ArmClient(token);
 
         var placeholder = new KeyVaultResourcePlaceholder();
+        var rgPlaceholder = new KvExplorerResourceGroup() //needed to show chevron
+        {
+            KeyVaultResources = [placeholder]
+        }; 
 
         var subscriptions = _memoryCache.GetOrCreate("subscriptions", (f) =>
         {
@@ -76,12 +81,12 @@ public class VaultService
         //foreach (var subscription in armClient.GetSubscriptions())
         foreach (var subscription in subscriptions)
         {
-            var resource = new KeyVaultModel
+            var resource = new KvSubscriptionModel
             {
                 SubscriptionDisplayName = subscription.Data.DisplayName,
                 SubscriptionId = subscription.Data.Id,
                 Subscription = subscription,
-                KeyVaultResources = new List<KeyVaultResource>() { placeholder }
+                ResourceGroups = [rgPlaceholder],
             };
             yield return resource;
         }
@@ -125,16 +130,8 @@ public class VaultService
         }
     }
 
-    public void UpdateSubscriptionWithKeyVaults(ref KeyVaultModel resource)
-    {
-        resource.KeyVaultResources.Clear();
-        foreach (var kvResource in resource.Subscription.GetKeyVaults())
-        {
-            resource.KeyVaultResources.Add(kvResource);
-        }
-    }
 
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KeyVaultModel resource)
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KvSubscriptionModel resource)
     {
         var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
         resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
@@ -144,17 +141,30 @@ public class VaultService
             yield return kvResource;
         }
     }
-
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscriptionAsync(KeyVaultModel resource)
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsByResourceGroup(ResourceGroupResource resource)
     {
-        resource.KeyVaultResources.Clear();
-        foreach (var kvResource in resource.Subscription.GetKeyVaults())
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        
+       await foreach (var kvResource in resource.GetKeyVaults())
         {
             yield return kvResource;
         }
     }
 
-    public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KeyVaultModel resource)
+    public async IAsyncEnumerable<ResourceGroupResource> GetResourceGroupBySubscription(KvSubscriptionModel resource)
+    {
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
+
+        foreach (var kvResourceGroup in resource.Subscription.GetResourceGroups())
+        {
+            yield return kvResourceGroup;
+        }
+    }
+
+
+
+    public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
     {
         await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
         {

@@ -2,6 +2,7 @@
     x:Class="kvexplorer.Views.CustomControls.KeyVaultTreeList"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:arm="clr-namespace:Azure.ResourceManager.Resources;assembly=Azure.ResourceManager.Resources"
     xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -92,7 +93,7 @@
             BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
             BorderThickness="1"
             CornerRadius="5">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="1" Orientation="Horizontal">
                 <Button
                     Classes="accent"
                     Click="RefreshKeyVaultList"
@@ -191,8 +192,8 @@
                         <Setter Property="Focusable" Value="False" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="Margin" Value="0" />
-                        <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                        <Setter x:CompileBindings="False" x:DataType="models:KeyVaultModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter x:CompileBindings="False" x:DataType="models:KvSubscriptionModel" Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter x:CompileBindings="False" x:DataType="models:KvSubscriptionModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Name" Value="SubscriptionTreeItem" />
                     </Style>
 
@@ -203,10 +204,11 @@
                         <Setter Property="Foreground" Value="{DynamicResource SystemFillColorAttentionBrush}" />
                     </Style>
 
+
                 </TreeView.Styles>
                 <TreeView.DataTemplates>
 
-                    <TreeDataTemplate DataType="models:KeyVaultModel" ItemsSource="{Binding KeyVaultResources}">
+                    <TreeDataTemplate DataType="models:KvSubscriptionModel" ItemsSource="{Binding ResourceGroups}">
                         <StackPanel
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
@@ -233,6 +235,34 @@
                         </StackPanel>
                     </TreeDataTemplate>
 
+                    <TreeDataTemplate DataType="models:KvExplorerResourceGroup" ItemsSource="{Binding KeyVaultResources}">
+                        <StackPanel
+                            Name="ResourceGroupTreeItem"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Cursor="Hand"
+                            Orientation="Horizontal">
+
+                            <!--<ui:SymbolIcon
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                Symbol="{Binding GlyphIcon}" />-->
+
+                            <ui:BitmapIcon
+                                Margin="0,1,5,0"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
+                            <TextBlock
+                                x:Name="ResourceGroupDisplayName"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                Text="{Binding ResourceGroupDisplayName}" />
+
+                        </StackPanel>
+                    </TreeDataTemplate>
+
                     <DataTemplate DataType="armmodels:KeyVaultResource">
                         <StackPanel
                             HorizontalAlignment="Stretch"
@@ -255,6 +285,11 @@
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>
+
+
+
+
+
                 </TreeView.DataTemplates>
             </TreeView>
         </ScrollViewer>

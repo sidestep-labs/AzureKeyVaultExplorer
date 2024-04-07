@@ -234,20 +234,20 @@
                         </StackPanel>
                     </TreeDataTemplate>
 
-                    <TreeDataTemplate DataType="models:KvExplorerResourceGroup" ItemsSource="{Binding ResourceGroups}">
+                    <TreeDataTemplate DataType="models:KvExplorerResourceGroup" ItemsSource="{Binding KeyVaultResources}">
                         <StackPanel
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
                             Orientation="Horizontal">
 
-                            <!--<ui:SymbolIcon
-                                                Margin="0,0,10,0"
-                                                HorizontalAlignment="Left"
-                                                IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                                RenderOptions.BitmapInterpolationMode="HighQuality"
-                                                RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                                Symbol="{Binding GlyphIcon}" />-->
+                            <ui:SymbolIcon
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                IsVisible="{Binding GlyphIcon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                Symbol="{Binding GlyphIcon}" />
 
                             <ui:BitmapIcon
                                 Margin="0,1,5,0"

@@ -17,7 +17,7 @@ using Microsoft.Extensions.Azure;
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
 
-public class VaultService
+public partial class VaultService
 {
     public AuthService _authService { get; set; }
     public IMemoryCache _memoryCache { get; set; }
@@ -52,10 +52,6 @@ public class VaultService
             }
         }
     }
-
-    // needed to make the tree
-    public class KeyVaultResourcePlaceholder : KeyVaultResource
-    { }
 
     /// <summary>
     /// returns all key vaults based on all the subscriptions the user has rights to view.

@@ -247,7 +247,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 Dispatcher.UIThread.Invoke(async () =>
                 {
                     kvSubModel.ResourceGroups.Clear();
-                    var vaults = _vaultService.GetKeyVaultsBySubscription(kvSubModel);
                     var resourceGroups = _vaultService.GetResourceGroupBySubscription(kvSubModel);
 
                     await foreach (var rg in resourceGroups)

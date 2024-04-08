@@ -96,7 +96,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 SubscriptionDisplayName = "Quick Access",
                 SubscriptionId = "",
                 IsExpanded = true,
-                ResourceGroups = [new KvExplorerResourceGroup { }],
+                ResourceGroups = [new KvResourceGroupModel { }],
                 Subscription = null,
                 GlyphIcon = "ShowResults"
             };
@@ -110,7 +110,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
                 var kvrResponse = await kvr.GetAsync();
+                //TODO: figure out why i can only have one or the other
                 quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
+                quickAccess.KeyVaultResources.Add(kvrResponse);
                 quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
             quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Quick Access";
@@ -206,9 +208,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
-            var kvResourceModel = (KvExplorerResourceGroup)sender;
+            var kvResourceModel = (KvResourceGroupModel)sender;
             // if they are selecting the list item, expand it as a courtesy
-            if (e.PropertyName == nameof(KvExplorerResourceGroup.IsSelected))
+            if (e.PropertyName == nameof(KvResourceGroupModel.IsSelected))
                 kvResourceModel.IsExpanded = true;
 
             var hasPlaceholder = kvResourceModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder));
@@ -235,6 +237,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
             var kvSubModel = (KvSubscriptionModel)sender;
+             if(string.IsNullOrWhiteSpace(kvSubModel.SubscriptionId))
+                return;
+
             // if they are selecting the list item, expand it as a courtesy
             if (e.PropertyName == nameof(KvSubscriptionModel.IsSelected))
                 kvSubModel.IsExpanded = true;
@@ -252,7 +257,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                     await foreach (var rg in resourceGroups)
                     {
                         kvSubModel.ResourceGroups.Add(
-                            new KvExplorerResourceGroup
+                            new KvResourceGroupModel
                             {
                                 ResourceGroupDisplayName = rg.Data.Name,
                                 ResourceGroupResource = rg,
@@ -328,14 +333,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         if (e.Action == NotifyCollectionChangedAction.Add)
         {
-            foreach (KvExplorerResourceGroup newItem in e.NewItems)
+            foreach (KvResourceGroupModel newItem in e.NewItems)
             {
                 newItem.PropertyChanged += KvResourceGroupNode_PropertyChanged;
             }
         }
         //else if (e.Action == NotifyCollectionChangedAction.Remove)
         //{
-        //    foreach (KvExplorerResourceGroup oldItem in e.OldItems)
+        //    foreach (KvResourceGroupModel oldItem in e.OldItems)
         //    {
         //        oldItem.PropertyChanged -= KvResourceGroupNode_PropertyChanged;
         //    }

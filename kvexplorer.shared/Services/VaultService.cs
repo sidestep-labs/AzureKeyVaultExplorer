@@ -63,7 +63,7 @@ public partial class VaultService
         var armClient = new ArmClient(token);
 
         var placeholder = new KeyVaultResourcePlaceholder();
-        var rgPlaceholder = new KvExplorerResourceGroup() //needed to show chevron
+        var rgPlaceholder = new KvResourceGroupModel() //needed to show chevron
         {
             KeyVaultResources = [placeholder]
         }; 
@@ -82,7 +82,7 @@ public partial class VaultService
                 SubscriptionDisplayName = subscription.Data.DisplayName,
                 SubscriptionId = subscription.Data.Id,
                 Subscription = subscription,
-                ResourceGroups = [rgPlaceholder],
+                ResourceGroups = [rgPlaceholder]
             };
             yield return resource;
         }

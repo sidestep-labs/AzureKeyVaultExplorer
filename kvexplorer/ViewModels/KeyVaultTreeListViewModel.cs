@@ -156,7 +156,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             Subscription = null,
             GlyphIcon = "ShowResults"
         };
-        quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Quick Access";
+        quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
         TreeViewList[0] = quickAccess;
         //await Dispatcher.UIThread.InvokeAsync(async () =>
         //{

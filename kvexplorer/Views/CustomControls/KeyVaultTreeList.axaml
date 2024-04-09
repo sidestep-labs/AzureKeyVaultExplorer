@@ -186,7 +186,6 @@
                         <Setter x:CompileBindings="False" x:DataType="models:KvSubscriptionModel" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Name" Value="SubscriptionTreeItem" />
                     </Style>
-
                     <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ ui|SymbolIcon">
                         <Setter Property="Cursor" Value="Hand" />
                     </Style>
@@ -198,9 +197,9 @@
                         <Setter Property="IsVisible" Value="True" />
                     </Style>
 
-                    <Style Selector="StackPanel#SubscriptionFolder /template/ TreeViewItem#SubscriptionTreeItem /template/ ToggleButton#PART_ExpandCollapseChevron:unchecked">
+                    <!--<Style Selector="TreeViewItem#SubscriptionTreeItem /template/ ToggleButton#PART_ExpandCollapseChevron:unchecked">
                         <Setter Property="IsVisible" Value="True" />
-                    </Style>
+                    </Style>-->
                 </TreeView.Styles>
                 <TreeView.DataTemplates>
                     <TreeDataTemplate DataType="models:KvSubscriptionModel" ItemsSource="{Binding ResourceGroups}">

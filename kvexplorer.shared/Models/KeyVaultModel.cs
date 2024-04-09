@@ -8,35 +8,32 @@ namespace kvexplorer.shared.Models;
 public partial class KvSubscriptionModel : ObservableObject
 {
     [ObservableProperty]
+    private bool hasSubNodeDataBeenFetched = false;
+
+    [ObservableProperty]
     private bool isExpanded;
 
     [ObservableProperty]
     private bool isSelected;
 
-    [ObservableProperty]
-    private bool hasSubNodeDataBeenFetched = false;
-
     public string? GlyphIcon { get; set; } = null;
+    public ObservableCollection<KvResourceGroupModel> ResourceGroups { get; set; } = [];
     public SubscriptionResource Subscription { get; set; } = null!;
     public string SubscriptionDisplayName { get; set; } = null!;
     public string? SubscriptionId { get; set; }
-    public ObservableCollection<KvExplorerResourceGroup> ResourceGroups { get; set; } = [];
 }
 
-public partial class KvExplorerResourceGroup : ObservableObject
-{
-    public string? GlyphIcon { get; set; } = null;
 
+public partial class KvResourceGroupModel : ObservableObject
+{
     [ObservableProperty]
     private bool isExpanded;
 
     [ObservableProperty]
     private bool isSelected;
 
-   
-
+    public string? GlyphIcon { get; set; } = null;
+    public ObservableCollection<KeyVaultResource> KeyVaultResources { get; set; } = [];
     public string ResourceGroupDisplayName { get; set; } = null!;
     public ResourceGroupResource ResourceGroupResource { get; set; } = null!;
-    public ObservableCollection<KeyVaultResource> KeyVaultResources { get; set; } = [];
-
 }

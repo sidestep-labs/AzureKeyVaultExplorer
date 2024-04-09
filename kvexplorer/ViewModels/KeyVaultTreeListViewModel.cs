@@ -100,6 +100,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 Subscription = null,
                 GlyphIcon = "ShowResults"
             };
+
             TreeViewList.Insert(0, quickAccess);
 
 
@@ -112,12 +113,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 var kvrResponse = await kvr.GetAsync();
                 //TODO: figure out why i can only have one or the other
                 quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
-                quickAccess.KeyVaultResources.Add(kvrResponse);
                 quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
-            quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Quick Access";
-
-            
+            quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
+                       
             TreeViewList[0] = quickAccess;
             
             foreach(var sub in TreeViewList)
@@ -190,7 +189,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         var rg = TreeViewList[0].ResourceGroups;
         var items = new ObservableCollection<KeyVaultResource>(TreeViewList[0].ResourceGroups[0].KeyVaultResources.Where(s => s.Data.Id != model.Id));
         rg[0].KeyVaultResources = items;
-        rg[0].ResourceGroupDisplayName = "Quick Access";
+        rg[0].ResourceGroupDisplayName = "Pinned";
 
         var quickAccess = new KvSubscriptionModel
         {

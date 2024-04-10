@@ -211,8 +211,10 @@
                             Orientation="Horizontal">
                             <ui:BitmapIcon
                                 Margin="0,1,5,0"
+                                Foreground="#996f00"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                                UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
+                                ShowAsMonochrome="True"
+                                UriSource="avares://kvexplorer/Assets/ForeignKey.png" />
                             <TextBlock
                                 x:Name="SubscriptionDisplayName"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
@@ -236,23 +238,7 @@
                                 Text="{Binding ResourceGroupDisplayName}" />
                         </StackPanel>
                     </TreeDataTemplate>
-                    <TreeDataTemplate DataType="models:KvResourceGroupModel" ItemsSource="{Binding KeyVaultResources}">
-                        <StackPanel
-                            Name="ResourceGroupTreeItem"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Cursor="Hand"
-                            Orientation="Horizontal">
-                            <ui:BitmapIcon
-                                Margin="0,1,5,0"
-                                RenderOptions.BitmapInterpolationMode="HighQuality"
-                                UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
-                            <TextBlock
-                                x:Name="ResourceGroupDisplayName"
-                                RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                Text="{Binding ResourceGroupDisplayName}" />
-                        </StackPanel>
-                    </TreeDataTemplate>
+
                     <DataTemplate DataType="arm:KeyVaultResource">
                         <StackPanel
                             HorizontalAlignment="Stretch"

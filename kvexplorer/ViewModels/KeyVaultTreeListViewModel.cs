@@ -103,7 +103,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
             TreeViewList.Insert(0, quickAccess);
 
-
             var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
             var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
             var armClient = new ArmClient(token);
@@ -116,18 +115,17 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
             quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
-                       
+
             TreeViewList[0] = quickAccess;
-            
-            foreach(var sub in TreeViewList)
+
+            foreach (var sub in TreeViewList)
             {
-                sub.ResourceGroups.CollectionChanged  += TreeViewSubNode_CollectionChanged;
+                sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
             }
         }, DispatcherPriority.Background);
 
         _treeViewList = TreeViewList;
     }
-
 
     [RelayCommand]
     public async Task PinVaultToQuickAccess(KeyVaultResource model)
@@ -236,7 +234,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
             var kvSubModel = (KvSubscriptionModel)sender;
-             if(string.IsNullOrWhiteSpace(kvSubModel.SubscriptionId))
+            if (string.IsNullOrWhiteSpace(kvSubModel.SubscriptionId))
                 return;
 
             // if they are selecting the list item, expand it as a courtesy
@@ -287,18 +285,19 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             TreeViewList = new ObservableCollection<KvSubscriptionModel>(_treeViewList);
         }
 
-        //  var searchValues = SearchValues.Create(query.AsSpan());
-        //  var listSearched = _treeViewList.Where(v =>
-        //    v.SubscriptionDisplayName.AsSpan().ContainsAny(searchValues) ||
-        //    //v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
-        //    v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.AsSpan().ContainsAny(searchValues))
-        //);
+        var searchValues = SearchValues.Create(query.AsSpan());
+      //  var listSearchedx = _treeViewList.Where(v =>
+      //    v.SubscriptionDisplayName.AsSpan().ContainsAny(searchValues) ||
+      //);
 
         var listSearched = _treeViewList.Where(v =>
-            v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+        {
+            bool subscriptions = v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase);
+            return subscriptions ||
             v.ResourceGroups.Any(r => r.ResourceGroupDisplayName is not null && r.ResourceGroupDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase)
-            || r.KeyVaultResources.Any(kr => kr.HasData && kr.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase)))
-        );
+            || r.KeyVaultResources.Any(kr => kr.HasData && kr.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase)));
+        });
+     
         TreeViewList = new ObservableCollection<KvSubscriptionModel>(listSearched);
     }
 

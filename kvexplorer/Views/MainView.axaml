@@ -49,7 +49,7 @@
                 Name="WindowIcon"
                 Width="25"
                 Height="20"
-                Margin="20,15,0,0"
+                Margin="12,12,12,4"
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"

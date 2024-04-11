@@ -189,7 +189,7 @@ public partial class MainView : UserControl
                         Cue = new Cue(0d),
                         Setters =
                         {
-                            new Setter(MarginProperty, new Thickness(12, 4, 12, 4))
+                            new Setter(MarginProperty, new Thickness(12, 12, 12, 4))
                         }
                     },
                     new KeyFrame
@@ -198,7 +198,7 @@ public partial class MainView : UserControl
                         KeySpline = new KeySpline(0,0,0,1),
                         Setters =
                         {
-                            new Setter(MarginProperty, new Thickness(48,4,12,4))
+                            new Setter(MarginProperty, new Thickness(48,12,12,4))
                         }
                     }
                 }
@@ -216,6 +216,7 @@ public partial class MainView : UserControl
             {
                 Duration = TimeSpan.FromMilliseconds(250),
                 FillMode = FillMode.Forward,
+               
                 Children =
                 {
                     new KeyFrame
@@ -223,7 +224,7 @@ public partial class MainView : UserControl
                         Cue = new Cue(0d),
                         Setters =
                         {
-                            new Setter(MarginProperty, new Thickness(48, 4, 12, 4))
+                            new Setter(MarginProperty, new Thickness(48,12,12,4))
                         }
                     },
                     new KeyFrame
@@ -232,12 +233,11 @@ public partial class MainView : UserControl
                         KeySpline = new KeySpline(0,0,0,1),
                         Setters =
                         {
-                            new Setter(MarginProperty, new Thickness(12,4,12,4))
+                            new Setter(MarginProperty, new Thickness(12, 12, 12, 4))
                         }
                     }
                 }
             };
-
             await ani.RunAsync(WindowIcon);
         }
     }

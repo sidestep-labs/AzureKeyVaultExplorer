@@ -30,25 +30,15 @@
     <UserControl.Styles>
         <Styles>
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,32,0,0" />
+                <Setter Property="Margin" Value="0,52,0,0" />
             </Style>
-
-            <Style Selector="ui|TabView#TabViewDoc /template/ uip|TabViewListView#TabListView">
-                <Setter Property="Margin" Value="10,0,0,0" />
-            </Style>
-
             <!--
-         this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
-         <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin>
-					<Setter Property="Width" Value="10"/>
-				<Setter Property="Border" Value="0,0,0,1"/>
-				<Setter Property="BorderBrush" Value="Red"/>
-			</Style>	
-			-->
+                this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
+            -->
             <Style Selector="ui|TabView /template/ ContentPresenter">
                 <Setter Property="BorderBrush">
                     <Setter.Value>
-                        <SolidColorBrush Opacity="0.15" Color="{DynamicResource TabViewBackgroundBrushCustom}" />
+                        <SolidColorBrush Opacity="0.20" Color="{DynamicResource TabViewBackgroundBrushCustom}" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
@@ -66,9 +56,9 @@
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
         IsPaneOpen="True"
+        OpenPaneLength="300"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
-
             <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
                 <Border
                     Margin="6"
@@ -134,6 +124,13 @@
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
                 TabWidthMode="Equal">
+                <ui:TabView.Styles>
+                    <Styles>
+                        <Style Selector="uip|TabViewListView#TabListView">
+                            <Setter Property="Margin" Value="35,0,0,0" />
+                        </Style>
+                    </Styles>
+                </ui:TabView.Styles>
 
                 <ui:TabView.TabItemTemplate>
                     <DataTemplate DataType="vmm:DocumentItem">

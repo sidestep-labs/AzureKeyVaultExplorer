@@ -47,9 +47,9 @@
                                    macOS=False}">
             <Image
                 Name="WindowIcon"
-                Width="20"
+                Width="25"
                 Height="20"
-                Margin="12,30"
+                Margin="20,15,0,0"
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
@@ -74,6 +74,7 @@
 
             <TextBlock
                 Grid.Column="1"
+                Margin="20,15,0,0"
                 VerticalAlignment="Center"
                 FontSize="12"
                 IsHitTestVisible="False"
@@ -85,7 +86,7 @@
                 </TextBlock.IsVisible>
             </TextBlock>
 
-            <ui:IconSourceElement
+            <!--<ui:IconSourceElement
                 Width="20"
                 Height="20"
                 IconSource="{StaticResource KvLogo}">
@@ -94,7 +95,7 @@
                         <On Content="True" Options="Windows" />
                     </OnPlatform>
                 </ui:IconSourceElement.IsVisible>
-            </ui:IconSourceElement>
+            </ui:IconSourceElement>-->
 
 
             <Border

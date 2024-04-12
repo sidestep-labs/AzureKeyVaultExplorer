@@ -47,9 +47,8 @@
                                    macOS=False}">
             <Image
                 Name="WindowIcon"
-                Width="25"
                 Height="20"
-                Margin="12,12,12,4"
+                Margin="12,12,0,4"
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
@@ -74,10 +73,12 @@
 
             <TextBlock
                 Grid.Column="1"
-                Margin="20,15,0,0"
+                Margin="8,8,0,0"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontSize="12"
                 IsHitTestVisible="False"
+                IsVisible="{Binding #FrameView.CanGoBack}"
                 Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
                 <TextBlock.IsVisible>
                     <OnPlatform Default="False">

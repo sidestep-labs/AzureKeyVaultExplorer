@@ -32,6 +32,12 @@
             <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,52,0,0" />
             </Style>
+            <Style Selector="SplitView /template/ ContentPresenter#PART_ContentPresenter">
+                <Style Selector="^ /template/ ui|TabView /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Red" />
+                </Style>
+            </Style>
+
             <!--
                 this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
             -->
@@ -136,7 +142,7 @@
                     <DataTemplate DataType="vmm:DocumentItem">
                         <ui:TabViewItem
                             Name="TabViewItem"
-                            BorderThickness="3"
+                            Background="Red"
                             Content="{Binding Content}"
                             Header="{Binding Header}"
                             IconSource="{Binding IconSource}" />

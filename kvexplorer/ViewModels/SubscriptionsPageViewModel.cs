@@ -42,7 +42,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     {
         int count = 0;
 
-        var savedSubscriptions = (await _dbContext.GetAllSubscriptions()).ToDictionary(s => s.SubscriptionId);
+        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions()).ToDictionary(s => s.SubscriptionId);
 
         await foreach (var item in _vaultService.GetAllSubscriptions())
         {

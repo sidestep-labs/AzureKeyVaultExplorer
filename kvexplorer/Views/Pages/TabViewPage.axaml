@@ -25,6 +25,15 @@
             <Style Selector="ui|TabView#TabView.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,32,0,0" />
             </Style>
+            <Style Selector="ui|TabView /template/ ContentPresenter">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="1" Color="{DynamicResource TabViewBorderBrush}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+            </Style>
+
         </Styles>
     </UserControl.Styles>
     <SplitView

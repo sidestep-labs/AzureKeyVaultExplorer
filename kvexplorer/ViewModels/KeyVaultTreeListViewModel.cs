@@ -81,7 +81,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             //    return;
             // all items
             //TODO: get all saved items, otherwise get the first item only.
-            var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
+            var resource = _vaultService.GetKeyVaultResourceBySubscription();
             await foreach (var item in resource)
             {
                 item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
@@ -114,7 +114,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
             quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
-                       
+            quickAccess.ResourceGroups[0].IsExpanded = true;
+
             TreeViewList[0] = quickAccess;
             
             foreach(var sub in TreeViewList)
@@ -154,6 +155,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             Subscription = null,
         };
         quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
+        quickAccess.ResourceGroups[0].IsExpanded = true;
         TreeViewList[0] = quickAccess;
         //await Dispatcher.UIThread.InvokeAsync(async () =>
         //{

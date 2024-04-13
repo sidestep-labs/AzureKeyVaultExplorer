@@ -218,7 +218,7 @@ public partial class KvExplorerDb
         return settings;
     }
 
-    public async Task<IEnumerable<Subscriptions>> GetAllSubscriptions()
+    public async Task<IEnumerable<Subscriptions>> GetStoredSubscriptions()
     {
         var connection = NewSqlConnection();
         connection.Open();

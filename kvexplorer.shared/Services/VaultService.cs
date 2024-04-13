@@ -13,104 +13,24 @@ using System.Collections;
 using Azure.Core;
 using System.Diagnostics;
 using Microsoft.Extensions.Azure;
+using kvexplorer.shared.Database;
 
 namespace kvexplorer.shared;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
 
 public partial class VaultService
 {
-    public AuthService _authService { get; set; }
-    public IMemoryCache _memoryCache { get; set; }
-
-    public VaultService(AuthService authService, IMemoryCache memoryCache)
+    public VaultService(AuthService authService, IMemoryCache memoryCache, KvExplorerDb dbContext)
     {
         _authService = authService;
         _memoryCache = memoryCache;
+        _dbContext = dbContext;
+
     }
 
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResource()
-    {
-        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-        var armClient = new ArmClient(token);
-
-        var subscription = await armClient.GetDefaultSubscriptionAsync();
-        await foreach (var kvResource in subscription.GetKeyVaultsAsync())
-        {
-            yield return kvResource;
-        }
-    }
-
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResources()
-    {
-        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-        var armClient = new ArmClient(token);
-        foreach (var subscription in armClient.GetSubscriptions().ToArray())
-        {
-            await foreach (var kvResource in subscription.GetKeyVaultsAsync())
-            {
-                yield return kvResource;
-            }
-        }
-    }
-
-    /// <summary>
-    /// returns all key vaults based on all the subscriptions the user has rights to view.
-    /// </summary>
-    /// <returns></returns>
-    public async IAsyncEnumerable<KvSubscriptionModel> GetKeyVaultResourceBySubscriptionAndResourceGroup()
-    {
-        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-        var armClient = new ArmClient(token);
-
-        var placeholder = new KeyVaultResourcePlaceholder();
-        var rgPlaceholder = new KvResourceGroupModel() //needed to show chevron
-        {
-            KeyVaultResources = [placeholder]
-        }; 
-
-        var subscriptions = _memoryCache.GetOrCreate("subscriptions", (f) =>
-        {
-            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3);
-            return armClient.GetSubscriptions();
-        });
-
-        //foreach (var subscription in armClient.GetSubscriptions())
-        foreach (var subscription in subscriptions)
-        {
-            var resource = new KvSubscriptionModel
-            {
-                SubscriptionDisplayName = subscription.Data.DisplayName,
-                SubscriptionId = subscription.Data.Id,
-                Subscription = subscription,
-                ResourceGroups = [rgPlaceholder]
-            };
-            yield return resource;
-        }
-    }
-
-    public async Task<Dictionary<string, KeyVaultResource>> GetStoredSelectedSubscriptions(string subsriptionId)
-    {
-        var resource = new ResourceIdentifier(subsriptionId);
-        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
-        SubscriptionResource subscription = armClient.GetSubscriptionResource(resource);
-
-        var vaults = subscription.GetKeyVaultsAsync();
-        Dictionary<string, KeyVaultResource> savedSubs= [];
-        await foreach (var vault in vaults)
-        {
-            Debug.WriteLine(vault.Data.Id);
-            savedSubs.Add(resource.SubscriptionId!, vault);
-        }
-
-        return savedSubs;
-    }
-
-
-
-
-
-
-    public record SubscriptionResourceWithNextPageToken(SubscriptionResource SubscriptionResource, string ContinuationToken);
+    public AuthService _authService { get; set; }
+    public IMemoryCache _memoryCache { get; set; }
+    public KvExplorerDb _dbContext { get; set; }
 
     public async IAsyncEnumerable<SubscriptionResourceWithNextPageToken> GetAllSubscriptions(CancellationToken cancellationToken = default, string continuationToken = null)
     {
@@ -126,96 +46,6 @@ public partial class VaultService
         }
     }
 
-
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KvSubscriptionModel resource)
-    {
-        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
-        resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
-
-        foreach (var kvResource in resource.Subscription.GetKeyVaults())
-        {
-            yield return kvResource;
-        }
-    }
-    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsByResourceGroup(ResourceGroupResource resource)
-    {
-        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
-        
-       await foreach (var kvResource in resource.GetKeyVaults())
-        {
-            yield return kvResource;
-        }
-    }
-
-    public async IAsyncEnumerable<ResourceGroupResource> GetResourceGroupBySubscription(KvSubscriptionModel resource)
-    {
-        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
-        resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
-
-        foreach (var kvResourceGroup in resource.Subscription.GetResourceGroups())
-        {
-            yield return kvResourceGroup;
-        }
-    }
-
-
-
-    public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
-    {
-        await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
-        {
-            yield return kvResource;
-        }
-    }
-
-    public async IAsyncEnumerable<KeyProperties> GetVaultAssociatedKeys(Uri kvUri)
-    {
-        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new KeyClient(kvUri, token);
-        await foreach (var keyProperties in client.GetPropertiesOfKeysAsync())
-        {
-            yield return keyProperties;
-        }
-    }
-
-    public async IAsyncEnumerable<SecretProperties> GetVaultAssociatedSecrets(Uri kvUri)
-    {
-        if (kvUri is not null)
-        {
-            var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-            var client = new SecretClient(kvUri, token);
-            await foreach (var secretProperties in client.GetPropertiesOfSecretsAsync())
-            {
-                yield return secretProperties;
-            }
-        }
-    }
-
-    public async IAsyncEnumerable<CertificateProperties> GetVaultAssociatedCertificates(Uri kvUri)
-    {
-        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new CertificateClient(kvUri, token);
-        await foreach (var certProperties in client.GetPropertiesOfCertificatesAsync())
-        {
-            yield return certProperties;
-        }
-    }
-
-    public async Task<KeyVaultSecret> GetSecret(Uri kvUri, string secretName)
-    {
-        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new SecretClient(kvUri, token);
-        try
-        {
-            var secret = await client.GetSecretAsync(secretName);
-            return secret;
-        }
-        catch (Exception ex) when (ex.Message.Contains("404"))
-        {
-            throw new KeyVaultItemNotFoundException(ex.Message, ex);
-        }
-    }
-
     public async Task<KeyVaultCertificateWithPolicy> GetCertificate(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
@@ -224,6 +54,26 @@ public partial class VaultService
         {
             var response = await client.GetCertificateAsync(name);
             return response;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
+
+    public async Task<List<CertificateProperties>> GetCertificateProperties(Uri kvUri, string name)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new CertificateClient(kvUri, token);
+        List<CertificateProperties> list = new();
+        try
+        {
+            var response = client.GetPropertiesOfCertificateVersionsAsync(name);
+            await foreach (CertificateProperties item in response)
+            {
+                list.Add(item);
+            }
+            return list;
         }
         catch (Exception ex) when (ex.Message.Contains("404"))
         {
@@ -266,6 +116,124 @@ public partial class VaultService
         }
     }
 
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResource()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+
+        var subscription = await armClient.GetDefaultSubscriptionAsync();
+        await foreach (var kvResource in subscription.GetKeyVaultsAsync())
+        {
+            yield return kvResource;
+        }
+    }
+
+    /// <summary>
+    /// returns all key vaults based on all the subscriptions the user has rights to view.
+    /// </summary>
+    /// <returns></returns>
+    public async IAsyncEnumerable<KvSubscriptionModel> GetKeyVaultResourceBySubscription()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+
+        var placeholder = new KeyVaultResourcePlaceholder();
+        var rgPlaceholder = new KvResourceGroupModel() //needed to show chevron
+        {
+            KeyVaultResources = [placeholder]
+        };
+
+
+        var subscriptions = await _memoryCache.GetOrCreateAsync("subscriptions", async (f) =>
+        {
+            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(2);
+
+            var savedSubscriptions = await _dbContext.GetStoredSubscriptions();
+            List<SubscriptionResource> subscriptionCollection = [];
+            foreach (var sub in savedSubscriptions)
+            {
+                var sr = await armClient.GetSubscriptionResource(SubscriptionResource.CreateResourceIdentifier(sub.SubscriptionId)).GetAsync();
+                subscriptionCollection.Add(sr.Value);
+            }
+            if(subscriptionCollection.Any())
+                return subscriptionCollection;
+
+            return armClient.GetSubscriptions().AsEnumerable();
+        });
+
+        //foreach (var subscription in armClient.GetSubscriptions())
+        foreach (var subscription in subscriptions)
+        {
+            var resource = new KvSubscriptionModel
+            {
+                SubscriptionDisplayName = subscription.Data.DisplayName,
+                SubscriptionId = subscription.Data.Id,
+                Subscription = subscription,
+                ResourceGroups = [rgPlaceholder]
+            };
+            yield return resource;
+        }
+    }
+
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultResources()
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var armClient = new ArmClient(token);
+        foreach (var subscription in armClient.GetSubscriptions().ToArray())
+        {
+            await foreach (var kvResource in subscription.GetKeyVaultsAsync())
+            {
+                yield return kvResource;
+            }
+        }
+    }
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsByResourceGroup(ResourceGroupResource resource)
+    {
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+
+        await foreach (var kvResource in resource.GetKeyVaults())
+        {
+            yield return kvResource;
+        }
+    }
+
+    public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsBySubscription(KvSubscriptionModel resource)
+    {
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
+
+        foreach (var kvResource in resource.Subscription.GetKeyVaults())
+        {
+            yield return kvResource;
+        }
+    }
+
+    public async IAsyncEnumerable<ResourceGroupResource> GetResourceGroupBySubscription(KvSubscriptionModel resource)
+    {
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        resource.Subscription = armClient.GetSubscriptionResource(resource.Subscription.Id);
+
+        foreach (var kvResourceGroup in resource.Subscription.GetResourceGroups())
+        {
+            yield return kvResourceGroup;
+        }
+    }
+
+    public async Task<KeyVaultSecret> GetSecret(Uri kvUri, string secretName)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new SecretClient(kvUri, token);
+        try
+        {
+            var secret = await client.GetSecretAsync(secretName);
+            return secret;
+        }
+        catch (Exception ex) when (ex.Message.Contains("404"))
+        {
+            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+        }
+    }
+
     public async Task<List<SecretProperties>> GetSecretProperties(Uri kvUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
@@ -286,23 +254,64 @@ public partial class VaultService
         }
     }
 
-    public async Task<List<CertificateProperties>> GetCertificateProperties(Uri kvUri, string name)
+    public async Task<Dictionary<string, KeyVaultResource>> GetStoredSelectedSubscriptions(string subsriptionId)
+    {
+        var resource = new ResourceIdentifier(subsriptionId);
+        var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
+        SubscriptionResource subscription = armClient.GetSubscriptionResource(resource);
+
+        var vaults = subscription.GetKeyVaultsAsync();
+        Dictionary<string, KeyVaultResource> savedSubs = [];
+        await foreach (var vault in vaults)
+        {
+            savedSubs.Add(resource.SubscriptionId!, vault);
+        }
+
+        return savedSubs;
+    }
+
+
+
+
+    public record SubscriptionResourceWithNextPageToken(SubscriptionResource SubscriptionResource, string ContinuationToken);
+    public async IAsyncEnumerable<CertificateProperties> GetVaultAssociatedCertificates(Uri kvUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
         var client = new CertificateClient(kvUri, token);
-        List<CertificateProperties> list = new();
-        try
+        await foreach (var certProperties in client.GetPropertiesOfCertificatesAsync())
         {
-            var response = client.GetPropertiesOfCertificateVersionsAsync(name);
-            await foreach (CertificateProperties item in response)
-            {
-                list.Add(item);
-            }
-            return list;
+            yield return certProperties;
         }
-        catch (Exception ex) when (ex.Message.Contains("404"))
+    }
+
+    public async IAsyncEnumerable<KeyProperties> GetVaultAssociatedKeys(Uri kvUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(kvUri, token);
+        await foreach (var keyProperties in client.GetPropertiesOfKeysAsync())
         {
-            throw new KeyVaultItemNotFoundException(ex.Message, ex);
+            yield return keyProperties;
+        }
+    }
+
+    public async IAsyncEnumerable<SecretProperties> GetVaultAssociatedSecrets(Uri kvUri)
+    {
+        if (kvUri is not null)
+        {
+            var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+            var client = new SecretClient(kvUri, token);
+            await foreach (var secretProperties in client.GetPropertiesOfSecretsAsync())
+            {
+                yield return secretProperties;
+            }
+        }
+    }
+
+    public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
+    {
+        await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
+        {
+            yield return kvResource;
         }
     }
 }

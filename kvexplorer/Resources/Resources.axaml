@@ -5,6 +5,8 @@
 
 
     <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+    <!--<StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SelectedTabViewColorKv" />
+    <SolidColorBrush x:Key="SelectedTabViewColorKv" Color="Transparent" />-->
 
     <SolidColorBrush
         x:Key="SolidBackgroundFillColorTertiaryBrushCustom"
@@ -12,32 +14,31 @@
         Color="{DynamicResource SolidBackgroundFillColorBase}" />
 
 
-    <!--
-        This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
-    -->
     <SolidColorBrush
         x:Key="AccentFillColorTertiaryBrush"
         Opacity="0.15"
         Color="{DynamicResource SystemAccentColorDark1}" />
 
-    <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+    <!--
+        This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
 
+    <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
 
 
     <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" Opacity="0.15" StartPoint="0,0" EndPoint="0%,100%">
         <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
-        <GradientStop Offset="0.9" Color="Transparent" />
+        <GradientStop Offset="0.9" Color="Red" />
     </LinearGradientBrush>
-
+    -->
 
     <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Light">
+        <!--<ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#121A1A1A" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#981A1A1A" />
-        </ResourceDictionary>
+        </ResourceDictionary>-->
     </ResourceDictionary.ThemeDictionaries>
 
     <CornerRadius x:Key="CornerRadius">4</CornerRadius>

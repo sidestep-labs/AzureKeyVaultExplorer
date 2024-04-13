@@ -102,8 +102,11 @@
     </Style>
 
 
+    <!--  Tabs  -->
 
-
+    <!--<Style Selector="ui|TabViewItem:selected /template/ Border#TabContainerBorder">
+        <Setter Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorDefaultBrush}" />
+    </Style>-->
 
 </Styles>
 

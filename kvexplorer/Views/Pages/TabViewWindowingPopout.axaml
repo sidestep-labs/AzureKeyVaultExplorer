@@ -71,7 +71,7 @@
                 On Mac/Linux this is irrelevant since we don't replace the
                 system titlebar
             -->
-            <!--<Panel Name="CustomDragRegion" Width="400" />-->
+            <Panel Name="CustomDragRegion" Width="400" />
         </ui:TabView.TabStripFooter>
     </ui:TabView>
 </Window>

@@ -20,27 +20,13 @@
         <vm:TabViewPageViewModel />
     </Design.DataContext>
 
-    <!--  FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#LayoutRootBorder  -->
-    <!--
-        FluentAvalonia.UI.Controls.TabView#TabViewDoc /template/ Avalonia.Controls.Presenters.ContentPresenter#RightContentPresenter
-        FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#TabContainerBorder
-        FluentAvalonia.UI.Controls.TabViewItem /template/ Avalonia.Controls.Border#TabContainerBorder
-        Avalonia.Controls.Border#TabContainerBorder
-    -->
+
     <UserControl.Styles>
         <Styles>
-            <Style Selector="ui|TabView#TabViewDoc.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,52,0,0" />
+            <Style Selector="ui|TabView#TabView.emptyTabViewDragMargin">
+                <Setter Property="Margin" Value="0,32,0,0" />
             </Style>
-            <Style Selector="SplitView /template/ ContentPresenter#PART_ContentPresenter">
-                <Style Selector="^ /template/ ui|TabView /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Red" />
-                </Style>
-            </Style>
-
-            <!--
-                this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
-            -->
+            <!--this is used for the tab border inspired by VS fluent 22 redesign which i am not currently going to move forward with.
             <Style Selector="ui|TabView /template/ ContentPresenter">
                 <Setter Property="BorderBrush">
                     <Setter.Value>
@@ -48,12 +34,7 @@
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
-            </Style>
-
-            <!--<Style Selector="SplitView#VaultListSplitView /template/ ContentPresenter#PART_PanePresenter">
-				<Setter Property="Margin" Value="0,0,60,0" />
-				<Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
-			</Style>-->
+            </Style>-->
         </Styles>
 
     </UserControl.Styles>

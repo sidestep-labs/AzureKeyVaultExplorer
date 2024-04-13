@@ -201,7 +201,7 @@ public partial class TabViewPage : UserControl
         //    }
         //}
 
-        //foreach (TabViewItem item in TabViewDoc.TabItems)
+        //foreach (TabViewItem item in TabView.TabItems)
         //{
         //    if (item.IsSelected) {
         //    item.Classes.

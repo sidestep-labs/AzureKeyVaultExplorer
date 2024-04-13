@@ -94,7 +94,6 @@ public partial class TabViewPageViewModel : ViewModelBase
         var tab = new TabViewItem
         {
             Header = model.Name,
-            IconSource = new SymbolIconSource { Symbol = Symbol.ProtectedDocument },
             Content = new VaultPage(model.Properties.VaultUri)
         };
 

@@ -63,7 +63,7 @@
                 <ui:SettingsExpanderItem>
                     <ui:SettingsExpanderItem.Content>
                         <StackPanel>
-                            <ui:HyperlinkButton
+                            <HyperlinkButton
                                 Margin="5"
                                 Content="GitHub"
                                 NavigateUri="https://github.com/cricketthomas/sidestep" />

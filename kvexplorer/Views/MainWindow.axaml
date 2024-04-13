@@ -19,7 +19,6 @@
     Icon="{StaticResource KvLogo}"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
-    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Window.Resources>

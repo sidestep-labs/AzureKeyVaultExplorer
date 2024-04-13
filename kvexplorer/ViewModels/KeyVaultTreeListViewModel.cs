@@ -85,7 +85,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             await foreach (var item in resource)
             {
                 item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-                item.GlyphIcon = "Permissions";
                 item.HasSubNodeDataBeenFetched = false;
                 TreeViewList.Add(item);
             }
@@ -98,7 +97,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 IsExpanded = true,
                 ResourceGroups = [new KvResourceGroupModel { }],
                 Subscription = null,
-                GlyphIcon = "ShowResults"
             };
 
             TreeViewList.Insert(0, quickAccess);
@@ -154,7 +152,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             SubscriptionId = "",
             ResourceGroups = TreeViewList[0].ResourceGroups,
             Subscription = null,
-            GlyphIcon = "ShowResults"
         };
         quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
         TreeViewList[0] = quickAccess;
@@ -198,7 +195,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             SubscriptionId = "",
             ResourceGroups = rg,
             Subscription = null,
-            GlyphIcon = "Pin",
         };
         TreeViewList[0] = quickAccess;
     }

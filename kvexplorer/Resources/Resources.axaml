@@ -51,85 +51,9 @@
     <ui:SymbolIconSource x:Key="HomeIconFilled" Symbol="HomeFilled" />
     <ui:SymbolIconSource x:Key="SettingsIcon" Symbol="Settings" />
     <ui:SymbolIconSource x:Key="SettingsIconFilled" Symbol="SettingsFilled" />
-    <ui:FontIconSource
-        x:Key="ShieldIcon"
-        FontSize="18"
-        Glyph="&#xEA18;" />
-
-    <ui:FontIconSource
-        x:Key="Home2"
-        FontSize="18"
-        Glyph="&#xE80F;" />
 
 
 
-
-
-
-
-
-
-
-    <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Margin="{TemplateBinding Margin}"
-                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}">
-                    <DockPanel>
-
-                        <Border
-                            Name="ItemsPresenterBorder"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            DockPanel.Dock="{TemplateBinding TabStripPlacement}">
-                            <ItemsPresenter
-                                Name="PART_ItemsPresenter"
-                                DockPanel.Dock="{TemplateBinding TabStripPlacement}"
-                                ItemsPanel="{TemplateBinding ItemsPanel}">
-
-                                <ItemsPresenter.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal">
-
-                                            <Border
-                                                Name="ItemBorderBrush"
-                                                BorderBrush="Green"
-                                                BorderThickness="1" />
-                                        </StackPanel>
-                                    </ItemsPanelTemplate>
-                                </ItemsPresenter.ItemsPanel>
-                            </ItemsPresenter>
-                        </Border>
-                        <!--<Border
-                        Name="ItemsPresenterBorder2"
-                        Height="{Binding #ItemsPresenterBorder.Height}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        BorderBrush="Red"
-                        BorderThickness="0,0,0,1"
-                        DockPanel.Dock="{TemplateBinding TabStripPlacement}" />-->
-                        <ContentPresenter
-                            Name="PART_SelectedContentHost"
-                            Margin="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding SelectedContent}"
-                            ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                    </DockPanel>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-
-
-    </ControlTheme>
 
 
 

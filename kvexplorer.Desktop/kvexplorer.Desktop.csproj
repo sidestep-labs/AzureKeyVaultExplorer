@@ -11,16 +11,15 @@
     <Version>1.0.0.0</Version>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
-    <AssemblyName>KeyVaultExplorer</AssemblyName>
+    <AssemblyName>Key Vault Explorer</AssemblyName>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
-    <AssemblyName>KeyVaultExplorer</AssemblyName>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-    <!--<PublishAot>true</PublishAot>
+    <PublishAot>true</PublishAot>
     <SelfContained>true</SelfContained>
-    <TrimMode>partial</TrimMode>-->
+    <TrimMode>partial</TrimMode>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
@@ -34,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+	<PackageReference Include="Avalonia.Desktop" Version="11.1.0-beta1" />
   </ItemGroup>
 
   	

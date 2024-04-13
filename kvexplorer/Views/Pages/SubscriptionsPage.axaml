@@ -8,8 +8,8 @@
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:kvexplorer.ViewModels"
+    Margin="0,40,0,0"
     d:DesignHeight="450"
-	Margin="0,40,0,0"
     d:DesignWidth="800"
     x:DataType="vm:SubscriptionsPageViewModel"
     mc:Ignorable="d">
@@ -135,8 +135,7 @@
                     Width="120"
                     Binding="{Binding IsPinned, Mode=TwoWay}"
                     CanUserSort="True"
-                    Header="Pin to Sidebar"
-                    PropertyChanged="DataGridCheckBoxColumn_PropertyChanged" />
+                    Header="Pin to Sidebar" />
                 <DataGridTextColumn
                     Width="200"
                     Binding="{Binding Data.DisplayName}"

@@ -146,7 +146,7 @@ public partial class VaultService
 
         var subscriptions = await _memoryCache.GetOrCreateAsync("subscriptions", async (f) =>
         {
-            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(2);
+            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
 
             var savedSubscriptions = await _dbContext.GetStoredSubscriptions();
             List<SubscriptionResource> subscriptionCollection = [];

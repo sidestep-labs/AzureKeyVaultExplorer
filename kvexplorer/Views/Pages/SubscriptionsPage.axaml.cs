@@ -32,23 +32,10 @@ public partial class SubscriptionsPage : UserControl
 
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            await (DataContext as SubscriptionsPageViewModel)!.GetAllKeyVaults();
+            await (DataContext as SubscriptionsPageViewModel)!.GetSubscriptions();
         }, DispatcherPriority.Background);
         }
     }
 
-    private async void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-
-        var x = Defaults.Locator.GetRequiredService<VaultService>();
-
-        var id = "/subscriptions/c8dca0c8-548c-4c91-a62f-5a0a9c93d42e";
-       // await x.GetStoredSelectedVaults(id);
-    }
-
-    private void DataGridCheckBoxColumn_PropertyChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)
-    {
-        Debug.WriteLine("test");
-       // (DataContext as SubscriptionsPageViewModel)!.MarkChanged(sender);
-    }
+   
 }

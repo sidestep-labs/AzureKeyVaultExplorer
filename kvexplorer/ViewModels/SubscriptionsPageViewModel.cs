@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.shared.Models;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,17 +29,19 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     public ObservableCollection<SubscriptionDataItem> subscriptions;
 
     private readonly KvExplorerDb _dbContext;
+    private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;
 
     public SubscriptionsPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _memoryCache = Defaults.Locator.GetRequiredService<IMemoryCache>();
         Subscriptions = [];
     }
 
     [RelayCommand]
-    public async Task GetAllKeyVaults()
+    public async Task GetSubscriptions()
     {
         int count = 0;
 
@@ -94,5 +97,6 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
 
         await _dbContext.InsertSubscriptions(added);
         await _dbContext.RemoveSubscriptionsBySubscriptionIDs(removed);
+         _memoryCache.Remove("subscriptions");
     }
 }

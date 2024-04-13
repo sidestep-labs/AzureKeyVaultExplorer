@@ -15,6 +15,7 @@ public partial class App : Application
     public static void ConfigureDesktopServices()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
+        serviceCollection.AddMemoryCache();
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
@@ -22,7 +23,6 @@ public partial class App : Application
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
-        serviceCollection.AddMemoryCache();
         serviceCollection.AddSingleton<KvExplorerDb>();
         serviceCollection.AddTransient<AppSettingReader>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());

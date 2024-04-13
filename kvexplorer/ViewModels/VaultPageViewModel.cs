@@ -41,6 +41,12 @@ public partial class VaultPageViewModel : ViewModelBase
     public bool isBusy = false;
 
     [ObservableProperty]
+    public bool hasAuthorizationError = false;
+
+    [ObservableProperty]
+    public string authorizationMessage;
+
+    [ObservableProperty]
     public string searchQuery;
 
     [ObservableProperty]
@@ -180,21 +186,30 @@ public partial class VaultPageViewModel : ViewModelBase
     public async Task GetCertificatesForVault(Uri kvUri)
     {
         var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
-        await foreach (var cert in certs)
+        try
         {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
+            await foreach (var cert in certs)
             {
-                Name = cert.Name,
-                Id = cert.Id,
-                Type = KeyVaultItemType.Certificate,
-                VaultUri = cert.VaultUri,
-                ValueUri = cert.Id,
-                Version = cert.Version,
-                CertificateProperties = cert,
-                Tags = cert.Tags,
-                UpdatedOn = cert.UpdatedOn,
-                CreatedOn = cert.CreatedOn,
-            });
+                VaultContents.Add(new KeyVaultContentsAmalgamation
+                {
+                    Name = cert.Name,
+                    Id = cert.Id,
+                    Type = KeyVaultItemType.Certificate,
+                    VaultUri = cert.VaultUri,
+                    ValueUri = cert.Id,
+                    Version = cert.Version,
+                    CertificateProperties = cert,
+                    Tags = cert.Tags,
+                    UpdatedOn = cert.UpdatedOn,
+                    CreatedOn = cert.CreatedOn,
+                });
+            }
+        }
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+            Debug.WriteLine(ex.Message);
         }
         _vaultContents = VaultContents;
     }
@@ -202,21 +217,30 @@ public partial class VaultPageViewModel : ViewModelBase
     public async Task GetKeysForVault(Uri kvUri)
     {
         var keys = _vaultService.GetVaultAssociatedKeys(kvUri);
-        await foreach (var key in keys)
+        try
         {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
+            await foreach (var key in keys)
             {
-                Name = key.Name,
-                Id = key.Id,
-                Type = KeyVaultItemType.Key,
-                VaultUri = key.VaultUri,
-                ValueUri = key.Id,
-                Version = key.Version,
-                KeyProperties = key,
-                Tags = key.Tags,
-                CreatedOn = key.CreatedOn,
-                UpdatedOn = key.UpdatedOn,
-            });
+                VaultContents.Add(new KeyVaultContentsAmalgamation
+                {
+                    Name = key.Name,
+                    Id = key.Id,
+                    Type = KeyVaultItemType.Key,
+                    VaultUri = key.VaultUri,
+                    ValueUri = key.Id,
+                    Version = key.Version,
+                    KeyProperties = key,
+                    Tags = key.Tags,
+                    CreatedOn = key.CreatedOn,
+                    UpdatedOn = key.UpdatedOn,
+                });
+            }
+        }
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+            Debug.WriteLine(ex.Message);
         }
         _vaultContents = VaultContents;
     }
@@ -224,24 +248,32 @@ public partial class VaultPageViewModel : ViewModelBase
     public async Task GetSecretsForVault(Uri kvUri)
     {
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
-        await foreach (var secret in values)
+        try
         {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
+            await foreach (var secret in values)
             {
-                Name = secret.Name,
-                Id = secret.Id,
-                Type = KeyVaultItemType.Secret,
-                ContentType = secret.ContentType,
-                VaultUri = secret.VaultUri,
-                ValueUri = secret.Id,
-                Version = secret.Version,
-                SecretProperties = secret,
-                Tags = secret.Tags,
-                UpdatedOn = secret.UpdatedOn,
-                CreatedOn = secret.CreatedOn,
-            });
+                VaultContents.Add(new KeyVaultContentsAmalgamation
+                {
+                    Name = secret.Name,
+                    Id = secret.Id,
+                    Type = KeyVaultItemType.Secret,
+                    ContentType = secret.ContentType,
+                    VaultUri = secret.VaultUri,
+                    ValueUri = secret.Id,
+                    Version = secret.Version,
+                    SecretProperties = secret,
+                    Tags = secret.Tags,
+                    UpdatedOn = secret.UpdatedOn,
+                    CreatedOn = secret.CreatedOn,
+                });
+            }
         }
-
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+            Debug.WriteLine(ex.Message);
+        }
         _vaultContents = VaultContents;
     }
 
@@ -358,7 +390,6 @@ public partial class VaultPageViewModel : ViewModelBase
         await FilterAndLoadVaultValueType(item);
     }
 
- 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
         //TODO: https://github.com/pr8x/DesktopNotifications/issues/26

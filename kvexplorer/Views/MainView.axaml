@@ -241,7 +241,7 @@
             </Panel>-->
 
 
-            <ui:Frame Name="FrameView" />
+            <ui:Frame Name="FrameView"  />
             <!--</DockPanel>-->
         </ui:NavigationView>
 

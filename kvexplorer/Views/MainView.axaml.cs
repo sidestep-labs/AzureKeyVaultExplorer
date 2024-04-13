@@ -7,6 +7,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Media.Animation;
 using FluentAvalonia.UI.Navigation;
 using kvexplorer.ViewModels;
 using kvexplorer.Views.Pages;
@@ -27,7 +28,6 @@ public partial class MainView : UserControl
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSettingsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSettingsEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSubscriptionsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSubscriptionsEvent), RoutingStrategies.Tunnel);
 
-
     public MainView()
     {
         Instance = this;
@@ -46,11 +46,10 @@ public partial class MainView : UserControl
         }, DispatcherPriority.MaxValue);
 
         AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
-        AddHandler(NavigateSettingsEvent,OnNavigateSettingsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(NavigateSettingsEvent, OnNavigateSettingsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         AddHandler(NavigateSubscriptionsEvent, OnNavigateSubscriptionsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
-
-
     }
+
     private void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs e)
     {
         FrameView.GoBack();
@@ -59,18 +58,21 @@ public partial class MainView : UserControl
     private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
     {
         if (FrameView.Content.GetType().Name != nameof(MainPage))
-            FrameView.NavigateFromObject(new MainPage());
+            FrameView.NavigateFromObject(new MainPage(), NavOptions);
     }
+
     private void OnNavigateSettingsEvent(object sender, RoutedEventArgs e)
     {
         if (FrameView.Content.GetType().Name != nameof(SettingsPage))
-            FrameView.NavigateFromObject(new SettingsPage());
+            FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
     }
+
     private void OnNavigateSubscriptionsEvent(object sender, RoutedEventArgs e)
     {
         if (FrameView.Content.GetType().Name != nameof(SubscriptionsPage))
-            FrameView.NavigateFromObject(new SubscriptionsPage());
+            FrameView.NavigateFromObject(new SubscriptionsPage(), NavOptions);
     }
+
     //var menuItems = new List<NavigationViewItemBase>(4);
     //var footerItems = new List<NavigationViewItemBase>(2);
 
@@ -111,7 +113,6 @@ public partial class MainView : UserControl
         //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
         FrameView.NavigateFromObject(new MainPage());
     }
-
 
     private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
     {
@@ -188,7 +189,7 @@ public partial class MainView : UserControl
             {
                 Duration = TimeSpan.FromMilliseconds(250),
                 FillMode = FillMode.Forward,
-               
+
                 Children =
                 {
                     new KeyFrame
@@ -213,6 +214,12 @@ public partial class MainView : UserControl
             await ani.RunAsync(WindowIcon);
         }
     }
+
+    private FrameNavigationOptions NavOptions => new FrameNavigationOptions
+    {
+        TransitionInfoOverride = new SlideNavigationTransitionInfo(),
+        IsNavigationStackEnabled = true
+    };
 
     private IEnumerable<NavigationViewItem> GetNavigationViewItems()
     {
@@ -244,7 +251,7 @@ public partial class MainView : UserControl
     {
         if (e.InvokedItemContainer is NavigationViewItem { Tag: Control c })
         {
-            _ = FrameView.NavigateFromObject(c);
+            _ = FrameView.NavigateFromObject(c, NavOptions);
         }
     }
 
@@ -257,7 +264,7 @@ public partial class MainView : UserControl
     {
         if (FrameView.Content.GetType().Name == nameof(SettingsPage))
             return;
-        FrameView.NavigateFromObject(new SettingsPage());
+        FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
     }
 
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)

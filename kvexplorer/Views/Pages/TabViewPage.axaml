@@ -108,7 +108,7 @@
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
-                TabWidthMode="Compact">
+                TabWidthMode="Equal">
                 <ui:TabView.Styles>
                     <Styles>
                         <Style Selector="uip|TabViewListView#TabListView">

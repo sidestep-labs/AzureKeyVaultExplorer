@@ -33,12 +33,12 @@
     -->
 
     <ResourceDictionary.ThemeDictionaries>
-        <!--<ResourceDictionary x:Key="Light">
+        <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#121A1A1A" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#981A1A1A" />
-        </ResourceDictionary>-->
+        </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <CornerRadius x:Key="CornerRadius">4</CornerRadius>

@@ -112,24 +112,6 @@ public partial class MainView : UserControl
         FrameView.NavigateFromObject(new MainPage());
     }
 
-    private void SetNVIIcon(NavigationViewItem? item, bool selected)
-    {
-        // Technically, yes you could set up binding and converters and whatnot to let the icon change
-        // between filled and unfilled based on selection, but this is so much simpler
-
-        if (item == null)
-            return;
-
-        var t = item.Tag;
-
-        item.IconSource = t switch
-        {
-            MainPage => this.TryFindResource(selected ? "LibraryIcon" : "LibraryIcon", out var value) ? (IconSource)value! : null,
-            SubscriptionsPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
-            SettingsPage => this.TryFindResource(selected ? "SettingsIcon" : "SettingsIcon", out var value) ? (IconSource)value! : null,
-            _ => item.IconSource
-        };
-    }
 
     private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
     {
@@ -140,11 +122,6 @@ public partial class MainView : UserControl
             if (nvi.Tag != null && nvi.Tag.Equals(page))
             {
                 NavView.SelectedItem = nvi;
-                SetNVIIcon(nvi, true);
-            }
-            else
-            {
-                SetNVIIcon(nvi, false);
             }
         }
 
@@ -153,11 +130,6 @@ public partial class MainView : UserControl
             if (nvi.Tag != null && nvi.Tag.Equals(page))
             {
                 NavView.SelectedItem = nvi;
-                SetNVIIcon(nvi, true);
-            }
-            else
-            {
-                SetNVIIcon(nvi, false);
             }
         }
 
@@ -270,8 +242,6 @@ public partial class MainView : UserControl
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
-        SetNVIIcon((_navView!.SelectedItem as NavigationViewItem)!, false);
-
         if (e.InvokedItemContainer is NavigationViewItem { Tag: Control c })
         {
             _ = FrameView.NavigateFromObject(c);
@@ -285,7 +255,7 @@ public partial class MainView : UserControl
 
     private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
     {
-        if (FrameView.Content.GetType().FullName == "kvexplorer.Views.Pages.SettingsPage")
+        if (FrameView.Content.GetType().Name == nameof(SettingsPage))
             return;
         FrameView.NavigateFromObject(new SettingsPage());
     }

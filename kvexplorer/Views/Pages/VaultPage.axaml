@@ -204,9 +204,15 @@
                             Binding="{Binding Name}"
                             Header="Name" />
                         <DataGridTextColumn
-                            Width="300"
-                            Binding="{Binding Id}"
-                            Header="Identifier" />
+                            Width="180"
+                            Binding="{Binding WhenLastModified}"
+                            Header="Last Modified Date"
+                            SortMemberPath="LastModifiedDate" />
+                        <DataGridTextColumn
+                            Width="180"
+                            Binding="{Binding WhenExpires}"
+                            Header="Expires"
+                            SortMemberPath="ExpiresOn" />
 
                         <DataGridTemplateColumn
                             Width="200"
@@ -243,11 +249,11 @@
                         </DataGridTemplateColumn>
 
 
+
                         <DataGridTextColumn
-                            Width="180"
-                            Binding="{Binding WhenLastModified}"
-                            Header="Last Modified Date"
-                            SortMemberPath="LastModifiedDate" />
+                            Width="300"
+                            Binding="{Binding Id}"
+                            Header="Identifier" />
 
 
                         <DataGridTextColumn

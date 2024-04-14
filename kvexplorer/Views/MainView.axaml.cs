@@ -98,17 +98,17 @@ public partial class MainView : UserControl
         //  }
 
         //todo remove
-        var pages = NavigationFactory.GetPages();
-        navMenuItems.ElementAt(0).Tag = pages[0];
-        navMenuItems.ElementAt(1).Tag = pages[1];
-        footerItems.ElementAt(0).Tag = pages[2];
+        //var pages = NavigationFactory.GetPages();
+        //navMenuItems.ElementAt(0).Tag = pages[0];
+        //navMenuItems.ElementAt(1).Tag = pages[1];
+        //footerItems.ElementAt(0).Tag = pages[2];
 
         //NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
-        NavView.FooterMenuItemsSource = footerItems;
+        //NavView.FooterMenuItemsSource = footerItems;
 
         //NavView.MenuItemsSource = GetNavigationViewItems();
         //NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
-        NavView.IsPaneOpen = true;
+        //NavView.IsPaneOpen = true;
 
         //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
         FrameView.NavigateFromObject(new MainPage());
@@ -118,21 +118,21 @@ public partial class MainView : UserControl
     {
         var page = e.Content as Control;
 
-        foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
-        {
-            if (nvi.Tag != null && nvi.Tag.Equals(page))
-            {
-                NavView.SelectedItem = nvi;
-            }
-        }
+        //foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
+        //{
+        //    if (nvi.Tag != null && nvi.Tag.Equals(page))
+        //    {
+        //        NavView.SelectedItem = nvi;
+        //    }
+        //}
 
-        foreach (NavigationViewItem nvi in NavView.FooterMenuItemsSource)
-        {
-            if (nvi.Tag != null && nvi.Tag.Equals(page))
-            {
-                NavView.SelectedItem = nvi;
-            }
-        }
+        //foreach (NavigationViewItem nvi in NavView.FooterMenuItemsSource)
+        //{
+        //    if (nvi.Tag != null && nvi.Tag.Equals(page))
+        //    {
+        //        NavView.SelectedItem = nvi;
+        //    }
+        //}
 
         if (FrameView.BackStackDepth > 0 && !NavView.IsBackButtonVisible)
         {

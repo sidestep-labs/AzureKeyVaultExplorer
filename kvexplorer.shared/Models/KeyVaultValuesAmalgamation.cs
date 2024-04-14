@@ -30,7 +30,8 @@ public class KeyVaultContentsAmalgamation
 
     public DateTimeOffset? LastModifiedDate => UpdatedOn.HasValue ? UpdatedOn.Value.ToLocalTime() : CreatedOn!.Value.ToLocalTime();
 
-    public string WhenLastModified => GetPrettyDate(LastModifiedDate!.Value.UtcDateTime);
+    public string? WhenLastModified => GetPrettyDatePastTense(LastModifiedDate!.Value.UtcDateTime);
+    public string? WhenExpires => ExpiresOn.HasValue ? GetPrettyDateInFuture(ExpiresOn!.Value.UtcDateTime) : "";
 
     public SecretProperties SecretProperties { get; set; } = null!;
     public KeyProperties KeyProperties { get; set; } = null!;
@@ -44,7 +45,7 @@ public class KeyVaultContentsAmalgamation
 
     public string TagValuesString => string.Join(", ", Tags?.Values ?? []);
 
-    private string? GetPrettyDate(DateTime d)
+    private string? GetPrettyDatePastTense(DateTime d)
     {
         TimeSpan s = DateTime.Now.Subtract(d);
         int dayDiff = (int)s.TotalDays;
@@ -105,6 +106,51 @@ public class KeyVaultContentsAmalgamation
             var w = Math.Round((double)dayDiff / 365);
             return $"""{w} {(w == 1 ? "year" : "years")} ago""";
         }
+        return null;
+    }
+
+    private string? GetPrettyDateInFuture(DateTime d)
+    {
+        TimeSpan s = d.Subtract(DateTime.Now);
+        int dayDiff = (int)s.TotalDays;
+        int secDiff = (int)s.TotalSeconds;
+
+        if (dayDiff < 0 || dayDiff >= 5000)
+            return null;
+
+        if (dayDiff == 0)
+        {
+            // Less than 24 hours from now.
+            if (secDiff < 86400)
+            {
+                return "in less than a day";
+            }
+        }
+
+        if (dayDiff == 1)
+            return "tomorrow";
+
+        if (dayDiff < 7)
+            return $"in {dayDiff} days";
+
+        if (dayDiff < 30)
+        {
+            var w = Math.Ceiling((double)dayDiff / 7);
+            return $"in {w} {(w == 1 ? "week" : "weeks")}";
+        }
+
+        if (dayDiff < 366)
+        {
+            var w = Math.Ceiling((double)dayDiff / 30);
+            return $"in {w} {(w == 1 ? "month" : "months")}";
+        }
+
+        if (dayDiff > 366)
+        {
+            var w = Math.Round((double)dayDiff / 365);
+            return $"in {w} {(w == 1 ? "year" : "years")}";
+        }
+
         return null;
     }
 }

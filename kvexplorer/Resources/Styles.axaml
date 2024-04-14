@@ -71,9 +71,10 @@
     </Style>
 
     <!--  fly out  -->
-    <Style Selector="ui|FAMenuFlyoutPresenter /template/ ui|FABorder">
+    <Style Selector="ui|FAMenuFlyoutPresenter /template/ Border#LayoutRoot">
         <Setter Property="Margin" Value="10" />
         <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
+        <Setter Property="BackgroundSizing" Value="CenterBorder" />
     </Style>
     <Style Selector="ui|FAMenuFlyoutPresenter">
         <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
@@ -81,7 +82,7 @@
     </Style>
 
 
-    <Style Selector="ui|FAComboBox /template/ ui|FABorder#PopupBorder">
+    <Style Selector="ui|FAComboBox /template/ Border#PopupBorder">
         <Setter Property="Margin" Value="10" />
         <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
     </Style>

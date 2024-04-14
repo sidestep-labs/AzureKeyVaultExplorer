@@ -48,7 +48,7 @@ public partial class VaultPage : UserControl
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
 
-    private DataGrid? ValuesDataGrid { get; set; }
+    private DataGrid ValuesDataGrid { get; set; }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
     {

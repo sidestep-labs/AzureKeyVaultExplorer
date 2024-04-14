@@ -1,6 +1,8 @@
 using Avalonia.Controls;
 using kvexplorer.shared;
 using kvexplorer.ViewModels;
+using System.Collections.Generic;
+using System;
 
 namespace kvexplorer;
 

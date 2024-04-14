@@ -22,6 +22,12 @@ public class KeyVaultContentsAmalgamation
 
     public DateTimeOffset? CreatedOn { get; set; }
 
+    public virtual bool? Enabled { get; set; }
+    public virtual DateTimeOffset? NotBefore { get; set; }
+    public virtual DateTimeOffset? ExpiresOn { get; set; }
+    public virtual int? RecoverableDays { get; set; }
+    public virtual string? RecoveryLevel { get; set; }
+
     public DateTimeOffset? LastModifiedDate => UpdatedOn.HasValue ? UpdatedOn.Value.ToLocalTime() : CreatedOn!.Value.ToLocalTime();
 
     public string WhenLastModified => GetPrettyDate(LastModifiedDate!.Value.UtcDateTime);
@@ -89,10 +95,15 @@ public class KeyVaultContentsAmalgamation
             var w = Math.Ceiling((double)dayDiff / 7);
             return $"""{w} {(w == 1 ? "week" : "weeks")} ago""";
         }
-        if (dayDiff > 31)
+        if (dayDiff < 366)
         {
             var w = Math.Ceiling((double)dayDiff / 30);
             return $"""{w} {(w == 1 ? "month" : "months")} ago""";
+        }
+        if (dayDiff > 366)
+        {
+            var w = Math.Round((double)dayDiff / 365);
+            return $"""{w} {(w == 1 ? "year" : "years")} ago""";
         }
         return null;
     }

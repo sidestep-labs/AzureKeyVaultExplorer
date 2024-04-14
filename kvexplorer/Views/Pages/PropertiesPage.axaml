@@ -155,7 +155,6 @@
                                     <Grid
                                         HorizontalAlignment="Stretch"
                                         ColumnDefinitions="100,*"
-                                        IsVisible="{Binding IsSecret}"
                                         RowDefinitions="*,*,*,*">
                                         <Grid.Styles>
                                             <Style Selector="TextBlock">
@@ -182,114 +181,24 @@
                                             Grid.Row="0"
                                             Grid.Column="1"
                                             xml:space="preserve"
-                                            Text="{Binding OpenedItem.SecretProperties.CreatedOn}" />
+                                            Text="{Binding OpenedItem.CreatedOn}" />
                                         <SelectableTextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             xml:space="preserve"
-                                            Text="{Binding OpenedItem.SecretProperties.UpdatedOn}" />
+                                            Text="{Binding OpenedItem.UpdatedOn}" />
                                         <SelectableTextBlock
                                             Grid.Row="2"
                                             Grid.Column="1"
                                             xml:space="preserve"
-                                            Text="{Binding OpenedItem.SecretProperties.Id}" />
+                                            Text="{Binding OpenedItem.Id}" />
                                         <SelectableTextBlock
                                             Grid.Row="3"
                                             Grid.Column="1"
                                             xml:space="preserve"
-                                            Text="{Binding OpenedItem.SecretProperties.ExpiresOn}" />
-
+                                            Text="{Binding OpenedItem.ExpiresOn}" />
                                     </Grid>
 
-                                    <Grid
-                                        ColumnDefinitions="100,*"
-                                        IsVisible="{Binding IsKey}"
-                                        RowDefinitions="*,*,*,*">
-                                        <Grid.Styles>
-                                            <Style Selector="TextBlock">
-                                                <Setter Property="Theme" Value="{StaticResource CaptionTextBlockStyle}" />
-                                            </Style>
-                                        </Grid.Styles>
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Text="Created:" />
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Text="Updated:" />
-                                        <TextBlock
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            Text="Identifier:" />
-                                        <TextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="0"
-                                            Text="Expires:" />
-
-                                        <SelectableTextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.KeyProperties.CreatedOn}" />
-                                        <SelectableTextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.KeyProperties.UpdatedOn}" />
-                                        <SelectableTextBlock
-                                            Grid.Row="2"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.KeyProperties.Id}" />
-                                        <SelectableTextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.KeyProperties.ExpiresOn}" />
-
-                                    </Grid>
-
-                                    <Grid
-                                        ColumnDefinitions="100,*"
-                                        IsVisible="{Binding IsCertificate}"
-                                        RowDefinitions="*,*,*,*">
-                                        <Grid.Styles>
-                                            <Style Selector="TextBlock">
-                                                <Setter Property="Theme" Value="{StaticResource CaptionTextBlockStyle}" />
-                                            </Style>
-                                        </Grid.Styles>
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Text="Created:" />
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Text="Updated:" />
-                                        <TextBlock
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            Text="Identifier:" />
-                                        <TextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="0"
-                                            Text="Expires:" />
-
-                                        <SelectableTextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.CertificateProperties.CreatedOn}" />
-                                        <SelectableTextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.CertificateProperties.UpdatedOn}" />
-                                        <SelectableTextBlock
-                                            Grid.Row="2"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.CertificateProperties.Id}" />
-                                        <SelectableTextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="1"
-                                            Text="{Binding OpenedItem.CertificateProperties.ExpiresOn}" />
-
-                                    </Grid>
 
                                     <StackPanel IsVisible="{Binding !!OpenedItem.Tags.Keys.Count}">
                                         <TextBlock

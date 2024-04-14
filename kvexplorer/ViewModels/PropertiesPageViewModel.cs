@@ -29,9 +29,9 @@ public partial class PropertiesPageViewModel : ViewModelBase
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
 
-
     public Window topLevel => (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
     public IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+
 
     [ObservableProperty]
     public bool isSecret = false;
@@ -72,6 +72,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
     [ObservableProperty]
     public KeyVaultContentsAmalgamation openedItem;
+
     private SettingsPageViewModel _settingsPageViewModel;
 
     public PropertiesPageViewModel(KeyVaultContentsAmalgamation model)
@@ -92,17 +93,21 @@ public partial class PropertiesPageViewModel : ViewModelBase
         switch (model.Type)
         {
             case KeyVaultItemType.Certificate:
-                CertificatePropertiesList = new ObservableCollection<CertificateProperties>(await _vaultService.GetCertificateProperties(model.VaultUri, model.Name));
+                var certificateProperties = await _vaultService.GetCertificateProperties(model.VaultUri, model.Name);
+                CertificatePropertiesList = new ObservableCollection<CertificateProperties>(certificateProperties);
                 IsCertificate = true;
                 break;
 
             case KeyVaultItemType.Key:
-                KeyPropertiesList = new ObservableCollection<KeyProperties>(await _vaultService.GetKeyProperties(model.VaultUri, model.Name));
+                var keyPropertiesList = new ObservableCollection<KeyProperties>(await _vaultService.GetKeyProperties(model.VaultUri, model.Name));
+
+                KeyPropertiesList = new ObservableCollection<KeyProperties>(keyPropertiesList);
                 IsKey = true;
                 break;
 
             case KeyVaultItemType.Secret:
-                SecretPropertiesList = new ObservableCollection<SecretProperties>(await _vaultService.GetSecretProperties(model.VaultUri, model.Name));
+                var secretPropertiesList = new ObservableCollection<SecretProperties>(await _vaultService.GetSecretProperties(model.VaultUri, model.Name));
+                SecretPropertiesList = new ObservableCollection<SecretProperties>(secretPropertiesList);
                 IsSecret = true;
                 break;
 
@@ -159,14 +164,14 @@ public partial class PropertiesPageViewModel : ViewModelBase
         catch (KeyVaultItemNotFoundException ex)
         {
         }
-
-
     }
+
     public async Task ClearClipboardAsync()
     {
         await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
         await clipboard.ClearAsync();
     }
+
     [RelayCommand]
     private async Task Download(string exportType)
     {
@@ -227,6 +232,4 @@ public partial class PropertiesPageViewModel : ViewModelBase
         var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
-
-
 }

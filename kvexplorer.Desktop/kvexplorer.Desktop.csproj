@@ -10,17 +10,16 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>1.0.0.0</Version>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-    <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
+    <ApplicationIcon>kv-noborder1.ico</ApplicationIcon>
     <AssemblyName>Key Vault Explorer</AssemblyName>
-    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-    <PublishAot>true</PublishAot>
+    <!--<PublishAot>true</PublishAot>
     <SelfContained>true</SelfContained>
     <TrimMode>partial</TrimMode>
-    <PublishTrimmed>true</PublishTrimmed>
+    <PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="publish-aot\**" />

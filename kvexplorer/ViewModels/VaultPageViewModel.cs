@@ -27,6 +27,7 @@ using Avalonia.Remote.Protocol.Input;
 using System.Net.Sockets;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.Views.Pages;
+using System.Runtime.ConstrainedExecution;
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -188,20 +189,25 @@ public partial class VaultPageViewModel : ViewModelBase
         var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
         try
         {
-            await foreach (var cert in certs)
+            await foreach (var val in certs)
             {
                 VaultContents.Add(new KeyVaultContentsAmalgamation
                 {
-                    Name = cert.Name,
-                    Id = cert.Id,
+                    Name = val.Name,
+                    Id = val.Id,
                     Type = KeyVaultItemType.Certificate,
-                    VaultUri = cert.VaultUri,
-                    ValueUri = cert.Id,
-                    Version = cert.Version,
-                    CertificateProperties = cert,
-                    Tags = cert.Tags,
-                    UpdatedOn = cert.UpdatedOn,
-                    CreatedOn = cert.CreatedOn,
+                    VaultUri = val.VaultUri,
+                    ValueUri = val.Id,
+                    Version = val.Version,
+                    CertificateProperties = val,
+                    Tags = val.Tags,
+                    UpdatedOn = val.UpdatedOn,
+                    CreatedOn = val.CreatedOn,
+                    ExpiresOn = val.ExpiresOn,
+                    Enabled = val.Enabled,
+                    NotBefore = val.NotBefore,
+                    RecoverableDays = val.RecoverableDays,
+                    RecoveryLevel = val.RecoveryLevel
                 });
             }
         }
@@ -219,20 +225,25 @@ public partial class VaultPageViewModel : ViewModelBase
         var keys = _vaultService.GetVaultAssociatedKeys(kvUri);
         try
         {
-            await foreach (var key in keys)
+            await foreach (var val in keys)
             {
                 VaultContents.Add(new KeyVaultContentsAmalgamation
                 {
-                    Name = key.Name,
-                    Id = key.Id,
+                    Name = val.Name,
+                    Id = val.Id,
                     Type = KeyVaultItemType.Key,
-                    VaultUri = key.VaultUri,
-                    ValueUri = key.Id,
-                    Version = key.Version,
-                    KeyProperties = key,
-                    Tags = key.Tags,
-                    CreatedOn = key.CreatedOn,
-                    UpdatedOn = key.UpdatedOn,
+                    VaultUri = val.VaultUri,
+                    ValueUri = val.Id,
+                    Version = val.Version,
+                    KeyProperties = val,
+                    Tags = val.Tags,
+                    UpdatedOn = val.UpdatedOn,
+                    CreatedOn = val.CreatedOn,
+                    ExpiresOn = val.ExpiresOn,
+                    Enabled = val.Enabled,
+                    NotBefore = val.NotBefore,
+                    RecoverableDays = val.RecoverableDays,
+                    RecoveryLevel = val.RecoveryLevel
                 });
             }
         }
@@ -250,21 +261,26 @@ public partial class VaultPageViewModel : ViewModelBase
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
         try
         {
-            await foreach (var secret in values)
+            await foreach (var val in values)
             {
                 VaultContents.Add(new KeyVaultContentsAmalgamation
                 {
-                    Name = secret.Name,
-                    Id = secret.Id,
+                    Name = val.Name,
+                    Id = val.Id,
                     Type = KeyVaultItemType.Secret,
-                    ContentType = secret.ContentType,
-                    VaultUri = secret.VaultUri,
-                    ValueUri = secret.Id,
-                    Version = secret.Version,
-                    SecretProperties = secret,
-                    Tags = secret.Tags,
-                    UpdatedOn = secret.UpdatedOn,
-                    CreatedOn = secret.CreatedOn,
+                    ContentType = val.ContentType,
+                    VaultUri = val.VaultUri,
+                    ValueUri = val.Id,
+                    Version = val.Version,
+                    SecretProperties = val,
+                    Tags = val.Tags,
+                    UpdatedOn = val.UpdatedOn,
+                    CreatedOn = val.CreatedOn,
+                    ExpiresOn = val.ExpiresOn,
+                    Enabled = val.Enabled,
+                    NotBefore = val.NotBefore,
+                    RecoverableDays = val.RecoverableDays,
+                    RecoveryLevel = val.RecoveryLevel
                 });
             }
         }
@@ -434,6 +450,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private void ShowProperties(KeyVaultContentsAmalgamation model)
     {
         if (model == null) return;
+
         var page = new PropertiesPage
         {
             DataContext = new PropertiesPageViewModel(model)
@@ -444,7 +461,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Title = $"{model.Type} {model.Name} Properties",
             Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            WindowStartupLocation = WindowStartupLocation.Manual,
             ShowAsDialog = false,
             CanResize = true,
             Content = page,

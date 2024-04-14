@@ -28,7 +28,7 @@ public partial class SettingsPage : UserControl
             IsInitialLoad = false;
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                (DataContext as SettingsPageViewModel).SignInOrRefreshTokenCommand.Execute(null);
+                (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.Execute(null);
             }, DispatcherPriority.Background);
         }
     }
@@ -41,16 +41,18 @@ public partial class SettingsPage : UserControl
 
     private void FetchUserInfoSettingsExpanderItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        (DataContext as SettingsPageViewModel).SignInOrRefreshTokenCommand.Execute(null);
+        (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.Execute(null);
     }
 
     private void NumericUpDown_Spinned(object? sender, Avalonia.Controls.SpinEventArgs e)
     {
-        (DataContext as SettingsPageViewModel).SetClearClipboardTimeoutCommand.Execute(null);
+        (DataContext as SettingsPageViewModel)!.SetClearClipboardTimeoutCommand.Execute(null);
     }
 
-    //private void FAComboBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
-    //{
-    //    (DataContext as SettingsPageViewModel)!.SetNavigationLayoutCommand.Execute(null);
-    //}
+    private void AppTheme_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
+        (DataContext as SettingsPageViewModel)!.SaveCurrentAppThemeCommand.Execute(null);
+    }
 }

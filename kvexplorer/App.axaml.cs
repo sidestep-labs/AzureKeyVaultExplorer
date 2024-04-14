@@ -37,7 +37,7 @@ public partial class App : Application
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         if (!File.Exists(settingsPath))
-            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false, "NavigationLayoutMode": "Left" }""");
+            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false, "NavigationLayoutMode": "Left", "AppTheme": "System" }""");
     }
 
     public override void Initialize()

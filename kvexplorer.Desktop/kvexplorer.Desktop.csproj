@@ -16,7 +16,7 @@
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-    <!--<PublishAot>true</PublishAot>
+   <!--<PublishAot>true</PublishAot>
     <SelfContained>true</SelfContained>
     <TrimMode>partial</TrimMode>
     <PublishTrimmed>true</PublishTrimmed>-->

@@ -4,6 +4,10 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FluentAvalonia.Styling;
 using FluentAvalonia.UI.Windowing;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
@@ -15,14 +19,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace kvexplorer.Views;
 
 public partial class MainWindow : AppWindow
 {
     public static readonly RoutedEvent<RoutedEventArgs> TransparencyChangedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(TransparencyChangedEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> SetAppThemeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(SetAppThemeEvent), RoutingStrategies.Tunnel);
     private IBrush BackgroundBrush;
-
+    private string[] AppThemes = ["System", "Light", "Dark"];
     private bool TransparencyEnabled { get; set; }
 
     public MainWindow()
@@ -32,12 +38,15 @@ public partial class MainWindow : AppWindow
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         AddHandler(TransparencyChangedEvent, OnTransparencyChangedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(SetAppThemeEvent, OnSetAppThemeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
         BackgroundBrush = (IBrush)bg;
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
         TransparencyEnabled = settings.AppSettings.BackgroundTransparency;
+        Application.Current.RequestedThemeVariant = GetThemeVariant(settings.AppSettings.AppTheme);
 
         // TODO: get background transparency from db to know if to enable this on startup.
         if (TransparencyEnabled)
@@ -45,8 +54,8 @@ public partial class MainWindow : AppWindow
             Background = null;
         }
 
-        if (OperatingSystem.IsWindows())
-        {
+        //if (OperatingSystem.IsWindows())
+        //{
             Activated += (sender, e) =>
             {
                 if (TransparencyEnabled)
@@ -56,11 +65,11 @@ public partial class MainWindow : AppWindow
             {
                 Background = BackgroundBrush;
             };
-        }
-        else
-        {
-            Background = BackgroundBrush;
-        }
+        //}
+        //else
+        //{
+        //    Background = BackgroundBrush;
+        //}
 
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
         // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
@@ -86,6 +95,18 @@ public partial class MainWindow : AppWindow
         }
     }
 
+
+
+    private ThemeVariant GetThemeVariant(string value)
+    {
+        return value switch
+        {
+            "Light" => ThemeVariant.Light,
+            "Dark" => ThemeVariant.Dark,
+            "System" or null => null,
+            _ => throw new InvalidOperationException("Unknown theme variant")
+        };
+    }
     private void OnTransparencyChangedEvent(object sender, RoutedEventArgs e)
     {
         var isChecked = (e.Source as CheckBox)?.IsChecked ?? false;
@@ -99,6 +120,13 @@ public partial class MainWindow : AppWindow
             Background = BackgroundBrush;
             TransparencyEnabled = false;
         }
+        e.Handled = true;
+    }
+
+    private void OnSetAppThemeEvent(object sender, RoutedEventArgs e)
+    {
+        var theme = (e.Source as ComboBox).SelectedItem as string;
+        Application.Current.RequestedThemeVariant = GetThemeVariant(theme!);
         e.Handled = true;
     }
 }

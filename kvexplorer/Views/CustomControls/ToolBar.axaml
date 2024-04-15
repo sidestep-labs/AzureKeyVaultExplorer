@@ -16,17 +16,15 @@
     <Design.DataContext>
         <vm:ToolBarViewModel />
     </Design.DataContext>
-
     <UserControl.Resources />
-
-
     <DockPanel>
         <Button
             Name="IsPaneOpenToggleButton"
             Height="25"
             Click="IsPaneToggledButton_Click"
             FontSize="13"
-            Theme="{StaticResource TransparentButton}">
+            Theme="{StaticResource TransparentButton}"
+            ToolTip.Tip="Toggle Vault List Sidebar">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <ui:FontIcon
@@ -45,7 +43,8 @@
             HorizontalAlignment="Left"
             Click="SubscriptionsButton_Click"
             FontSize="13"
-            Theme="{StaticResource TransparentButton}">
+            Theme="{StaticResource TransparentButton}"
+            ToolTip.Tip="Navigate to Subscriptions page">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <ui:FontIcon

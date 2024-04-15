@@ -79,10 +79,7 @@
                     </Styles>
                 </TabControl.Styles>-->
     <!--<TabItem Header="Vaults..">-->
-    <Grid
-        Margin="0"
-        ColumnDefinitions="*, Auto"
-        RowDefinitions="Auto, Auto,*">
+    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*">
         <Border
             Grid.Row="0"
             Margin="4"
@@ -118,7 +115,6 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-
         </Border>
 
         <StackPanel
@@ -167,7 +163,10 @@
 
         </StackPanel>
 
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer
+            Grid.Row="2"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Visible">
             <TreeView
                 Name="SubscriptionTreeViewList"
                 VerticalAlignment="Top"

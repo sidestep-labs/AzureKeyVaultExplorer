@@ -41,7 +41,7 @@
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
         IsPaneOpen="True"
-        OpenPaneLength="300"
+        OpenPaneLength="280"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
             <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">

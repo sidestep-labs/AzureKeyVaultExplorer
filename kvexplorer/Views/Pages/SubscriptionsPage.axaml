@@ -38,7 +38,7 @@
                     Orientation="Horizontal"
                     Spacing="2">
                     <Button
-                        Padding="2,0"
+                        Padding="4,2"
                         VerticalAlignment="Top"
                         Command="{Binding ClearSelectedSubscriptionsCommand}"
                         ToolTip.Tip="Clear selected items">
@@ -52,22 +52,22 @@
                         </StackPanel>
                     </Button>
                     <Button
-                        Padding="2,0"
+                        Padding="4,2"
                         VerticalAlignment="Top"
                         Command="{Binding SelectAllSubscriptionsCommand}"
                         ToolTip.Tip="Select all items">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0" Orientation="Horizontal">
                             <ui:FontIcon
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
                                 Glyph="&#xE14E;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
-                            <Label VerticalAlignment="Top">Select all</Label>
+                            <Label VerticalAlignment="Top">Select All</Label>
                         </StackPanel>
                     </Button>
 
                     <Button
-                        Padding="2,0"
+                        Padding="4,2"
                         VerticalAlignment="Top"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         ToolTip.Tip="Load additional subscriptions in batches of 100">
@@ -86,7 +86,7 @@
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                     <Button
-                        Padding="2,0"
+                        Padding="4,2"
                         VerticalAlignment="Top"
                         Command="{Binding SaveSelectedSubscriptionsCommand}"
                         ToolTip.Tip="Save selected items to sidebar">

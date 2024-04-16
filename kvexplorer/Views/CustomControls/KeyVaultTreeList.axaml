@@ -218,6 +218,8 @@
                                 UriSource="avares://kvexplorer/Assets/ForeignKey.png" />
                             <TextBlock
                                 x:Name="SubscriptionDisplayName"
+                                                                                            VerticalAlignment="Center"
+
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                                 Text="{Binding SubscriptionDisplayName}" />
                         </StackPanel>
@@ -231,10 +233,13 @@
                             Orientation="Horizontal">
                             <ui:BitmapIcon
                                 Margin="0,1,5,0"
+
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
                             <TextBlock
                                 x:Name="ResourceGroupDisplayName"
+                                                                                            VerticalAlignment="Center"
+
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                                 Text="{Binding ResourceGroupDisplayName}" />
                         </StackPanel>
@@ -254,7 +259,10 @@
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://kvexplorer/Assets/KeyVault.png" />
-                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
+                            <TextBlock 
+                                                                                        VerticalAlignment="Center"
+
+                            HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>
                 </TreeView.DataTemplates>

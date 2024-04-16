@@ -24,7 +24,8 @@
             Click="IsPaneToggledButton_Click"
             FontSize="13"
             Theme="{StaticResource TransparentButton}"
-            ToolTip.Tip="Toggle Vault List Sidebar">
+            ToolTip.Tip="Toggle Vault List Sidebar"
+            ToolTip.VerticalOffset="10">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <ui:FontIcon
@@ -44,7 +45,8 @@
             Click="SubscriptionsButton_Click"
             FontSize="13"
             Theme="{StaticResource TransparentButton}"
-            ToolTip.Tip="Navigate to Subscriptions page">
+            ToolTip.Tip="Navigate to Subscriptions page"
+            ToolTip.VerticalOffset="10">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <ui:FontIcon

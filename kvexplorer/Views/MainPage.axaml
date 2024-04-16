@@ -5,15 +5,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="clr-namespace:kvexplorer.Views.Pages"
-    xmlns:vm="using:kvexplorer.ViewModels"
+    xmlns:vm="clr-namespace:kvexplorer.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
 
-    <Design.DataContext />
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
 
 
-    <pages:TabViewPage Name="TabViewPage" Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}" />
-    <!--<pages:TabViewPage Background="{DynamicResource TabViewBackgroundBrushCustom}" />-->
+    <Grid Name="MainGrid" RowDefinitions="*, 20">
+        <pages:TabViewPage
+            Name="TabViewPage"
+            Grid.Row="0"
+            Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}" />
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
+            IsHitTestVisible="False">
+            <TextBlock
+                Margin="5,0"
+                HorizontalAlignment="Right"
+                Text="{Binding Email}" />
+        </StackPanel>
+    </Grid>
 
 </UserControl>

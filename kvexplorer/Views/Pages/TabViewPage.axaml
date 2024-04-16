@@ -64,7 +64,8 @@
                                     Command="{Binding ChangePaneDisplayCommand}"
                                     IsVisible="{Binding !ShowPin}"
                                     Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Pin">
+                                    ToolTip.Tip="Pin"
+                                    ToolTip.VerticalOffset="10">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Pin.png" />
                                 </Button>
                                 <Button
@@ -72,14 +73,16 @@
                                     Command="{Binding ChangePaneDisplayCommand}"
                                     IsVisible="{Binding ShowPin}"
                                     Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Unpin">
+                                    ToolTip.Tip="Unpin"
+                                    ToolTip.VerticalOffset="10">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
                                 </Button>
                                 <ToggleButton
                                     Padding="4"
                                     Click="IsPaneToggled_ButtonClick"
                                     Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Close">
+                                    ToolTip.Tip="Close"
+                                    ToolTip.VerticalOffset="10">
                                     <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Close.png" />
                                 </ToggleButton>
                             </StackPanel>
@@ -112,7 +115,8 @@
                 <ui:TabView.Styles>
                     <Styles>
                         <Style Selector="uip|TabViewListView#TabListView">
-                            <Setter Property="Margin" Value="35,0,0,0" />
+                            <Setter Property="Margin" Value="35,0,50,0" />
+                            <Setter Property="Padding" Value="35,0,50,0" />
                         </Style>
                     </Styles>
                 </ui:TabView.Styles>
@@ -121,22 +125,12 @@
                     <DataTemplate DataType="vmm:DocumentItem">
                         <ui:TabViewItem
                             Name="TabViewItem"
-                            Background="Red"
                             Content="{Binding Content}"
                             Header="{Binding Header}"
                             IconSource="{Binding IconSource}" />
                     </DataTemplate>
                 </ui:TabView.TabItemTemplate>
                 <ui:TabView.TabStripFooter>
-                    <!--
-                        Use this so we can set the margin in the tabstrip so it
-                        doesn't end up underneath the caption buttons
-                        This also forms our custom drag region for the titlebar so we
-                        can still drag the window around
-                        On Mac/Linux this is irrelevant since we don't replace the
-                        system titlebar
-                        BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
-                    -->
                     <Panel Name="CustomDragRegion" IsHitTestVisible="False" />
                 </ui:TabView.TabStripFooter>
             </ui:TabView>

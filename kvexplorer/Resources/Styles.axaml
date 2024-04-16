@@ -10,19 +10,19 @@
         <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
     </Style>
 
-    <Style Selector="ToolTip Border">
-        <Setter Property="Margin" Value="10" />
-        <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
 
-        <!--<Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
-		<Setter Property="Margin" Value="0 0 2 4" />-->
+    <Style Selector="ToolTip">
+        <Setter Property="CornerRadius" Value="5" />
+        <Style Selector="^ Border">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+        </Style>
     </Style>
+
+
 
     <Style Selector="SelectableTextBlock">
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}" />
-    </Style>
-    <Style Selector="ToolTip">
-        <Setter Property="CornerRadius" Value="5" />
     </Style>
     <!--  Treeviewlist styles  -->
     <Style Selector="TreeView">
@@ -71,11 +71,7 @@
     </Style>
 
     <!--  fly out  -->
-    <Style Selector="ui|FAMenuFlyoutPresenter /template/ Border#LayoutRoot">
-        <Setter Property="Margin" Value="10" />
-        <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
-        <Setter Property="BackgroundSizing" Value="CenterBorder" />
-    </Style>
+    <Style Selector="MenuFlyoutPresenter" />
     <Style Selector="ui|FAMenuFlyoutPresenter">
         <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
         <Setter Property="CornerRadius" Value="6" />

@@ -84,13 +84,12 @@ public partial class MainWindow : AppWindow
             TitleBar.ExtendsContentIntoTitleBar = true;
             TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
-            var parent = this.FindControl<Views.MainView>("MainView")!
-                .FindControl<FluentAvalonia.UI.Controls.Frame>("FrameView");
+            var parent = this.FindControl<Views.MainView>("MainView")!.FindControl<FluentAvalonia.UI.Controls.Frame>("FrameView");
 
-            var tab = ((MainPage)parent.Content).Content as TabViewPage;
+            var grid = ((MainPage)parent.Content).Content as Grid;
+            var tab = grid.Children[0] as TabViewPage;
             var dragRegion = tab.FindControl<Panel>("CustomDragRegion");
-
-            dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
+            dragRegion.Width = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
                 TitleBar.RightInset : TitleBar.LeftInset;
         }
     }

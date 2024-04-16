@@ -255,17 +255,17 @@ public partial class MainView : UserControl
         }
     }
 
-    private void ShowAccountTeachingTip(object sender, TappedEventArgs e)
-    {
-        AccountTeachingTip.IsOpen = true;
-    }
+    //private void ShowAccountTeachingTip(object sender, TappedEventArgs e)
+    //{
+    //    AccountTeachingTip.IsOpen = true;
+    //}
 
-    private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
-    {
-        if (FrameView.Content.GetType().Name == nameof(SettingsPage))
-            return;
-        FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
-    }
+    //private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
+    //{
+    //    if (FrameView.Content.GetType().Name == nameof(SettingsPage))
+    //        return;
+    //    FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
+    //}
 
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {

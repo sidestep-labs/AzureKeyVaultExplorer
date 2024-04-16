@@ -16,27 +16,8 @@
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
     <Design.DataContext>
-        <!--
-            This only sets the DataContext for the previewer in an IDE,
-            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
-        -->
         <vm:MainViewModel />
     </Design.DataContext>
-
-    <!--<UserControl.Styles>
-        <Style Selector="ui|NavigationView.MainAppNav">
-            <Setter Property="Margin" Value="0 31.5 0 0" />
-        </Style>
-    </UserControl.Styles>-->
-
-    <!--<Grid RowDefinitions="Auto, *">
-        <Grid.Margin>
-            <OnPlatform macOS="0,20,0,0" />
-
-    -->
-    <!--<OnPlatform macOS="10,0,10,10" />-->
-    <!--
-        </Grid.Margin>-->
 
     <Grid RowDefinitions="Auto,*">
         <Grid
@@ -54,21 +35,6 @@
                 RenderOptions.BitmapInterpolationMode="HighQuality"
                 Source="/Assets/kv-icon.ico" />
 
-            <!--<ui:IconSourceElement
-                Name="WindowIcon1"
-                Width="50"
-                Height="50"
-                Margin="12,4"
-                DockPanel.Dock="Left"
-                IconSource="{StaticResource KvLogo}"
-                IsHitTestVisible="False"
-                RenderOptions.BitmapInterpolationMode="HighQuality">
-                <ui:IconSourceElement.IsVisible>
-                    <OnPlatform Default="False">
-                        <On Content="True" Options="Windows" />
-                    </OnPlatform>
-                </ui:IconSourceElement.IsVisible>
-            </ui:IconSourceElement>-->
             <TextBlock
                 Grid.Column="1"
                 Margin="8,8,0,0"
@@ -85,17 +51,7 @@
                 </TextBlock.IsVisible>
             </TextBlock>
 
-            <!--<ui:IconSourceElement
-                Width="20"
-                Height="20"
-                IconSource="{StaticResource KvLogo}">
-                <ui:IconSourceElement.IsVisible>
-                    <OnPlatform Default="False">
-                        <On Content="True" Options="Windows" />
-                    </OnPlatform>
-                </ui:IconSourceElement.IsVisible>
-            </ui:IconSourceElement>-->
-            <Border
+            <!--<Border
                 Name="AccountIconBorder"
                 Grid.Column="3"
                 Width="22"
@@ -155,13 +111,13 @@
                         Target="{Binding #AccountIconBorder}" />
 
                 </Canvas>
-            </Border>
+            </Border>-->
         </Grid>
         <ui:NavigationView
             Name="NavView"
             Grid.Row="0"
             Grid.RowSpan="2"
-            Margin="0,0,0,0"
+            Margin="0"
             AlwaysShowHeader="False"
             Background="Transparent"
             Classes="SampleAppNav"
@@ -178,7 +134,10 @@
                     <Setter Property="BorderThickness" Value="0" />
                 </Style>
             </ui:NavigationView.Styles>
+
             <ui:Frame Name="FrameView" />
+
+
         </ui:NavigationView>
     </Grid>
 </UserControl>

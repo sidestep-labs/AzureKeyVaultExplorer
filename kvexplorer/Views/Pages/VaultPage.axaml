@@ -104,7 +104,8 @@
                     Click="RefreshButton_OnClick"
                     Theme="{StaticResource TransparentButton}"
                     ToolTip.ShowDelay="1000"
-                    ToolTip.Tip="Refresh values visible to your identity (F5)">
+                    ToolTip.Tip="Refresh values visible to your identity (F5)"
+                    ToolTip.VerticalOffset="10">
                     <StackPanel Orientation="Horizontal">
                         <ui:BitmapIcon
                             RenderOptions.BitmapInterpolationMode="HighQuality"

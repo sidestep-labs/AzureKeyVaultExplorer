@@ -41,7 +41,8 @@
                         Padding="4,2"
                         VerticalAlignment="Top"
                         Command="{Binding ClearSelectedSubscriptionsCommand}"
-                        ToolTip.Tip="Clear selected items">
+                        ToolTip.Tip="Clear selected items"
+                        ToolTip.VerticalOffset="10">
                         <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
@@ -55,7 +56,8 @@
                         Padding="4,2"
                         VerticalAlignment="Top"
                         Command="{Binding SelectAllSubscriptionsCommand}"
-                        ToolTip.Tip="Select all items">
+                        ToolTip.Tip="Select all items"
+                        ToolTip.VerticalOffset="10">
                         <StackPanel Margin="0" Orientation="Horizontal">
                             <ui:FontIcon
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
@@ -70,7 +72,8 @@
                         Padding="4,2"
                         VerticalAlignment="Top"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                        ToolTip.Tip="Load additional subscriptions in batches of 100">
+                        ToolTip.Tip="Load additional subscriptions in batches of 100"
+                        ToolTip.VerticalOffset="10">
                         <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
@@ -89,7 +92,8 @@
                         Padding="4,2"
                         VerticalAlignment="Top"
                         Command="{Binding SaveSelectedSubscriptionsCommand}"
-                        ToolTip.Tip="Save selected items to sidebar">
+                        ToolTip.Tip="Save selected items to sidebar"
+                        ToolTip.VerticalOffset="10">
                         <StackPanel Orientation="Horizontal">
                             <ui:FontIcon
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"

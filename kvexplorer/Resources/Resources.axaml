@@ -75,7 +75,7 @@
                         Background="Transparent"
                         BorderThickness="5">
                         <Border.Effect>
-                            <BlurEffect Radius="40" />
+                            <BlurEffect Radius="20" />
                         </Border.Effect>
                     </Border>
 
@@ -91,7 +91,7 @@
                         BackgroundSizing="CenterBorder"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        BoxShadow="0 2 10 0 #66000000"
+                        BoxShadow="0 2 10 0 #56000000"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.RenderTransform>
                             <TranslateTransform X="-10" Y="-20" />

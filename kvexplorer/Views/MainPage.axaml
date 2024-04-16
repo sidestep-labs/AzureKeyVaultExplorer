@@ -30,6 +30,8 @@
             <TextBlock
                 Margin="5,0"
                 HorizontalAlignment="Right"
+                FontSize="{StaticResource FontSizeSmall}"
+                FontWeight="SemiBold"
                 Text="{Binding Email}" />
         </StackPanel>
     </Grid>

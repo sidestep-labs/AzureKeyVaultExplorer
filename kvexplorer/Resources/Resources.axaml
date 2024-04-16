@@ -75,7 +75,7 @@
                         Background="Transparent"
                         BorderThickness="5">
                         <Border.Effect>
-                            <BlurEffect Radius="10" />
+                            <BlurEffect Radius="40" />
                         </Border.Effect>
                     </Border>
 
@@ -84,7 +84,6 @@
 
                     <Border
                         Name="LayoutRoot"
-                        Grid.Row="0"
                         Margin="20"
                         Padding="{DynamicResource FlyoutBorderThemePadding}"
                         VerticalAlignment="Top"
@@ -95,7 +94,7 @@
                         BoxShadow="0 2 10 0 #66000000"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.RenderTransform>
-                            <TranslateTransform Y="-20" />
+                            <TranslateTransform X="-10" Y="-20" />
                         </Border.RenderTransform>
                         <ScrollViewer
                             Margin="{TemplateBinding Padding}"

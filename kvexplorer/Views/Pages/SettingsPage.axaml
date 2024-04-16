@@ -66,6 +66,9 @@
                             Width="120"
                             FormatString="0"
                             Increment="10"
+                               VerticalContentAlignment="Center"
+                                                                                                                        VerticalAlignment="Center"
+
                             Maximum="60"
                             Minimum="10"
                             Spinned="NumericUpDown_Spinned"

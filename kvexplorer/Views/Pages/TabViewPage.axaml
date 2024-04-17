@@ -46,7 +46,7 @@
         <SplitView.Pane>
             <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
                 <Border
-                    Margin="6"
+                    Margin="4"
                     Padding="4"
                     Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                     BorderBrush="{DynamicResource CircleElevationBorderBrush}"

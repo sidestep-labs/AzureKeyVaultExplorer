@@ -30,11 +30,7 @@
             Spacing="1">
 
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <ui:BitmapIcon
-                    Width="14"
-                    Height="14"
-                    ShowAsMonochrome="True"
-                    UriSource="avares://kvexplorer/Assets/User.png" />
+                <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Attribute.png" />
                 <TextBlock
                     Margin="5,0"
                     Background="{x:Null}"

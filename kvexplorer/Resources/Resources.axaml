@@ -72,7 +72,7 @@
                     <!--  Blurred border  -->
                     <Border Margin="25" BoxShadow="0 6 10 0 #4F000000">
                         <Border.Effect>
-                            <BlurEffect Radius="8" />
+                            <BlurEffect Radius="25" />
                         </Border.Effect>
                         <Border.RenderTransform>
                             <TranslateTransform X="-10" Y="-25" />

@@ -27,6 +27,7 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\Attribute.png" />
     <None Remove="Assets\Close.png" />
     <None Remove="Assets\CollapseAll.png" />
     <None Remove="Assets\folder-classic.ico" />
@@ -39,7 +40,6 @@
     <None Remove="Assets\Refresh.png" />
     <None Remove="Assets\StorageContainerGroup.png" />
     <None Remove="Assets\Unpin.png" />
-    <None Remove="Assets\User.png" />
   </ItemGroup>
 
   

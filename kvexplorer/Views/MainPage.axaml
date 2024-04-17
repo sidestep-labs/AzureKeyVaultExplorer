@@ -17,7 +17,7 @@
     </Design.DataContext>
 
 
-    <Grid Name="MainGrid" RowDefinitions="*, 20">
+    <Grid Name="MainGrid" RowDefinitions="*, 18">
         <pages:TabViewPage
             Name="TabViewPage"
             Grid.Row="0"
@@ -26,11 +26,38 @@
             Grid.Row="1"
             HorizontalAlignment="Stretch"
             Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
-            IsHitTestVisible="False"
-            Spacing="1">
+            IsHitTestVisible="False">
 
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Attribute.png" />
+            <StackPanel
+                HorizontalAlignment="Right"
+                IsVisible="{Binding !IsAuthenticated}"
+                Orientation="Horizontal">
+                <ui:BitmapIcon
+                    Width="16"
+                    Height="16"
+                    VerticalAlignment="Bottom"
+                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    UriSource="avares://kvexplorer/Assets/StatusErrorOutline.png" />
+                <TextBlock
+                    Margin="5,0"
+                    Background="{x:Null}"
+                    FontSize="{StaticResource FontSizeSmall}"
+                    Text="No User Found" />
+            </StackPanel>
+
+
+            <StackPanel
+                HorizontalAlignment="Right"
+                IsVisible="{Binding IsAuthenticated}"
+                Orientation="Horizontal">
+                <ui:BitmapIcon
+                    Width="16"
+                    Height="16"
+                    VerticalAlignment="Bottom"
+                    IsVisible="{Binding AuthenticatedUserClaims.TenantId}"
+                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    ShowAsMonochrome="True"
+                    UriSource="avares://kvexplorer/Assets/Cloud.png" />
                 <TextBlock
                     Margin="5,0"
                     Background="{x:Null}"

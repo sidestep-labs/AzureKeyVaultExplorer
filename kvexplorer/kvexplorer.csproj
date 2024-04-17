@@ -27,8 +27,8 @@
 
   
   <ItemGroup>
-    <None Remove="Assets\Attribute.png" />
     <None Remove="Assets\Close.png" />
+    <None Remove="Assets\Cloud.png" />
     <None Remove="Assets\CollapseAll.png" />
     <None Remove="Assets\folder-classic.ico" />
     <None Remove="Assets\folder-classic.png" />
@@ -38,6 +38,7 @@
     <None Remove="Assets\kv-gray.png" />
     <None Remove="Assets\Pin.png" />
     <None Remove="Assets\Refresh.png" />
+    <None Remove="Assets\StatusErrorOutline.png" />
     <None Remove="Assets\StorageContainerGroup.png" />
     <None Remove="Assets\Unpin.png" />
   </ItemGroup>

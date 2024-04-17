@@ -23,6 +23,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     public AuthenticatedUserClaims authenticatedUserClaims;
 
+    [ObservableProperty]
+    public bool isAuthenticated = false;
+
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
 
@@ -59,6 +62,8 @@ public partial class MainViewModel : ViewModelBase
             Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
             Email = account.ClaimsPrincipal.Identities.First().FindFirst("email").Value,
         };
+
+        IsAuthenticated = _authService.IsAuthenticated;
     }
 }
 

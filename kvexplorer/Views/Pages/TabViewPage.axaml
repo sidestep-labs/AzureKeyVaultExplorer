@@ -75,7 +75,11 @@
                                     Theme="{StaticResource TransparentButton}"
                                     ToolTip.Tip="Unpin"
                                     ToolTip.VerticalOffset="10">
-                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png" />
+                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png">
+                                        <ui:BitmapIcon.RenderTransform>
+                                            <RotateTransform Angle="-45" />
+                                        </ui:BitmapIcon.RenderTransform>
+                                    </ui:BitmapIcon>
                                 </Button>
                                 <ToggleButton
                                     Padding="4"

@@ -27,8 +27,6 @@
 
   
   <ItemGroup>
-    <None Remove="Assets\AsymmetricKey.png" />
-    <None Remove="Assets\AttributeKeyDisabled.png" />
     <None Remove="Assets\Close.png" />
     <None Remove="Assets\CollapseAll.png" />
     <None Remove="Assets\folder-classic.ico" />
@@ -40,10 +38,8 @@
     <None Remove="Assets\Pin.png" />
     <None Remove="Assets\Refresh.png" />
     <None Remove="Assets\StorageContainerGroup.png" />
-    <None Remove="Assets\StrongNameKey.png" />
-    <None Remove="Assets\TestPlans.png" />
     <None Remove="Assets\Unpin.png" />
-    <None Remove="Assets\ViewBySchema.png" />
+    <None Remove="Assets\User.png" />
   </ItemGroup>
 
   

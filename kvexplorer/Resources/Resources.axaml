@@ -70,7 +70,7 @@
 
                 <Grid>
                     <!--  Blurred border  -->
-                    <Border Margin="25" BoxShadow="0 6 10 0 #66000000">
+                    <Border Margin="25" BoxShadow="0 6 10 0 #4F000000">
                         <Border.Effect>
                             <BlurEffect Radius="8" />
                         </Border.Effect>
@@ -90,7 +90,7 @@
                         Background="{TemplateBinding Background}"
                         BackgroundSizing="CenterBorder"
                         BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}"
-                        BorderThickness="1.5"
+                        BorderThickness="2"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.RenderTransform>
                             <TranslateTransform X="-10" Y="-20" />

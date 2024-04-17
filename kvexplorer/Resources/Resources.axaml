@@ -70,28 +70,27 @@
 
                 <Grid>
                     <!--  Blurred border  -->
-                    <Border
-                        Padding="{DynamicResource FlyoutBorderThemePadding}"
-                        Background="Transparent"
-                        BorderThickness="5">
+                    <Border Margin="25" BoxShadow="0 6 10 0 #66000000">
                         <Border.Effect>
-                            <BlurEffect Radius="20" />
+                            <BlurEffect Radius="8" />
                         </Border.Effect>
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-10" Y="-25" />
+                        </Border.RenderTransform>
                     </Border>
 
-                    <!--  Content  -->
+                    <!--  Content  Y="-20"  -->
 
-
+                    <!--  BoxShadow="0 2 10 0 #56000000"  -->
                     <Border
                         Name="LayoutRoot"
-                        Margin="20"
+                        Margin="25"
                         Padding="{DynamicResource FlyoutBorderThemePadding}"
                         VerticalAlignment="Top"
                         Background="{TemplateBinding Background}"
                         BackgroundSizing="CenterBorder"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        BoxShadow="0 2 10 0 #56000000"
+                        BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}"
+                        BorderThickness="1.5"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.RenderTransform>
                             <TranslateTransform X="-10" Y="-20" />

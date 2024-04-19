@@ -30,7 +30,6 @@
         <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="Red" />
     </LinearGradientBrush>
-    -->
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
@@ -40,6 +39,7 @@
             <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#981A1A1A" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    -->
 
     <CornerRadius x:Key="CornerRadius">4</CornerRadius>
 

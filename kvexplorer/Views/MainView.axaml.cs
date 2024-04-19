@@ -33,7 +33,7 @@ public partial class MainView : UserControl
         Instance = this;
         InitializeComponent();
         KeyUp += TabViewPage_KeyUpFocusSearchBox;
-        NavView.BackRequested += OnNavigationViewBackRequested;
+        //NavView.BackRequested += OnNavigationViewBackRequested;
         var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
 
@@ -81,16 +81,16 @@ public partial class MainView : UserControl
         base.OnAttachedToVisualTree(e);
 
         var vm = Defaults.Locator.GetRequiredService<MainViewModel>();
-        _navView = this.FindControl<NavigationView>("NavView");
-        var navViewItems = _navView.MenuItems;
-        var navMenuItems = navViewItems.TakeLast(2).Cast<NavigationViewItem>();
-        var footerItems = _navView.FooterMenuItems.Cast<NavigationViewItem>();
+        //_navView = this.FindControl<NavigationView>("NavView");
+        //var navViewItems = _navView.MenuItems;
+        //var navMenuItems = navViewItems.TakeLast(2).Cast<NavigationViewItem>();
+        //var footerItems = _navView.FooterMenuItems.Cast<NavigationViewItem>();
 
         DataContext = vm;
         FrameView.NavigationPageFactory = vm.NavigationFactory;
 
         FrameView.Navigated += OnFrameViewNavigated;
-        NavView.ItemInvoked += OnNavigationViewItemInvoked;
+        //NavView.ItemInvoked += OnNavigationViewItemInvoked;
 
         //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
         //  {
@@ -133,12 +133,12 @@ public partial class MainView : UserControl
         //        NavView.SelectedItem = nvi;
         //    }
         //}
-
-        if (FrameView.BackStackDepth > 0 && !NavView.IsBackButtonVisible)
+        
+        if (FrameView.BackStackDepth > 0) //&& !NavView.IsBackButtonVisible
         {
             AnimateContentForBackButton(true);
         }
-        else if (FrameView.BackStackDepth == 0 && NavView.IsBackButtonVisible)
+        else if (FrameView.BackStackDepth == 0) // && NavView.IsBackButtonVisible
         {
             AnimateContentForBackButton(false);
         }
@@ -179,11 +179,11 @@ public partial class MainView : UserControl
 
             await ani.RunAsync(WindowIcon);
 
-            NavView.IsBackButtonVisible = true;
+            //NavView.IsBackButtonVisible = true;
         }
         else
         {
-            NavView.IsBackButtonVisible = false;
+            //NavView.IsBackButtonVisible = false;
 
             var ani = new Animation
             {

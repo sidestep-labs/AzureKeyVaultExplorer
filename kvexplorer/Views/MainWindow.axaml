@@ -23,7 +23,7 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-icon.ico" />
+            <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-orange.ico" />
         </ResourceDictionary>
     </Window.Resources>
 

@@ -13,20 +13,17 @@ if ($RunBuild) {
     Push-Location  C:\repos\kvexplorer\kvexplorer.Desktop;
     $env:KVEXPLORER_APP_VERSION = $BuildNumber
     dotnet publish  -o publish/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform
+    dotnet publish -c Release -o ..\publish\ -p:PublishSingleFile=true -p:PublishTrimmed=true -p:TrimMode=link -p:IncludeNativeLibrariesForSelfExtract=true --self-contained=true -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform
     #New-Item -Path $ProjectDir -Name "VERSION" -ItemType "file" -Value $BuildNumber -Force
     explorer.exe .
     pop-location
     $sw.Stop()
     $sw
     Push-Location  c:\repos\kvexplorer\kvexplorer.Desktop/publish
-    .\KeyVaultExplorer.exe 
     Pop-Location
-
     return;
 }
 Push-Location  c:\repos\kvexplorer\kvexplorer.Desktop/publish
-.\KeyVaultExplorer.exe 
-
 Pop-Location
 $sw.Stop()
 Write-Debug "App elapsed start up: $($sw.Elapsed)"

@@ -26,6 +26,29 @@
             ColumnDefinitions="Auto,Auto,*,330"
             IsVisible="{OnPlatform True,
                                    macOS=False}">
+
+            <Button
+                Margin="6,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Command="{Binding #FrameView.GoBack}"
+                Content="&#xE112;"
+                DockPanel.Dock="Left"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                FontSize="{StaticResource FontSizeLarge}"
+                FontWeight="Black"
+                IsVisible="{Binding #FrameView.CanGoBack}"
+                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                Theme="{StaticResource TransparentButton}"
+                ToolTip.Tip="Go Back"
+                ToolTip.VerticalOffset="10">
+
+                <Button.Styles>
+                    <Style Selector="ToolTip">
+                        <Setter Property="FontWeight" Value="Regular" />
+                    </Style>
+                </Button.Styles>
+            </Button>
             <Image
                 Name="WindowIcon"
                 Height="20"
@@ -33,7 +56,7 @@
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                Source="/Assets/kv-icon.ico" />
+                Source="/Assets/kv-orange.ico" />
 
             <TextBlock
                 Grid.Column="1"
@@ -50,94 +73,10 @@
                     </OnPlatform>
                 </TextBlock.IsVisible>
             </TextBlock>
-
-            <!--<Border
-                Name="AccountIconBorder"
-                Grid.Column="3"
-                Width="22"
-                Height="22"
-                Margin="5,5"
-                HorizontalAlignment="Center"
-                CornerRadius="15"
-                Focusable="True">
-                <Border.Styles>
-                    <Style Selector="Border#AccountIconBorder:pointerover">
-                        <Setter Property="Opacity" Value="0.6" />
-                        <Setter Property="Cursor" Value="Hand" />
-                    </Style>
-                </Border.Styles>
-                <Canvas Name="AccountIcon" Tapped="ShowAccountTeachingTip">
-                    <Ellipse
-                        Canvas.Left="0"
-                        Canvas.Top="0"
-                        Width="22"
-                        Height="22"
-                        Fill="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}"
-                        Focusable="True">
-                        <Ellipse.Styles>
-                            <Style Selector="Ellipse:pointerover">
-                                <Setter Property="Fill" Value="Red" />
-                            </Style>
-                        </Ellipse.Styles>
-                    </Ellipse>
-                    <ui:FontIcon
-                        Canvas.Left="2"
-                        Canvas.Bottom="2"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="16"
-                        FontStyle="Normal"
-                        FontWeight="Normal"
-                        Glyph="&#xE13D;"
-                        IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
-                    <ui:FontIcon
-                        Canvas.Left="2"
-                        Canvas.Bottom="5"
-                        Margin="1"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="13"
-                        FontStyle="Normal"
-                        FontWeight="Normal"
-                        Glyph="{Binding Initials}"
-                        IsVisible="{Binding Initials, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                    <ui:TeachingTip
-                        Name="AccountTeachingTip"
-                        Title="{Binding AuthenticatedUserClaims.Name}"
-                        ActionButtonClick="TeachingTip_ActionButtonClick"
-                        ActionButtonContent="Settings"
-                        CloseButtonContent="Close"
-                        IsLightDismissEnabled="True"
-                        Subtitle="{Binding Email}"
-                        TailVisibility="Collapsed"
-                        Target="{Binding #AccountIconBorder}" />
-
-                </Canvas>
-            </Border>-->
         </Grid>
-        <ui:NavigationView
-            Name="NavView"
+        <ui:Frame
+            Name="FrameView"
             Grid.Row="0"
-            Grid.RowSpan="2"
-            Margin="0"
-            AlwaysShowHeader="False"
-            Background="Transparent"
-            Classes="SampleAppNav"
-            IsBackEnabled="{Binding #FrameView.CanGoBack}"
-            IsSettingsVisible="False"
-            PaneDisplayMode="Top">
-            <ui:NavigationView.Styles>
-                <Style Selector="ui|NavigationView#NavView.SampleAppNav /template/ StackPanel#TopNavArea">
-                    <Setter Property="IsVisible" Value="False" />
-                </Style>
-                <Style Selector="ui|NavigationView#NavView.SampleAppNav /template/ Border#ContentGridBorder">
-                    <Setter Property="Background" Value="{x:Null}" />
-                    <Setter Property="BorderBrush" Value="Transparent" />
-                    <Setter Property="BorderThickness" Value="0" />
-                </Style>
-            </ui:NavigationView.Styles>
-
-            <ui:Frame Name="FrameView" />
-
-
-        </ui:NavigationView>
+            Grid.RowSpan="2" />
     </Grid>
 </UserControl>

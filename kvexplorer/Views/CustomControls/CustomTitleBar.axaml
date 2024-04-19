@@ -29,7 +29,7 @@
                             Width="15"
                             VerticalAlignment="Top"
                             RenderOptions.BitmapInterpolationMode="HighQuality"
-                            Source="/Assets/kv-icon.ico" />
+                            Source="/Assets/kv-orange.ico" />
 
                         <TextBlock Margin="10,1,5,0" Text="{TemplateBinding Title}" />
                         <!--

@@ -8,27 +8,21 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>1.0.0.0</Version>
-    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-    <ApplicationIcon>kv-noborder1.ico</ApplicationIcon>
+	  <ApplicationIcon>kv-orange.ico</ApplicationIcon>
+	  <Version>1.0.0.0</Version>
     <AssemblyName>Key Vault Explorer</AssemblyName>
+	  <!--
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-    <ApplicationIcon>kv-noborder.ico</ApplicationIcon>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-   <!--<PublishAot>true</PublishAot>
+<PublishAot>true</PublishAot>
     <SelfContained>true</SelfContained>
     <TrimMode>partial</TrimMode>
     <PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
+
   <ItemGroup>
-    <AvaloniaXaml Remove="publish-aot\**" />
-    <Compile Remove="publish-aot\**" />
-    <EmbeddedResource Remove="publish-aot\**" />
-    <None Remove="publish-aot\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="kv-noborder.ico" />
+    <Content Include="kv-orange.ico" />
   </ItemGroup>
 
   <ItemGroup>

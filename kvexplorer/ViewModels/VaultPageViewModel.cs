@@ -74,7 +74,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
-        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-icon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-orange.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
         for (int i = 0; i < 5; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });

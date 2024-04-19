@@ -3,7 +3,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives">
-    <Design.PreviewWith />
+    <Design.PreviewWith>
+
+        <StackPanel>
+            <TextBox Text="THis is a placeholder" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Style Selector="TextBox">
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MaxHeight" Value="30" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="8,2,2,2" />
+    </Style>
 
     <Style Selector="ui|CommandBarFlyoutCommandBar /template/ Border#LayoutRoot">
         <Setter Property="Margin" Value="10" />

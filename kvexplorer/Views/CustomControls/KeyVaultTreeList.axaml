@@ -96,10 +96,7 @@
                     Theme="{StaticResource TransparentButton}"
                     ToolTip.Tip="Refresh available subscriptions"
                     ToolTip.VerticalOffset="10">
-                    <ui:BitmapIcon
-                        RenderOptions.BitmapInterpolationMode="HighQuality"
-                        ShowAsMonochrome="True"
-                        UriSource="avares://kvexplorer/Assets/Refresh.png" />
+                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Refresh.png" />
                 </Button>
 
                 <Button
@@ -218,8 +215,7 @@
                                 UriSource="avares://kvexplorer/Assets/ForeignKey.png" />
                             <TextBlock
                                 x:Name="SubscriptionDisplayName"
-                                                                                            VerticalAlignment="Center"
-
+                                VerticalAlignment="Center"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                                 Text="{Binding SubscriptionDisplayName}" />
                         </StackPanel>
@@ -233,13 +229,11 @@
                             Orientation="Horizontal">
                             <ui:BitmapIcon
                                 Margin="0,1,5,0"
-
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
                             <TextBlock
                                 x:Name="ResourceGroupDisplayName"
-                                                                                            VerticalAlignment="Center"
-
+                                VerticalAlignment="Center"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                                 Text="{Binding ResourceGroupDisplayName}" />
                         </StackPanel>
@@ -259,10 +253,10 @@
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://kvexplorer/Assets/KeyVault.png" />
-                            <TextBlock 
-                                                                                        VerticalAlignment="Center"
-
-                            HorizontalAlignment="Stretch" Text="{Binding Data.Name, Mode=OneWay}" />
+                            <TextBlock
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Text="{Binding Data.Name, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>
                 </TreeView.DataTemplates>

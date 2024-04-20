@@ -27,7 +27,7 @@
                 Margin="0,0,30,0"
                 Orientation="Vertical"
                 Spacing="4">
-                <TextBlock Margin="0,0,0,15" Theme="{StaticResource {StaticResource TitleLargeTextBlockStyle}}">Settings</TextBlock>
+                <TextBlock Margin="0,0,0,15" Theme="{StaticResource TitleLargeTextBlockStyle}">Settings</TextBlock>
                 <ui:SettingsExpander
                     Name="AccountExpander"
                     Description="View account details and perform actions"

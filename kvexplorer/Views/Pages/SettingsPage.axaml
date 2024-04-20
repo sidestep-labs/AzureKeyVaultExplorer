@@ -9,7 +9,7 @@
     xmlns:vm="using:kvexplorer.ViewModels"
     Margin="0,40,0,0"
     d:DesignHeight="450"
-    d:DesignWidth="880"
+    d:DesignWidth="780"
     x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
 
@@ -20,7 +20,7 @@
 
     <ScrollViewer>
         <WrapPanel
-            Margin="30,30,0,30"
+            Margin="30,30,30,30"
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch">
             <StackPanel

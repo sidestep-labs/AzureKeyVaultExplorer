@@ -67,7 +67,9 @@
             Content="&#xE115;"
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             FontSize="15"
-            Theme="{StaticResource TransparentButton}" />
+            Theme="{StaticResource TransparentButton}"
+            ToolTip.Tip="Application Settings"
+            ToolTip.VerticalOffset="10" />
     </DockPanel>
 
 </UserControl>

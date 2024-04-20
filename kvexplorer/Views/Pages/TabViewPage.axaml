@@ -25,15 +25,6 @@
             <Style Selector="ui|TabView#TabView.emptyTabViewDragMargin">
                 <Setter Property="Margin" Value="0,32,0,0" />
             </Style>
-            <Style Selector="ui|TabView /template/ ContentPresenter">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <SolidColorBrush Opacity="1" Color="{DynamicResource TabViewBorderBrush}" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="BorderThickness" Value="0,0,0,1" />
-            </Style>
-
         </Styles>
     </UserControl.Styles>
     <SplitView
@@ -44,60 +35,66 @@
         OpenPaneLength="280"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
-            <Panel Margin="0,40,0,0" Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
-                <Border
-                    Margin="4"
-                    Padding="4"
-                    Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
-                    BorderBrush="{DynamicResource CircleElevationBorderBrush}"
-                    BorderThickness="1,1,1,1"
-                    CornerRadius="5">
-                    <DockPanel>
-                        <DockPanel Grid.Row="0" DockPanel.Dock="Top">
-                            <TextBlock
-                                DockPanel.Dock="Left"
-                                FontSize="{DynamicResource FontSizeSmall}"
-                                Text="Explorer" />
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button
-                                    Padding="4"
-                                    Command="{Binding ChangePaneDisplayCommand}"
-                                    IsVisible="{Binding !ShowPin}"
-                                    Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Pin"
-                                    ToolTip.VerticalOffset="10">
-                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Pin.png" />
-                                </Button>
-                                <Button
-                                    Padding="4"
-                                    Command="{Binding ChangePaneDisplayCommand}"
-                                    IsVisible="{Binding ShowPin}"
-                                    Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Unpin"
-                                    ToolTip.VerticalOffset="10">
-                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png">
-                                        <ui:BitmapIcon.RenderTransform>
-                                            <RotateTransform Angle="-45" />
-                                        </ui:BitmapIcon.RenderTransform>
-                                    </ui:BitmapIcon>
-                                </Button>
-                                <ToggleButton
-                                    Padding="4"
-                                    Click="IsPaneToggled_ButtonClick"
-                                    Theme="{StaticResource TransparentButton}"
-                                    ToolTip.Tip="Close"
-                                    ToolTip.VerticalOffset="10">
-                                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Close.png" />
-                                </ToggleButton>
-                            </StackPanel>
+            <Border
+                Margin="0,39,0,0"
+                BorderBrush="{DynamicResource TabViewSelectedItemBorderBrush}"
+                BorderThickness="0,1,0,0">
+                <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
+                    <Border
+                        Margin="4"
+                        Padding="4"
+                        Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                        BorderBrush="{DynamicResource CircleElevationBorderBrush}"
+                        BorderThickness="1,1,1,1"
+                        CornerRadius="5">
+                        <DockPanel>
+                            <DockPanel Grid.Row="0" DockPanel.Dock="Top">
+                                <TextBlock
+                                    DockPanel.Dock="Left"
+                                    FontSize="{DynamicResource FontSizeSmall}"
+                                    Text="Explorer" />
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Button
+                                        Padding="4"
+                                        Command="{Binding ChangePaneDisplayCommand}"
+                                        IsVisible="{Binding !ShowPin}"
+                                        Theme="{StaticResource TransparentButton}"
+                                        ToolTip.Tip="Pin"
+                                        ToolTip.VerticalOffset="10">
+                                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Pin.png" />
+                                    </Button>
+                                    <Button
+                                        Padding="4"
+                                        Command="{Binding ChangePaneDisplayCommand}"
+                                        IsVisible="{Binding ShowPin}"
+                                        Theme="{StaticResource TransparentButton}"
+                                        ToolTip.Tip="Unpin"
+                                        ToolTip.VerticalOffset="10">
+                                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png">
+                                            <ui:BitmapIcon.RenderTransform>
+                                                <RotateTransform Angle="-45" />
+                                            </ui:BitmapIcon.RenderTransform>
+                                        </ui:BitmapIcon>
+                                    </Button>
+                                    <ToggleButton
+                                        Padding="4"
+                                        Click="IsPaneToggled_ButtonClick"
+                                        Theme="{StaticResource TransparentButton}"
+                                        ToolTip.Tip="Close"
+                                        ToolTip.VerticalOffset="10">
+                                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Close.png" />
+                                    </ToggleButton>
+                                </StackPanel>
+                            </DockPanel>
+                            <custom:KeyVaultTreeList
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch" />
                         </DockPanel>
-                        <custom:KeyVaultTreeList
-                            Grid.Row="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch" />
-                    </DockPanel>
-                </Border>
-            </Panel>
+                    </Border>
+                </Panel>
+
+            </Border>
         </SplitView.Pane>
 
         <Grid>

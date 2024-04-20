@@ -22,8 +22,9 @@
 
     <UserControl.Styles>
         <Styles>
-            <Style Selector="ui|TabView#TabView.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,32,0,0" />
+           
+            <Style Selector="Grid#TabViewGrid.emptyTabViewDragMargin">
+                <Setter Property="Margin" Value="0,21" />
             </Style>
         </Styles>
     </UserControl.Styles>
@@ -97,14 +98,13 @@
             </Border>
         </SplitView.Pane>
 
-        <Grid>
+        <Grid Name="TabViewGrid" Classes.emptyTabViewDragMargin="{Binding !Documents.Count}">
             <ui:TabView
                 Name="TabView"
                 VerticalAlignment="Stretch"
                 AllowDropTabs="True"
                 CanDragTabs="True"
                 CanReorderTabs="True"
-                Classes.emptyTabViewDragMargin="{Binding !Documents.Count}"
                 CloseButtonOverlayMode="OnPointerOver"
                 IsAddTabButtonVisible="False"
                 SelectedItem="{Binding SelectedItem}"

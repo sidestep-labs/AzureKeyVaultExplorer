@@ -40,7 +40,7 @@
                 IsVisible="{Binding #FrameView.CanGoBack}"
                 RenderOptions.TextRenderingMode="SubpixelAntialias"
                 Theme="{StaticResource TransparentButton}"
-                ToolTip.Tip="Go Back"
+                ToolTip.Tip="Back"
                 ToolTip.VerticalOffset="10">
 
                 <Button.Styles>

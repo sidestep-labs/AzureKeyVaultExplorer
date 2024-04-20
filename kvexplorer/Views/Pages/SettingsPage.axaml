@@ -27,7 +27,7 @@
                 Margin="0,0,30,0"
                 Orientation="Vertical"
                 Spacing="4">
-                <TextBlock Margin="0,0,0,15" Theme="{StaticResource TitleTextBlockStyle}">Settings</TextBlock>
+                <TextBlock Margin="0,0,0,15" Theme="{StaticResource {StaticResource TitleLargeTextBlockStyle}}">Settings</TextBlock>
                 <ui:SettingsExpander
                     Name="AccountExpander"
                     Description="View account details and perform actions"
@@ -64,11 +64,10 @@
                     <ui:SettingsExpander.Footer>
                         <NumericUpDown
                             Width="120"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
                             FormatString="0"
                             Increment="10"
-                               VerticalContentAlignment="Center"
-                                                                                                                        VerticalAlignment="Center"
-
                             Maximum="60"
                             Minimum="10"
                             Spinned="NumericUpDown_Spinned"

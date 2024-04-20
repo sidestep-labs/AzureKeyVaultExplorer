@@ -22,9 +22,8 @@
 
     <UserControl.Styles>
         <Styles>
-           
             <Style Selector="Grid#TabViewGrid.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,21" />
+                <Setter Property="Margin" Value="0,21,0,0" />
             </Style>
         </Styles>
     </UserControl.Styles>
@@ -136,8 +135,11 @@
                     <Panel Name="CustomDragRegion" IsHitTestVisible="False" />
                 </ui:TabView.TabStripFooter>
             </ui:TabView>
-            <StackPanel IsVisible="{Binding !Documents.Count}" Orientation="Vertical">
-                <Grid Margin="0,44,0,0" RowDefinitions="Auto">
+            <StackPanel
+                VerticalAlignment="Stretch"
+                IsVisible="{Binding !Documents.Count}"
+                Orientation="Vertical">
+                <Grid Margin="0,23,0,0" RowDefinitions="Auto">
                     <Border
                         Grid.Row="0"
                         Margin="10,0,10,0"

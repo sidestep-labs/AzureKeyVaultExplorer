@@ -20,14 +20,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
-using Avalonia.Controls.Chrome;
-using Avalonia.Interactivity;
-using kvexplorer.shared.Database;
-using Avalonia.Remote.Protocol.Input;
-using System.Net.Sockets;
-using FluentAvalonia.UI.Controls;
-using kvexplorer.Views.Pages;
-using System.Runtime.ConstrainedExecution;
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -64,8 +56,8 @@ public partial class VaultPageViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;
-    private readonly WindowNotificationManager _windowNotification;
     private SettingsPageViewModel _settingsPageViewModel;
+    private NotificationViewModel _notificationViewModel;
     private Bitmap BitmapImage;
 
     public VaultPageViewModel()
@@ -73,6 +65,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
         BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-orange.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
         for (int i = 0; i < 5; i++)
@@ -433,15 +426,16 @@ public partial class VaultPageViewModel : ViewModelBase
 
         var notif = new Notification(subject, message, notificationType);
 
-        var nm = new WindowNotificationManager(topLevel)
-        {
-            Position = NotificationPosition.BottomRight,
-            MaxItems = 1,
-        };
-        nm.TemplateApplied += (sender, args) =>
-        {
-            nm.Show(notif);
-        };
+        _notificationViewModel.AddMessage(notif);
+        //var nm = new WindowNotificationManager(topLevel)
+        //{
+        //    Position = NotificationPosition.BottomRight,
+        //    MaxItems = 1,
+        //};
+        //nm.TemplateApplied += (sender, args) =>
+        //{
+        //    nm.Show(notif);
+        //};
 
 #endif
     }

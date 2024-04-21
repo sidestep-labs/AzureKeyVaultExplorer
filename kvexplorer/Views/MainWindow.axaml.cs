@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -15,21 +16,15 @@ using kvexplorer.shared.Models;
 using kvexplorer.ViewModels;
 using kvexplorer.Views.Pages;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace kvexplorer.Views;
 
 public partial class MainWindow : AppWindow
 {
-    public static readonly RoutedEvent<RoutedEventArgs> TransparencyChangedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(TransparencyChangedEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> SetAppThemeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(SetAppThemeEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> TransparencyChangedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(TransparencyChangedEvent), RoutingStrategies.Tunnel);
     private IBrush BackgroundBrush;
-    private string[] AppThemes = ["System", "Light", "Dark"];
-    private bool TransparencyEnabled { get; set; }
 
     public MainWindow()
     {
@@ -56,15 +51,15 @@ public partial class MainWindow : AppWindow
 
         //if (OperatingSystem.IsWindows())
         //{
-            Activated += (sender, e) =>
-            {
-                if (TransparencyEnabled)
-                    Background = null;
-            };
-            Deactivated += (sender, e) =>
-            {
-                Background = BackgroundBrush;
-            };
+        Activated += (sender, e) =>
+        {
+            if (TransparencyEnabled)
+                Background = null;
+        };
+        Deactivated += (sender, e) =>
+        {
+            Background = BackgroundBrush;
+        };
         //}
         //else
         //{
@@ -73,6 +68,21 @@ public partial class MainWindow : AppWindow
 
         //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
         // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
+    }
+
+    private bool TransparencyEnabled { get; set; }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+        var _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
+
+        var nm = new Avalonia.Controls.Notifications.WindowNotificationManager(TopLevel.GetTopLevel(this))
+        {
+            Position = Avalonia.Controls.Notifications.NotificationPosition.BottomRight,
+            MaxItems = 3,
+        };
+        _notificationViewModel.NotificationManager = nm;
     }
 
     protected override void OnOpened(EventArgs e)
@@ -94,8 +104,6 @@ public partial class MainWindow : AppWindow
         }
     }
 
-
-
     private ThemeVariant GetThemeVariant(string value)
     {
         return value switch
@@ -106,6 +114,14 @@ public partial class MainWindow : AppWindow
             _ => throw new InvalidOperationException("Unknown theme variant")
         };
     }
+
+    private void OnSetAppThemeEvent(object sender, RoutedEventArgs e)
+    {
+        var theme = (e.Source as ComboBox).SelectedItem as string;
+        Application.Current.RequestedThemeVariant = GetThemeVariant(theme!);
+        e.Handled = true;
+    }
+
     private void OnTransparencyChangedEvent(object sender, RoutedEventArgs e)
     {
         var isChecked = (e.Source as CheckBox)?.IsChecked ?? false;
@@ -119,13 +135,6 @@ public partial class MainWindow : AppWindow
             Background = BackgroundBrush;
             TransparencyEnabled = false;
         }
-        e.Handled = true;
-    }
-
-    private void OnSetAppThemeEvent(object sender, RoutedEventArgs e)
-    {
-        var theme = (e.Source as ComboBox).SelectedItem as string;
-        Application.Current.RequestedThemeVariant = GetThemeVariant(theme!);
         e.Handled = true;
     }
 }

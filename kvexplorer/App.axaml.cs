@@ -23,6 +23,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
+        serviceCollection.AddSingleton<NotificationViewModel>();
         serviceCollection.AddSingleton<KvExplorerDb>();
         serviceCollection.AddTransient<AppSettingReader>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());

@@ -9,7 +9,7 @@
     xmlns:vm="using:kvexplorer.ViewModels"
     Margin="0,40,0,0"
     d:DesignHeight="450"
-    d:DesignWidth="780"
+    d:DesignWidth="980"
     x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
 
@@ -103,7 +103,7 @@
 
             </StackPanel>
 
-            <StackPanel Margin="0,55,0,0">
+            <StackPanel Margin="0,70,0,0">
                 <TextBlock FontWeight="Bold" Text="About this app" />
 
                 <TextBlock Text="Key Vault Explorer" />

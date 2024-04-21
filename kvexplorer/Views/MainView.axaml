@@ -23,9 +23,7 @@
         <Grid
             Name="TitleBarHost"
             Background="Transparent"
-            ColumnDefinitions="Auto,Auto,*,330"
-            IsVisible="{OnPlatform True,
-                                   macOS=False}">
+            ColumnDefinitions="Auto,Auto,*,330">
 
             <Button
                 Margin="6,0,0,0"

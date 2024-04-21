@@ -129,6 +129,7 @@
                 AcceptsReturn="False"
                 Classes.clearButton="True"
                 FontSize="{StaticResource FontSizeSmall}"
+                IsEnabled="{Binding !IsBusy}"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 TextWrapping="NoWrap"
                 Watermark="Search">
@@ -138,21 +139,31 @@
                         <Setter Property="InnerRightContent">
                             <Template>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button
-                                        Command="{Binding $parent[TextBox].Clear}"
-                                        Content="&#xE8BB;"
-                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                        Theme="{StaticResource TransparentButton}" />
-                                    <Button
-                                        Command="{Binding $parent[TextBox].Clear}"
-                                        Content="&#xE721;"
-                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        IsHitTestVisible="False"
-                                        RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                        Theme="{StaticResource TransparentButton}" />
+                                    <StackPanel IsVisible="{Binding !IsBusy}" Orientation="Horizontal">
+                                        <Button
+                                            Command="{Binding $parent[TextBox].Clear}"
+                                            Content="&#xE8BB;"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                            RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                            Theme="{StaticResource TransparentButton}" />
+                                        <Button
+                                            Command="{Binding $parent[TextBox].Clear}"
+                                            Content="&#xE721;"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            IsHitTestVisible="False"
+                                            RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                            Theme="{StaticResource TransparentButton}" />
+                                    </StackPanel>
+                                    <ui:ProgressRing
+                                        Width="1"
+                                        Height="1"
+                                        BorderThickness="3"
+                                        IsIndeterminate="True"
+                                        IsVisible="{Binding IsBusy}"
+                                        RenderTransform="Scale(0.5, 0.5)" />
                                 </StackPanel>
+
                             </Template>
                         </Setter>
 

@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using static kvexplorer.shared.VaultService;
 
@@ -26,7 +27,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public IEnumerable<KvSubscriptionModel> _treeViewList;
 
     [ObservableProperty]
-    public bool isBusy;
+    public bool isBusy = false;
+
 
     [ObservableProperty]
     public string searchQuery;
@@ -75,58 +77,86 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             TreeViewList.Clear();
         }
+
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            //if(!_authService.IsAuthenticated)
-            //    return;
-            // all items
-            //TODO: get all saved items, otherwise get the first item only.
-            var resource = _vaultService.GetKeyVaultResourceBySubscription();
-            await foreach (var item in resource)
+            await DelaySetIsBusy(async () =>
             {
-                item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-                item.HasSubNodeDataBeenFetched = false;
-                TreeViewList.Add(item);
-            }
-
-            //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
-            var quickAccess = new KvSubscriptionModel
-            {
-                SubscriptionDisplayName = "Quick Access",
-                SubscriptionId = "",
-                IsExpanded = true,
-                ResourceGroups = [new KvResourceGroupModel { }],
-                Subscription = null,
-            };
-
-            TreeViewList.Insert(0, quickAccess);
 
 
-            var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
-            var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-            var armClient = new ArmClient(token);
-            await foreach (var item in savedItems)
-            {
-                var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
-                var kvrResponse = await kvr.GetAsync();
-                //TODO: figure out why i can only have one or the other
-                quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
-                quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-            }
-            quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
-            quickAccess.ResourceGroups[0].IsExpanded = true;
+                //TODO: get all saved items, otherwise get the first item only.
+                var resource = _vaultService.GetKeyVaultResourceBySubscription();
 
-            TreeViewList[0] = quickAccess;
-            
-            foreach(var sub in TreeViewList)
-            {
-                sub.ResourceGroups.CollectionChanged  += TreeViewSubNode_CollectionChanged;
-            }
+                await foreach (var item in resource)
+                {
+                    item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
+                    item.HasSubNodeDataBeenFetched = false;
+                    TreeViewList.Add(item);
+                }
+
+                //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
+                var quickAccess = new KvSubscriptionModel
+                {
+                    SubscriptionDisplayName = "Quick Access",
+                    SubscriptionId = "",
+                    IsExpanded = true,
+                    ResourceGroups = [new KvResourceGroupModel { }],
+                    Subscription = null,
+                };
+
+                TreeViewList.Insert(0, quickAccess);
+
+                var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
+                var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+                var armClient = new ArmClient(token);
+                await foreach (var item in savedItems)
+                {
+                    var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
+                    var kvrResponse = await kvr.GetAsync();
+                    //TODO: figure out why i can only have one or the other
+                    quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
+                    quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
+                }
+                quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
+                quickAccess.ResourceGroups[0].IsExpanded = true;
+
+                TreeViewList[0] = quickAccess;
+
+                foreach (var sub in TreeViewList)
+                {
+                    sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                }
+            });
         }, DispatcherPriority.Background);
-
         _treeViewList = TreeViewList;
     }
 
+
+    // this will set isBusy to true if the fetching takes longer than 1500 ms.
+    private async Task DelaySetIsBusy(Func<Task> longRunningTaskFactory)
+    {
+        IsBusy = false;
+        using var cts = new CancellationTokenSource();
+
+        var delayTask = Task.Delay(1500, cts.Token);
+        var longRunningTask = longRunningTaskFactory();
+
+        var completedTask = await Task.WhenAny(longRunningTask, delayTask);
+
+        if (completedTask == delayTask)
+        {
+            // The long-running task took longer than 1500 milliseconds
+            IsBusy = true;
+            await longRunningTask;
+        }
+        else
+        {
+            // The long-running task completed before the delay
+            await completedTask;
+        }
+
+        IsBusy = false;
+    }
 
     [RelayCommand]
     public async Task PinVaultToQuickAccess(KeyVaultResource model)
@@ -157,24 +187,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
         quickAccess.ResourceGroups[0].IsExpanded = true;
         TreeViewList[0] = quickAccess;
-        //await Dispatcher.UIThread.InvokeAsync(async () =>
-        //{
-        //    var resource = _vaultService.GetKeyVaultResourceBySubscriptionAndResourceGroup();
-        //    await foreach (var item in resource)
-        //    {
-        //        item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-        //        TreeViewList.Add(item);
-        //    }
-        //    _treeViewList = TreeViewList;
-        //}, DispatcherPriority.Default);
-
-        //var quickAccess = new KvSubscriptionModel { SubscriptionDisplayName = "Quick Access", SubscriptionId = "", KeyVaultResources = new List<KeyVaultResource> { }, Subscription = null, GlyphIcon = "Pin" };
-
-        //quickAccess.KeyVaultResources = TreeViewList[0].KeyVaultResources.Where(s => s.Data.Id != item.KeyVaultId).ToList();
-
-        //TreeViewList[0] = quickAccess;
-
-        //_treeViewList = TreeViewList;
     }
 
     [RelayCommand]
@@ -209,7 +221,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             // if they are selecting the list item, expand it as a courtesy
             if (e.PropertyName == nameof(KvResourceGroupModel.IsSelected))
                 kvResourceModel.IsExpanded = true;
-
             var hasPlaceholder = kvResourceModel.KeyVaultResources.Any(k => k.GetType().Name == nameof(KeyVaultResourcePlaceholder));
             // if its being expanded and there are no items in the array reach out to azure
             if (kvResourceModel.IsExpanded && hasPlaceholder)
@@ -218,12 +229,15 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
                 Dispatcher.UIThread.Invoke(async () =>
                 {
-                    var vaults = _vaultService.GetKeyVaultsByResourceGroup(kvResourceModel.ResourceGroupResource);
-
-                    await foreach (var vault in vaults)
+                    await DelaySetIsBusy(async () =>
                     {
-                        kvResourceModel.KeyVaultResources.Add(vault);
-                    }
+                        var vaults = _vaultService.GetKeyVaultsByResourceGroup(kvResourceModel.ResourceGroupResource);
+
+                        await foreach (var vault in vaults)
+                        {
+                            kvResourceModel.KeyVaultResources.Add(vault);
+                        }
+                    });
                 }, DispatcherPriority.ContextIdle);
             }
         }
@@ -234,7 +248,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         if (WatchedNameOfProps.Contains(e.PropertyName))
         {
             var kvSubModel = (KvSubscriptionModel)sender;
-             if(string.IsNullOrWhiteSpace(kvSubModel.SubscriptionId))
+            if (string.IsNullOrWhiteSpace(kvSubModel.SubscriptionId))
                 return;
 
             // if they are selecting the list item, expand it as a courtesy
@@ -248,6 +262,13 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 Dispatcher.UIThread.Invoke(async () =>
                 {
+
+                    await DelaySetIsBusy(async () =>
+                    {
+                     
+                  
+
+
                     kvSubModel.ResourceGroups.Clear();
                     var resourceGroups = _vaultService.GetResourceGroupBySubscription(kvSubModel);
 
@@ -263,6 +284,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                     }
                     kvSubModel.HasSubNodeDataBeenFetched = true;
                     kvSubModel.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                    });
                 }, DispatcherPriority.ContextIdle);
             }
         }

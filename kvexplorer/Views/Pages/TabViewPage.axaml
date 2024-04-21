@@ -104,15 +104,15 @@
                 AllowDropTabs="True"
                 CanDragTabs="True"
                 CanReorderTabs="True"
-                CloseButtonOverlayMode="OnPointerOver"
+                CloseButtonOverlayMode="Auto"
                 IsAddTabButtonVisible="False"
                 SelectedItem="{Binding SelectedItem}"
                 TabCloseRequested="TabCloseRequested"
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
-                TabStripHeader="          "
-                TabWidthMode="SizeToContent">
+                TabStripHeader="         "
+                TabWidthMode="Compact">
                 <ui:TabView.Styles>
                     <!--<Styles>
                         <Style Selector="uip|TabViewListView#TabListView">

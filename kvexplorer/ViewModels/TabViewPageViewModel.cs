@@ -19,11 +19,14 @@ public partial class TabViewPageViewModel : ViewModelBase
         Documents = new ObservableCollection<TabViewItem>();
 #if DEBUG
         for (int i = 0; i < 3; i++)
-        {
             Documents.Add(AddDocument(i));
-        }
 #endif
-        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+
+        Dispatcher.UIThread.Post( async () => {
+            _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+            var settings = await _settingsPageViewModel.GetAppSettings();
+            SplitViewDisplayMode = settings.SplitViewDisplayMode == "Inline" ? SplitViewDisplayMode.Inline : SplitViewDisplayMode.Overlay;
+        });
     }
 
     [ObservableProperty]
@@ -103,6 +106,7 @@ public partial class TabViewPageViewModel : ViewModelBase
         var tab = new TabViewItem
         {
             Header = model.Name,
+            IconSource = new SymbolIconSource { Symbol = Symbol.ProtectedDocument },
             Content = new VaultPage(model.Properties.VaultUri)
         };
 

@@ -53,11 +53,6 @@ public partial class KvExplorerDb
                 COMMIT TRANSACTION;
                 PRAGMA foreign_keys = on;
 
-                -- Table: Settings
-                DROP TABLE IF EXISTS Settings;
-                CREATE TABLE IF NOT EXISTS Settings ( Name  TEXT (200)  PRIMARY KEY UNIQUE, Value INTEGER (1) CONSTRAINT DEFAULT_FALSE DEFAULT (0) );
-                INSERT OR IGNORE INTO Settings ( Name, Value )
-                VALUES ( 'BackgroundTransparency', 0 ), ( 'ClipboardTimeout', 20 );
                 """;
 
         var createTableCommand = connection.CreateCommand();
@@ -164,31 +159,31 @@ public partial class KvExplorerDb
         await command.ExecuteNonQueryAsync();
     }
 
-    public async Task<bool> UpdateToggleSettings(SettingType name, bool value)
-    {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
-        command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
-        command.Parameters.Add(new SqliteParameter("@SettingValue", value ? 1 : 0));
-        command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
-        var rowsAffected = await command.ExecuteNonQueryAsync();
-        // Check if any rows were deleted (1 or more indicates success)
-        return rowsAffected > 0;
-    }
+    //public async Task<bool> UpdateToggleSettings(SettingType name, bool value)
+    //{
+    //    var connection = NewSqlConnection();
+    //    await connection.OpenAsync();
+    //    var command = connection.CreateCommand();
+    //    command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
+    //    command.Parameters.Add(new SqliteParameter("@SettingValue", value ? 1 : 0));
+    //    command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
+    //    var rowsAffected = await command.ExecuteNonQueryAsync();
+    //    // Check if any rows were deleted (1 or more indicates success)
+    //    return rowsAffected > 0;
+    //}
 
-    public async Task<T> UpdateToggleSettings<T>(SettingType name, T value)
-    {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
-        command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
-        command.Parameters.Add(new SqliteParameter("@SettingValue", value));
-        command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
-        var rowsAffected = await command.ExecuteNonQueryAsync();
-        // Check if any rows were deleted (1 or more indicates success)
-        return rowsAffected > 0 ? value : default;
-    }
+    //public async Task<T> UpdateToggleSettings<T>(SettingType name, T value)
+    //{
+    //    var connection = NewSqlConnection();
+    //    await connection.OpenAsync();
+    //    var command = connection.CreateCommand();
+    //    command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
+    //    command.Parameters.Add(new SqliteParameter("@SettingValue", value));
+    //    command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
+    //    var rowsAffected = await command.ExecuteNonQueryAsync();
+    //    // Check if any rows were deleted (1 or more indicates success)
+    //    return rowsAffected > 0 ? value : default;
+    //}
 
     public async Task<AppSettings> GetToggleSettings()
     {

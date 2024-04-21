@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -44,15 +45,17 @@ public partial class SettingsPage : UserControl
         (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.Execute(null);
     }
 
-    private void NumericUpDown_Spinned(object? sender, Avalonia.Controls.SpinEventArgs e)
-    {
-        (DataContext as SettingsPageViewModel)!.SetClearClipboardTimeoutCommand.Execute(null);
-    }
 
     private void AppTheme_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
         Control control = (Control)sender!;
         control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
         (DataContext as SettingsPageViewModel)!.SaveCurrentAppThemeCommand.Execute(null);
+    }
+
+    private void NumericUpDown_ValueChanged(object? sender, Avalonia.Controls.NumericUpDownValueChangedEventArgs e)
+    {
+        (DataContext as SettingsPageViewModel)!.SetClearClipboardTimeoutCommand.Execute(null);
+
     }
 }

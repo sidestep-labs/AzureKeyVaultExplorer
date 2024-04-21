@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,30 +12,38 @@ namespace kvexplorer.ViewModels;
 
 public partial class TabViewPageViewModel : ViewModelBase
 {
+    private SettingsPageViewModel _settingsPageViewModel { get; set; }
+
     public TabViewPageViewModel()
     {
         Documents = new ObservableCollection<TabViewItem>();
+#if DEBUG
         for (int i = 0; i < 3; i++)
         {
             Documents.Add(AddDocument(i));
         }
+#endif
+        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
     }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowPin))]
     public SplitViewDisplayMode splitViewDisplayMode = SplitViewDisplayMode.Inline;
 
-
     public bool ShowPin => SplitViewDisplayMode == SplitViewDisplayMode.Inline;
 
-
     [RelayCommand]
-    private void ChangePaneDisplay()
+    private async void ChangePaneDisplay()
     {
-        if (SplitViewDisplayMode is SplitViewDisplayMode.Inline) 
-            SplitViewDisplayMode = SplitViewDisplayMode.Overlay; 
+        if (SplitViewDisplayMode is SplitViewDisplayMode.Inline)
+            SplitViewDisplayMode = SplitViewDisplayMode.Overlay;
         else
             SplitViewDisplayMode = SplitViewDisplayMode.Inline;
+
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await _settingsPageViewModel.SetSplitViewDisplayModeCommand.ExecuteAsync(SplitViewDisplayMode.ToString());
+        }, DispatcherPriority.ApplicationIdle);
     }
 
     [ObservableProperty]
@@ -98,8 +107,7 @@ public partial class TabViewPageViewModel : ViewModelBase
         };
 
         Documents.Insert(0, tab);
-
-        SelectedItem = tab;// Documents[0];
+        SelectedItem = tab;
         SelectedItem.Focus();
     }
 }

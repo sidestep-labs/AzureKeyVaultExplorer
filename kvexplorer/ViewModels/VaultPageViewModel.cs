@@ -68,6 +68,8 @@ public partial class VaultPageViewModel : ViewModelBase
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
         BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-orange.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+
+#if DEBUG
         for (int i = 0; i < 5; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
@@ -122,7 +124,7 @@ public partial class VaultPageViewModel : ViewModelBase
             _vaultContents = VaultContents;
         }
     }
-
+#endif
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
     private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;

@@ -224,20 +224,6 @@ public partial class TabViewPage : UserControl
         }
     }
 
-    //private void TabView_AddButtonClick(TabView sender, EventArgs args)
-    //{
-    //    (sender.TabItems as IList).Add(CreateNewTab(sender.TabItems.Count()));
-    //}
-    //private DocumentItem CreateNewTab(int index)
-    //{
-    //    var tvi = new DocumentItem
-    //    {
-    //        Header = $"Vault Item {index}",
-    //        Content = $"Vault Item {index}",
-    //        IconSource = new SymbolIconSource { Symbol = Symbol.List },
-    //        Vault = new Vault("tet")
-    //    };
-    //    return tvi;
-    //}
-    /* FA demo app Logic for tab dragging and dropping */
+
+ 
 }

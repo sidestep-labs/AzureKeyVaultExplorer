@@ -21,7 +21,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<TabViewPageViewModel>();
         serviceCollection.AddSingleton<ToolBarViewModel>();
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
-        serviceCollection.AddTransient<SettingsPageViewModel>();
+        serviceCollection.AddSingleton<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<NotificationViewModel>();
         serviceCollection.AddSingleton<KvExplorerDb>();
@@ -37,8 +37,17 @@ public partial class App : Application
             KvExplorerDb.InitializeDatabase();
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        if (!File.Exists(settingsPath))
-            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false, "NavigationLayoutMode": "Left", "AppTheme": "System" }""");
+        if (!File.Exists(settingsPath)) {
+            var s = """
+                { 
+                    "BackgroundTransparency": false, 
+                    "NavigationLayoutMode": "Left", 
+                    "AppTheme": "System",
+                    "PaneDisplayMode": "inline"
+                }
+                """;
+            File.WriteAllText(settingsPath,s);
+        }
     }
 
     public override void Initialize()

@@ -81,36 +81,13 @@ public partial class MainView : UserControl
         base.OnAttachedToVisualTree(e);
 
         var vm = Defaults.Locator.GetRequiredService<MainViewModel>();
-        //_navView = this.FindControl<NavigationView>("NavView");
-        //var navViewItems = _navView.MenuItems;
-        //var navMenuItems = navViewItems.TakeLast(2).Cast<NavigationViewItem>();
-        //var footerItems = _navView.FooterMenuItems.Cast<NavigationViewItem>();
+   
 
         DataContext = vm;
         FrameView.NavigationPageFactory = vm.NavigationFactory;
 
         FrameView.Navigated += OnFrameViewNavigated;
-        //NavView.ItemInvoked += OnNavigationViewItemInvoked;
 
-        //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
-        //  {
-        //      ((NavigationViewItem)nv.FooterMenuItems[i]).Tag = NavigationFactory.GetPages().Last();
-        //  }
-
-        //todo remove
-        //var pages = NavigationFactory.GetPages();
-        //navMenuItems.ElementAt(0).Tag = pages[0];
-        //navMenuItems.ElementAt(1).Tag = pages[1];
-        //footerItems.ElementAt(0).Tag = pages[2];
-
-        //NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
-        //NavView.FooterMenuItemsSource = footerItems;
-
-        //NavView.MenuItemsSource = GetNavigationViewItems();
-        //NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
-        //NavView.IsPaneOpen = true;
-
-        //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
         FrameView.NavigateFromObject(new MainPage());
     }
 
@@ -118,22 +95,6 @@ public partial class MainView : UserControl
     {
         var page = e.Content as Control;
 
-        //foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
-        //{
-        //    if (nvi.Tag != null && nvi.Tag.Equals(page))
-        //    {
-        //        NavView.SelectedItem = nvi;
-        //    }
-        //}
-
-        //foreach (NavigationViewItem nvi in NavView.FooterMenuItemsSource)
-        //{
-        //    if (nvi.Tag != null && nvi.Tag.Equals(page))
-        //    {
-        //        NavView.SelectedItem = nvi;
-        //    }
-        //}
-        
         if (FrameView.BackStackDepth > 0) //&& !NavView.IsBackButtonVisible
         {
             AnimateContentForBackButton(true);
@@ -220,32 +181,6 @@ public partial class MainView : UserControl
         TransitionInfoOverride = new SlideNavigationTransitionInfo(),
         IsNavigationStackEnabled = true
     };
-
-    private IEnumerable<NavigationViewItem> GetNavigationViewItems()
-    {
-        return new List<NavigationViewItem>
-        {
-            new()
-            {
-                Content = "Vault Library",
-                Tag = NavigationFactory.GetPages()[0],
-                IconSource= this.FindResource("LibraryIcon") as IconSource
-            }
-        };
-    }
-
-    private IEnumerable<NavigationViewItem> GetFooterNavigationViewItems()
-    {
-        return new List<NavigationViewItem>
-        {
-            new()
-            {
-                Content = "Settings",
-                Tag = NavigationFactory.GetPages()[2],
-                IconSource= this.FindResource("SettingsIcon") as IconSource
-            }
-        };
-    }
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {

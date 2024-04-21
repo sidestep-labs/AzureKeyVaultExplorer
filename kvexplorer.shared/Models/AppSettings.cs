@@ -1,14 +1,15 @@
 ﻿namespace kvexplorer.shared.Models;
+
 using System.ComponentModel.DataAnnotations;
 
 public class AppSettings
 {
-    public bool BackgroundTransparency { get; set; }
-    public int ClipboardTimeout { get; set; }
-
-    [AllowedValues("Left", "Auto", "Top")]
-    public string NavigationLayoutMode { get; set; }
+    public bool BackgroundTransparency { get; set; } = false;
+    public int ClipboardTimeout { get; set; } = 30;
 
     [AllowedValues("System", "Light", "Dark")]
-    public string AppTheme { get; set; }
+    public string AppTheme { get; set; } = "System";
+
+    [AllowedValues("Inline", "Overlay")]
+    public string SplitViewDisplayMode { get; set; } = "Inline";
 }

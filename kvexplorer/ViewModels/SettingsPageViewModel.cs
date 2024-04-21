@@ -19,6 +19,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Avalonia;
+using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace kvexplorer.ViewModels;
 
@@ -41,7 +43,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     private AuthenticatedUserClaims? authenticatedUserClaims;
 
     [ObservableProperty]
-    private int clearClipboardTimeout = 30;
+    private int clearClipboardTimeout;
 
     [ObservableProperty]
     private string currentAppTheme;
@@ -61,8 +63,8 @@ public partial class SettingsPageViewModel : ViewModelBase
         {
             Version = GetAppVersion();
             var jsonSettings = await GetAppSettings();
-            var s = await _dbContext.GetToggleSettings();
-            ClearClipboardTimeout = s.ClipboardTimeout;
+            //var s = await _dbContext.GetToggleSettings();
+            ClearClipboardTimeout = jsonSettings.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = jsonSettings.BackgroundTransparency;
             CurrentAppTheme = jsonSettings.AppTheme ?? "System";
 
@@ -70,9 +72,6 @@ public partial class SettingsPageViewModel : ViewModelBase
         }, DispatcherPriority.MaxValue);
     }
 
-    //[ObservableProperty]
-    //private string navigationLayoutMode;
-    public List<string> Items => ["Auto", "Left", "Top"];
 
     public static string GetAppVersion()
     {
@@ -104,7 +103,6 @@ public partial class SettingsPageViewModel : ViewModelBase
         }
     }
 
-    //}
     public async Task<AppSettings> GetAppSettings()
     {
         var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
@@ -128,8 +126,16 @@ public partial class SettingsPageViewModel : ViewModelBase
     private async Task SetClearClipboardTimeout()
     {
         await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
-        await _dbContext.UpdateToggleSettings(SettingType.ClipboardTimeout, ClearClipboardTimeout);
+        await AddOrUpdateAppSettings(nameof(AppSettings.ClipboardTimeout), ClearClipboardTimeout);
     }
+
+
+    [RelayCommand]
+    private async Task SetSplitViewDisplayMode(string splitViewDisplayMode)
+    {
+        await AddOrUpdateAppSettings(nameof(AppSettings.SplitViewDisplayMode), splitViewDisplayMode);
+    }
+
 
     [RelayCommand]
     private async Task SignInOrRefreshTokenAsync()
@@ -154,6 +160,12 @@ public partial class SettingsPageViewModel : ViewModelBase
     {
         await _authService.RemoveAccount();
         AuthenticatedUserClaims = null;
+    }
+
+    [RelayCommand]
+    private void OpenIssueGithub()
+    {
+        Process.Start(new ProcessStartInfo("https://github.com/cricketthomas/kvexplorer/issues/new") { UseShellExecute = true, Verb = "open" });
     }
 
     // TODO: Create method of changing the background color from transparent to non stranparent

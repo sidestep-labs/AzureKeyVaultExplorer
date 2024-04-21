@@ -67,10 +67,10 @@
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             FormatString="0"
-                            Increment="10"
+                            Increment="5"
                             Maximum="60"
-                            Minimum="10"
-                            Spinned="NumericUpDown_Spinned"
+                            Minimum="5"
+                            ValueChanged="NumericUpDown_ValueChanged"
                             Value="{Binding ClearClipboardTimeout, Mode=TwoWay}" />
                     </ui:SettingsExpander.Footer>
                 </ui:SettingsExpander>
@@ -121,7 +121,10 @@
                     Foreground="{DynamicResource AccentTextFillColorTertiaryBrush}"
                     NavigateUri="https://github.com/cricketthomas/kvexplorer/blob/master/LICENSE"
                     Theme="{StaticResource TransparentButton}" />
-                <Button Margin="0,10" Content="Report Bug" />
+                <Button
+                    Margin="0,10"
+                    Command="{Binding OpenIssueGithubCommand}"
+                    Content="Send Feedback" />
             </StackPanel>
         </WrapPanel>
     </ScrollViewer>

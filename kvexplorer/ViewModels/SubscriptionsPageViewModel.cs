@@ -31,12 +31,13 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     private readonly KvExplorerDb _dbContext;
     private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;
-
+    private NotificationViewModel _notificationViewModel;
     public SubscriptionsPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         _memoryCache = Defaults.Locator.GetRequiredService<IMemoryCache>();
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         Subscriptions = [];
     }
 
@@ -98,5 +99,6 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         await _dbContext.InsertSubscriptions(added);
         await _dbContext.RemoveSubscriptionsBySubscriptionIDs(removed);
          _memoryCache.Remove("subscriptions");
+        _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("Saved", "Your changes have been saved.", Avalonia.Controls.Notifications.NotificationType.Information));
     }
 }

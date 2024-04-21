@@ -9,20 +9,20 @@
     xmlns:views="clr-namespace:kvexplorer.Views"
     xmlns:vm="using:kvexplorer.ViewModels"
     Title="Key Vault Explorer"
-    Width="740"
-    Height="450"
+    Width="900"
+    Height="500"
     d:DesignHeight="450"
-	Icon="/Assets/kv-orange.ico"
     d:DesignWidth="800"
     ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
+    Icon="/Assets/kv-orange.ico"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
     mc:Ignorable="d">
-	<!--Icon="{StaticResource KvLogo}"-->
+    <!--  Icon="{StaticResource KvLogo}"  -->
 
-	<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-orange.ico" />
         </ResourceDictionary>

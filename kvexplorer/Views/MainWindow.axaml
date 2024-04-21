@@ -12,16 +12,17 @@
     Width="740"
     Height="450"
     d:DesignHeight="450"
+	Icon="/Assets/kv-orange.ico"
     d:DesignWidth="800"
     ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
                                                    macOS=True}"
-    Icon="{StaticResource KvLogo}"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
     mc:Ignorable="d">
+	<!--Icon="{StaticResource KvLogo}"-->
 
-    <Window.Resources>
+	<Window.Resources>
         <ResourceDictionary>
             <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://kvexplorer/Assets/kv-orange.ico" />
         </ResourceDictionary>

@@ -111,7 +111,8 @@
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
-                TabStripHeader="         "
+                TabStripHeader="{OnPlatform '         ',
+                                            macOS=''}"
                 TabWidthMode="Compact">
                 <ui:TabView.Styles>
                     <!--<Styles>

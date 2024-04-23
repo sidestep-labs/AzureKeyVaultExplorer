@@ -30,8 +30,6 @@
 
     <NativeMenu.Menu>
         <NativeMenu>
-           <NativeMenuItem Header="About My App" Command="{Binding AboutCommand}" />
-
             <NativeMenuItem Header="Account">
                 <NativeMenuItem.Menu>
                     <NativeMenu>

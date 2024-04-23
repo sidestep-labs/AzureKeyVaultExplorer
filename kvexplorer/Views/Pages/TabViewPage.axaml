@@ -141,7 +141,7 @@
                 VerticalAlignment="Stretch"
                 IsVisible="{Binding !Documents.Count}"
                 Orientation="Vertical">
-                <Grid Margin="0,23,0,0" RowDefinitions="Auto">
+                <Grid Margin="{OnPlatform '0, 0, 0, 0', Windows='0, 23, 0, 0', macOS='0,18,0,0' x:TypeArguments=Thickness}" RowDefinitions="Auto">
                     <Border
                         Grid.Row="0"
                         Margin="10,0,10,0"

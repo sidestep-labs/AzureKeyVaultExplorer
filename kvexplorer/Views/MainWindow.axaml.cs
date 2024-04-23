@@ -29,12 +29,10 @@ public partial class MainWindow : AppWindow
     public MainWindow()
     {
         InitializeComponent();
-        //TitleBar.ExtendsContentIntoTitleBar = true;
-        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
-
         AddHandler(TransparencyChangedEvent, OnTransparencyChangedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         AddHandler(SetAppThemeEvent, OnSetAppThemeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
-
+        TitleBar.ExtendsContentIntoTitleBar = true;
+        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(35, 155, 155, 155);
         App.Current.Resources.TryGetResource("DynamicActiveBackgroundFAColor", null, out var bg);
         BackgroundBrush = (IBrush)bg;
@@ -89,8 +87,7 @@ public partial class MainWindow : AppWindow
         if (TitleBar is not null && OperatingSystem.IsWindows())
 
         {
-            TitleBar.ExtendsContentIntoTitleBar = true;
-            TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+        
 
             var parent = this.FindControl<Views.MainView>("MainView")!.FindControl<FluentAvalonia.UI.Controls.Frame>("FrameView");
 

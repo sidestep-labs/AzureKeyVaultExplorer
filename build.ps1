@@ -12,8 +12,8 @@ $DebugPreference = 'continue';
 if ($RunBuild) {
     Push-Location  C:\repos\kvexplorer\kvexplorer.Desktop;
     $env:KVEXPLORER_APP_VERSION = $BuildNumber
-    dotnet publish  -o publish/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=true
-    dotnet publish -c Release -o ..\publish\ -p:PublishSingleFile=true -p:PublishTrimmed=true -p:TrimMode=link -p:IncludeNativeLibrariesForSelfExtract=true --self-contained=true -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform
+    dotnet publish  -o publish/ -c Release --self-contained -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=true  -p:PublishReadyToRun=true 
+    dotnet publish -c Release -o ..\publish\ -p:PublishSingleFile=true -p:PublishTrimmed=true -p:TrimMode=link -p:IncludeNativeLibrariesForSelfExtract=true --self-contained=true -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform  -p:PublishReadyToRun=true 
     #New-Item -Path $ProjectDir -Name "VERSION" -ItemType "file" -Value $BuildNumber -Force
     explorer.exe .
     pop-location

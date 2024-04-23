@@ -123,8 +123,11 @@ public partial class VaultPageViewModel : ViewModelBase
             }
             _vaultContents = VaultContents;
         }
-    }
+
 #endif
+
+    }
+
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
     private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
@@ -427,17 +430,7 @@ public partial class VaultPageViewModel : ViewModelBase
 #else
 
         var notif = new Notification(subject, message, notificationType);
-
         _notificationViewModel.AddMessage(notif);
-        //var nm = new WindowNotificationManager(topLevel)
-        //{
-        //    Position = NotificationPosition.BottomRight,
-        //    MaxItems = 1,
-        //};
-        //nm.TemplateApplied += (sender, args) =>
-        //{
-        //    nm.Show(notif);
-        //};
 
 #endif
     }

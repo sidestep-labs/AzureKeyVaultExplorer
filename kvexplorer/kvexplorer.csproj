@@ -30,8 +30,6 @@
     <None Remove="Assets\Close.png" />
     <None Remove="Assets\Cloud.png" />
     <None Remove="Assets\CollapseAll.png" />
-    <None Remove="Assets\folder-classic.ico" />
-    <None Remove="Assets\folder-classic.png" />
     <None Remove="Assets\folder.png" />
     <None Remove="Assets\FolderClosed.png" />
     <None Remove="Assets\KeyVault.png" />

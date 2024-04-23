@@ -23,7 +23,8 @@
     <UserControl.Styles>
         <Styles>
             <Style Selector="Grid#TabViewGrid.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="0,21,0,0" />
+                <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 21, 0, 0', macOS='0,26,0,0' x:TypeArguments=Thickness}" />
+
             </Style>
         </Styles>
     </UserControl.Styles>

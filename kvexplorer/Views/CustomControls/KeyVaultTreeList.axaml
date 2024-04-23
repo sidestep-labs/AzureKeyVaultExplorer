@@ -97,7 +97,7 @@
                     ToolTip.Tip="Refresh available subscriptions"
                     ToolTip.VerticalOffset="10">
                     <ui:BitmapIcon
-                        RenderOptions.BitmapInterpolationMode="Default"
+                        RenderOptions.BitmapInterpolationMode="None"
                         ShowAsMonochrome="True"
                         UriSource="avares://kvexplorer/Assets/Refresh.png" />
                 </Button>

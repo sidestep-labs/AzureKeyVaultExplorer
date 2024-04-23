@@ -49,25 +49,22 @@ public partial class MainWindow : AppWindow
             Background = null;
         }
 
-        //if (OperatingSystem.IsWindows())
-        //{
-        Activated += (sender, e) =>
+        if (OperatingSystem.IsWindows())
+        {
+            Activated += (sender, e) =>
         {
             if (TransparencyEnabled)
                 Background = null;
         };
-        Deactivated += (sender, e) =>
+            Deactivated += (sender, e) =>
+            {
+                Background = BackgroundBrush;
+            };
+        }
+        else
         {
             Background = BackgroundBrush;
-        };
-        //}
-        //else
-        //{
-        //    Background = BackgroundBrush;
-        //}
-
-        //TitleBar.ExtendsContentIntoTitleBar = OperatingSystem.IsMacOS() ? true : false;
-        // ExtendClientAreaChromeHints = OperatingSystem.IsMacOS() ? Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome : Avalonia.Platform.ExtendClientAreaChromeHints.Default;
+        }
     }
 
     private bool TransparencyEnabled { get; set; }
@@ -89,7 +86,8 @@ public partial class MainWindow : AppWindow
     {
         base.OnOpened(e);
 
-        if (TitleBar != null)
+        if (TitleBar is not null && OperatingSystem.IsWindows())
+
         {
             TitleBar.ExtendsContentIntoTitleBar = true;
             TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;

@@ -78,7 +78,8 @@
                     Name="BackgroundTransparencySetting"
                     Description="When checked, this will enabled more modern Mica tranparent background on Windows 11"
                     Header="Mica Background"
-                    IconSource="ColorBackground">
+                    IconSource="ColorBackground"
+                    IsVisible="{OnPlatform True,macOS=False}">
                     <ui:SettingsExpander.Footer>
                         <CheckBox
                             Name="BackgroundTransparencyCheckbox"

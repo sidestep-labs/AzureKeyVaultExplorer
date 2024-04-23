@@ -10,7 +10,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>kv-orange.ico</ApplicationIcon>
     <Version>1.0.0.0</Version>
-    <AssemblyName>Key Vault Explorer</AssemblyName>
+    <AssemblyName>kvexplorerdesktop</AssemblyName>
     <!-- -->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>

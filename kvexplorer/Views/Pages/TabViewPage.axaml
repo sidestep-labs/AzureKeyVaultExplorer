@@ -53,7 +53,7 @@
                                 <TextBlock
                                     DockPanel.Dock="Left"
                                     FontSize="{DynamicResource FontSizeSmall}"
-                                    Text="Explorer" />
+                                    Text="Subscription Explorer" />
                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                     <Button
                                         Padding="4"

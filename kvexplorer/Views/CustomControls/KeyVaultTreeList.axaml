@@ -96,7 +96,10 @@
                     Theme="{StaticResource TransparentButton}"
                     ToolTip.Tip="Refresh available subscriptions"
                     ToolTip.VerticalOffset="10">
-                    <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Refresh.png" />
+                    <ui:BitmapIcon
+                        RenderOptions.BitmapInterpolationMode="Default"
+                        ShowAsMonochrome="True"
+                        UriSource="avares://kvexplorer/Assets/Refresh.png" />
                 </Button>
 
                 <Button

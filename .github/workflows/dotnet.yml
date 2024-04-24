@@ -1,28 +1,40 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET Build and Publish
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ dev ]
 
 jobs:
+
   build:
-
-    runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
+    
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+        
     - name: Build
-      run: dotnet build 
-    # - name: Test
-    #   run: dotnet test --no-build --verbosity normal
+      run: dotnet build --configuration Release
+      
+    - name: Publish Windows
+      if: matrix.os == 'windows-latest'
+      run: dotnet publish --configuration Release --runtime win10-x64 --output ./artifacts/win10-x64
+      
+    - name: Publish Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet publish --configuration Release --runtime osx-x64 --output ./artifacts/osx-x64
+      
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}
+        path: ./artifacts

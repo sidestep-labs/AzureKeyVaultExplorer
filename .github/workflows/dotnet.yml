@@ -6,35 +6,52 @@ on:
   pull_request:
     branches: [ dev ]
 
+permissions:
+  contents: write
+
 jobs:
 
   build:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest]
+        # os: [windows-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-        
-    - name: Build
-      run: dotnet build --configuration Release
-      
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget
     - name: Publish Windows
       if: matrix.os == 'windows-latest'
-      run: dotnet publish --configuration Release --runtime win10-x64 --output ./artifacts/win10-x64
+      run: dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime win-x64 --output ${{ github.workspace }}\artifacts\win-x64 -f net8.0-windows10.0.19041.0
       
-    - name: Publish Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: dotnet publish --configuration Release --runtime osx-x64 --output ./artifacts/osx-x64
-      
+    # - name: Publish Linux
+    #   if: matrix.os == 'ubuntu-latest'
+    #   run: dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --self-contained true --runtime linux-x64 --output ../artifacts/linux-x64
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}
-        path: ./artifacts
+        path: ${{ github.workspace }}\artifacts\
+   
+    - name: Create Release
+      run: |
+        gh release create v0.1.${{github.run_id}} --draft
+        gh release upload v0.1.${{github.run_id}} ${{ github.workspace }}\artifacts\
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      shell: pwsh
+      
+
+        

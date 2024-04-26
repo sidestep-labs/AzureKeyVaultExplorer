@@ -1,6 +1,6 @@
-﻿using Microsoft.Data.Sqlite;
-using System.Collections.Generic;
-using System.IO;
+﻿using kvexplorer.shared.Models;
+using Microsoft.Data.Sqlite;
+using System.Text;
 
 namespace kvexplorer.shared.Database;
 
@@ -24,17 +24,17 @@ public partial class KvExplorerDb
         string tableCommand = """
                 PRAGMA foreign_keys = off;
                 BEGIN TRANSACTION;
-                -- Table: BookmarkedItems
-                CREATE TABLE IF NOT EXISTS BookmarkedItems (
-                    Id                      INTEGER NOT NULL
-                                                    CONSTRAINT PK_BookmarkedItems PRIMARY KEY AUTOINCREMENT,
-                    Name                    TEXT    NOT NULL,
-                    VaultUri                TEXT    NOT NULL,
-                    Type                    INT     NOT NULL,
-                    SubscriptionDisplayName TEXT,
-                    ContentType             TEXT,
-                    Version                 TEXT    NOT NULL
+                -- Table: Subscriptions
+                CREATE TABLE Subscriptions (
+                    DisplayName    TEXT NOT NULL CONSTRAINT UQ_DisplayName UNIQUE ON CONFLICT IGNORE,
+                    SubscriptionId TEXT (200) PRIMARY KEY  UNIQUE ON CONFLICT IGNORE,
+                    TenantId       TEXT (200)
                 );
+                CREATE UNIQUE INDEX IX_Subscriptions_DisplayName_SubscriptionsId ON Subscriptions (
+                    SubscriptionId ASC,
+                    DisplayName ASC
+                );
+
                 -- Table: QuickAccess
                 CREATE TABLE IF NOT EXISTS QuickAccess (
                     Id                      INTEGER NOT NULL CONSTRAINT PK_QuickAccess PRIMARY KEY AUTOINCREMENT,
@@ -46,11 +46,6 @@ public partial class KvExplorerDb
                     TenantId                TEXT    NOT NULL,
                     Location                TEXT    NOT NULL
                 );
-                -- Index: IX_BookmarkedItems_Name_Version
-                CREATE UNIQUE INDEX IF NOT EXISTS IX_BookmarkedItems_Name_Version ON BookmarkedItems (
-                    "Name",
-                    "Version"
-                );
                 -- Index: IX_QuickAccess_KeyVaultId
                 CREATE INDEX IF NOT EXISTS IX_QuickAccess_KeyVaultId ON QuickAccess (
                     KeyVaultId
@@ -58,10 +53,6 @@ public partial class KvExplorerDb
                 COMMIT TRANSACTION;
                 PRAGMA foreign_keys = on;
 
-                -- Table: Settings
-                DROP TABLE IF EXISTS Settings;
-                CREATE TABLE IF NOT EXISTS Settings ( Name  TEXT (200)  PRIMARY KEY UNIQUE, Value INTEGER (1) CONSTRAINT DEFAULT_FALSE DEFAULT (0) );
-                INSERT OR IGNORE INTO Settings ( Name, Value ) VALUES ( 'BackgroundTransparency', 0 );
                 """;
 
         var createTableCommand = connection.CreateCommand();
@@ -168,37 +159,119 @@ public partial class KvExplorerDb
         await command.ExecuteNonQueryAsync();
     }
 
-    public async Task<bool> UpdateToggleSettings(SettingType name, bool value)
-    {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
-        command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
-        command.Parameters.Add(new SqliteParameter("@SettingValue", value ? 1 : 0));
-        command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
-        var rowsAffected = await command.ExecuteNonQueryAsync();
-        // Check if any rows were deleted (1 or more indicates success)
-        return rowsAffected > 0;
-    }
+    //public async Task<bool> UpdateToggleSettings(SettingType name, bool value)
+    //{
+    //    var connection = NewSqlConnection();
+    //    await connection.OpenAsync();
+    //    var command = connection.CreateCommand();
+    //    command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
+    //    command.Parameters.Add(new SqliteParameter("@SettingValue", value ? 1 : 0));
+    //    command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
+    //    var rowsAffected = await command.ExecuteNonQueryAsync();
+    //    // Check if any rows were deleted (1 or more indicates success)
+    //    return rowsAffected > 0;
+    //}
 
-    public async Task<List<Settings>> GetToggleSettings()
+    //public async Task<T> UpdateToggleSettings<T>(SettingType name, T value)
+    //{
+    //    var connection = NewSqlConnection();
+    //    await connection.OpenAsync();
+    //    var command = connection.CreateCommand();
+    //    command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
+    //    command.Parameters.Add(new SqliteParameter("@SettingValue", value));
+    //    command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
+    //    var rowsAffected = await command.ExecuteNonQueryAsync();
+    //    // Check if any rows were deleted (1 or more indicates success)
+    //    return rowsAffected > 0 ? value : default;
+    //}
+
+    public async Task<AppSettings> GetToggleSettings()
     {
         var connection = NewSqlConnection();
         await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "SELECT Name, Value FROM SETTINGS";
-        var items = new List<Settings>();
+        var settings = new AppSettings();
         var reader = command.ExecuteReader();
         while (reader.Read())
         {
             Enum.TryParse(reader.GetString(0), true, out SettingType parsedEnumValue);
-            var item = new Settings
+            switch (parsedEnumValue)
             {
-                Name = parsedEnumValue,
-                Value = reader.GetBoolean(1),
-            };
-            items.Add(item);
+                case SettingType.BackgroundTransparency:
+                    settings.BackgroundTransparency = reader.GetBoolean(1);
+                    break;
+
+                case SettingType.ClipboardTimeout:
+                    settings.ClipboardTimeout = reader.GetInt32(1);
+                    break;
+
+                default:
+                    break;
+            }
         }
-        return items;
+        return settings;
+    }
+
+    public async Task<IEnumerable<Subscriptions>> GetStoredSubscriptions()
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT DisplayName, SubscriptionId, TenantId FROM Subscriptions;";
+
+        var reader = command.ExecuteReader();
+
+        var subscriptions = new List<Subscriptions>();
+        while (await reader.ReadAsync())
+        {
+            var subscription = new Subscriptions
+            {
+                DisplayName = reader.GetString(0),
+                SubscriptionId = reader.GetString(1),
+                TenantId = reader.GetGuid(2)
+            };
+            subscriptions.Add(subscription);
+        }
+        return subscriptions;
+    }
+
+    public async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+
+        foreach (var subscription in subscriptions)
+        {
+            var command = connection.CreateCommand();
+            command.CommandText = "INSERT OR IGNORE INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
+            command.Parameters.AddWithValue("@DisplayName", subscription.DisplayName);
+            command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+            command.Parameters.AddWithValue("@TenantId", subscription.TenantId);
+            await command.ExecuteNonQueryAsync();
+        }
+    }
+
+    public async Task RemoveSubscriptionsBySubscriptionIDs(IEnumerable<string> subscriptionIds)
+    {
+        var connection = NewSqlConnection();
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        var paramString = new StringBuilder("DELETE FROM Subscriptions WHERE SubscriptionId IN (");
+
+        subscriptionIds.TryGetNonEnumeratedCount(out int count);
+        foreach (var (subscriptionId, index) in subscriptionIds.Select((id, index) => (id, index)))
+        {
+            command.Parameters.AddWithValue("@SubscriptionId" + index, subscriptionId);
+            paramString.Append(index > 0 && index > count ? ',' : "");
+            paramString.Append($"@SubscriptionId{index}");
+        }
+        paramString.Append(')');
+
+        command.CommandText = paramString.ToString();
+
+        await command.ExecuteNonQueryAsync();
     }
 }

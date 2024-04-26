@@ -452,4 +452,5 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/avalonia.kvexplorer.Desktop/publish*
+/kvexplorer.Desktop/publish*
+/kvexplorer.Desktop/publish-aot*

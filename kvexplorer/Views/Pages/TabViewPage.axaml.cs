@@ -1,35 +1,48 @@
-﻿using kvexplorer.ViewModels;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Remote.Protocol.Input;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using kvexplorer.shared;
-using kvexplorer.shared.Database;
-using kvexplorer.shared.Models;
+using kvexplorer.ViewModels;
+using kvexplorer.Views.CustomControls;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 
 namespace kvexplorer.Views.Pages;
 
 public partial class TabViewPage : UserControl
 {
     public static readonly string DataIdentifier = "MyTabItemFromMain";
+    public static readonly RoutedEvent<RoutedEventArgs> PaneToggledRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneToggledRoutedEvent), RoutingStrategies.Tunnel);
+
 
     public TabViewPage()
     {
         InitializeComponent();
         //var vm = new TabViewPageViewModel();
-        KeyUp += TabViewPage_KeyUpFocusSearchBox;
+        //KeyUp += TabViewPage_KeyUpFocusSearchBox;
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         // TabViewDoc.SelectionChanged += TabViewDoc_SelectionChanged;
+
+        var dragRegion = this.FindControl<Panel>("CustomDragRegion");
+        dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ? 138 : 138;
+        AddHandler(PaneToggledRoutedEvent, OnPaneToggledRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }
 
+    private void OnPaneToggledRoutedEvent(object? sender, RoutedEventArgs e)
+    {
+        var splitView =  this.FindControl<SplitView>("VaultListSplitView")!;
+        splitView.IsPaneOpen = !splitView.IsPaneOpen;
+    }
 
-public void TabStripDragOver(object sender, DragEventArgs e)
+    private void IsPaneToggled_ButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(TabViewPage.PaneToggledRoutedEvent));
+    }
+
+    public void TabStripDragOver(object sender, DragEventArgs e)
     {
         if (e.Data.Contains(DataIdentifier))
         {
@@ -188,7 +201,7 @@ public void TabStripDragOver(object sender, DragEventArgs e)
         //    }
         //}
 
-        //foreach (TabViewItem item in TabViewDoc.TabItems)
+        //foreach (TabViewItem item in TabView.TabItems)
         //{
         //    if (item.IsSelected) {
         //    item.Classes.
@@ -202,7 +215,6 @@ public void TabStripDragOver(object sender, DragEventArgs e)
         //}
     }
 
-
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
@@ -212,20 +224,6 @@ public void TabStripDragOver(object sender, DragEventArgs e)
         }
     }
 
-    //private void TabView_AddButtonClick(TabView sender, EventArgs args)
-    //{
-    //    (sender.TabItems as IList).Add(CreateNewTab(sender.TabItems.Count()));
-    //}
-    //private DocumentItem CreateNewTab(int index)
-    //{
-    //    var tvi = new DocumentItem
-    //    {
-    //        Header = $"Vault Item {index}",
-    //        Content = $"Vault Item {index}",
-    //        IconSource = new SymbolIconSource { Symbol = Symbol.List },
-    //        Vault = new Vault("tet")
-    //    };
-    //    return tvi;
-    //}
-    /* FA demo app Logic for tab dragging and dropping */
+
+ 
 }

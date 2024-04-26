@@ -8,8 +8,12 @@ public class AuthService
 {
     public IPublicClientApplication authenticationClient;
     public MsalCacheHelper msalCacheHelper;
+
     // Providing the RedirectionUri to receive the token based on success or failure.
     public bool IsAuthenticated { get; private set; } = false;
+
+    public string TenantName { get; private set; }
+
     public IAccount Account { get; private set; }
 
     public AuthService()
@@ -38,9 +42,20 @@ public class AuthService
             //.WithUseEmbeddedWebView(false)
             //.WithSystemWebViewOptions(options)
             //#endif
-            result = await authenticationClient.AcquireTokenInteractive(Constants.Scopes).WithExtraScopesToConsent(Constants.AzureRMScope).ExecuteAsync(cancellationToken);
+            result = await authenticationClient.AcquireTokenInteractive(Constants.Scopes)
+                //.WithExtraScopesToConsent(Constants.AzureRMScope)
+                /*
+                 * Not including extra scopes allows personal accounts to sign in, however, this will be thrown.
+                 (Windows Azure Service Management API) is configured for use by Azure Active Directory users only. 
+                    Please do not use the /consumers endpoint to serve this request. T
+
+                https://stackoverflow.com/questions/66470333/error-azure-key-vault-is-configured-for-use-by-azure-active-directory-users-on
+                 */
+
+                .ExecuteAsync(cancellationToken);
 
             IsAuthenticated = true;
+            TenantName = result.Account.Username.Split("@").TakeLast(1).Single();
             // set the preferences/settings of the signed in account
             //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
@@ -69,6 +84,7 @@ public class AuthService
         Account = accounts.First();
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
         IsAuthenticated = true;
+        TenantName = Account.Username.Split("@").TakeLast(1).Single();
         return authenticationResult;
     }
 
@@ -123,7 +139,4 @@ public class AuthService
         var accounts = await authenticationClient.GetAccountsAsync();
         return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.First()).ExecuteAsync();
     }
-
-
 }
-

@@ -34,34 +34,43 @@ public partial class VaultPageViewModel : ViewModelBase
     public bool isBusy = false;
 
     [ObservableProperty]
+    public bool hasAuthorizationError = false;
+
+    [ObservableProperty]
+    public string authorizationMessage;
+
+    [ObservableProperty]
     public string searchQuery;
+
+    [ObservableProperty]
+    public KeyVaultContentsAmalgamation selectedRow;
 
     [ObservableProperty]
     public TabStripItem selectedTab;
 
     [ObservableProperty]
-    public Uri vaultUri;
-
-    public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
-
-    [ObservableProperty]
     public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
-    private readonly VaultService _vaultService;
-    private readonly AuthService _authService;
-    private readonly WindowNotificationManager _windowNotification;
-    private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-    private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+    [ObservableProperty]
+    public Uri vaultUri;
 
+    private readonly AuthService _authService;
+    private readonly VaultService _vaultService;
+    private SettingsPageViewModel _settingsPageViewModel;
+    private NotificationViewModel _notificationViewModel;
     private Bitmap BitmapImage;
 
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
+        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
-        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
-        for (int i = 0; i < 50; i++)
+        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-orange.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+
+#if DEBUG
+        for (int i = 0; i < 5; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
 
@@ -77,6 +86,8 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        CreatedOn = new System.DateTime(),
+                        UpdatedOn = new System.DateTime(),
                     });
                     break;
 
@@ -90,6 +101,8 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        UpdatedOn = new System.DateTime(),
+                        CreatedOn = new System.DateTime(),
                     });
                     break;
 
@@ -103,19 +116,27 @@ public partial class VaultPageViewModel : ViewModelBase
                         VaultUri = new Uri("https://stackoverflow.com/"),
                         Version = "version 1",
                         SecretProperties = sp,
+                        CreatedOn = new System.DateTime(),
+                        UpdatedOn = new System.DateTime(),
                     });
                     break;
             }
             _vaultContents = VaultContents;
         }
+
+#endif
+
     }
 
+    public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
+    private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+    private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
 
-    private async Task DelaySetIsBusy(bool val)
+    public async Task ClearClipboardAsync()
     {
-        await Task.Delay(1000);
-        IsBusy = val;
+        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
+        await clipboard.ClearAsync();
     }
 
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
@@ -127,53 +148,108 @@ public partial class VaultPageViewModel : ViewModelBase
             {
                 case KeyVaultItemType.Certificate:
                     await GetCertificatesForVault(VaultUri);
+                    LoadedItemTypes.TryAdd(item, true);
                     break;
 
                 case KeyVaultItemType.Key:
                     await GetKeysForVault(VaultUri);
+                    LoadedItemTypes.TryAdd(item, true);
                     break;
 
                 case KeyVaultItemType.Secret:
                     await GetSecretsForVault(VaultUri);
+                    LoadedItemTypes.TryAdd(item, true);
                     break;
 
                 case KeyVaultItemType.All:
                     VaultContents.Clear();
-                    await Task.WhenAll(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
+                    await Task.WhenAny(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Secret, true);
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Key, true);
                     LoadedItemTypes.TryAdd(KeyVaultItemType.Certificate, true);
+                    LoadedItemTypes.TryAdd(KeyVaultItemType.All, true);
                     break;
 
                 default:
                     break;
             }
-            LoadedItemTypes.TryAdd(item, true);
         }
         if (item == KeyVaultItemType.All)
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
         else
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.ToLowerInvariant().Contains(SearchQuery ?? "")));
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
 
         await DelaySetIsBusy(false);
+    }
+
+    public async Task GetCertificatesForVault(Uri kvUri)
+    {
+        var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
+        try
+        {
+            await foreach (var val in certs)
+            {
+                VaultContents.Add(new KeyVaultContentsAmalgamation
+                {
+                    Name = val.Name,
+                    Id = val.Id,
+                    Type = KeyVaultItemType.Certificate,
+                    VaultUri = val.VaultUri,
+                    ValueUri = val.Id,
+                    Version = val.Version,
+                    CertificateProperties = val,
+                    Tags = val.Tags,
+                    UpdatedOn = val.UpdatedOn,
+                    CreatedOn = val.CreatedOn,
+                    ExpiresOn = val.ExpiresOn,
+                    Enabled = val.Enabled,
+                    NotBefore = val.NotBefore,
+                    RecoverableDays = val.RecoverableDays,
+                    RecoveryLevel = val.RecoveryLevel
+                });
+            }
+        }
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+            Debug.WriteLine(ex.Message);
+        }
+        _vaultContents = VaultContents;
     }
 
     public async Task GetKeysForVault(Uri kvUri)
     {
         var keys = _vaultService.GetVaultAssociatedKeys(kvUri);
-        await foreach (var key in keys)
+        try
         {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
+            await foreach (var val in keys)
             {
-                Name = key.Name,
-                Id = key.Id,
-                Type = KeyVaultItemType.Key,
-                VaultUri = key.VaultUri,
-                ValueUri = key.Id,
-                Version = key.Version,
-                KeyProperties = key,
-                LastModifiedDate = key.UpdatedOn.HasValue ? key.UpdatedOn.Value.ToLocalTime() : key.CreatedOn.Value.ToLocalTime()
-            });
+                VaultContents.Add(new KeyVaultContentsAmalgamation
+                {
+                    Name = val.Name,
+                    Id = val.Id,
+                    Type = KeyVaultItemType.Key,
+                    VaultUri = val.VaultUri,
+                    ValueUri = val.Id,
+                    Version = val.Version,
+                    KeyProperties = val,
+                    Tags = val.Tags,
+                    UpdatedOn = val.UpdatedOn,
+                    CreatedOn = val.CreatedOn,
+                    ExpiresOn = val.ExpiresOn,
+                    Enabled = val.Enabled,
+                    NotBefore = val.NotBefore,
+                    RecoverableDays = val.RecoverableDays,
+                    RecoveryLevel = val.RecoveryLevel
+                });
+            }
+        }
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+            Debug.WriteLine(ex.Message);
         }
         _vaultContents = VaultContents;
     }
@@ -181,77 +257,38 @@ public partial class VaultPageViewModel : ViewModelBase
     public async Task GetSecretsForVault(Uri kvUri)
     {
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
-        await foreach (var secret in values)
+        try
         {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
+            await foreach (var val in values)
             {
-                Name = secret.Name,
-                Id = secret.Id,
-                Type = KeyVaultItemType.Secret,
-                ContentType = secret.ContentType,
-                VaultUri = secret.VaultUri,
-                ValueUri = secret.Id,
-                Version = secret.Version,
-                SecretProperties = secret,
-                LastModifiedDate = secret.UpdatedOn.HasValue ? secret.UpdatedOn.Value.ToLocalTime() : secret.CreatedOn.Value.ToLocalTime()
-            }); ;
-        }
-
-        _vaultContents = VaultContents;
-    }
-
-    public async Task GetCertificatesForVault(Uri kvUri)
-    {
-        var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
-        await foreach (var cert in certs)
-        {
-            VaultContents.Add(new KeyVaultContentsAmalgamation
-            {
-                Name = cert.Name,
-                Id = cert.Id,
-                Type = KeyVaultItemType.Certificate,
-                VaultUri = cert.VaultUri,
-                ValueUri = cert.Id,
-                Version = cert.Version,
-                CertificateProperties = cert,
-                LastModifiedDate = cert.UpdatedOn.HasValue ? cert.UpdatedOn.Value.ToLocalTime() : cert.CreatedOn.Value.ToLocalTime()
-            });
-        }
-        _vaultContents = VaultContents;
-    }
-
-    partial void OnSearchQueryChanged(string value)
-    {
-        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
-        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
-        string query = value?.Trim().ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(query))
-        {
-            var contents = _vaultContents;
-            if (item != KeyVaultItemType.All)
-            {
-                contents = contents.Where(k => k.Type == item);
+                VaultContents.Add(new KeyVaultContentsAmalgamation
+                {
+                    Name = val.Name,
+                    Id = val.Id,
+                    Type = KeyVaultItemType.Secret,
+                    ContentType = val.ContentType,
+                    VaultUri = val.VaultUri,
+                    ValueUri = val.Id,
+                    Version = val.Version,
+                    SecretProperties = val,
+                    Tags = val.Tags,
+                    UpdatedOn = val.UpdatedOn,
+                    CreatedOn = val.CreatedOn,
+                    ExpiresOn = val.ExpiresOn,
+                    Enabled = val.Enabled,
+                    NotBefore = val.NotBefore,
+                    RecoverableDays = val.RecoverableDays,
+                    RecoveryLevel = val.RecoveryLevel
+                });
             }
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(contents);
-            return;
         }
-        //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
-        //       && toFilter.Contains(v.Type)
-
-        var list = _vaultContents.Where(v => v.Name.ToLowerInvariant().Contains(query));
-        if (item != KeyVaultItemType.All)
-            list = list.Where(k => k.Type == item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
-    }
-
-    [RelayCommand]
-    private async Task Refresh()
-    {
-        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
-        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
-        LoadedItemTypes.Remove(item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
-        await FilterAndLoadVaultValueType(item);
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+            Debug.WriteLine(ex.Message);
+        }
+        _vaultContents = VaultContents;
     }
 
     [RelayCommand]
@@ -297,63 +334,79 @@ public partial class VaultPageViewModel : ViewModelBase
             dataObject.Set(DataFormats.Text, value);
             await clipboard.SetTextAsync(value);
             ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
+            _ = ClearClipboardAsync().ConfigureAwait(false);
         }
         catch (KeyVaultItemNotFoundException ex)
         {
             ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error, topLevel);
         }
-
-      ;
-    }
-
-    [RelayCommand]
-    private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
-    {
-        if (keyVaultItem is null) return;
-        var tenantName = _authService.Account.Username.Split("@").TakeLast(1).Single();
-        var uri = $"https://portal.azure.com/#@{tenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
-        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 
     [RelayCommand]
     private async Task CopyUri(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;
-        var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-        var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
+        //var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
+        //var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
         await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
-    [RelayCommand]
-    private void ShowProperties(KeyVaultContentsAmalgamation model)
+    private async Task DelaySetIsBusy(bool val)
     {
-        if (model == null) return;
-        var page = new PropertiesPage
+        await Task.Delay(1000);
+        IsBusy = val;
+    }
+
+    partial void OnSearchQueryChanged(string value)
+    {
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
+        string? query = value?.Trim();
+        if (string.IsNullOrWhiteSpace(query))
         {
-            DataContext = new PropertiesPageViewModel(model)
-        };
+            var contents = _vaultContents;
+            if (item != KeyVaultItemType.All)
+            {
+                contents = contents.Where(k => k.Type == item);
+            }
+            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(contents);
+            return;
+        }
+        //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
+        //       && toFilter.Contains(v.Type)
 
-        var taskDialog = new AppWindow
-        {
-            Title = $"{model.Type} {model.Name} Properties",
-            //Icon = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-noborder.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality),
-            SizeToContent = SizeToContent.Manual,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            ShowAsDialog = false,
-            Content = page,
-            Width = 600,
-            Height = 450,
-           // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
-           // Background = null,
-        };
+        var list = _vaultContents.Where(v => v.Name.Contains(query, StringComparison.OrdinalIgnoreCase)
+                || (v.Tags is not null
+                && v.Tags.Any(x => x.Value.Contains(query, StringComparison.OrdinalIgnoreCase)
+                || x.Key.Contains(query, StringComparison.OrdinalIgnoreCase))
+              ));
 
-        // open the window
-        taskDialog.Show();
+        if (item != KeyVaultItemType.All)
+            list = list.Where(k => k.Type == item);
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
+    }
 
+    [RelayCommand]
+    private void OpenInAzure(KeyVaultContentsAmalgamation keyVaultItem)
+    {
+        if (keyVaultItem is null) return;
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{keyVaultItem.Type}/{keyVaultItem.Id}";
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+    }
+
+    [RelayCommand]
+    private async Task Refresh()
+    {
+        var isValidEnum = Enum.TryParse(SelectedTab?.Name, true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
+        var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
+        LoadedItemTypes.Remove(item);
+        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
+        await FilterAndLoadVaultValueType(item);
     }
 
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
     {
+        //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
 #if WINDOWS
         var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
         var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
@@ -377,17 +430,45 @@ public partial class VaultPageViewModel : ViewModelBase
 #else
 
         var notif = new Notification(subject, message, notificationType);
-
-        var nm = new WindowNotificationManager(topLevel)
-        {
-            Position = NotificationPosition.BottomRight,
-            MaxItems = 1,
-        };
-        nm.TemplateApplied += (sender, args) =>
-        {
-            nm.Show(notif);
-        };
+        _notificationViewModel.AddMessage(notif);
 
 #endif
+    }
+
+    [RelayCommand]
+    private void ShowProperties(KeyVaultContentsAmalgamation model)
+    {
+        if (model == null) return;
+
+        var page = new PropertiesPage
+        {
+            DataContext = new PropertiesPageViewModel(model)
+        };
+        bool isMac = OperatingSystem.IsMacOS();
+        var taskDialog = new AppWindow
+        {
+            Title = $"{model.Type} {model.Name} Properties",
+            Icon = BitmapImage,
+            SizeToContent = SizeToContent.Manual,
+            WindowStartupLocation = WindowStartupLocation.Manual,
+            ShowAsDialog = false,
+            CanResize = true,
+            Content = page,
+            Width = 620,
+            Height = 480,
+            MinWidth = 300,
+            ExtendClientAreaToDecorationsHint = isMac,
+            // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
+            // Background = null,
+        };
+
+        //taskDialog.TitleBar.ExtendsContentIntoTitleBar = isMac;
+        //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+
+        // open the window with parent on windows but not mac.
+        if (isMac)
+            taskDialog.Show();
+        else
+            taskDialog.Show(topLevel);
     }
 }

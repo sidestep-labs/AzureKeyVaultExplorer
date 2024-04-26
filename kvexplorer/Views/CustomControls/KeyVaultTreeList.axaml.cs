@@ -1,6 +1,4 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views.Pages;
-using Avalonia.Collections;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -8,12 +6,9 @@ using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using kvexplorer.shared;
 using kvexplorer.shared.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
+using kvexplorer.ViewModels;
+using kvexplorer.Views.Pages;
 using System.Linq;
 
 namespace kvexplorer.Views.CustomControls;
@@ -21,24 +16,29 @@ namespace kvexplorer.Views.CustomControls;
 public partial class KeyVaultTreeList : UserControl
 {
     private readonly TabViewPageViewModel _tabViewViewModel;
-
+    public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<KeyVaultTreeList, string>(nameof(Title), defaultValue: "test");
+    public string Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
     public KeyVaultTreeList()
     {
         InitializeComponent();
         DataContext = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
-        SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList");
+        SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList")!;
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
     }
 
-
+ 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
         var tv = sender as TreeView;
-        if(tv.SelectedItem is not null)
+        if (tv.SelectedItem is not null)
         {
-            var kvm = tv.ItemsSource.ElementAt(0) as KeyVaultModel;
-            var showUnpin = kvm.KeyVaultResources.Contains(tv.SelectedItem as KeyVaultResource);
+            var kvm = tv.ItemsSource.ElementAt(0) as KvSubscriptionModel;
+            var showUnpin = kvm.ResourceGroups[0].KeyVaultResources.Contains(tv.SelectedItem as KeyVaultResource);
             ShowMenu(isTransient: true, isCurrentlyPinned: showUnpin);
         }
         e.Handled = true;
@@ -49,7 +49,7 @@ public partial class KeyVaultTreeList : UserControl
         var flyout = Resources["FAMenuFlyoutSubscriptionTreeView"] as FAMenuFlyout;
 
         // if pinned, enable unpinned item
-        foreach(MenuFlyoutItem item in flyout.Items)
+        foreach (MenuFlyoutItem item in flyout.Items)
         {
             _ = item.Name switch
             {
@@ -81,25 +81,21 @@ public partial class KeyVaultTreeList : UserControl
         flyout.ShowAt(loc);
     }
 
-
-
     private void RefreshKeyVaultList(object sender, RoutedEventArgs e)
     {
         Dispatcher.UIThread.Post(async () =>
         {
-            await (DataContext as KeyVaultTreeListViewModel).GetAvailableKeyVaultsCommand.ExecuteAsync(true);
+            await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true);
         }, DispatcherPriority.Input);
     }
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)
     {
         var sx = (TreeView)sender!;
-        if (sx.SelectedItem is not null)
+        if (sx.SelectedItem is KeyVaultResource model)
         {
             Dispatcher.UIThread.Post(() =>
             {
-                var model = (KeyVaultResource)sx.SelectedItem;
-
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
             }, DispatcherPriority.ContextIdle);
         }
@@ -107,13 +103,20 @@ public partial class KeyVaultTreeList : UserControl
         control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 
-    private void OnTreeListSelectionChangedTest(object sender, SelectionChangedEventArgs e)
+    private void TreeListFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var s = (TreeView)sender;
+        var sx = (MenuFlyoutItem)sender!;
 
-        if (s.SelectedItem is not null)
+        if (sx.DataContext is KeyVaultResource)
         {
-            var model = (KeyVaultModel)s.SelectedItem;
+            Dispatcher.UIThread.Post(() =>
+            {
+                var model = (KeyVaultTreeListViewModel)DataContext;
+
+                _tabViewViewModel.AddVaultPageCommand.Execute(model.SelectedTreeItem.Data);
+            }, DispatcherPriority.ContextIdle);
         }
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 }

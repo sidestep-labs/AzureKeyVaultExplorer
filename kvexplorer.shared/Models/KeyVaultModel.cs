@@ -1,18 +1,14 @@
 ﻿using Azure.ResourceManager.KeyVault;
 using Azure.ResourceManager.Resources;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace kvexplorer.shared.Models;
 
-public partial class KeyVaultModel : ObservableObject
+public partial class KvSubscriptionModel : ObservableObject
 {
-    public string SubscriptionDisplayName { get; set; } = null!;
-    
-    public required SubscriptionResource Subscription { get; set; } = null!;
-
-    public string? SubscriptionId { get; set; }
-
-    public List<KeyVaultResource> KeyVaultResources { get; set; } = new List<KeyVaultResource>() { };
+    [ObservableProperty]
+    private bool hasSubNodeDataBeenFetched = false;
 
     [ObservableProperty]
     private bool isExpanded;
@@ -20,5 +16,22 @@ public partial class KeyVaultModel : ObservableObject
     [ObservableProperty]
     private bool isSelected;
 
-    public string? GlyphIcon { get; set; } = null;
+    public ObservableCollection<KvResourceGroupModel> ResourceGroups { get; set; } = [];
+    public SubscriptionResource Subscription { get; set; } = null!;
+    public string SubscriptionDisplayName { get; set; } = null!;
+    public string? SubscriptionId { get; set; }
+}
+
+
+public partial class KvResourceGroupModel : ObservableObject
+{
+    [ObservableProperty]
+    private bool isExpanded;
+
+    [ObservableProperty]
+    private bool isSelected;
+
+    public ObservableCollection<KeyVaultResource> KeyVaultResources { get; set; } = [];
+    public string ResourceGroupDisplayName { get; set; } = null!;
+    public ResourceGroupResource ResourceGroupResource { get; set; } = null!;
 }

@@ -42,13 +42,13 @@ public static class Constants
            $"&nonce=1");
 
     //Leaving the scope to its default values.
-    public static readonly string[] Scopes = new string[] { "openid", "offline_access", "profile", "email", };
+    public static readonly string[] Scopes = ["openid", "offline_access", "profile", "email",];
 
-    public static readonly string[] AzureRMScope = new string[] { "https://management.core.windows.net//.default" };
+    public static readonly string[] AzureRMScope = ["https://management.core.windows.net//.default"];
 
-    public static readonly string[] KvScope = new string[] { "https://vault.azure.net/.default" };
+    public static readonly string[] KvScope = ["https://vault.azure.net/.default"];
 
-    public static readonly string[] AzureScopes = new string[] { "https://management.core.windows.net//.default", "https://vault.azure.net//.default", "user_impersonation" };
+    public static readonly string[] AzureScopes = ["https://management.core.windows.net//.default", "https://vault.azure.net//.default", "user_impersonation"];
 
     // Cache settings
     public const string CacheFileName = "kvexplorer_msal_cache.txt";
@@ -63,7 +63,4 @@ public static class Constants
     public const string LinuxKeyRingLabel = "MSAL token cache for all Contoso dev tool apps.";
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr2 = new KeyValuePair<string, string>("ProductGroup", "MyApps");
-
-   
-
 }

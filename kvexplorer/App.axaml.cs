@@ -1,13 +1,12 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
+using kvexplorer.ViewModels;
+using kvexplorer.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
-using kvexplorer.shared.Models;
 
 namespace kvexplorer;
 
@@ -16,14 +15,17 @@ public partial class App : Application
     public static void ConfigureDesktopServices()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
+        serviceCollection.AddMemoryCache();
         serviceCollection.AddSingleton<AuthService, AuthService>();
         serviceCollection.AddSingleton<VaultService, VaultService>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
+        serviceCollection.AddSingleton<ToolBarViewModel>();
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
-        serviceCollection.AddTransient<SettingsPageViewModel>();
+        serviceCollection.AddSingleton<SettingsPageViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
-        serviceCollection.AddMemoryCache();
+        serviceCollection.AddSingleton<NotificationViewModel>();
         serviceCollection.AddSingleton<KvExplorerDb>();
+        serviceCollection.AddTransient<AppSettingReader>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 
@@ -35,9 +37,17 @@ public partial class App : Application
             KvExplorerDb.InitializeDatabase();
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        var setitngsExists = File.Exists(settingsPath);
-        if (!setitngsExists)
-            File.WriteAllText(settingsPath, """{ "BackgroundTransparency": false }""");
+        if (!File.Exists(settingsPath)) {
+            var s = """
+                { 
+                    "BackgroundTransparency": false, 
+                    "NavigationLayoutMode": "Left", 
+                    "AppTheme": "System",
+                    "PaneDisplayMode": "inline"
+                }
+                """;
+            File.WriteAllText(settingsPath,s);
+        }
     }
 
     public override void Initialize()
@@ -62,7 +72,6 @@ public partial class App : Application
         {
             singleViewPlatform.MainView = new MainView
             {
-                //DataContext = new MainViewModel()
                 DataContext = Defaults.Locator.GetService<MainViewModel>()
             };
         }

@@ -1,17 +1,19 @@
-﻿using kvexplorer.ViewModels;
-using kvexplorer.Views.Pages;
-using Avalonia;
+﻿using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Media.Animation;
 using FluentAvalonia.UI.Navigation;
+using kvexplorer.ViewModels;
+using kvexplorer.Views.Pages;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 
 #nullable disable
 
@@ -23,12 +25,15 @@ public partial class MainView : UserControl
     private NavigationView? _navView;
     public static MainView? Instance { get; private set; }
     public static readonly RoutedEvent<RoutedEventArgs> NavigateHomeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateHomeEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> NavigateSettingsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSettingsEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> NavigateSubscriptionsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSubscriptionsEvent), RoutingStrategies.Tunnel);
 
     public MainView()
     {
         Instance = this;
         InitializeComponent();
-
+        KeyUp += TabViewPage_KeyUpFocusSearchBox;
+        //NavView.BackRequested += OnNavigationViewBackRequested;
         var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
 
@@ -41,14 +46,31 @@ public partial class MainView : UserControl
         }, DispatcherPriority.MaxValue);
 
         AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(NavigateSettingsEvent, OnNavigateSettingsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(NavigateSubscriptionsEvent, OnNavigateSubscriptionsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+    }
+
+    private void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs e)
+    {
+        FrameView.GoBack();
     }
 
     private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
     {
         if (FrameView.Content.GetType().Name != nameof(MainPage))
-            FrameView.NavigateFromObject(new MainPage());
+            FrameView.NavigateFromObject(new MainPage(), NavOptions);
+    }
 
-        return;
+    private void OnNavigateSettingsEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(SettingsPage))
+            FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
+    }
+
+    private void OnNavigateSubscriptionsEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(SubscriptionsPage))
+            FrameView.NavigateFromObject(new SubscriptionsPage(), NavOptions);
     }
 
     //var menuItems = new List<NavigationViewItemBase>(4);
@@ -59,134 +81,133 @@ public partial class MainView : UserControl
         base.OnAttachedToVisualTree(e);
 
         var vm = Defaults.Locator.GetRequiredService<MainViewModel>();
-        _navView = this.FindControl<NavigationView>("NavView");
-        var navViewItems = _navView.MenuItems;
-        var navMenuItems = navViewItems.TakeLast(2).Cast<NavigationViewItem>();
-        var footerItems = _navView.FooterMenuItems.Cast<NavigationViewItem>();
+   
 
         DataContext = vm;
         FrameView.NavigationPageFactory = vm.NavigationFactory;
 
         FrameView.Navigated += OnFrameViewNavigated;
-        NavView.ItemInvoked += OnNavigationViewItemInvoked;
 
-        //  for (var i = 0; i < nv.FooterMenuItems.Count; i++)
-        //  {
-        //      ((NavigationViewItem)nv.FooterMenuItems[i]).Tag = NavigationFactory.GetPages().Last();
-        //  }
-
-        //todo remove
-        var pages = NavigationFactory.GetPages();
-        navMenuItems.ElementAt(0).Tag = pages[0];
-        navMenuItems.ElementAt(1).Tag = pages[1];
-        footerItems.ElementAt(0).Tag = pages[2];
-
-        NavView.MenuItemsSource = navMenuItems.Prepend(navViewItems.First());
-        NavView.FooterMenuItemsSource = footerItems;
-
-        //NavView.MenuItemsSource = GetNavigationViewItems();
-        //NavView.FooterMenuItemsSource = GetFooterNavigationViewItems();
-        NavView.IsPaneOpen = false;
-
-        //FrameView.NavigateFromObject(navViewItems.ElementAt(1).Tag);
         FrameView.NavigateFromObject(new MainPage());
-    }
-
-    private void SetNVIIcon(NavigationViewItem? item, bool selected)
-    {
-        // Technically, yes you could set up binding and converters and whatnot to let the icon change
-        // between filled and unfilled based on selection, but this is so much simpler
-
-        if (item == null)
-            return;
-
-        var t = item.Tag;
-
-        item.IconSource = t switch
-        {
-            MainPage => this.TryFindResource(selected ? "LibraryIcon" : "LibraryIcon", out var value) ? (IconSource)value! : null,
-            BookmarksPageViewModel => this.TryFindResource(selected ? "Bookmarks" : "Bookmarks", out var value) ? (IconSource)value! : null,
-            SettingsPage => this.TryFindResource(selected ? "SettingsIcon" : "SettingsIcon", out var value) ? (IconSource)value! : null,
-            _ => item.IconSource
-        };
     }
 
     private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
     {
         var page = e.Content as Control;
 
-        foreach (NavigationViewItem nvi in NavView.MenuItems.TakeLast(2))
+        if (FrameView.BackStackDepth > 0) //&& !NavView.IsBackButtonVisible
         {
-            if (nvi.Tag != null && nvi.Tag.Equals(page))
-            {
-                NavView.SelectedItem = nvi;
-                SetNVIIcon(nvi, true);
-            }
-            else
-            {
-                SetNVIIcon(nvi, false);
-            }
+            AnimateContentForBackButton(true);
         }
-
-        foreach (NavigationViewItem nvi in NavView.FooterMenuItemsSource)
+        else if (FrameView.BackStackDepth == 0) // && NavView.IsBackButtonVisible
         {
-            if (nvi.Tag != null && nvi.Tag.Equals(page))
-            {
-                NavView.SelectedItem = nvi;
-                SetNVIIcon(nvi, true);
-            }
-            else
-            {
-                SetNVIIcon(nvi, false);
-            }
+            AnimateContentForBackButton(false);
         }
     }
 
-    private IEnumerable<NavigationViewItem> GetNavigationViewItems()
+    private async void AnimateContentForBackButton(bool show)
     {
-        return new List<NavigationViewItem>
+        if (!WindowIcon.IsVisible)
+            return;
+
+        if (show)
         {
-            new()
+            var ani = new Animation
             {
-                Content = "Vault Library",
-                Tag = NavigationFactory.GetPages()[0],
-                IconSource= this.FindResource("LibraryIcon") as IconSource
-            }
-        };
+                Duration = TimeSpan.FromMilliseconds(250),
+                FillMode = FillMode.Forward,
+                Children =
+                {
+                    new KeyFrame
+                    {
+                        Cue = new Cue(0d),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(12, 12, 12, 4))
+                        }
+                    },
+                    new KeyFrame
+                    {
+                        Cue = new Cue(1d),
+                        KeySpline = new KeySpline(0,0,0,1),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(48,12,12,4))
+                        }
+                    }
+                }
+            };
+
+            await ani.RunAsync(WindowIcon);
+
+            //NavView.IsBackButtonVisible = true;
+        }
+        else
+        {
+            //NavView.IsBackButtonVisible = false;
+
+            var ani = new Animation
+            {
+                Duration = TimeSpan.FromMilliseconds(250),
+                FillMode = FillMode.Forward,
+
+                Children =
+                {
+                    new KeyFrame
+                    {
+                        Cue = new Cue(0d),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(48,12,12,4))
+                        }
+                    },
+                    new KeyFrame
+                    {
+                        Cue = new Cue(1d),
+                        KeySpline = new KeySpline(0,0,0,1),
+                        Setters =
+                        {
+                            new Setter(MarginProperty, new Thickness(12, 12, 12, 4))
+                        }
+                    }
+                }
+            };
+            await ani.RunAsync(WindowIcon);
+        }
     }
 
-    private IEnumerable<NavigationViewItem> GetFooterNavigationViewItems()
+    private FrameNavigationOptions NavOptions => new FrameNavigationOptions
     {
-        return new List<NavigationViewItem>
-        {
-            new()
-            {
-                Content = "Settings",
-                Tag = NavigationFactory.GetPages()[2],
-                IconSource= this.FindResource("SettingsIcon") as IconSource
-            }
-        };
-    }
+        TransitionInfoOverride = new SlideNavigationTransitionInfo(),
+        IsNavigationStackEnabled = true
+    };
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
-        SetNVIIcon((_navView!.SelectedItem as NavigationViewItem)!, false);
-
         if (e.InvokedItemContainer is NavigationViewItem { Tag: Control c })
         {
-            _ = FrameView.NavigateFromObject(c);
+            _ = FrameView.NavigateFromObject(c, NavOptions);
         }
     }
 
-    private void ShowAccountTeachingTip(object sender, TappedEventArgs e)
-    {
-        AccountTeachingTip.IsOpen = true;
-    }
+    //private void ShowAccountTeachingTip(object sender, TappedEventArgs e)
+    //{
+    //    AccountTeachingTip.IsOpen = true;
+    //}
 
-    private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
+    //private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
+    //{
+    //    if (FrameView.Content.GetType().Name == nameof(SettingsPage))
+    //        return;
+    //    FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
+    //}
+
+    private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {
-        if (FrameView.Content.GetType().FullName == "kvexplorer.Views.Pages.SettingsPage")
-            return;
-        FrameView.NavigateFromObject(new SettingsPage());
+        if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
+        {
+            var vvpage = this.FindDescendantOfType<VaultPage>();
+            vvpage?.FindControl<TextBox>("SearchTextBox")?.Focus();
+        }
     }
 }

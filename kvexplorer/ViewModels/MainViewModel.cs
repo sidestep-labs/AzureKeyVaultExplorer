@@ -1,14 +1,12 @@
-﻿using kvexplorer.Views.Pages;
-using Avalonia.Controls;
-using Avalonia.Threading;
+﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared;
 using kvexplorer.shared.Models;
+using kvexplorer.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,13 +23,19 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     public AuthenticatedUserClaims authenticatedUserClaims;
 
+    [ObservableProperty]
+    public bool isAuthenticated = false;
+
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
+
 
     public MainViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
+        //var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
         NavigationFactory = new NavigationFactory();
+        //NavigationLayoutMode = settings.AppSettings.NavigationLayoutMode;
     }
 
     public async Task RefreshTokenAndGetAccountInformation()
@@ -46,11 +50,10 @@ public partial class MainViewModel : ViewModelBase
         var email = identity.FindAll("email").First().Value ?? account.Account.Username;
 
         string[] name = identity.FindAll("name").First().Value.Split(" ");
-        if(name.Length > 1)
+        if (name.Length > 1)
             Initials = name[0][0].ToString().ToUpperInvariant() + name[1][0].ToString().ToUpperInvariant();
 
         Email = email.ToLowerInvariant();
-
 
         AuthenticatedUserClaims = new AuthenticatedUserClaims()
         {
@@ -59,6 +62,8 @@ public partial class MainViewModel : ViewModelBase
             Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
             Email = account.ClaimsPrincipal.Identities.First().FindFirst("email").Value,
         };
+
+        IsAuthenticated = _authService.IsAuthenticated;
     }
 }
 
@@ -69,14 +74,14 @@ public class NavigationFactory : INavigationPageFactory
     private readonly Control[] _pages =
     {
         new MainPage(),
-        new BookmarksPage(),
+        new SubscriptionsPage(),
         new SettingsPage(),
     };
 
     private readonly Dictionary<string, Func<Control>> CorePages = new Dictionary<string, Func<Control>>
     {
         { "MainPage", () => new MainPage() },
-        { "BookmarksPage", () => new BookmarksPage() },
+        { "SubscriptionsPage", () => new SubscriptionsPage() },
         { "SettingsPage", () => new SettingsPage() },
     };
 
@@ -108,7 +113,7 @@ public class NavigationFactory : INavigationPageFactory
         return target switch
         {
             MainPage => _pages[0],
-            BookmarksPage => _pages[1],
+            SubscriptionsPage => _pages[1],
             SettingsPage => _pages[2],
 
             _ => throw new Exception()

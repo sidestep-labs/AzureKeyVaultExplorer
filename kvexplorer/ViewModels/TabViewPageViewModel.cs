@@ -1,32 +1,54 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using kvexplorer.ViewModels;
-using kvexplorer.ViewModels.Models;
-using kvexplorer.Views.Pages;
-using Avalonia.Styling;
+﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
-using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Data;
-using kvexplorer.shared;
-using kvexplorer.shared.Database;
+using kvexplorer.Views.Pages;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace kvexplorer.ViewModels;
 
 public partial class TabViewPageViewModel : ViewModelBase
 {
+    private SettingsPageViewModel _settingsPageViewModel { get; set; }
 
     public TabViewPageViewModel()
     {
         Documents = new ObservableCollection<TabViewItem>();
+#if DEBUG
         for (int i = 0; i < 3; i++)
-        {
             Documents.Add(AddDocument(i));
-        }
+#endif
+
+        Dispatcher.UIThread.Post( async () => {
+            _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+            var settings = await _settingsPageViewModel.GetAppSettings();
+            SplitViewDisplayMode = settings.SplitViewDisplayMode == "Inline" ? SplitViewDisplayMode.Inline : SplitViewDisplayMode.Overlay;
+        });
     }
-     
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowPin))]
+    public SplitViewDisplayMode splitViewDisplayMode = SplitViewDisplayMode.Inline;
+
+    public bool ShowPin => SplitViewDisplayMode == SplitViewDisplayMode.Inline;
+
+    [RelayCommand]
+    private async void ChangePaneDisplay()
+    {
+        if (SplitViewDisplayMode is SplitViewDisplayMode.Inline)
+            SplitViewDisplayMode = SplitViewDisplayMode.Overlay;
+        else
+            SplitViewDisplayMode = SplitViewDisplayMode.Inline;
+
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await _settingsPageViewModel.SetSplitViewDisplayModeCommand.ExecuteAsync(SplitViewDisplayMode.ToString());
+        }, DispatcherPriority.ApplicationIdle);
+    }
+
     [ObservableProperty]
     public ObservableCollection<TabViewItem> documents;
 
@@ -79,7 +101,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void AddVaultPage(KeyVaultData model) 
+    private void AddVaultPage(KeyVaultData model)
     {
         var tab = new TabViewItem
         {
@@ -87,9 +109,9 @@ public partial class TabViewPageViewModel : ViewModelBase
             IconSource = new SymbolIconSource { Symbol = Symbol.ProtectedDocument },
             Content = new VaultPage(model.Properties.VaultUri)
         };
-        Documents.Add(tab);
+
+        Documents.Insert(0, tab);
         SelectedItem = tab;
         SelectedItem.Focus();
     }
-
 }

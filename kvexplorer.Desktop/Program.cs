@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+
 namespace kvexplorer.Desktop;
 
 internal class Program
@@ -18,7 +19,6 @@ internal class Program
                  {
                      App.ConfigureDesktopServices();
                      App.CreateDesktopResources();
-
                  })
                 .UsePlatformDetect()
                 .LogToTrace();

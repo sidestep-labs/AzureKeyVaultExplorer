@@ -12,9 +12,11 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:TabViewPageViewModel"
-	TransparencyLevelHint="Mica"
-	    Background="{x:Null}"
-
+    Background="{x:Null}"
+    ExtendClientAreaChromeHints="Default, OSXThickTitleBar, PreferSystemChrome"
+    ExtendClientAreaToDecorationsHint="{OnPlatform False,
+                                                   macOS=True}"
+    TransparencyLevelHint="Mica, AcrylicBlur"
     mc:Ignorable="d">
 
     <!--
@@ -22,19 +24,33 @@
         DragDrop must be implemented manually
         TabDroppedOutside="TabDroppedOutside"
     -->
+    <Window.Styles>
+        <Styles>
+            <Style Selector="ui|TabView#TabView.macOSTitleBarSafeArea">
+                <Style Selector="^ /template/ Border">
+                    <Setter Property="Margin" Value="70,0,0,0" />
+                </Style>
+            </Style>
+        </Styles>
+    </Window.Styles>
+
+
     <ui:TabView
         Name="TabView"
         VerticalAlignment="Stretch"
         AllowDropTabs="False"
+        Background="{x:Null}"
         CanDragTabs="True"
         CanReorderTabs="True"
+        Classes.macOSTitleBarSafeArea="{OnPlatform False,
+                                                   macOS=True}"
         IsAddTabButtonVisible="False"
-		Background="{x:Null}"
         TabCloseRequested="TabCloseRequested"
         TabDragStarting="TabDragStarting"
         TabItems="{Binding Documents}"
         TabStripDragOver="TabStripDragOver"
         TabStripDrop="TabStripDrop">
+
 
         <ui:TabView.TabItemTemplate>
             <DataTemplate DataType="vmm:DocumentItem">
@@ -45,7 +61,6 @@
 
             </DataTemplate>
         </ui:TabView.TabItemTemplate>
-
         <ui:TabView.TabStripFooter>
 
             <!--

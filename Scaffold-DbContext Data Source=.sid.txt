@@ -1,3 +1,0 @@
-Scaffold-DbContext "Data Source=.\sidestep\kv.db" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Databse
-
-dotnet ef dbcontext scaffold "Data Source=.\sidestep\kv.db" Microsoft.EntityFrameworkCore.Sqlite  -OutputDir Databse

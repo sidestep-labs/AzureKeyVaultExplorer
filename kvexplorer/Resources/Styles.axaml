@@ -1,76 +1,107 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ui="using:FluentAvalonia.UI.Controls">
-    <Design.PreviewWith>
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives">
+    <Design.PreviewWith />
 
-
-
-        <StackPanel>
-
-
-
-            <!--<ui:CommandBarFlyoutCommandBar Margin="300" IsOpen="True">
-                <ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-            -->
-            <!--<ui:CommandBarButton IconSource="Save" />
-                    <ui:CommandBarToggleButton IconSource="Globe" />-->
-            <!--
-                </ui:CommandBarFlyoutCommandBar.PrimaryCommands>
-
-                <ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-                    <ui:CommandBarButton
-                        HotKey="Ctrl+S"
-                        IconSource="Save"
-                        Label="Save" />
-                    <ui:CommandBarToggleButton
-                        HotKey="Ctrl+F1"
-                        IconSource="ChevronUp"
-                        IsChecked="True"
-                        Label="Move Up" />
-                </ui:CommandBarFlyoutCommandBar.SecondaryCommands>
-            </ui:CommandBarFlyoutCommandBar>-->
-
-
-
-            <!--<Button Content="Click me for flyout!">
-				<Button.Flyout>
-
-					<ui:FAMenuFlyout  Placement="Bottom">
-						<ui:MenuFlyoutItem IconSource="Paste" Text="Item 2" />
-					</ui:FAMenuFlyout>
-				</Button.Flyout>
-			</Button>-->
-
-
-
-            <Button Margin="150" ToolTip.Tip="test">
-                test 2
-            </Button>
-        </StackPanel>
-    </Design.PreviewWith>
+    <Style Selector="TextBox">
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MaxHeight" Value="30" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="8,2,2,2" />
+    </Style>
 
     <Style Selector="ui|CommandBarFlyoutCommandBar /template/ Border#LayoutRoot">
-        <Setter Property="Margin" Value="5 5 5 10" />
-        <Setter Property="BoxShadow" Value="0 6 8 0 #4F000000" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
     </Style>
 
-    <Style Selector="ToolTip Border">
-        <Setter Property="BoxShadow" Value="0 2 2 0 #4F000000" />
-        <Setter Property="Margin" Value="0 0 2 4" />
-    </Style>
 
     <Style Selector="ToolTip">
         <Setter Property="CornerRadius" Value="5" />
+        <Style Selector="^ Border">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+        </Style>
     </Style>
 
+
+
+    <Style Selector="SelectableTextBlock">
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentAcrylicBackgroundFillColorBaseBrush}" />
+    </Style>
     <!--  Treeviewlist styles  -->
     <Style Selector="TreeView">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
 
     <Style Selector="TreeViewItem">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+    </Style>
+
+    <!--  Datagrid styles  -->
+
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Height" Value="25" />
+    </Style>
+    <Style Selector="DataGridRowGroupHeader">
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Height" Value="25" />
+    </Style>
+    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+    </Style>
+    <Style Selector="DataGridRow">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
+    </Style>
+    <Style Selector="DataGridCell">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
+    </Style>
+
+    <Style Selector="DataGridRow">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
+        <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
+        <Setter Property="Height" Value="25" />
+    </Style>
+
+
+    <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
+        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!--  fly out  -->
+    <Style Selector="MenuFlyoutPresenter" />
+    <Style Selector="ui|FAMenuFlyoutPresenter">
+        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" />
+        <Setter Property="CornerRadius" Value="6" />
+    </Style>
+
+
+    <Style Selector="ui|FAComboBox /template/ Border#PopupBorder">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
+    </Style>
+
+    <Style Selector="ui|NavigationView.SampleAppNav">
+        <Setter Property="IsPaneToggleButtonVisible" Value="False" />
+        <Setter Property="OpenPaneLength" Value="72" />
+        <Setter Property="IsPaneOpen" Value="False" />
+    </Style>
+    <Style Selector="ui|NavigationView.SampleAppNav /template/ Button#NavigationViewBackButton">
+        <Setter Property="Width" Value="{DynamicResource NavigationBackButtonWidth}" />
+    </Style>
+    <Style Selector="ui|NavigationView.SampleAppNav[IsBackButtonVisible=False] SplitView /template/ ContentPresenter#PART_PanePresenter">
+        <Setter Property="Margin" Value="0 40 0 0" />
     </Style>
 
 </Styles>
+

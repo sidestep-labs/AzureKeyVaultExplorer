@@ -1,26 +1,14 @@
-﻿using kvexplorer.ViewModels;
-using Avalonia;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using kvexplorer.shared.Models;
+using kvexplorer.ViewModels;
 using System;
-using System.IO;
 using System.Linq;
-using FluentAvalonia.UI.Windowing;
-using Avalonia.Controls.Primitives;
-using Avalonia.Markup.Xaml.Templates;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
 
 #nullable disable
 
@@ -31,6 +19,7 @@ public partial class VaultPage : UserControl
     private const string DatGridElementName = "VaultContentDataGrid";
     private readonly VaultPageViewModel vaultPageViewModel;
 
+
     public VaultPage()
     {
         InitializeComponent();
@@ -39,7 +28,7 @@ public partial class VaultPage : UserControl
         vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
-        KeyUp += MyUserControl_KeyUp;
+        KeyUp += Control_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
@@ -54,12 +43,12 @@ public partial class VaultPage : UserControl
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
-        KeyUp += MyUserControl_KeyUp;
+        KeyUp += Control_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
     }
 
-    private DataGrid? ValuesDataGrid { get; set; }
+    private DataGrid ValuesDataGrid { get; set; }
 
     protected void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
     {
@@ -69,18 +58,40 @@ public partial class VaultPage : UserControl
         });
     }
 
-    private void MyUserControl_KeyUp(object sender, KeyEventArgs e)
+    private void Control_KeyUp(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))
         {
             SearchTextBox.Focus();
             e.Handled = true;
         }
+        if (e.Key == Avalonia.Input.Key.F5)
+        {
+            Dispatcher.UIThread.Post(async () =>
+            {
+                await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
+                if (TabHost.SelectedIndex > 2)
+                {
+                    ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+                    {
+                        GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+                    };
+                }
+            }, DispatcherPriority.Background);
+            e.Handled = true;
+        }
     }
 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
-        ShowMenu(true);
+        var dg = sender as DataGrid;
+        var hideCopyCmd = false;
+        //if (dg.SelectedItem is not null && (dg.SelectedItem as KeyVaultContentsAmalgamation).Type == KeyVaultItemType.Certificate)
+        if (dg.SelectedItem is KeyVaultContentsAmalgamation { Type: KeyVaultItemType.Certificate })
+        {
+            hideCopyCmd = true;
+        }
+        ShowMenu(isTransient: true, hideCopyCommand: hideCopyCmd);
         e.Handled = true;
     }
 
@@ -93,39 +104,24 @@ public partial class VaultPage : UserControl
         //Debug.Write(model.Name);
     }
 
-    private void OpenWindowButton_Click(object? sender, RoutedEventArgs e)
-    {
-        // Create the window object
-        var sampleWindow =
-            new Window
-            {
-                Title = "Sample Window",
-                Width = 200,
-                Height = 200
-            };
-
-        // open the window
-        sampleWindow.Show();
-    }
-
     public void RefreshButton_OnClick(object? sender, RoutedEventArgs args)
     {
         Dispatcher.UIThread.Post(async () =>
         {
             await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
-            if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
+            if (TabHost.SelectedIndex > 2)
             {
                 ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
                 {
                     GroupDescriptions = { new DataGridPathGroupDescription("Type") }
                 };
             }
-        }, DispatcherPriority.Input);
+        }, DispatcherPriority.MaxValue);
     }
 
     private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
     {
-        if (ValuesDataGrid?.ItemsSource.Count() > 0 && !(new int[] { 0, 1, 2 }.Contains(TabHost.SelectedIndex)))
+        if (TabHost.SelectedIndex > 2)
         {
             ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
             {
@@ -137,13 +133,17 @@ public partial class VaultPage : UserControl
     // We rely on code behind to show the flyout
     // Listen for the ContextRequested event so we can change the launch behavior based on whether it was a
     // left or right click.
-    private void ShowMenu(bool isTransient)
+    private void ShowMenu(bool isTransient, bool hideCopyCommand)
     {
         var flyout = Resources["FAMenuFlyout"] as FAMenuFlyout;
+
+        // hide the copy value command for the certificate option.
+        MenuFlyoutItem copyMenuItemOption = (MenuFlyoutItem)flyout.Items.ElementAt(0);
+        copyMenuItemOption.IsVisible = !hideCopyCommand;
+
         flyout.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
         flyout.ShowAt(this.FindControl<DataGrid>(DatGridElementName));
     }
-
 
     private async void TabHostSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -155,7 +155,8 @@ public partial class VaultPage : UserControl
             1 => KeyVaultItemType.Certificate,
             2 => KeyVaultItemType.Key,
             _ => KeyVaultItemType.All
-        }; ;
+        };
+
         await vm.FilterAndLoadVaultValueType(item);
 
         if (item == KeyVaultItemType.All)
@@ -166,4 +167,6 @@ public partial class VaultPage : UserControl
             };
         }
     }
+
+  
 }

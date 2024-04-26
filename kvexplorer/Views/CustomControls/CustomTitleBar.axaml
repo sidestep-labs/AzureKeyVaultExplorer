@@ -1,0 +1,43 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:kvexplorer.Views.CustomControls"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing">
+    <Design.PreviewWith>
+        <controls:CustomTitleBar />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|CustomTitleBar">
+        <!--  Set Defaults  -->
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Border
+                    MinHeight="30"
+                    MaxHeight="30"
+                    VerticalAlignment="Top"
+                    BorderThickness="0,0,0,1">
+                    <StackPanel
+                        Margin="6"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Image
+                            Name="WindowIcon"
+                            Width="18"
+                            VerticalAlignment="Top"
+                            RenderOptions.BitmapInterpolationMode="HighQuality"
+                            Source="/Assets/kv-orange.ico" />
+
+                        <TextBlock Margin="10,1,5,0" Text="{TemplateBinding Title}" />
+                        <!--
+                        -->
+
+                    </StackPanel>
+                </Border>
+
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

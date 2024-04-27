@@ -21,6 +21,7 @@ using System.Diagnostics;
 using Avalonia;
 using System;
 using System.Security.Cryptography.X509Certificates;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace kvexplorer.ViewModels;
 
@@ -72,21 +73,11 @@ public partial class SettingsPageViewModel : ViewModelBase
         }, DispatcherPriority.MaxValue);
     }
 
-
     public static string GetAppVersion()
     {
         var assembly = Assembly.GetExecutingAssembly();
         var version = assembly.GetName().Version;
         return version == null ? "(Unknown)" : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-    }
-
-    public async Task AddOrUpdateAppSettings(string key, bool value)
-    {
-        var path = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        var records = await GetAppSettings();
-        records.BackgroundTransparency = value;
-        var newJson = JsonSerializer.Serialize(records);
-        await File.WriteAllTextAsync(path, newJson);
     }
 
     public async Task AddOrUpdateAppSettings<T>(string key, T value)
@@ -99,7 +90,12 @@ public partial class SettingsPageViewModel : ViewModelBase
         {
             property.SetValue(records, value);
             var newJson = JsonSerializer.Serialize(records);
-            await File.WriteAllTextAsync(path, newJson);
+
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            using var writer = new StreamWriter(fs);
+            writer.WriteLine(newJson);
+
+            //File.WriteAllText(path, newJson);
         }
     }
 
@@ -116,26 +112,27 @@ public partial class SettingsPageViewModel : ViewModelBase
         await AddOrUpdateAppSettings(BackgroundTranparency, IsBackgroundTransparencyEnabled);
     }
 
-    [RelayCommand]
-    private async Task SaveCurrentAppTheme()
+    partial void OnCurrentAppThemeChanging(string? oldValue, string newValue)
     {
-        await AddOrUpdateAppSettings(nameof(AppSettings.AppTheme), CurrentAppTheme);
+        if (oldValue is not null && oldValue != newValue)
+            Dispatcher.UIThread.InvokeAsync(async () => await AddOrUpdateAppSettings(nameof(AppSettings.AppTheme), CurrentAppTheme), DispatcherPriority.Background);
     }
 
-    [RelayCommand]
-    private async Task SetClearClipboardTimeout()
+    partial void OnClearClipboardTimeoutChanging(int oldValue, int newValue)
     {
-        await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
-        await AddOrUpdateAppSettings(nameof(AppSettings.ClipboardTimeout), ClearClipboardTimeout);
+        if (oldValue != 0 && oldValue != newValue)
+            Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
+                await AddOrUpdateAppSettings(nameof(AppSettings.ClipboardTimeout), ClearClipboardTimeout);
+            }, DispatcherPriority.Background);
     }
-
 
     [RelayCommand]
     private async Task SetSplitViewDisplayMode(string splitViewDisplayMode)
     {
         await AddOrUpdateAppSettings(nameof(AppSettings.SplitViewDisplayMode), splitViewDisplayMode);
     }
-
 
     [RelayCommand]
     private async Task SignInOrRefreshTokenAsync()

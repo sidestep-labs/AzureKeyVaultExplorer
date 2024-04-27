@@ -50,12 +50,7 @@ public partial class SettingsPage : UserControl
     {
         Control control = (Control)sender!;
         control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
-        (DataContext as SettingsPageViewModel)!.SaveCurrentAppThemeCommand.Execute(null);
     }
 
-    private void NumericUpDown_ValueChanged(object? sender, Avalonia.Controls.NumericUpDownValueChangedEventArgs e)
-    {
-        (DataContext as SettingsPageViewModel)!.SetClearClipboardTimeoutCommand.Execute(null);
-
-    }
+ 
 }

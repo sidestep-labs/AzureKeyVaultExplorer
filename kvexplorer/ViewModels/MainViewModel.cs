@@ -33,9 +33,7 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        //var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
         NavigationFactory = new NavigationFactory();
-        //NavigationLayoutMode = settings.AppSettings.NavigationLayoutMode;
     }
 
     public async Task RefreshTokenAndGetAccountInformation()

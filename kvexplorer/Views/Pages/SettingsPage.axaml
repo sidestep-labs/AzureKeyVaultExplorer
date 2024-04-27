@@ -70,7 +70,6 @@
                             Increment="5"
                             Maximum="60"
                             Minimum="5"
-                            ValueChanged="NumericUpDown_ValueChanged"
                             Value="{Binding ClearClipboardTimeout, Mode=TwoWay}" />
                     </ui:SettingsExpander.Footer>
                 </ui:SettingsExpander>
@@ -79,7 +78,8 @@
                     Description="When checked, this will enabled more modern Mica tranparent background on Windows 11"
                     Header="Mica Background"
                     IconSource="ColorBackground"
-                    IsVisible="{OnPlatform True,macOS=False}">
+                    IsVisible="{OnPlatform True,
+                                           macOS=False}">
                     <ui:SettingsExpander.Footer>
                         <CheckBox
                             Name="BackgroundTransparencyCheckbox"

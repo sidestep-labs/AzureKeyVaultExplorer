@@ -47,8 +47,9 @@ jobs:
    
     - name: Create Release
       run: |
-        gh release create v0.1.${{github.run_attempt}} --draft
-        gh release upload v0.1.${{github.run_attempt}} ${{ github.workspace }}\artifacts\
+        Get-ChildItem -Recurse
+        gh release create v0.0.${{github.run_attempt}} --draft
+        gh release upload v0.0.${{github.run_id}} "$env:GITHUB_WORKSPACE\artifacts\"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh

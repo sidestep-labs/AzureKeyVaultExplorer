@@ -74,14 +74,15 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
-        Get-ChildItem -Recurse
+        Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"
+
         Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: macOS_x64
-        path: ${{ github.workspace }}/final/mac-x64.zip
+        path: ${{ github.workspace }}/final/
 
   build_macos:
     name: Build macOS
@@ -122,9 +123,7 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
-        Get-ChildItem -Recurse
 
-        # Move-Item -Path "mac-arm64.zip" -Destination "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4

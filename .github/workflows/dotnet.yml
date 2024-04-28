@@ -65,6 +65,7 @@ jobs:
         New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
+        New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
         
         $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
         foreach ($file in $filesToMove) {

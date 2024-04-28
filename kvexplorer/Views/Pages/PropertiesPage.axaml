@@ -61,6 +61,7 @@
                     IconSource="Copy"
                     IsVisible="{Binding !IsCertificate}"
                     Label="Copy"
+                    VerticalContentAlignment="Center"
                     ToolTip.Tip="Copy Value (cleared after 30 seconds) "
                     ToolTip.VerticalOffset="10" />
                 <ui:CommandBarButton

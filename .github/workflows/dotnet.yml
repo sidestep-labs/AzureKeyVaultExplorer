@@ -113,7 +113,7 @@ jobs:
         path: ${{ github.workspace }}\artifacts\mac-arm64.zip
   release:
     name: Release code
-    needs: [ build_macos] #build_windows
+    needs: [ build_macos,build_windows]
     runs-on: ubuntu-latest
     steps: 
       - name: Download a single artifact

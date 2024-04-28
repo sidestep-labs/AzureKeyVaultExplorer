@@ -123,7 +123,7 @@ jobs:
         run: |
           Get-ChildItem
           gh release create v0.0.${{github.run_attempt}} --draft
-          gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE\artifacts\win-x64\win-x64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
+          gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE\win-x64.zip" "$env:GITHUB_WORKSPACE\mac-arm64.zip" "$env:GITHUB_WORKSPACE\mac-x64.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh

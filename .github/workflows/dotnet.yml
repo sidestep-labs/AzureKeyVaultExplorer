@@ -50,7 +50,7 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget
-    - name: Publish macOS-intel
+    - name: publish_macOS_intel
       run: |
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output ${{ github.workspace }}\artifacts\osx-x64 -f net8.0
         $initialRootDir = "Key Vault Explorer"
@@ -99,6 +99,7 @@ jobs:
   
   release:
     name: Release code
+    needs: [build_windows, build_macos]
     runs-on: ubuntu-latest
     steps: 
     - name: Create Release

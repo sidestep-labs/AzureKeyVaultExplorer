@@ -66,7 +66,7 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
-        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64"
+        $filesToMove = Get-ChildItem  -Exclude @("*.pdb","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64"
         foreach ($file in $filesToMove) {
             Copy-Item -Path $file -Destination $macOSDir -Force
         }
@@ -94,7 +94,7 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         
-        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64"
+        $filesToMove = Get-ChildItem  -Exclude @("*.pdb","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64"
         foreach ($file in $filesToMove) {
             Copy-Item -Path $file -Destination $macOSDir -Force
         }

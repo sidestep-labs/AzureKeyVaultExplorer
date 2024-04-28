@@ -35,7 +35,7 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: win-x64
+        name: win
         path: ${{ github.workspace }}\artifacts\win-x64.zip
       
   build_macos:
@@ -123,7 +123,7 @@ jobs:
         run: |
           Get-ChildItem -Recurse
           gh release create v0.0.${{github.run_attempt}} --draft
-          gh release upload v0.0.${{github.run_attempt}} "./win-x64.zip" "$env:GITHUB_WORKSPACE/mac-arm64.zip" "$env:GITHUB_WORKSPACE/mac-x64.zip"
+          gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE/win/win-x64.zip" "$env:GITHUB_WORKSPACE/macOS_arm64/mac-arm64.zip" "$env:GITHUB_WORKSPACE/macOS_x64/mac-x64.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh

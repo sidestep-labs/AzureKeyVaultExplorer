@@ -444,20 +444,19 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             DataContext = new PropertiesPageViewModel(model)
         };
-        bool isMac = OperatingSystem.IsMacOS();
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
             Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.Manual,
-            ShowAsDialog = false,
+            ShowAsDialog = true,
             CanResize = true,
             Content = page,
             Width = 620,
             Height = 480,
             MinWidth = 300,
-            ExtendClientAreaToDecorationsHint = isMac,
+            ExtendClientAreaToDecorationsHint = true,
             // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
             // Background = null,
         };
@@ -466,9 +465,7 @@ public partial class VaultPageViewModel : ViewModelBase
         //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window with parent on windows but not mac.
-        if (isMac)
+     
             taskDialog.Show();
-        else
-            taskDialog.Show(topLevel);
     }
 }

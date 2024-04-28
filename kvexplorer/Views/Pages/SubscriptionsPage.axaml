@@ -118,7 +118,7 @@
             <ui:ProgressRing
                 Width="80"
                 Height="100"
-                BorderThickness="5"
+                BorderThickness="{OnPlatform Default=5, macOS=5}"
                 IsIndeterminate="True" />
         </StackPanel>
         <DataGrid

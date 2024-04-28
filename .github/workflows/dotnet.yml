@@ -103,8 +103,8 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-        Compress-Archive -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip"
-        Move-Item -Path "mac-arm64.zip" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip"
+        Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "mac-arm64.zip"
+        Move-Item -Path "mac-arm64.zip" -Destination "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip"
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4

@@ -82,7 +82,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: macOS_arm
-        path: ${{ github.workspace }}\final #\mac-x64.zip
+        path: ${{ github.workspace }}/final/mac-x64.zip
     - name: Publish macOS Arm
       run: | 
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
@@ -112,7 +112,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: mac-arm64
-        path: ${{ github.workspace }}\final #\mac-arm64.zip
+        path: ${{ github.workspace }}/final/mac-arm64.zip
   release:
     name: Release code
     needs: [ build_macos,build_windows]
@@ -124,7 +124,7 @@ jobs:
         run: |
           Get-ChildItem
           gh release create v0.0.${{github.run_attempt}} --draft
-          gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE\artifacts\win-x64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
+          gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE\artifacts\win-x64\win-x64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh

@@ -454,3 +454,4 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 /kvexplorer.Desktop/publish*
 /kvexplorer.Desktop/publish-aot*
+/kvexplorer.Desktop/mac

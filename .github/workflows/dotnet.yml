@@ -58,8 +58,8 @@ jobs:
             Copy-Item -Path $file -Destination $macOSDir -Force
         }
         
-        Copy-Item -Path "../../kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-        Copy-Item -Path "../../kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+        Copy-Item -Path "../kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
+        Copy-Item -Path "../kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
       shell: pwsh
@@ -82,8 +82,8 @@ jobs:
             Copy-Item -Path $file -Destination $macOSDir -Force
         }
         
-        Copy-Item -Path "../../kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-        Copy-Item -Path "../../kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+        Copy-Item -Path "../kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
+        Copy-Item -Path "../kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip"
       shell: pwsh

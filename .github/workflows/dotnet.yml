@@ -10,33 +10,33 @@ permissions:
   contents: write
 
 jobs:
-  build_windows:
-    name: Build Windows
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - uses: actions/cache@v3
-      with:
-          path: ~/.nuget/packages
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            win-nuget
-    - name: Publish Windows
-      run: | 
-        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime win-x64 --output ${{ github.workspace }}\artifacts\win-x64 -f net8.0-windows10.0.19041.0
-        $files = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\artifacts\win-x64"  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
-        Compress-Archive -Path $files -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\win-x64.zip"
-      shell: pwsh
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: win-x64
-        path: ${{ github.workspace }}\artifacts\win-x64.zip
+  # build_windows:
+  #   name: Build Windows
+  #   runs-on: windows-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Setup .NET
+  #     uses: actions/setup-dotnet@v4
+  #     with:
+  #       dotnet-version: 8.0.x
+  #   - uses: actions/cache@v3
+  #     with:
+  #         path: ~/.nuget/packages
+  #         # Look to see if there is a cache hit for the corresponding requirements file
+  #         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+  #         restore-keys: |
+  #           win-nuget
+  #   - name: Publish Windows
+  #     run: | 
+  #       dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime win-x64 --output ${{ github.workspace }}\artifacts\win-x64 -f net8.0-windows10.0.19041.0
+  #       $files = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\artifacts\win-x64"  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
+  #       Compress-Archive -Path $files -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\win-x64.zip"
+  #     shell: pwsh
+  #   - name: Upload Artifacts
+  #     uses: actions/upload-artifact@v4
+  #     with:
+  #       name: win-x64
+  #       path: ${{ github.workspace }}\artifacts\win-x64.zip
       
   build_macos:
     name: Build macOS
@@ -81,7 +81,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: mac-x64
-        path: ${{ github.workspace }}\artifacts\mac-x64.zip
+        path: ${{ github.workspace }} #\artifacts\mac-x64.zip
     - name: Publish macOS Arm
       run: | 
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
@@ -108,7 +108,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: mac-arm64
-        path: ${{ github.workspace }}\artifacts\mac-arm64.zip
+        path: ${{ github.workspace }} #\artifacts\mac-arm64.zip
   release:
     name: Release code
     needs: [build_windows, build_macos]

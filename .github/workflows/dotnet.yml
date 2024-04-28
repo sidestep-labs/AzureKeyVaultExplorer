@@ -66,16 +66,15 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
-        
         $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
         foreach ($file in $filesToMove) {
             Copy-Item -Path $file -Destination $macOSDir -Force
         }
-        
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
+        Get-ChildItem -Recurse
         # Move-Item -Path "mac-x64.zip" -Destination "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
         Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
       shell: pwsh
@@ -105,6 +104,8 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
+        Get-ChildItem -Recurse
+
         # Move-Item -Path "mac-arm64.zip" -Destination "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
       shell: pwsh
     - name: Upload Artifacts

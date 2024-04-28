@@ -98,9 +98,11 @@
                     ToolTip.Tip="Refresh available subscriptions"
                     ToolTip.VerticalOffset="10">
                     <ui:BitmapIcon
-                        Width="16"
-                        Height="16"
+                        Width="32"
+                        Height="32"
+                        Margin="-8"
                         RenderOptions.BitmapInterpolationMode="HighQuality"
+                        RenderTransform="Scale(0.5, 0.5)"
                         ShowAsMonochrome="True"
                         UriSource="avares://kvexplorer/Assets/Refresh.png" />
                 </Button>
@@ -228,17 +230,21 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            Spacing="5">
                             <ui:BitmapIcon
-                                Width="16"
-                                Height="16"
-                                Margin="0,1,5,0"
+                                Width="32"
+                                Height="32"
+                                Margin="-8"
                                 Foreground="#996f00"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://kvexplorer/Assets/ForeignKey.png">
                                 <ui:BitmapIcon.RenderTransform>
-                                    <RotateTransform Angle="90" />
+                                    <TransformGroup>
+                                        <RotateTransform Angle="90" />
+                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                                    </TransformGroup>
                                 </ui:BitmapIcon.RenderTransform>
                             </ui:BitmapIcon>
 
@@ -275,14 +281,15 @@
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
                             Orientation="Horizontal"
+                            Spacing=""
                             ToolTip.ShowDelay="1000"
                             ToolTip.Tip="Double click to open"
                             ToolTip.VerticalOffset="10">
                             <ui:BitmapIcon
-                                Width="16"
-                                Height="16"
-                                Margin="0,1,5,0"
+                                Width="32"
+                                Height="32"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
+                                RenderTransform="Scale(0.5, 0.5)"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://kvexplorer/Assets/KeyVault.png" />
                             <TextBlock

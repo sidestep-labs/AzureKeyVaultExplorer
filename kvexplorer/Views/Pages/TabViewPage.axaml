@@ -62,7 +62,11 @@
                                         Theme="{StaticResource TransparentButton}"
                                         ToolTip.Tip="Pin"
                                         ToolTip.VerticalOffset="10">
-                                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Pin.png" />
+                                        <ui:BitmapIcon
+                                            Width="16"
+                                            Height="16"
+                                            ShowAsMonochrome="True"
+                                            UriSource="avares://kvexplorer/Assets/Pin.png" />
                                     </Button>
                                     <Button
                                         Padding="4"
@@ -71,9 +75,13 @@
                                         Theme="{StaticResource TransparentButton}"
                                         ToolTip.Tip="Unpin"
                                         ToolTip.VerticalOffset="10">
-                                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Unpin.png">
+                                        <ui:BitmapIcon
+                                            Width="16"
+                                            Height="16"
+                                            ShowAsMonochrome="True"
+                                            UriSource="avares://kvexplorer/Assets/Pin.png">
                                             <ui:BitmapIcon.RenderTransform>
-                                                <RotateTransform Angle="-45" />
+                                                <RotateTransform Angle="45" />
                                             </ui:BitmapIcon.RenderTransform>
                                         </ui:BitmapIcon>
                                     </Button>
@@ -83,7 +91,11 @@
                                         Theme="{StaticResource TransparentButton}"
                                         ToolTip.Tip="Close"
                                         ToolTip.VerticalOffset="10">
-                                        <ui:BitmapIcon ShowAsMonochrome="True" UriSource="avares://kvexplorer/Assets/Close.png" />
+                                        <ui:BitmapIcon
+                                            Width="16"
+                                            Height="16"
+                                            ShowAsMonochrome="True"
+                                            UriSource="avares://kvexplorer/Assets/Close.png" />
                                     </ToggleButton>
                                 </StackPanel>
                             </DockPanel>

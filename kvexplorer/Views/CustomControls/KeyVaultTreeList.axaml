@@ -98,6 +98,8 @@
                     ToolTip.Tip="Refresh available subscriptions"
                     ToolTip.VerticalOffset="10">
                     <ui:BitmapIcon
+                        Width="16"
+                        Height="16"
                         RenderOptions.BitmapInterpolationMode="None"
                         ShowAsMonochrome="True"
                         UriSource="avares://kvexplorer/Assets/Refresh.png" />
@@ -112,6 +114,8 @@
                     ToolTip.VerticalOffset="10">
                     <StackPanel Orientation="Horizontal">
                         <ui:BitmapIcon
+                            Width="16"
+                            Height="16"
                             RenderOptions.BitmapInterpolationMode="HighQuality"
                             ShowAsMonochrome="True"
                             UriSource="avares://kvexplorer/Assets/CollapseAll.png" />
@@ -163,7 +167,7 @@
                                         Width="1"
                                         Height="1"
                                         BorderThickness="{OnPlatform Default=3,
-                                                                     macOS=6}"
+                                                                     macOS=5}"
                                         IsIndeterminate="True"
                                         IsVisible="{Binding IsBusy}"
                                         RenderTransform="Scale(0.5, 0.5)" />
@@ -224,11 +228,18 @@
                             Cursor="Hand"
                             Orientation="Horizontal">
                             <ui:BitmapIcon
+                                Width="16"
+                                Height="16"
                                 Margin="0,1,5,0"
                                 Foreground="#996f00"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
-                                UriSource="avares://kvexplorer/Assets/ForeignKey.png" />
+                                UriSource="avares://kvexplorer/Assets/ForeignKey.png">
+                                <ui:BitmapIcon.RenderTransform>
+                                    <RotateTransform Angle="90" />
+                                </ui:BitmapIcon.RenderTransform>
+                            </ui:BitmapIcon>
+
                             <TextBlock
                                 x:Name="SubscriptionDisplayName"
                                 VerticalAlignment="Center"
@@ -243,16 +254,11 @@
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
                             Orientation="Horizontal">
-
-
-                            <Image Name="svgSourceImage" Margin="0,1,5,0">
+                            <Image Margin="0,1,5,0">
                                 <Image.Source>
                                     <SvgImage Source="/Assets/FolderClosed.svg" />
                                 </Image.Source>
                             </Image>
-
-
-
                             <TextBlock
                                 x:Name="ResourceGroupDisplayName"
                                 VerticalAlignment="Center"
@@ -271,6 +277,8 @@
                             ToolTip.Tip="Double click to open"
                             ToolTip.VerticalOffset="10">
                             <ui:BitmapIcon
+                                Width="16"
+                                Height="16"
                                 Margin="0,1,5,0"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"

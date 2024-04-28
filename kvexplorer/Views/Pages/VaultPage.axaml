@@ -108,6 +108,8 @@
                     ToolTip.VerticalOffset="10">
                     <StackPanel Orientation="Horizontal">
                         <ui:BitmapIcon
+                            Width="16"
+                            Height="16"
                             RenderOptions.BitmapInterpolationMode="HighQuality"
                             ShowAsMonochrome="True"
                             UriSource="avares://kvexplorer/Assets/Refresh.png" />

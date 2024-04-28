@@ -35,7 +35,9 @@ jobs:
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
-
+      with:
+        name: win-x64
+        path: ${{ github.workspace }}\artifacts\*.zip
       
   build_macos:
     name: Build macOS
@@ -76,7 +78,11 @@ jobs:
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
         Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
       shell: pwsh
-   
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mac-x64
+        path: ${{ github.workspace }}\artifacts\*.zip
     - name: Publish macOS Arm
       run: | 
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
@@ -101,7 +107,9 @@ jobs:
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
-  
+      with:
+        name: mac-arm64
+        path: ${{ github.workspace }}\artifacts\*.zip
   release:
     name: Release code
     needs: [build_windows, build_macos]

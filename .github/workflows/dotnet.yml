@@ -38,9 +38,9 @@ jobs:
         name: win
         path: ${{ github.workspace }}\artifacts\win-x64.zip
       
-  build_macos:
-    name: Build macOS
-    runs-on: macos-latest
+  build_macos_intel:
+    name: Build macOS_intel
+    runs-on: macos-13
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -82,6 +82,24 @@ jobs:
       with:
         name: macOS_x64
         path: ${{ github.workspace }}/final/mac-x64.zip
+
+  build_macos:
+    name: Build macOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            mac-nuget
+        
     - name: Publish macOS Arm
       run: | 
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-arm64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -f net8.0
@@ -112,9 +130,10 @@ jobs:
       with:
         name: macOS_arm64
         path: ${{ github.workspace }}/final/mac-arm64.zip
+        
   release:
     name: Release code
-    needs: [ build_macos,build_windows]
+    needs: [ build_macos,build_windows, build_macos_intel]
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4

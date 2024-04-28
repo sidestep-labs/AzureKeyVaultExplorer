@@ -56,7 +56,7 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output ${{ github.workspace }}\artifacts\osx-x64 -f net8.0
+        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -f net8.0
         $initialRootDir = "Key Vault Explorer"
         $contentsDir = "$initialRootDir\Contents"
         $macOSDir = "$($initialRootDir)\Contents\MacOS"
@@ -66,7 +66,7 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
-        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
+        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64"
         foreach ($file in $filesToMove) {
             Copy-Item -Path $file -Destination $macOSDir -Force
         }
@@ -75,7 +75,6 @@ jobs:
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
         Get-ChildItem -Recurse
-        # Move-Item -Path "mac-x64.zip" -Destination "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
         Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
       shell: pwsh
     - name: Upload Artifacts
@@ -85,7 +84,7 @@ jobs:
         path: ${{ github.workspace }}/final/mac-x64.zip
     - name: Publish macOS Arm
       run: | 
-        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
+        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-arm64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -f net8.0
         $initialRootDir = "Key Vault Explorer"
         $contentsDir = "$initialRootDir\Contents"
         $macOSDir = "$($initialRootDir)\Contents\MacOS"
@@ -95,7 +94,7 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         
-        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
+        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64"
         foreach ($file in $filesToMove) {
             Copy-Item -Path $file -Destination $macOSDir -Force
         }

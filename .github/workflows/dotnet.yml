@@ -66,10 +66,7 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
-        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64"
-        foreach ($file in $filesToMove) {
-            Copy-Item -Path $file -Destination $macOSDir -Force
-        }
+        Copy-Item -Path -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -Destination $macOSDir -Force -Recurse -Exclude @("*.pdb") 
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
@@ -94,11 +91,8 @@ jobs:
         New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         
-        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64"
-        foreach ($file in $filesToMove) {
-            Copy-Item -Path $file -Destination $macOSDir -Force
-        }
-        
+        Copy-Item -Path -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -Destination $macOSDir -Force -Recurse -Exclude @("*.pdb") 
+
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 

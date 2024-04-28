@@ -47,11 +47,12 @@ jobs:
    
     - name: Create Release
       run: |
-        gh release create v0.1.${{github.run_id}} --draft
-        gh release upload v0.1.${{github.run_id}} ${{ github.workspace }}\artifacts\
+        gh release create v0.1.${{github.run_attempt}} --draft
+        gh release upload v0.1.${{github.run_attempt}} ${{ github.workspace }}\artifacts\
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh
+    
       
 
         

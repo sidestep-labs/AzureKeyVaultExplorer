@@ -62,7 +62,7 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
-        Remove-Item -Path "$($initialRootDir).app" -Force 
+        Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
       shell: pwsh
    
     - name: Publish MacOS

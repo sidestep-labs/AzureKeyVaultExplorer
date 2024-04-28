@@ -48,8 +48,9 @@ jobs:
     - name: Create Release
       run: |
         Get-ChildItem -Recurse
+        Compress-Archive -Path "$env:GITHUB_WORKSPACE\artifacts\win-x64" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\kvexplorer-win-x64.zip"
         gh release create v0.0.${{github.run_attempt}} --draft
-        gh release upload v0.0.${{github.run_id}} "$env:GITHUB_WORKSPACE\artifacts\"
+        gh release upload v0.0.${{github.run_id}} "$env:GITHUB_WORKSPACE\artifacts\kvexplorer-win-x64.zip"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh

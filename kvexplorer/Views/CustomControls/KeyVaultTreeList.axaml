@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:kvexplorer.shared.Models;assembly=kvexplorer.shared"
+    xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:kvexplorer.ViewModels"
     d:DesignHeight="450"
@@ -161,7 +162,8 @@
                                     <ui:ProgressRing
                                         Width="1"
                                         Height="1"
-                                        BorderThickness="{OnPlatform Default=3, macOS=6}"
+                                        BorderThickness="{OnPlatform Default=3,
+                                                                     macOS=6}"
                                         IsIndeterminate="True"
                                         IsVisible="{Binding IsBusy}"
                                         RenderTransform="Scale(0.5, 0.5)" />
@@ -241,10 +243,16 @@
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
                             Orientation="Horizontal">
-                            <ui:BitmapIcon
-                                Margin="0,1,5,0"
-                                RenderOptions.BitmapInterpolationMode="HighQuality"
-                                UriSource="avares://kvexplorer/Assets/FolderClosed.png" />
+
+
+                            <Image Name="svgSourceImage" Margin="0,1,5,0">
+                                <Image.Source>
+                                    <SvgImage Source="/Assets/FolderClosed.svg" />
+                                </Image.Source>
+                            </Image>
+
+
+
                             <TextBlock
                                 x:Name="ResourceGroupDisplayName"
                                 VerticalAlignment="Center"

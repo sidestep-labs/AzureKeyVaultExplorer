@@ -38,91 +38,91 @@ jobs:
         name: win-x64
         path: ${{ github.workspace }}\artifacts\win-x64.zip
       
-  # build_macos:
-  #   name: Build macOS
-  #   runs-on: macos-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Setup .NET
-  #     uses: actions/setup-dotnet@v4
-  #     with:
-  #       dotnet-version: 8.0.x
-  #   - uses: actions/cache@v3
-  #     with:
-  #         path: ~/.nuget/packages
-  #         # Look to see if there is a cache hit for the corresponding requirements file
-  #         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-  #         restore-keys: |
-  #           mac-nuget
-  #   - name: publish_macOS_intel
-  #     run: |
-  #       dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output ${{ github.workspace }}\artifacts\osx-x64 -f net8.0
-  #       $initialRootDir = "Key Vault Explorer"
-  #       $contentsDir = "$initialRootDir\Contents"
-  #       $macOSDir = "$($initialRootDir)\Contents\MacOS"
-  #       $resourcesPath = "$($initialRootDir)\Contents\Resources"
-  #       New-Item -ItemType Directory -Path $initialRootDir -Force | Out-Null
-  #       New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
-  #       New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
-  #       New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
+  build_macos:
+    name: Build macOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            mac-nuget
+    - name: publish_macOS_intel
+      run: |
+        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output ${{ github.workspace }}\artifacts\osx-x64 -f net8.0
+        $initialRootDir = "Key Vault Explorer"
+        $contentsDir = "$initialRootDir\Contents"
+        $macOSDir = "$($initialRootDir)\Contents\MacOS"
+        $resourcesPath = "$($initialRootDir)\Contents\Resources"
+        New-Item -ItemType Directory -Path $initialRootDir -Force | Out-Null
+        New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
+        New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
+        New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         
-  #       $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
-  #       foreach ($file in $filesToMove) {
-  #           Copy-Item -Path $file -Destination $macOSDir -Force
-  #       }
+        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
+        foreach ($file in $filesToMove) {
+            Copy-Item -Path $file -Destination $macOSDir -Force
+        }
         
-  #       Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-  #       Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
-  #       Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-  #       Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
-  #       Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
-  #     shell: pwsh
-  #   - name: Upload Artifacts
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: mac-x64
-  #       path: /artifacts/mac-x64.zip
-  #   - name: Publish macOS Arm
-  #     run: | 
-  #       dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
-  #       $initialRootDir = "Key Vault Explorer"
-  #       $contentsDir = "$initialRootDir\Contents"
-  #       $macOSDir = "$($initialRootDir)\Contents\MacOS"
-  #       $resourcesPath = "$($initialRootDir)\Contents\Resources"
-  #       New-Item -ItemType Directory -Path $initialRootDir -Force | Out-Null
-  #       New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
-  #       New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
-  #       New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+        Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
+        Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
+        Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
+      shell: pwsh
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mac-x64
+        path: ${{ github.workspace }}\artifacts\mac-x64.zip
+    - name: Publish macOS Arm
+      run: | 
+        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
+        $initialRootDir = "Key Vault Explorer"
+        $contentsDir = "$initialRootDir\Contents"
+        $macOSDir = "$($initialRootDir)\Contents\MacOS"
+        $resourcesPath = "$($initialRootDir)\Contents\Resources"
+        New-Item -ItemType Directory -Path $initialRootDir -Force | Out-Null
+        New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
+        New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
+        New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         
-  #       $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
-  #       foreach ($file in $filesToMove) {
-  #           Copy-Item -Path $file -Destination $macOSDir -Force
-  #       }
+        $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
+        foreach ($file in $filesToMove) {
+            Copy-Item -Path $file -Destination $macOSDir -Force
+        }
         
-  #       Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-  #       Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
-  #       Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-  #       Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip"
-  #     shell: pwsh
-  #   - name: Upload Artifacts
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: mac-arm64
-  #       path: /artifacts/mac-arm64.zip
-  # release:
-  #   name: Release code
-  #   needs: [build_windows, build_macos]
-  #   runs-on: ubuntu-latest
-  #   steps: 
-  #     - name: Download a single artifact
-  #       uses: actions/download-artifact@v4
-  #     - name: Create Release
-  #       run: |
-  #         gh release create v0.0.${{github.run_attempt}} --draft
-  #         gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE\artifacts\win-x64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       shell: pwsh
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+        Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
+        Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip"
+      shell: pwsh
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mac-arm64
+        path: ${{ github.workspace }}\artifacts\mac-arm64.zip
+  release:
+    name: Release code
+    needs: [build_windows, build_macos]
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+      - name: Create Release
+        run: |
+          gh release create v0.0.${{github.run_attempt}} --draft
+          gh release upload v0.0.${{github.run_attempt}} "$env:GITHUB_WORKSPACE\artifacts\win-x64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-arm64.zip" "$env:GITHUB_WORKSPACE\artifacts\mac-x64.zip"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
       
       
 

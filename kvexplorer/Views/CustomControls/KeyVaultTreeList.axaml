@@ -281,7 +281,6 @@
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
                             Orientation="Horizontal"
-                            Spacing=""
                             ToolTip.ShowDelay="1000"
                             ToolTip.Tip="Double click to open"
                             ToolTip.VerticalOffset="10">

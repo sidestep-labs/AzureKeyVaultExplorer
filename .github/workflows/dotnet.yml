@@ -14,7 +14,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest, macos-13]
+        os: [windows-latest, macos-latest]
         #  ubuntu-latest,
     runs-on: ${{ matrix.os }}
     
@@ -41,7 +41,7 @@ jobs:
       shell: pwsh
       
     - name: Publish MacOS-x64
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'macos-latest'
       run: |
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output ${{ github.workspace }}\artifacts\osx-x64 -f net8.0
         $initialRootDir = "Key Vault Explorer"
@@ -65,7 +65,7 @@ jobs:
       shell: pwsh
    
     - name: Publish MacOS
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'macos-latest'
       run: | 
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime  osx-arm64 --output ${{ github.workspace }}\artifacts\osx-arm64 -f net8.0
         $initialRootDir = "Key Vault Explorer"

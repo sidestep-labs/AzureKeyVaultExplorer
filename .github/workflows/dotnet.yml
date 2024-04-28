@@ -40,7 +40,7 @@ jobs:
       
   build_macos_intel:
     name: Build macOS_intel
-    runs-on: macos-13
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET

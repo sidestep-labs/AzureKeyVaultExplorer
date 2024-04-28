@@ -27,19 +27,19 @@
 
   
   <ItemGroup>
-    <None Remove="Assets\Close.png" />
+    <None Remove="Assets\Close.svg" />
     <None Remove="Assets\Cloud.png" />
-    <None Remove="Assets\CollapseAll.png" />
+    <None Remove="Assets\Cloud.svg" />
+    <None Remove="Assets\CollapseAll.svg" />
     <None Remove="Assets\folder.png" />
-    <None Remove="Assets\FolderClosed.png" />
     <None Remove="Assets\FolderClosed.svg" />
-    <None Remove="Assets\KeyVault.png" />
+    <None Remove="Assets\ForeignKey.svg" />
+    <None Remove="Assets\KeyVault.svg" />
     <None Remove="Assets\kv-gray.png" />
     <None Remove="Assets\Pin.png" />
-    <None Remove="Assets\Refresh.png" />
+    <None Remove="Assets\Pin.svg" />
+    <None Remove="Assets\Refresh.svg" />
     <None Remove="Assets\StatusErrorOutline.png" />
-    <None Remove="Assets\StorageContainerGroup.png" />
-    <None Remove="Assets\Unpin.png" />
   </ItemGroup>
 
   

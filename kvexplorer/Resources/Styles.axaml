@@ -3,38 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives">
-    <Design.PreviewWith>
-
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <WrapPanel
-                MaxWidth="400"
-                ItemHeight="50"
-                ItemWidth="50">
-                <ContentControl Content="{DynamicResource __FolderClosed}" />
-            </WrapPanel>
-        </ScrollViewer>
-
-
-
-    </Design.PreviewWith>
-    <Style>
-        <Style.Resources>
-            <SolidColorBrush x:Key="Brush0" Color="#FF996F00" />
-            <Image x:Key="__FolderClosed">
-                <DrawingImage>
-                    <DrawingGroup>
-                        <DrawingGroup Opacity="0">
-                            <DrawingGroup Opacity="0" />
-                        </DrawingGroup>
-                        <DrawingGroup Opacity="0.10196078431372549">
-                            <GeometryDrawing Brush="{DynamicResource Brush0}" Geometry="F1 M14.5 3.5L14.5 12.5L1.5 12.5L1.5 2.5L7.5 2.5L8.5 3.5L14.5 3.5Z" />
-                        </DrawingGroup>
-                        <GeometryDrawing Brush="{DynamicResource Brush0}" Geometry="F1 M14.5 3L8.707 3L7.854 2.146L7.5 2L1.5 2L1 2.5L1 12.5L1.5 13L14.5 13L15 12.5L15 3.5L14.5 3ZM7.293 3L7.781 3.488L7.268 4L2 4L2 3L7.293 3ZM14 12L2 12L2 5L7.475 5L7.829 4.854L8.682 4L14 4L14 12Z" />
-                    </DrawingGroup>
-                </DrawingImage>
-            </Image>
-        </Style.Resources>
-    </Style>
+    <Design.PreviewWith />
 
     <Style Selector="TextBox">
         <Setter Property="MinHeight" Value="30" />

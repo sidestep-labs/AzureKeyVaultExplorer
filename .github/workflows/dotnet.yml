@@ -70,7 +70,8 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-        Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
+        Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"
+        # Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
         Get-ChildItem -Recurse
         Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
       shell: pwsh
@@ -78,7 +79,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: macOS_x64
-        path: ${{ github.workspace }}/final/mac-x64.zip
+        path: ${{ github.workspace }}/final/
     - name: Publish macOS Arm
       run: | 
         dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-arm64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -f net8.0
@@ -96,7 +97,10 @@ jobs:
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
         Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-        Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
+
+        Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"
+
+        # Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
         Get-ChildItem -Recurse
 
         # Move-Item -Path "mac-arm64.zip" -Destination "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"

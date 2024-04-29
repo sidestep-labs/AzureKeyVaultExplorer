@@ -236,7 +236,6 @@
                                 <Image.RenderTransform>
                                     <TransformGroup>
                                         <RotateTransform Angle="90" />
-                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                                     </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>

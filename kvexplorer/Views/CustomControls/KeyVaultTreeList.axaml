@@ -232,22 +232,14 @@
                             Cursor="Hand"
                             Orientation="Horizontal"
                             Spacing="5">
-                            <ui:BitmapIcon
-                                Width="32"
-                                Height="32"
-                                Margin="-8"
-                                Foreground="#996f00"
-                                RenderOptions.BitmapInterpolationMode="HighQuality"
-                                ShowAsMonochrome="True"
-                                UriSource="avares://kvexplorer/Assets/ForeignKey.png">
-                                <ui:BitmapIcon.RenderTransform>
+                            <Image Source="{SvgImage /Assets/ForeignKey.svg}">
+                                <Image.RenderTransform>
                                     <TransformGroup>
                                         <RotateTransform Angle="90" />
                                         <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                                     </TransformGroup>
-                                </ui:BitmapIcon.RenderTransform>
-                            </ui:BitmapIcon>
-
+                                </Image.RenderTransform>
+                            </Image>
                             <TextBlock
                                 x:Name="SubscriptionDisplayName"
                                 VerticalAlignment="Center"

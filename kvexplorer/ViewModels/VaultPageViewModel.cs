@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
+using Avalonia.Platform.Storage;
 
 #if WINDOWS
 using Windows.Data.Xml.Dom;
@@ -59,13 +60,14 @@ public partial class VaultPageViewModel : ViewModelBase
     private SettingsPageViewModel _settingsPageViewModel;
     private NotificationViewModel _notificationViewModel;
     private Bitmap BitmapImage;
-
+    private readonly IClipboard _clipboardService;
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
+        _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
         vaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>() { };
         BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://kvexplorer/Assets/kv-orange.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
 
@@ -130,13 +132,11 @@ public partial class VaultPageViewModel : ViewModelBase
 
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
     private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
-    private IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
-    private Window topLevel => (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
 
     public async Task ClearClipboardAsync()
     {
         await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
-        await clipboard.ClearAsync();
+        await _clipboardService.ClearAsync();
     }
 
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
@@ -332,7 +332,7 @@ public partial class VaultPageViewModel : ViewModelBase
             // TODO: figure out why set data object async fails here.
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
-            await clipboard.SetTextAsync(value);
+            await _clipboardService.SetTextAsync(value);
             ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
             _ = ClearClipboardAsync().ConfigureAwait(false);
         }
@@ -348,7 +348,7 @@ public partial class VaultPageViewModel : ViewModelBase
         if (keyVaultItem is null) return;
         //var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
         //var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
-        await clipboard.SetTextAsync(keyVaultItem.Id.ToString());
+        await _clipboardService.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
     private async Task DelaySetIsBusy(bool val)

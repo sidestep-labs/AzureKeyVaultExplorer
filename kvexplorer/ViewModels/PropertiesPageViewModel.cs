@@ -28,9 +28,8 @@ public partial class PropertiesPageViewModel : ViewModelBase
 {
     private readonly VaultService _vaultService;
     private readonly AuthService _authService;
-
-    public Window topLevel => (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-    public IClipboard clipboard => TopLevel.GetTopLevel(topLevel)?.Clipboard;
+    private readonly IClipboard _clipboardService;
+    private readonly IStorageProvider _storageService;
 
 
     [ObservableProperty]
@@ -59,9 +58,12 @@ public partial class PropertiesPageViewModel : ViewModelBase
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-    }
+        _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
+        _storageService = Defaults.Locator.GetRequiredService<IStorageProvider>();
 
-    [ObservableProperty]
+}
+
+[ObservableProperty]
     public ObservableCollection<KeyProperties> keyPropertiesList;
 
     [ObservableProperty]
@@ -80,6 +82,8 @@ public partial class PropertiesPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+        _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
+        _storageService = Defaults.Locator.GetRequiredService<IStorageProvider>();
 
         OpenedItem = model;
         Dispatcher.UIThread.InvokeAsync(async () =>
@@ -158,7 +162,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
             // TODO: figure out why set data object async fails here.
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
-            await clipboard.SetTextAsync(value);
+            await _clipboardService.SetTextAsync(value);
             ClearClipboardAsync().ConfigureAwait(false);
         }
         catch (KeyVaultItemNotFoundException ex)
@@ -169,7 +173,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
     public async Task ClearClipboardAsync()
     {
         await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
-        await clipboard.ClearAsync();
+        await _clipboardService.ClearAsync();
     }
 
     [RelayCommand]
@@ -207,8 +211,8 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
     private async void SaveFile(string fileName, string ext, string content)
     {
-        var desktopFolder = await topLevel.StorageProvider.TryGetWellKnownFolderAsync(WellKnownFolder.Downloads);
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        var desktopFolder = await _storageService.TryGetWellKnownFolderAsync(WellKnownFolder.Downloads);
+        var file = await _storageService.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = $"Save {fileName}",
             SuggestedFileName = fileName,

@@ -1,6 +1,10 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
+using Avalonia.VisualTree;
 using kvexplorer.shared;
 using kvexplorer.shared.Database;
 using kvexplorer.ViewModels;
@@ -16,8 +20,8 @@ public partial class App : Application
     {
         IServiceCollection serviceCollection = new ServiceCollection();
         serviceCollection.AddMemoryCache();
-        serviceCollection.AddSingleton<AuthService, AuthService>();
-        serviceCollection.AddSingleton<VaultService, VaultService>();
+        serviceCollection.AddSingleton<AuthService>();
+        serviceCollection.AddSingleton<VaultService>();
         serviceCollection.AddSingleton<TabViewPageViewModel>();
         serviceCollection.AddSingleton<ToolBarViewModel>();
         serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
@@ -26,6 +30,8 @@ public partial class App : Application
         serviceCollection.AddSingleton<NotificationViewModel>();
         serviceCollection.AddSingleton<KvExplorerDb>();
         serviceCollection.AddTransient<AppSettingReader>();
+        serviceCollection.AddSingleton<IClipboard, ClipboardService>();
+        serviceCollection.AddSingleton<IStorageProvider,StorageProviderService>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 
@@ -37,16 +43,17 @@ public partial class App : Application
             KvExplorerDb.InitializeDatabase();
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
-        if (!File.Exists(settingsPath)) {
+        if (!File.Exists(settingsPath))
+        {
             var s = """
-                { 
-                    "BackgroundTransparency": false, 
-                    "NavigationLayoutMode": "Left", 
+                {
+                    "BackgroundTransparency": false,
+                    "NavigationLayoutMode": "Left",
                     "AppTheme": "System",
                     "PaneDisplayMode": "inline"
                 }
                 """;
-            File.WriteAllText(settingsPath,s);
+            File.WriteAllText(settingsPath, s);
         }
     }
 
@@ -77,5 +84,29 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+  
+
+}
+public static class ApplicationExtensions
+{
+    /// <summary>
+    /// Returns the TopLevel from the main window or view. 
+    /// </summary>
+    /// <param name="app">The application to get the TopLevel for.</param>
+    /// <returns>A TopLevel object.</returns>
+    public static TopLevel? GetTopLevel(this Application? app)
+    {
+        if (app?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            return desktop.MainWindow;
+        }
+        if (app?.ApplicationLifetime is ISingleViewApplicationLifetime viewApp)
+        {
+            var visualRoot = viewApp.MainView?.GetVisualRoot();
+            return visualRoot as TopLevel;
+        }
+        return null;
     }
 }

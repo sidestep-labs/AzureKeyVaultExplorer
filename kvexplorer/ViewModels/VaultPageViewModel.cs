@@ -333,12 +333,12 @@ public partial class VaultPageViewModel : ViewModelBase
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
             await _clipboardService.SetTextAsync(value);
-            ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success, topLevel);
+            ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
             _ = ClearClipboardAsync().ConfigureAwait(false);
         }
         catch (KeyVaultItemNotFoundException ex)
         {
-            ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error, topLevel);
+            ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
         }
     }
 
@@ -346,8 +346,6 @@ public partial class VaultPageViewModel : ViewModelBase
     private async Task CopyUri(KeyVaultContentsAmalgamation keyVaultItem)
     {
         if (keyVaultItem is null) return;
-        //var topLevel = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow;
-        //var clipboard = TopLevel.GetTopLevel(topLevel)?.Clipboard;
         await _clipboardService.SetTextAsync(keyVaultItem.Id.ToString());
     }
 
@@ -404,7 +402,7 @@ public partial class VaultPageViewModel : ViewModelBase
         await FilterAndLoadVaultValueType(item);
     }
 
-    private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType, TopLevel topLevel)
+    private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType)
     {
         //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
 #if WINDOWS
@@ -423,7 +421,7 @@ public partial class VaultPageViewModel : ViewModelBase
         var toast = new ToastNotification(doc)
         {
             ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
-            //Tag = "Copied KV Values",
+            Tag = "Copied Key Vault Value",
             ExpiresOnReboot = true
         };
         toastNotifier.Show(toast);

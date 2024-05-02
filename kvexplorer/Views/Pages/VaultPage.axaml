@@ -190,6 +190,7 @@
                     CanUserResizeColumns="True"
                     CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                     DoubleTapped="OnDoubleTapped"
+                    FrozenColumnCount="1"
                     GridLinesVisibility="Horizontal"
                     HorizontalScrollBarVisibility="Auto"
                     IsReadOnly="True"

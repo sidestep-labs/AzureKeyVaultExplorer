@@ -63,9 +63,9 @@
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppInstallerUri>C:\Users\athomas\Documents\athomas\wap</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>2EA3F7988788A55D43D0DEC0123B073710B8F69C</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>0949B82AB52B2076A15756D4989086E747D9357D</PackageCertificateThumbprint>
     <AppxPackageDir>C:\Users\athomas\Documents\athomas\wap</AppxPackageDir>
-    <EntryPointProjectUniqueName>..\kvexplorer.Desktop.Windows\kvexplorer.Desktop.Windows.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\kvexplorer.Desktop\kvexplorer.Desktop.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <AppxBundle>Always</AppxBundle>
@@ -117,6 +117,6 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\kvexplorer.Desktop.Windows\kvexplorer.Desktop.Windows.csproj" />
+    <ProjectReference Include="..\kvexplorer.Desktop\kvexplorer.Desktop.csproj" />
   </ItemGroup>
 </Project>

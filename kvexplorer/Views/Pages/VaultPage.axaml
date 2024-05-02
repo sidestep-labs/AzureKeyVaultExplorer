@@ -315,10 +315,6 @@
                 </DataGrid>
 
 
-                <!--<ui:Frame
-                Name="ColorsPageFrame"
-                Grid.Row="3"
-                IsNavigationStackEnabled="False" />-->
             </DockPanel>
         </Grid>
 

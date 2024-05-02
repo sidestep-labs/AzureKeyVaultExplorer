@@ -17,9 +17,11 @@
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <!--<PublishAot>true</PublishAot>-->
-    <SelfContained>true</SelfContained>
     <!--<TrimMode>partial</TrimMode>
     <PublishTrimmed>true</PublishTrimmed>-->
+	<PublishSingleFile>true</PublishSingleFile>
+	<SelfContained>true</SelfContained>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 

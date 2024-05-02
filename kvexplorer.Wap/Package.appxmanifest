@@ -9,7 +9,7 @@
   <Identity
     Name="e340760e-d148-4ded-87b0-f3d7cac571b7"
     Publisher="CN=athomas"
-    Version="0.0.28.0" />
+    Version="0.0.2.0" />
 
   <Properties>
     <DisplayName>kvexplorer.Wap</DisplayName>

@@ -407,7 +407,7 @@ public partial class VaultPageViewModel : ViewModelBase
         //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
 #if WINDOWS
         var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
-        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
+        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier("Key Vault Explorer");
         var id = new Random().Next(0, 100);
         string toastXml = $"""
           <toast activationType="protocol"> // protocol,Background,Foreground

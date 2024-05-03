@@ -19,6 +19,7 @@
     Icon="/Assets/kv-orange.ico"
     TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
     TransparencyLevelHint="Mica, AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <!--  Icon="{StaticResource KvLogo}"  -->
 

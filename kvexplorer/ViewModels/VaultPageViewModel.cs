@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -20,12 +19,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
-using Avalonia.Platform.Storage;
 
-#if WINDOWS
-using Windows.Data.Xml.Dom;
-using Windows.UI.Notifications;
-#endif
 
 namespace kvexplorer.ViewModels;
 
@@ -75,56 +69,38 @@ public partial class VaultPageViewModel : ViewModelBase
         for (int i = 0; i < 5; i++)
         {
             var sp = (new SecretProperties($"{i}_Demo__Key_Token") { ContentType = "application/json", Enabled = true, ExpiresOn = new System.DateTime(), });
+            var item = new KeyVaultContentsAmalgamation
+            {
+                CreatedOn = new System.DateTime(),
+                UpdatedOn = new System.DateTime(),
+                Version = "version 1",
+                VaultUri = new Uri("https://stackoverflow.com/"),
+                ContentType = "application/json",
+                Id = new Uri("https://stackoverflow.com/"),
+                SecretProperties = sp
+            };
 
             switch (i % 3)
             {
                 case 0:
-                    VaultContents.Add(new KeyVaultContentsAmalgamation
-                    {
-                        Name = $"{i}_Secret",
-                        Id = new Uri("https://stackoverflow.com/"),
-                        Type = KeyVaultItemType.Secret,
-                        ContentType = "application/json",
-                        VaultUri = new Uri("https://stackoverflow.com/"),
-                        Version = "version 1",
-                        SecretProperties = sp,
-                        CreatedOn = new System.DateTime(),
-                        UpdatedOn = new System.DateTime(),
-                    });
+                    item.Name = $"{i}_Secret";
+                    item.Type = KeyVaultItemType.Secret;
                     break;
 
                 case 1:
-                    VaultContents.Add(new KeyVaultContentsAmalgamation
-                    {
-                        Name = $"{i}__Key",
-                        Id = new Uri("https://stackoverflow.com/"),
-                        Type = KeyVaultItemType.Key,
-                        ContentType = "application/json",
-                        VaultUri = new Uri("https://stackoverflow.com/"),
-                        Version = "version 1",
-                        SecretProperties = sp,
-                        UpdatedOn = new System.DateTime(),
-                        CreatedOn = new System.DateTime(),
-                    });
+
+                    item.Name = $"{i}__Key";
+                    item.Type = KeyVaultItemType.Key;
                     break;
 
                 case 2:
-                    VaultContents.Add(new KeyVaultContentsAmalgamation
-                    {
-                        Name = $"{i}_Certificate",
-                        Id = new Uri("https://stackoverflow.com/"),
-                        Type = KeyVaultItemType.Certificate,
-                        ContentType = "application/json",
-                        VaultUri = new Uri("https://stackoverflow.com/"),
-                        Version = "version 1",
-                        SecretProperties = sp,
-                        CreatedOn = new System.DateTime(),
-                        UpdatedOn = new System.DateTime(),
-                    });
+                    item.Name = $"{i}_Certificate";
+                    item.Type = KeyVaultItemType.Key;
                     break;
             }
-            _vaultContents = VaultContents;
+           VaultContents.Add(item);
         }
+        _vaultContents = VaultContents;
 
 #endif
 
@@ -405,32 +381,8 @@ public partial class VaultPageViewModel : ViewModelBase
     private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType)
     {
         //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
-#if WINDOWS
-        var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
-        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier("Key Vault Explorer");
-        var id = new Random().Next(0, 100);
-        string toastXml = $"""
-          <toast activationType="protocol"> // protocol,Background,Foreground
-            <visual>
-                <binding template='ToastGeneric'><text id="{id}">{message}</text></binding>
-            </visual>
-        </toast>
-        """;
-        XmlDocument doc = new XmlDocument();
-        doc.LoadXml(toastXml);
-        var toast = new ToastNotification(doc)
-        {
-            ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
-            Tag = "Copied Key Vault Value",
-            ExpiresOnReboot = true
-        };
-        toastNotifier.Show(toast);
-#else
-
         var notif = new Notification(subject, message, notificationType);
         _notificationViewModel.AddMessage(notif);
-
-#endif
     }
 
     [RelayCommand]

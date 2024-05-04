@@ -399,7 +399,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.Manual,
-            ShowAsDialog = true,
+            ShowAsDialog = false,
             CanResize = true,
             Content = page,
             Width = 620,

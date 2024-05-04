@@ -9,19 +9,18 @@
 	  <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>kv-orange.ico</ApplicationIcon>
     <Version>1.0.0.0</Version>
     <AssemblyName>kvexplorerdesktop</AssemblyName>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <!--<PublishAot>true</PublishAot>-->
-    <!--<TrimMode>partial</TrimMode>
-    <PublishTrimmed>true</PublishTrimmed>-->
-      <!-- <PublishSingleFile>true</PublishSingleFile> -->
-      <SelfContained>true</SelfContained>
-      <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-      <PublishReadyToRun>true</PublishReadyToRun>
+    <!--<TrimMode>partial</TrimMode>-->
+    <!--<PublishTrimmed>true</PublishTrimmed>-->
+    <PublishSingleFile>true</PublishSingleFile> 
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>

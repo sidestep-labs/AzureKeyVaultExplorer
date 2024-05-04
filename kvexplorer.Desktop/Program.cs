@@ -20,7 +20,6 @@ internal class Program
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
-     
         catch (HttpRequestException e) when (e.InnerException.Message.Contains("No such host is known", StringComparison.InvariantCultureIgnoreCase))
         {
             // here we can work with the exception, for example add it to our log file
@@ -30,16 +29,8 @@ internal class Program
                 Debug.Write(e.ToString());
             }
             //Log.Fatal(e, "Something very bad happened");
-
         }
-
     }
-
-
-
-
-
-
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
@@ -51,13 +42,4 @@ internal class Program
                  })
                 .UsePlatformDetect()
                 .LogToTrace();
-
-
-
-
-
-  
-
-
-
 }

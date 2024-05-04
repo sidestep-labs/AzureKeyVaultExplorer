@@ -173,7 +173,7 @@
                                                                      macOS=5}"
                                         IsIndeterminate="True"
                                         IsVisible="{Binding IsBusy}"
-                                        RenderTransform="Scale(0.7, 0.7)" />
+                                        RenderTransform="Scale(0.65, 0.65)" />
                                 </StackPanel>
 
                             </Template>

@@ -54,7 +54,24 @@
                 DockPanel.Dock="Left"
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                Source="/Assets/kv-orange.ico" />
+                Source="/Assets/kv-orange.ico">
+
+                <Image.IsVisible>
+                    <OnPlatform>
+                        <OnPlatform.Default>
+                            <Binding FallbackValue="True" />
+                        </OnPlatform.Default>
+                        <OnPlatform.macOS>
+                            <Binding Path="#FrameView.CanGoBack" />
+                        </OnPlatform.macOS>
+                    </OnPlatform>
+
+                    <!--<MultiBinding Converter="{x:Static BoolConverters.And}" FallbackValue="True">
+                        <Binding Path="#FrameView.CanGoBack" />
+                    </MultiBinding>-->
+                </Image.IsVisible>
+
+            </Image>
 
             <TextBlock
                 Grid.Column="1"

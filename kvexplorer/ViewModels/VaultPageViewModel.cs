@@ -101,7 +101,6 @@ public partial class VaultPageViewModel : ViewModelBase
            VaultContents.Add(item);
         }
         _vaultContents = VaultContents;
-
 #endif
 
     }

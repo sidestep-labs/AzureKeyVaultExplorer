@@ -21,14 +21,14 @@
 
     <!--
         This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
-
+    -->
     <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
 
 
     <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" Opacity="0.15" StartPoint="0,0" EndPoint="0%,100%">
         <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
         <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
-        <GradientStop Offset="0.9" Color="Red" />
+        <GradientStop Offset="0.9" Color="Transparent" />
     </LinearGradientBrush>
 
     <ResourceDictionary.ThemeDictionaries>
@@ -39,7 +39,7 @@
             <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#981A1A1A" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-    -->
+
 
     <CornerRadius x:Key="CornerRadius">4</CornerRadius>
 

@@ -26,12 +26,14 @@
                         <Image
                             Name="WindowIcon"
                             Width="18"
-                                  VerticalAlignment="Center"
 
                             RenderOptions.BitmapInterpolationMode="HighQuality"
                             Source="/Assets/kv-orange.ico" />
 
-                        <TextBlock Margin="10,0,0,0" Text="{TemplateBinding Title}" />
+                        <TextBlock Margin="10,0,0,0" 
+                                                          VerticalAlignment="Center"
+
+                        Text="{TemplateBinding Title}" />
                         <!--
                         -->
 

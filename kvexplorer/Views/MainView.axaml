@@ -55,7 +55,6 @@
                 IsHitTestVisible="False"
                 RenderOptions.BitmapInterpolationMode="HighQuality"
                 Source="/Assets/kv-orange.ico">
-
                 <Image.IsVisible>
                     <OnPlatform>
                         <OnPlatform.Default>
@@ -65,12 +64,7 @@
                             <Binding Path="#FrameView.CanGoBack" />
                         </OnPlatform.macOS>
                     </OnPlatform>
-
-                    <!--<MultiBinding Converter="{x:Static BoolConverters.And}" FallbackValue="True">
-                        <Binding Path="#FrameView.CanGoBack" />
-                    </MultiBinding>-->
                 </Image.IsVisible>
-
             </Image>
 
             <TextBlock

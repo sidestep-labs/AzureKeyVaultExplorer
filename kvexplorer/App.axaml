@@ -21,7 +21,6 @@
         <!--<FluentTheme DensityStyle="Compact" />-->
 
         <sty:FluentAvaloniaTheme PreferUserAccentColor="True" UseSystemFontOnWindows="True" />
-        <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
         <StyleInclude Source="/Resources/Styles.axaml" />
         <StyleInclude Source="avares://kvexplorer/Views/CustomControls/CustomTitleBar.axaml" />
 

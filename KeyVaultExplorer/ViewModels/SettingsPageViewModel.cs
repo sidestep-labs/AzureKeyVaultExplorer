@@ -6,9 +6,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.Styling;
 using FluentAvalonia.UI.Controls;
-using KeyVaultExplorer.shared;
-using KeyVaultExplorer.shared.Database;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Database;
+using KeyVaultExplorer.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -22,6 +21,8 @@ using Avalonia;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using Avalonia.Markup.Xaml.MarkupExtensions;
+using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 
 namespace KeyVaultExplorer.ViewModels;
 

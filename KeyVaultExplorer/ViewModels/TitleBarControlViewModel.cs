@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeyVaultExplorer.shared;
+using KeyVaultExplorer.Services;
 using System.Threading;
 
 namespace KeyVaultExplorer.ViewModels;

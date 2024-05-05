@@ -5,7 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using System;
 using System.Linq;

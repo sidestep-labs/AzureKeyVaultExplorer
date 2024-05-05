@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
-using KeyVaultExplorer.shared;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Services;
+using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Views.Pages;
 using System;
 using System.Collections.Generic;

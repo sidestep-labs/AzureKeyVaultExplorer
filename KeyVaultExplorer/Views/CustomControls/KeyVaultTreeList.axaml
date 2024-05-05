@@ -5,7 +5,7 @@
     xmlns:arm="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:KeyVaultExplorer.shared.Models;assembly=KeyVaultExplorer.shared"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
     xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"

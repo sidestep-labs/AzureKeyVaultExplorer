@@ -1,14 +1,14 @@
 ﻿using Avalonia.Threading;
-using KeyVaultExplorer.shared;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Models;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization.Metadata;
+using KeyVaultExplorer.Models;
 
-namespace KeyVaultExplorer;
+namespace KeyVaultExplorer.Services;
 
 public class AppSettingReader
 {
@@ -23,7 +23,7 @@ public class AppSettingReader
         {
             TypeInfoResolver = new DefaultJsonTypeInfoResolver()
         };
-        var settings =  JsonSerializer.Deserialize<AppSettings>(stream, options);
+        var settings = JsonSerializer.Deserialize<AppSettings>(stream, options);
         AppSettings = settings;
     }
 }

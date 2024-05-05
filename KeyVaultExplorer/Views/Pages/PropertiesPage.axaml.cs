@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using KeyVaultExplorer.shared;
 using KeyVaultExplorer.ViewModels;
 using System.Collections.Generic;
 using System;

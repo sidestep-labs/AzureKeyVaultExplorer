@@ -1,7 +1,7 @@
 ﻿using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Models;
 using System.Collections.ObjectModel;
 
 namespace KeyVaultExplorer.ViewModels.Models;

@@ -6,7 +6,7 @@ using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
 using System.Linq;

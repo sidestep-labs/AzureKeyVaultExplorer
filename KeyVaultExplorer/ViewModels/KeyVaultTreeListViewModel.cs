@@ -4,9 +4,9 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeyVaultExplorer.shared;
-using KeyVaultExplorer.shared.Database;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Database;
+using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static KeyVaultExplorer.shared.VaultService;
+using static KeyVaultExplorer.Services.VaultService;
 
 namespace KeyVaultExplorer.ViewModels;
 

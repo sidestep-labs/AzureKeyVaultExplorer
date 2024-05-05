@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KeyVaultExplorer;
+namespace KeyVaultExplorer.Services;
 
 public class StorageProviderService : Avalonia.Platform.Storage.IStorageProvider
 {

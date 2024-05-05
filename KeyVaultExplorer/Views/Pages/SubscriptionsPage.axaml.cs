@@ -9,7 +9,6 @@ using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using Avalonia.Interactivity;
 using System;
-using KeyVaultExplorer.shared;
 
 namespace KeyVaultExplorer.Views.Pages;
 

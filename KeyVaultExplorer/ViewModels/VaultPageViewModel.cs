@@ -9,9 +9,8 @@ using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Windowing;
-using KeyVaultExplorer.shared;
-using KeyVaultExplorer.shared.Exceptions;
-using KeyVaultExplorer.shared.Models;
+using KeyVaultExplorer.Exceptions;
+using KeyVaultExplorer.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +18,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
+using KeyVaultExplorer.Services;
 
 
 namespace KeyVaultExplorer.ViewModels;

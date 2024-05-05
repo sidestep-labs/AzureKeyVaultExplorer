@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:KeyVaultExplorer.shared.Models;assembly=KeyVaultExplorer.shared"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer.shared"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     xmlns:vmm="using:KeyVaultExplorer.ViewModels.Models"

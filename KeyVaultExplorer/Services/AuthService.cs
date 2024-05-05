@@ -1,11 +1,12 @@
-﻿using Microsoft.Identity.Client;
+﻿using KeyVaultExplorer.Models;
+using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using KeyVaultExplorer.Models;
-using System;
+
 namespace KeyVaultExplorer.Services;
 
 public class AuthService

@@ -1,10 +1,6 @@
-﻿using Avalonia.Input.Platform;
-using Avalonia.Metadata;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Services;

@@ -1,7 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input;
+﻿using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
@@ -10,12 +7,10 @@ using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeyVaultExplorer;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -31,7 +26,6 @@ public partial class PropertiesPageViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly IClipboard _clipboardService;
     private readonly IStorageProvider _storageService;
-
 
     [ObservableProperty]
     public bool isSecret = false;
@@ -61,10 +55,9 @@ public partial class PropertiesPageViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
         _storageService = Defaults.Locator.GetRequiredService<IStorageProvider>();
+    }
 
-}
-
-[ObservableProperty]
+    [ObservableProperty]
     public ObservableCollection<KeyProperties> keyPropertiesList;
 
     [ObservableProperty]

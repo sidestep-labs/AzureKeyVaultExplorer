@@ -1,12 +1,7 @@
-﻿using Avalonia.Threading;
-using KeyVaultExplorer.Models;
+﻿using KeyVaultExplorer.Models;
 using System.IO;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization.Metadata;
-using KeyVaultExplorer.Models;
 
 namespace KeyVaultExplorer.Services;
 

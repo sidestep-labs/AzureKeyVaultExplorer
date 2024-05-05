@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
@@ -45,12 +43,9 @@ public partial class SettingsPage : UserControl
         (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.Execute(null);
     }
 
-
     private void AppTheme_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
         Control control = (Control)sender!;
         control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
     }
-
- 
 }

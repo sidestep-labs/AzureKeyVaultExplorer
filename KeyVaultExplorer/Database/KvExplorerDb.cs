@@ -1,11 +1,11 @@
 ﻿using KeyVaultExplorer.Models;
 using Microsoft.Data.Sqlite;
-using System.Text;
 using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Database;
 

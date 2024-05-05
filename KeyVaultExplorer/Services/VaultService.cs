@@ -1,23 +1,19 @@
-﻿using Azure.ResourceManager;
+﻿using Azure.Core;
+using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
 using Azure.ResourceManager.Resources;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
+using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using Microsoft.Extensions.Caching.Memory;
-using Azure.Core.Pipeline;
-using Azure;
-using System.Collections;
-using Azure.Core;
-using System.Collections.Generic;
-using Microsoft.Extensions.Azure;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using KeyVaultExplorer.Database;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Services;
 /* Call me a bad person for abstracting away/wrapping a library already doing all the work. */
@@ -29,7 +25,6 @@ public partial class VaultService
         _authService = authService;
         _memoryCache = memoryCache;
         _dbContext = dbContext;
-
     }
 
     public AuthService _authService { get; set; }
@@ -147,7 +142,6 @@ public partial class VaultService
             KeyVaultResources = [placeholder]
         };
 
-
         var subscriptions = await _memoryCache.GetOrCreateAsync("subscriptions", async (f) =>
         {
             f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
@@ -159,7 +153,7 @@ public partial class VaultService
                 var sr = await armClient.GetSubscriptionResource(SubscriptionResource.CreateResourceIdentifier(sub.SubscriptionId)).GetAsync();
                 subscriptionCollection.Add(sr.Value);
             }
-            if(subscriptionCollection.Any())
+            if (subscriptionCollection.Any())
                 return subscriptionCollection;
 
             return armClient.GetSubscriptions().AsEnumerable();
@@ -273,9 +267,6 @@ public partial class VaultService
 
         return savedSubs;
     }
-
-
-
 
     public record SubscriptionResourceWithNextPageToken(SubscriptionResource SubscriptionResource, string ContinuationToken);
     public async IAsyncEnumerable<CertificateProperties> GetVaultAssociatedCertificates(Uri kvUri)

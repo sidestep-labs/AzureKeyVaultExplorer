@@ -1,8 +1,8 @@
 ﻿using Azure.Core;
 using Microsoft.Identity.Client;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Services;
 

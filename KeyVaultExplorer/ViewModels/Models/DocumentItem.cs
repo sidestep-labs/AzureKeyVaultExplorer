@@ -16,7 +16,6 @@ public partial class DocumentItem : ObservableObject
 
     public DocumentItem()
     {
-
     }
 
     public object Content { get; set; }

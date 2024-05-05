@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using KeyVaultExplorer.ViewModels;
 
 namespace KeyVaultExplorer.Views.Pages;
 

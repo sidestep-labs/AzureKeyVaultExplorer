@@ -12,8 +12,6 @@ using FluentAvalonia.UI.Navigation;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 #nullable disable
 
@@ -21,8 +19,6 @@ namespace KeyVaultExplorer.Views;
 
 public partial class MainView : UserControl
 {
-    private Frame? _frameView;
-    private NavigationView? _navView;
     public static MainView? Instance { get; private set; }
     public static readonly RoutedEvent<RoutedEventArgs> NavigateHomeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateHomeEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSettingsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSettingsEvent), RoutingStrategies.Tunnel);
@@ -81,7 +77,6 @@ public partial class MainView : UserControl
         base.OnAttachedToVisualTree(e);
 
         var vm = Defaults.Locator.GetRequiredService<MainViewModel>();
-   
 
         DataContext = vm;
         FrameView.NavigationPageFactory = vm.NavigationFactory;

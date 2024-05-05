@@ -1,28 +1,18 @@
-﻿using Avalonia.Controls;
-using Avalonia.Media;
-using Avalonia.Styling;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.Styling;
-using FluentAvalonia.UI.Controls;
 using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
-using System.Collections.Generic;
+using KeyVaultExplorer.Services;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using Avalonia;
-using System;
-using System.Security.Cryptography.X509Certificates;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using KeyVaultExplorer.Models;
-using KeyVaultExplorer.Services;
 
 namespace KeyVaultExplorer.ViewModels;
 

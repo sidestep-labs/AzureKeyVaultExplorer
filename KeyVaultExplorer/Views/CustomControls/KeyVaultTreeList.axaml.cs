@@ -8,7 +8,6 @@ using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
-using KeyVaultExplorer.Views.Pages;
 using System.Linq;
 
 namespace KeyVaultExplorer.Views.CustomControls;
@@ -31,7 +30,6 @@ public partial class KeyVaultTreeList : UserControl
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
     }
 
- 
     private void OnDataGridRowContextRequested(object sender, ContextRequestedEventArgs e)
     {
         var tv = sender as TreeView;

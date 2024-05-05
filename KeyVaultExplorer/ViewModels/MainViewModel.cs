@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
-using KeyVaultExplorer.Services;
 using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using KeyVaultExplorer.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,6 @@ public partial class MainViewModel : ViewModelBase
 
     private readonly AuthService _authService;
     public NavigationFactory NavigationFactory { get; }
-
 
     public MainViewModel()
     {

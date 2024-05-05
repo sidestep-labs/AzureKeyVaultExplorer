@@ -19,7 +19,6 @@ public partial class VaultPage : UserControl
     private const string DatGridElementName = "VaultContentDataGrid";
     private readonly VaultPageViewModel vaultPageViewModel;
 
-
     public VaultPage()
     {
         InitializeComponent();
@@ -104,7 +103,7 @@ public partial class VaultPage : UserControl
         //Debug.Write(model.Name);
     }
 
-    public void RefreshButton_OnClick(object? sender, RoutedEventArgs args)
+    public void RefreshButton_OnClick(object sender, RoutedEventArgs args)
     {
         Dispatcher.UIThread.Post(async () =>
         {
@@ -119,7 +118,7 @@ public partial class VaultPage : UserControl
         }, DispatcherPriority.MaxValue);
     }
 
-    private void SearchBoxChanges(object? sender, TextChangedEventArgs e)
+    private void SearchBoxChanges(object sender, TextChangedEventArgs e)
     {
         if (TabHost.SelectedIndex > 2)
         {
@@ -167,6 +166,4 @@ public partial class VaultPage : UserControl
             };
         }
     }
-
-  
 }

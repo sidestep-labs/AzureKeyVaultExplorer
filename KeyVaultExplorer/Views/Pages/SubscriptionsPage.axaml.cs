@@ -1,14 +1,9 @@
-﻿using KeyVaultExplorer.ViewModels;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.Messaging;
-using System.Diagnostics;
-using Avalonia.Controls.ApplicationLifetimes;
-using FluentAvalonia.UI.Controls.Experimental;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
-using Avalonia.Interactivity;
-using System;
+using KeyVaultExplorer.ViewModels;
 
 namespace KeyVaultExplorer.Views.Pages;
 
@@ -29,12 +24,10 @@ public partial class SubscriptionsPage : UserControl
         {
             IsInitialLoad = false;
 
-        Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            await (DataContext as SubscriptionsPageViewModel)!.GetSubscriptions();
-        }, DispatcherPriority.Background);
+            Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                await (DataContext as SubscriptionsPageViewModel)!.GetSubscriptions();
+            }, DispatcherPriority.Background);
         }
     }
-
-   
 }

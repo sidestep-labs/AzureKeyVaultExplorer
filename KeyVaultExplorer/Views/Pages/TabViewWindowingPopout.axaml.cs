@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
@@ -34,7 +33,7 @@ public partial class TabViewWindowingPopout : AppWindow
 
             var dragRegion = this.FindControl<Panel>("CustomDragRegion");
             dragRegion.MinWidth = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
-                TitleBar.RightInset * 3: TitleBar.LeftInset;
+                TitleBar.RightInset * 3 : TitleBar.LeftInset;
         }
     }
 

@@ -22,10 +22,6 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="kv-orange.ico" />
-  </ItemGroup>
    
 	
   <ItemGroup>

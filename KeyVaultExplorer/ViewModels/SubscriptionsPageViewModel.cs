@@ -1,12 +1,8 @@
-﻿using Avalonia.Threading;
-using Azure.Core;
-using Azure.ResourceManager.Resources;
-using Azure.ResourceManager.Resources.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeyVaultExplorer.Services;
 using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -32,6 +28,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;
     private NotificationViewModel _notificationViewModel;
+
     public SubscriptionsPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -94,11 +91,11 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
             TenantId = s.Data.TenantId ?? Guid.Empty,
         });
 
-        var removed = updatedItems.Where(i => !i.IsPinned).Select(s =>s.Data.SubscriptionId);
+        var removed = updatedItems.Where(i => !i.IsPinned).Select(s => s.Data.SubscriptionId);
 
         await _dbContext.InsertSubscriptions(added);
         await _dbContext.RemoveSubscriptionsBySubscriptionIDs(removed);
-         _memoryCache.Remove("subscriptions");
+        _memoryCache.Remove("subscriptions");
         _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("Saved", "Your changes have been saved.", Avalonia.Controls.Notifications.NotificationType.Information));
     }
 }

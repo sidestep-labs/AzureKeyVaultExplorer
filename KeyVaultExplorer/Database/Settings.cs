@@ -6,10 +6,8 @@ public enum SettingType
     ClipboardTimeout
 }
 
-
 public class Settings
 {
     public SettingType Name { get; set; }
-    public object Value { get; set; } 
+    public object Value { get; set; }
 }
-

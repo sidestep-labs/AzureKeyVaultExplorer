@@ -8,7 +8,6 @@ using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -27,7 +26,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     [ObservableProperty]
     public bool isBusy = false;
-
 
     [ObservableProperty]
     public string searchQuery;
@@ -81,8 +79,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         {
             await DelaySetIsBusy(async () =>
             {
-
-
                 //TODO: get all saved items, otherwise get the first item only.
                 var resource = _vaultService.GetKeyVaultResourceBySubscription();
 
@@ -129,7 +125,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }, DispatcherPriority.Background);
         _treeViewList = TreeViewList;
     }
-
 
     // this will set isBusy to true if the fetching takes longer than 1500 ms.
     private async Task DelaySetIsBusy(Func<Task> longRunningTaskFactory)
@@ -261,28 +256,23 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 Dispatcher.UIThread.Invoke(async () =>
                 {
-
                     await DelaySetIsBusy(async () =>
                     {
-                     
-                  
+                        kvSubModel.ResourceGroups.Clear();
+                        var resourceGroups = _vaultService.GetResourceGroupBySubscription(kvSubModel);
 
-
-                    kvSubModel.ResourceGroups.Clear();
-                    var resourceGroups = _vaultService.GetResourceGroupBySubscription(kvSubModel);
-
-                    await foreach (var rg in resourceGroups)
-                    {
-                        kvSubModel.ResourceGroups.Add(
-                            new KvResourceGroupModel
-                            {
-                                ResourceGroupDisplayName = rg.Data.Name,
-                                ResourceGroupResource = rg,
-                                KeyVaultResources = [placeholder]
-                            });
-                    }
-                    kvSubModel.HasSubNodeDataBeenFetched = true;
-                    kvSubModel.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                        await foreach (var rg in resourceGroups)
+                        {
+                            kvSubModel.ResourceGroups.Add(
+                                new KvResourceGroupModel
+                                {
+                                    ResourceGroupDisplayName = rg.Data.Name,
+                                    ResourceGroupResource = rg,
+                                    KeyVaultResources = [placeholder]
+                                });
+                        }
+                        kvSubModel.HasSubNodeDataBeenFetched = true;
+                        kvSubModel.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
                     });
                 }, DispatcherPriority.ContextIdle);
             }

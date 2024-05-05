@@ -22,7 +22,6 @@ public partial class KvSubscriptionModel : ObservableObject
     public string? SubscriptionId { get; set; }
 }
 
-
 public partial class KvResourceGroupModel : ObservableObject
 {
     [ObservableProperty]

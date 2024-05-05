@@ -2,6 +2,7 @@
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Azure.Security.KeyVault.Keys;
@@ -11,15 +12,13 @@ using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Windowing;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Avalonia.Input.Platform;
-using KeyVaultExplorer.Services;
-
 
 namespace KeyVaultExplorer.ViewModels;
 
@@ -55,6 +54,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private NotificationViewModel _notificationViewModel;
     private Bitmap BitmapImage;
     private readonly IClipboard _clipboardService;
+
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -98,11 +98,10 @@ public partial class VaultPageViewModel : ViewModelBase
                     item.Type = KeyVaultItemType.Key;
                     break;
             }
-           VaultContents.Add(item);
+            VaultContents.Add(item);
         }
         _vaultContents = VaultContents;
 #endif
-
     }
 
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
@@ -414,7 +413,7 @@ public partial class VaultPageViewModel : ViewModelBase
         //taskDialog.TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         // open the window with parent on windows but not mac.
-     
-            taskDialog.Show();
+
+        taskDialog.Show();
     }
 }

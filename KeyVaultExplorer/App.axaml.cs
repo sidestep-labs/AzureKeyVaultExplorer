@@ -5,9 +5,9 @@ using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
+using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
-using KeyVaultExplorer.Database;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +32,7 @@ public partial class App : Application
         serviceCollection.AddSingleton<KvExplorerDb>();
         serviceCollection.AddTransient<AppSettingReader>();
         serviceCollection.AddSingleton<IClipboard, ClipboardService>();
-        serviceCollection.AddSingleton<IStorageProvider,StorageProviderService>();
+        serviceCollection.AddSingleton<IStorageProvider, StorageProviderService>();
         Defaults.Locator.ConfigureServices(serviceCollection.BuildServiceProvider());
     }
 
@@ -86,14 +86,12 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
-
-  
-
 }
+
 public static class ApplicationExtensions
 {
     /// <summary>
-    /// Returns the TopLevel from the main window or view. 
+    /// Returns the TopLevel from the main window or view.
     /// </summary>
     /// <param name="app">The application to get the TopLevel for.</param>
     /// <returns>A TopLevel object.</returns>

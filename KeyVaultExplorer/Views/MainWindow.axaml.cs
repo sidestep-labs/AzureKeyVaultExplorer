@@ -3,17 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using Avalonia.Styling;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FluentAvalonia.Styling;
 using FluentAvalonia.UI.Windowing;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
-using KeyVaultExplorer.Database;
-using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
 using System;
@@ -88,8 +81,6 @@ public partial class MainWindow : AppWindow
         if (TitleBar is not null && OperatingSystem.IsWindows())
 
         {
-        
-
             var parent = this.FindControl<Views.MainView>("MainView")!.FindControl<FluentAvalonia.UI.Controls.Frame>("FrameView");
 
             var grid = ((MainPage)parent.Content).Content as Grid;

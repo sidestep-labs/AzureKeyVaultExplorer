@@ -14,7 +14,7 @@ public partial class QuickAccess
 
     public string? SubscriptionId { get; set; }
 
-    public string TenantId { get; set; }
+    public string TenantId { get; set; } = null!;
 
     public string Location { get; set; } = null!;
 }

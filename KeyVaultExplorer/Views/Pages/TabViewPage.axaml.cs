@@ -5,7 +5,6 @@ using Avalonia.VisualTree;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using KeyVaultExplorer.ViewModels;
-using KeyVaultExplorer.Views.CustomControls;
 using System;
 using System.Collections;
 
@@ -15,7 +14,6 @@ public partial class TabViewPage : UserControl
 {
     public static readonly string DataIdentifier = "MyTabItemFromMain";
     public static readonly RoutedEvent<RoutedEventArgs> PaneToggledRoutedEvent = RoutedEvent.Register<TabViewPage, RoutedEventArgs>(nameof(PaneToggledRoutedEvent), RoutingStrategies.Tunnel);
-
 
     public TabViewPage()
     {
@@ -32,7 +30,7 @@ public partial class TabViewPage : UserControl
 
     private void OnPaneToggledRoutedEvent(object? sender, RoutedEventArgs e)
     {
-        var splitView =  this.FindControl<SplitView>("VaultListSplitView")!;
+        var splitView = this.FindControl<SplitView>("VaultListSplitView")!;
         splitView.IsPaneOpen = !splitView.IsPaneOpen;
     }
 
@@ -223,7 +221,4 @@ public partial class TabViewPage : UserControl
             vvpage?.FindControl<TextBox>("SearchTextBox")?.Focus();
         }
     }
-
-
- 
 }

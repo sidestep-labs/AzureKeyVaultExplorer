@@ -1,7 +1,5 @@
-﻿using Azure.ResourceManager.KeyVault;
-using Azure.ResourceManager.Resources;
+﻿using Azure.ResourceManager.Resources;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Diagnostics;
 
 namespace KeyVaultExplorer.Models;
 

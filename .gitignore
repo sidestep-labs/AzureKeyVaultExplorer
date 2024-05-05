@@ -452,6 +452,6 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/kvexplorer.Desktop/publish*
-/kvexplorer.Desktop/publish-aot*
-/kvexplorer.Desktop/mac
+/KeyVaultExplorer.Desktop/publish*
+/KeyVaultExplorer.Desktop/publish-aot*
+/KeyVaultExplorer.Desktop/mac

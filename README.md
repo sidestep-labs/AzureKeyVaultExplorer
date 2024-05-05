@@ -1,6 +1,6 @@
 # Key Vault Explorer
 
-<img src="kvexplorer\Assets\kv-icon.png" width="300" >
+<img src="KeyVaultExplorer\Assets\kv-icon.png" width="300" >
 
 ## Overview
 
@@ -27,13 +27,10 @@ The security is pulled directly from this document: https://github.com/AzureAD/m
 
 ## Screenshots
 
-<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/15821271/290196992-80abd5d5-a399-4d05-bb29-07fd765af805.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240504%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240504T164110Z&X-Amz-Expires=300&X-Amz-Signature=ff2474c637487b0cac61dcb8c07cf2bc80c778866da4d8f14fd6f6f3c23f22f8&X-Amz-SignedHeaders=host&actor_id=15821271&key_id=0&repo_id=593706186" width="1000">
-<img src="https://github.com/cricketthomas/kvexplorer/assets/15821271/29addc92-fc44-4981-93ab-e1eb0a2ca7de" width="800">
-<img src="https://github.com/cricketthomas/kvexplorer/assets/15821271/01b3b175-70d8-4ec3-bdbb-49069350efd1" width="800">
 
 ## Running the application:
 
-This should be a simple clone, and set the start up project to be "kvexplorer.Desktop".
+This should be a simple clone, and set the start up project to be "KeyVaultExplorer.Desktop".
 The code is very much in the learning phase of things at the moment, with lots of small commits of stepping stones to learning AvaloniaUI, and navigating MVVM.
 
 ## Building from source

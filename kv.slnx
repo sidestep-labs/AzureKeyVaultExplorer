@@ -9,10 +9,10 @@
   <Folder Name="/Solution Items/">
     <File Path="build.ps1" />
   </Folder>
-  <Project Path="kvexplorer.Desktop\kvexplorer.Desktop.csproj" />
-  <Project Path="kvexplorer.shared\kvexplorer.shared.csproj" />
-  <Project Path="kvexplorer.Wap\kvexplorer.Wap.wapproj" Type="{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}">
+  <Project Path="KeyVaultExplorer.Desktop\KeyVaultExplorer.Desktop.csproj" />
+  <Project Path="KeyVaultExplorer.shared\KeyVaultExplorer.shared.csproj" />
+  <Project Path="KeyVaultExplorer.Wap\KeyVaultExplorer.Wap.wapproj" Type="{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}">
     <Configuration Solution="*|*" Project="*|*|Deploy" />
   </Project>
-  <Project Path="kvexplorer\kvexplorer.csproj" />
+  <Project Path="KeyVaultExplorer\KeyVaultExplorer.csproj" />
 </Solution>

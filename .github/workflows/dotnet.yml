@@ -2,9 +2,9 @@ name: .NET Build and Publish
 
 on:
   push:
-    branches: [ dev ]
-  pull_request:
     branches: [ master ]
+  pull_request:
+    branches: [ dev ]
 
 permissions:
   contents: write
@@ -28,7 +28,7 @@ jobs:
             win-nuget
     - name: Publish Windows
       run: | 
-        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime win-x64 --output ${{ github.workspace }}\artifacts\win-x64 -f net8.0-windows10.0.19041.0
+        dotnet publish ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj --configuration Release --runtime win-x64 --output ${{ github.workspace }}\artifacts\win-x64 -f net8.0-windows10.0.19041.0
         $files = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\artifacts\win-x64"  -Exclude @("*.pdb", "*.dsym","Key Vault Explorer") 
         Compress-Archive -Path $files -DestinationPath "$env:GITHUB_WORKSPACE\artifacts\win-x64.zip"
       shell: pwsh
@@ -56,7 +56,7 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -f net8.0
+        dotnet publish ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -f net8.0
         $initialRootDir = "Key Vault Explorer"
         $contentsDir = "$initialRootDir\Contents"
         $macOSDir = "$($initialRootDir)\Contents\MacOS"
@@ -67,8 +67,8 @@ jobs:
         New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
         New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
         Copy-Item -Path -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -Destination $macOSDir -Force -Recurse -Exclude @("*.pdb") 
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/Info.plist" -Destination $contentsDir -Force
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
         Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"
         # Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
@@ -99,7 +99,7 @@ jobs:
             mac-nuget
     - name: Publish macOS Arm
       run: | 
-        dotnet publish ./kvexplorer.Desktop/kvexplorer.Desktop.csproj --configuration Release --runtime osx-arm64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -f net8.0
+        dotnet publish ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj --configuration Release --runtime osx-arm64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -f net8.0
         $initialRootDir = "Key Vault Explorer"
         $contentsDir = "$initialRootDir\Contents"
         $macOSDir = "$($initialRootDir)\Contents\MacOS"
@@ -111,8 +111,8 @@ jobs:
         
         Copy-Item -Path -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -Destination $macOSDir -Force -Recurse -Exclude @("*.pdb") 
 
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/Info.plist" -Destination $contentsDir -Force
+        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
         Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
 
         Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"

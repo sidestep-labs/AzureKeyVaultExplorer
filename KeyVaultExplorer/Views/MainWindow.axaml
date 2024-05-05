@@ -1,0 +1,88 @@
+<Window
+    x:Class="KeyVaultExplorer.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:KeyVaultExplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:views="clr-namespace:KeyVaultExplorer.Views"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    Title="Key Vault Explorer"
+    Width="900"
+    Height="500"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ExtendClientAreaChromeHints="Default, PreferSystemChrome"
+    ExtendClientAreaToDecorationsHint="{OnPlatform False,
+                                                   macOS=True}"
+    Icon="/Assets/kv-orange.ico"
+    TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
+    TransparencyLevelHint="Mica, AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <!--  Icon="{StaticResource KvLogo}"  -->
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ui:BitmapIconSource x:Key="KvLogo" UriSource="avares://KeyVaultExplorer/Assets/kv-orange.ico" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="Account">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Login" />
+                        <NativeMenuItem Header="Logout" />
+                        <NativeMenuItem Header="email@example.com" IsEnabled="False" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Options">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Open" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Exit" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="About" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Report a bug" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="View">
+                <NativeMenu>
+                    <NativeMenuItem Header="Toggle" ToggleType="CheckBox">
+                        <NativeMenu>
+                            <NativeMenuItem Header="Option 1" />
+                            <NativeMenuItem Header="Option 2" />
+                            <NativeMenuItem Header="Option 3" />
+                        </NativeMenu>
+                    </NativeMenuItem>
+                </NativeMenu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+
+    <DockPanel>
+
+        <controls:CustomTitleBar
+            DockPanel.Dock="Top"
+            IsHitTestVisible="False"
+            IsVisible="{OnPlatform False,
+                                   macOS=True}" />
+
+        <views:MainView Name="MainView" />
+    </DockPanel>
+</Window>

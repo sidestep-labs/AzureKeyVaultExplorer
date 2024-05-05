@@ -10,7 +10,7 @@ param(
 )
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
-Push-Location  .\kvexplorer.Desktop;
+Push-Location  .\KeyVaultExplorer.Desktop;
 $env:KVEXPLORER_APP_VERSION = $BuildNumber
 # // -p:PublishSingleFile=true
 # --self-contained
@@ -35,8 +35,8 @@ if ($Runtime -match "osx") {
         Copy-Item -Path $file -Destination $macOSDir -Force 
     }
 
-    Copy-Item -Path "..\kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-    Copy-Item -Path "..\kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+    Copy-Item -Path "..\KeyVaultExplorer/Assets/Info.plist" -Destination $contentsDir -Force
+    Copy-Item -Path "..\KeyVaultExplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
 
     Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
 

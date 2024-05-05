@@ -1,20 +1,19 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer.shared", "kvexplorer.shared\kvexplorer.shared.csproj", "{0C65688F-62C2-4B06-8611-BF94C9598551}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyVaultExplorer.shared", "KeyVaultExplorer.shared\KeyVaultExplorer.shared.csproj", "{0C65688F-62C2-4B06-8611-BF94C9598551}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer", "kvexplorer\kvexplorer.csproj", "{8BFCC07A-A60D-49E0-B1F6-8FAD1CD4F986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyVaultExplorer", "KeyVaultExplorer\KeyVaultExplorer.csproj", "{8BFCC07A-A60D-49E0-B1F6-8FAD1CD4F986}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kvexplorer.Desktop", "kvexplorer.Desktop\kvexplorer.Desktop.csproj", "{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyVaultExplorer.Desktop", "KeyVaultExplorer.Desktop\KeyVaultExplorer.Desktop.csproj", "{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F54C073E-0437-4F14-B96D-670DE6F3AAEE}"
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
 	EndProjectSection
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "kvexplorer.Wap", "kvexplorer.Wap\kvexplorer.Wap.wapproj", "{838B0141-B27E-420B-B2C3-20EA9991AB9C}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "KeyVaultExplorer.Wap", "KeyVaultExplorer.Wap\KeyVaultExplorer.Wap.wapproj", "{838B0141-B27E-420B-B2C3-20EA9991AB9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,119 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:FluentAvalonia.UI.Controls">
+
+
+    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+    <!--<StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SelectedTabViewColorKv" />
+    <SolidColorBrush x:Key="SelectedTabViewColorKv" Color="Transparent" />-->
+
+    <SolidColorBrush
+        x:Key="SolidBackgroundFillColorTertiaryBrushCustom"
+        Opacity=".80"
+        Color="{DynamicResource SolidBackgroundFillColorBase}" />
+
+
+    <SolidColorBrush
+        x:Key="AccentFillColorTertiaryBrush"
+        Opacity="0.10"
+        Color="{DynamicResource SystemAccentColorDark1}" />
+
+    <!--
+        This is for borders around the tabs. Right now, it just doesnt look amazing, and i think its best to not use them.
+    -->
+    <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+
+
+    <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" Opacity="0.10" StartPoint="0,0" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset="0.9" Color="{DynamicResource SystemAccentColorDark1}" />
+        <GradientStop Offset="0.9" Color="Transparent" />
+    </LinearGradientBrush>
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#121A1A1A" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="TabViewBackgroundBrushCustom" Color="#981A1A1A" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+
+    <CornerRadius x:Key="CornerRadius">4</CornerRadius>
+
+    <!--<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />-->
+    <ui:SymbolIconSource x:Key="HomeIcon" Symbol="Home" />
+    <ui:SymbolIconSource x:Key="LibraryIcon" Symbol="Library" />
+    <ui:SymbolIconSource x:Key="HomeIconFilled" Symbol="HomeFilled" />
+    <ui:SymbolIconSource x:Key="SettingsIcon" Symbol="Settings" />
+    <ui:SymbolIconSource x:Key="SettingsIconFilled" Symbol="SettingsFilled" />
+
+
+
+    <!--  HACK ripped from FA  -->
+    <ControlTheme x:Key="{x:Type ui:FAMenuFlyoutPresenter}" TargetType="ui:FAMenuFlyoutPresenter">
+        <Setter Property="Background" Value="{DynamicResource MenuFlyoutPresenterBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MenuFlyoutPresenterBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource MenuFlyoutPresenterBorderThemeThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource MenuFlyoutPresenterThemePadding}" />
+        <Setter Property="MaxWidth" Value="{DynamicResource FlyoutThemeMaxWidth}" />
+        <Setter Property="MinHeight" Value="{DynamicResource MenuFlyoutThemeMinHeight}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Grid>
+                    <!--  Blurred border  -->
+                    <Border Margin="25" BoxShadow="0 6 10 0 #4F000000">
+                        <Border.Effect>
+                            <BlurEffect Radius="25" />
+                        </Border.Effect>
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-10" Y="-25" />
+                        </Border.RenderTransform>
+                    </Border>
+
+                    <!--  Content  Y="-20"  -->
+
+                    <!--  BoxShadow="0 2 10 0 #56000000"  -->
+                    <Border
+                        Name="LayoutRoot"
+                        Margin="25"
+                        Padding="{DynamicResource FlyoutBorderThemePadding}"
+                        VerticalAlignment="Top"
+                        Background="{TemplateBinding Background}"
+                        BackgroundSizing="CenterBorder"
+                        BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}"
+                        BorderThickness="2"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-10" Y="-20" />
+                        </Border.RenderTransform>
+                        <ScrollViewer
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            <ItemsPresenter
+                                Name="PART_ItemsPresenter"
+                                Grid.IsSharedSizeScope="True"
+                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                KeyboardNavigation.TabNavigation="Continue" />
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+
+
+
+
+</ResourceDictionary>

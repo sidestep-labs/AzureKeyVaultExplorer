@@ -1,5 +1,5 @@
 param(
-    [switch]$RunBuild = $false,
+    [switch]$PublishAot = $false,
     [string]$BuildNumber = '0.0.1.0',
     $VersionPrefix = "1.0.0",
     $VersionSuffix = "99",
@@ -10,17 +10,14 @@ param(
 )
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
-if ($RunBuild) {
-    Push-Location  .\kvexplorer.Desktop;
-    $env:KVEXPLORER_APP_VERSION = $BuildNumber
-    # // -p:PublishSingleFile=true
-    # --self-contained
-    dotnet publish  --runtime $Runtime  -o publish/ -c Release  -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=true  -p:PublishReadyToRun=true  -p:PublishTrimmed=true -p:TrimMode=partial -p:IncludeNativeLibrariesForSelfExtract=true 
-    Pop-Location
-}
-
-if ($Runtime -like "osx") { 
-    Push-Location  .\KeyVaultExplorer\kvexplorer.Desktop\publish
+Push-Location  .\kvexplorer.Desktop;
+$env:KVEXPLORER_APP_VERSION = $BuildNumber
+# // -p:PublishSingleFile=true
+# --self-contained
+dotnet publish  --runtime $Runtime  -o .\KeyVaultExplorer\publish -c Release  -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=$PublishAot  -p:PublishReadyToRun=true  -p:PublishTrimmed=true -p:TrimMode=partial -p:IncludeNativeLibrariesForSelfExtract=true 
+Pop-Location
+if ($Runtime -match "osx") { 
+    Push-Location  .\publish
 
     $initialRootDir = "Key Vault Explorer"
     $contentsDir = "$initialRootDir\Contents"
@@ -35,11 +32,11 @@ if ($Runtime -like "osx") {
 
     $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Key Vault Explorer") 
     foreach ($file in $filesToMove) {
-        Copy-Item -Path $file -Destination $macOSDir -Force
+        Copy-Item -Path $file -Destination $macOSDir -Force 
     }
 
-    Copy-Item -Path "../../kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
-    Copy-Item -Path "../../kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
+    Copy-Item -Path "..\kvexplorer/Assets/Info.plist" -Destination $contentsDir -Force
+    Copy-Item -Path "..\kvexplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
 
     Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
 

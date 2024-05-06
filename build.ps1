@@ -10,16 +10,14 @@ param(
 )
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
-Push-Location  .\KeyVaultExplorer.Desktop;
 $env:KVEXPLORER_APP_VERSION = $BuildNumber
 # // -p:PublishSingleFile=true
 # --self-contained
-dotnet publish  --runtime $Runtime  -o .\KeyVaultExplorer\publish -c Release  -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=$PublishAot  -p:PublishReadyToRun=true  -p:PublishTrimmed=true -p:TrimMode=partial -p:IncludeNativeLibrariesForSelfExtract=true 
-Pop-Location
-if ($Runtime -match "osx") { 
-    Push-Location  .\publish
+dotnet publish  ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj  --runtime $Runtime  -o .\publish -c Release  -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=$PublishAot  -p:PublishReadyToRun=true  -p:PublishTrimmed=true -p:TrimMode=partial -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishSingleFile=$($PublishAot ? "false":"true") --self-contained
 
-    $initialRootDir = "Key Vault Explorer"
+if ($Runtime -match "osx") { 
+
+    $initialRootDir = "macOSBundledFolder"
     $contentsDir = "$initialRootDir\Contents"
     $macOSDir = "$($initialRootDir)\Contents\MacOS"
     $resourcesPath = "$($initialRootDir)\Contents\Resources"
@@ -29,16 +27,11 @@ if ($Runtime -match "osx") {
     New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
     New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
 
-
-    $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Key Vault Explorer") 
+    $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Key Vault Explorer")  -Path .\publish
     foreach ($file in $filesToMove) {
         Copy-Item -Path $file -Destination $macOSDir -Force 
     }
-
-    Copy-Item -Path "..\KeyVaultExplorer/Assets/Info.plist" -Destination $contentsDir -Force
-    Copy-Item -Path "..\KeyVaultExplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
-
-    Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-
-    Pop-Location
+    Copy-Item -Path ".\KeyVaultExplorer\Assets\Info.plist" -Destination $contentsDir -Force
+    Copy-Item -Path ".\KeyVaultExplorer\Assets\AppIcon.icns" -Destination $resourcesPath -Force
+    Rename-Item -Path $initialRootDir -NewName "Key Vault Explorer.app" -Force 
 }

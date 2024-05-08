@@ -1,8 +1,9 @@
 # Key Vault Explorer
 
-<img src="KeyVaultExplorer\Assets\kv-icon.png" width="300" >
+<img src="KeyVaultExplorer\Assets\kv-icon.png" width="400" >
 
 ## Overview
+*Still in active development but in a usable state*
 
 **Key Vault Explorer** is a lightweight tool with the idea to simplify finding and accessing secrets (and certitficates and keys) stored in Azure Key Vault, providing a interface for aggregating, filtering, and quickly getting secret values. The app was inspired by the original [AzureKeyVaultExplorer](https://github.com/microsoft/AzureKeyVaultExplorer) with the goal to eventually bring some more feature parity but first brining the application to macOS.
 

@@ -36,6 +36,9 @@ The security is pulled directly from this document: https://github.com/AzureAD/m
 This should be a simple clone, and set the start up project to be "KeyVaultExplorer.Desktop".
 The code is very much in the learning phase of things at the moment, with lots of small commits of stepping stones to learning AvaloniaUI, and navigating MVVM.
 
+## Contribution
+Accepting PRs, suggestions, code reviews, feature requests and more. This is my first time using avaloniaUI and building a desktop application so all feedback is welcome.  
+
 ## Building from source
 
 - ## WindowsOS

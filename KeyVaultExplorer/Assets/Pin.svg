@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightPin</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+    <path class="canvas" d="M16,0V16H0V0Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey" d="M8,10v5H7V10Z" />
+    </g>
+    <path class="light-defaultgrey-10" d="M10.5,1.5v8h-6v-8Z" />
+    <path class="light-defaultgrey" d="M11,9V1.5L10.5,1h-6L4,1.5V9H3v1h9V9ZM5,9V2h5V9Z" />
+  </g>
+</svg>

@@ -1,0 +1,187 @@
+﻿<UserControl
+    x:Class="KeyVaultExplorer.Views.Pages.SubscriptionsPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.Resources;assembly=Azure.ResourceManager"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    Margin="0,40,0,0"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:SubscriptionsPageViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:SubscriptionsPageViewModel />
+    </Design.DataContext>
+
+
+    <Grid RowDefinitions="100,*">
+        <StackPanel
+            Grid.Row="0"
+            Margin="10,5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Orientation="Vertical">
+            <TextBlock HorizontalAlignment="Left" Theme="{StaticResource SubtitleTextBlockStyle}">Subscriptions</TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                Select which subscriptions to be show in the left sidebar.<LineBreak />
+            </TextBlock>
+
+            <Grid ColumnDefinitions="*,*">
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="2">
+                    <Button
+                        Padding="4,2"
+                        VerticalAlignment="Top"
+                        Command="{Binding ClearSelectedSubscriptionsCommand}"
+                        ToolTip.Tip="Clear selected items"
+                        ToolTip.VerticalOffset="10">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE1C5;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label VerticalAlignment="Top">Clear Selection</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Padding="4,2"
+                        VerticalAlignment="Top"
+                        Command="{Binding SelectAllSubscriptionsCommand}"
+                        ToolTip.Tip="Select all items"
+                        ToolTip.VerticalOffset="10">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <ui:FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE14E;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label VerticalAlignment="Top">Select All</Label>
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        Padding="4,2"
+                        VerticalAlignment="Top"
+                        IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                        ToolTip.Tip="Load additional subscriptions in batches of 100"
+                        ToolTip.VerticalOffset="10">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE117;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label VerticalAlignment="Top">Load More..</Label>
+                        </StackPanel>
+                    </Button>
+
+
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                    <Button
+                        Padding="4,2"
+                        VerticalAlignment="Top"
+                        Command="{Binding SaveSelectedSubscriptionsCommand}"
+                        ToolTip.Tip="Save selected items to sidebar"
+                        ToolTip.VerticalOffset="10">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE105;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label VerticalAlignment="Top">Save Selected</Label>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,-100,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsBusy}">
+            <ui:ProgressRing
+                Width="80"
+                Height="100"
+                BorderThickness="{OnPlatform Default=5, macOS=5}"
+                IsIndeterminate="True" />
+        </StackPanel>
+        <DataGrid
+            Grid.Row="1"
+            Margin="5,5,5,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            x:CompileBindings="False"
+            x:DataType="models:SubscriptionDataItem"
+            CanUserReorderColumns="True"
+            CanUserResizeColumns="True"
+            GridLinesVisibility="Horizontal"
+            HorizontalScrollBarVisibility="Visible"
+            ItemsSource="{Binding Subscriptions, Mode=OneTime}"
+            VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn
+                    Width="120"
+                    Binding="{Binding IsPinned, Mode=TwoWay}"
+                    CanUserSort="True"
+                    Header="Pin to Sidebar" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Data.DisplayName}"
+                    Header="DisplayName" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Data.SubscriptionId}"
+                    Header="SubscriptionId" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding Data.Tags}"
+                    Header="Tags" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding Data.TenantId}"
+                    Header="TenantId" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Data.State}"
+                    Header="State" />
+
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Data.ManagedByTenants}"
+                    Header="Managed By" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Data.AuthorizationSource}"
+                    Header="AuthorizationSource" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+
+
+
+
+    </Grid>
+
+
+
+
+
+</UserControl>

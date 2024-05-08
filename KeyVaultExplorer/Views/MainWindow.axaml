@@ -1,0 +1,65 @@
+<Window
+    x:Class="KeyVaultExplorer.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:KeyVaultExplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:views="clr-namespace:KeyVaultExplorer.Views"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    Title="Key Vault Explorer"
+    Width="900"
+    Height="500"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
+    ExtendClientAreaChromeHints="Default, PreferSystemChrome"
+    ExtendClientAreaToDecorationsHint="{OnPlatform False,
+                                                   macOS=True}"
+    TransparencyBackgroundFallback="{DynamicResource LayerOnAcrylicFillColorDefaultBrush}"
+    TransparencyLevelHint="Mica, AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="Account">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Login" Command="{Binding ForceSignInCommand}" />
+                        <NativeMenuItem Header="Logout" Command="{Binding SignOutCommand}" />
+                        <NativeMenuItem Header="{Binding Email}" IsEnabled="False" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="About" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Report a bug" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+         
+        </NativeMenu>
+    </NativeMenu.Menu>
+
+
+    <DockPanel>
+
+        <controls:CustomTitleBar
+            DockPanel.Dock="Top"
+            IsHitTestVisible="False"
+            IsVisible="{OnPlatform False,
+                                   macOS=True}" />
+
+        <views:MainView Name="MainView" />
+    </DockPanel>
+</Window>

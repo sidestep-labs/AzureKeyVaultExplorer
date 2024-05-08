@@ -1,0 +1,301 @@
+<UserControl
+    x:Class="KeyVaultExplorer.PropertiesPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:controls="using:KeyVaultExplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
+    xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    d:DesignHeight="400"
+    d:DesignWidth="600"
+    x:DataType="vm:PropertiesPageViewModel"
+    mc:Ignorable="d">
+
+
+    <Design.DataContext>
+        <vm:PropertiesPageViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector=".isMac">
+                <Style Selector="^ ui|CommandBarButton /template/ TextBlock#TextLabel">
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                </Style>
+            </Style>
+        </Styles>
+    </UserControl.Styles>
+
+
+    <StackPanel Margin="0,0,0,10" Orientation="Vertical">
+        <controls:CustomTitleBar
+            Title="{Binding Title}"
+            IsHitTestVisible="False"
+            IsVisible="{OnPlatform False,
+                                   macOS=True}" />
+        <!--<Label Content="{Binding OpenedItem.Type}" Theme="{StaticResource SubtitleTextBlockStyle}" />
+        <Label Content="{Binding Path=OpenedItem.Name, StringFormat='Username: {0}'}" Theme="{StaticResource SubtitleTextBlockStyle}" />-->
+        <ui:CommandBar
+            Height="40"
+            Classes.isMac="{OnPlatform False,
+                                       macOS=True}"
+            DefaultLabelPosition="Right">
+            <ui:CommandBar.PrimaryCommands>
+                <ui:CommandBarButton
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding OpenInAzureCommand}"
+                    IconSource="Open"
+                    Label="Open"
+                    ToolTip.Tip="Open in Azure Portal"
+                    ToolTip.VerticalOffset="10" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding CopyCommand}"
+                    IconSource="Copy"
+                    IsVisible="{Binding !IsCertificate}"
+                    Label="Copy"
+                    VerticalContentAlignment="Center"
+                    ToolTip.Tip="Copy Value (cleared after 30 seconds) "
+                    ToolTip.VerticalOffset="10" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Key"
+                    IconSource="Download"
+                    IsVisible="{Binding IsKey}"
+                    Label="Download Public Key" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Cert"
+                    IconSource="Download"
+                    IsVisible="{Binding IsCertificate}"
+                    Label="Download CER" />
+                <ui:CommandBarButton
+                    Height="40"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="Pfx"
+                    IconSource="Download"
+                    IsVisible="{Binding IsCertificate}"
+                    Label="Download PFX/PEM" />
+
+            </ui:CommandBar.PrimaryCommands>
+        </ui:CommandBar>
+
+        <ScrollViewer>
+            <DockPanel LastChildFill="True">
+                <StackPanel Margin="8,0,8,0" HorizontalAlignment="Stretch">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*,*">
+                        <Border
+                            Height="35"
+                            Padding="8"
+                            Background="{DynamicResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{StaticResource ControlElevationBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            IsVisible="{Binding IsSecret}">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="*">
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    IsVisible="{Binding !#ShowToggleButton.IsChecked}"
+                                    Text="{Binding SecretHidden}" />
+                                <SelectableTextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    xml:space="preserve"
+                                    IsVisible="{Binding #ShowToggleButton.IsChecked}"
+                                    Text="{Binding SecretPlainText}" />
+                                <ToggleButton
+                                    Name="ShowToggleButton"
+                                    Grid.Column="1"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding ShouldShowValueCommand}"
+                                    CommandParameter="{Binding ShowValue}"
+                                    Content="&#xE7B3;"
+                                    CornerRadius="4"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="20"
+                                    IsChecked="{Binding ShowValue}"
+                                    RenderOptions.TextRenderingMode="Antialias"
+                                    Theme="{StaticResource TransparentButton}"
+                                    ToolTip.Tip="Show/Hide"
+                                    ToolTip.VerticalOffset="10"
+                                    ZIndex="1" />
+                            </Grid>
+                        </Border>
+
+                        <!--<Button
+                            Grid.Column="1"
+                            VerticalAlignment="Stretch"
+                            Content="&#xE16F;"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            RenderOptions.TextRenderingMode="Antialias" />-->
+
+                        <Border
+                            Grid.Row="2"
+                            Height="200"
+                            Margin="0,10,0,0"
+                            Padding="8"
+                            Background="{DynamicResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{StaticResource ControlElevationBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                            <ScrollViewer VerticalScrollBarVisibility="Visible">
+                                <StackPanel MaxHeight="300" VerticalAlignment="Stretch">
+                                    <TextBlock Text="Properties" Theme="{StaticResource BodyStrongTextBlockStyle}" />
+                                    <Grid
+                                        HorizontalAlignment="Stretch"
+                                        ColumnDefinitions="100,*"
+                                        RowDefinitions="*,*,*,*">
+                                        <Grid.Styles>
+                                            <Style Selector="TextBlock">
+                                                <Setter Property="Theme" Value="{StaticResource CaptionTextBlockStyle}" />
+                                            </Style>
+                                        </Grid.Styles>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Text="Created:" />
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="Updated:" />
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Text="Identifier:" />
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Text="Expires:" />
+                                        <SelectableTextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
+                                            Text="{Binding OpenedItem.CreatedOn}" />
+                                        <SelectableTextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
+                                            Text="{Binding OpenedItem.UpdatedOn}" />
+                                        <SelectableTextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
+                                            Text="{Binding OpenedItem.Id}" />
+                                        <SelectableTextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
+                                            Text="{Binding OpenedItem.ExpiresOn}" />
+                                    </Grid>
+
+
+                                    <StackPanel IsVisible="{Binding !!OpenedItem.Tags.Keys.Count}">
+                                        <TextBlock
+                                            Margin="0,5"
+                                            Text="Tags"
+                                            Theme="{StaticResource BodyStrongTextBlockStyle}" />
+                                        <ItemsControl>
+                                            <ItemsRepeater ItemsSource="{Binding OpenedItem.Tags}">
+                                                <ItemsRepeater.Layout>
+                                                    <!--<StackLayout Orientation="Horizontal" />-->
+                                                    <WrapLayout Orientation="Horizontal" />
+                                                </ItemsRepeater.Layout>
+                                                <ItemsRepeater.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <DataTemplate.DataType>
+                                                            <x:Type x:TypeArguments="x:String, x:String" TypeName="scg:KeyValuePair" />
+                                                        </DataTemplate.DataType>
+                                                        <Border
+                                                            Margin="2"
+                                                            Padding="5,0,5,0"
+                                                            Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
+                                                            CornerRadius="5">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <SelectableTextBlock
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
+                                                                    TextWrapping="Wrap">
+                                                                    <Label Content="{Binding Key, StringFormat={}{0:n0}:}" />
+                                                                    <Label Content="{Binding Value}" />
+                                                                </SelectableTextBlock>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsRepeater.ItemTemplate>
+                                            </ItemsRepeater>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock
+                            Padding="2"
+                            Text="Versions"
+                            Theme="{StaticResource BodyStrongTextBlockStyle}" />
+
+
+                    </StackPanel>
+                    <DataGrid
+                        Name="KeysContentDataGrid"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGenerateColumns="True"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        ColumnWidth="250"
+                        GridLinesVisibility="All"
+                        HorizontalScrollBarVisibility="Visible"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding KeyPropertiesList}"
+                        VerticalScrollBarVisibility="Visible" />
+
+                    <DataGrid
+                        Name="SecretsContentDataGrid"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGenerateColumns="True"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        ColumnWidth="250"
+                        GridLinesVisibility="All"
+                        HorizontalScrollBarVisibility="Visible"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding SecretPropertiesList}"
+                        VerticalScrollBarVisibility="Visible" />
+                    <DataGrid
+                        Name="CertsContentDataGrid"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGenerateColumns="True"
+                        ColumnWidth="250"
+                        GridLinesVisibility="All"
+                        HorizontalScrollBarVisibility="Visible"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding CertificatePropertiesList}"
+                        VerticalScrollBarVisibility="Visible" />
+                </StackPanel>
+
+            </DockPanel>
+        </ScrollViewer>
+
+    </StackPanel>
+
+</UserControl>

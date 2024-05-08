@@ -1,0 +1,30 @@
+<Window
+    x:Class="KeyVaultExplorer.AboutPageWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    Title="About"
+    Width="350"
+    Background="{x:Null}"
+    Height="200"
+    WindowStartupLocation="CenterScreen"
+    x:DataType="vm:AppViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:AppViewModel />
+    </Design.DataContext>
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image
+            Width="90"
+            Height="90"
+            RenderOptions.BitmapInterpolationMode="HighQuality"
+            Source="avares://KeyVaultExplorer/Assets/kv-icon.png" />
+        <Label Content="Key Vault Explorer" />
+        <Label HorizontalAlignment="Center" Content="v0.1.0" />
+    </StackPanel>
+
+</Window>

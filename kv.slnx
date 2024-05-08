@@ -1,0 +1,18 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="build.ps1" />
+  </Folder>
+  <Project Path="KeyVaultExplorer.Desktop\KeyVaultExplorer.Desktop.csproj" />
+  <Project Path="KeyVaultExplorer.shared\KeyVaultExplorer.shared.csproj" />
+  <Project Path="KeyVaultExplorer.Wap\KeyVaultExplorer.Wap.wapproj" Type="{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}">
+    <Configuration Solution="*|*" Project="*|*|Deploy" />
+  </Project>
+  <Project Path="KeyVaultExplorer\KeyVaultExplorer.csproj" />
+</Solution>

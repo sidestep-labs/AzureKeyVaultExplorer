@@ -1,0 +1,206 @@
+﻿<UserControl
+    x:Class="KeyVaultExplorer.Views.Pages.TabViewPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.Security.KeyVault.Secrets;assembly=Azure.Security.KeyVault.Secrets"
+    xmlns:custom="clr-namespace:KeyVaultExplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="clr-namespace:FluentAvalonia.UI.Controls.Primitives;assembly=FluentAvalonia"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    xmlns:vmm="using:KeyVaultExplorer.ViewModels.Models"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    x:DataType="vm:TabViewPageViewModel"
+    Background="{x:Null}"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:TabViewPageViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="Grid#TabViewGrid.emptyTabViewDragMargin">
+                <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 21, 0, 0', macOS='0,26,0,0' x:TypeArguments=Thickness}" />
+            </Style>
+        </Styles>
+    </UserControl.Styles>
+    <SplitView
+        Name="VaultListSplitView"
+        VerticalAlignment="Stretch"
+        DisplayMode="{Binding SplitViewDisplayMode}"
+        IsPaneOpen="True"
+        OpenPaneLength="280"
+        PaneBackground="{x:Null}">
+        <SplitView.Pane>
+            <Border
+                Margin="0,39,0,0"
+                BorderBrush="{DynamicResource TabViewSelectedItemBorderBrush}"
+                BorderThickness="0,1,0,0">
+                <Panel Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}">
+                    <Border
+                        Margin="4"
+                        Padding="4"
+                        Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                        BorderBrush="{DynamicResource CircleElevationBorderBrush}"
+                        BorderThickness="1,1,1,1"
+                        CornerRadius="5">
+                        <DockPanel>
+                            <DockPanel Grid.Row="0" DockPanel.Dock="Top">
+                                <TextBlock
+                                    DockPanel.Dock="Left"
+                                    FontSize="{DynamicResource FontSizeSmall}"
+                                    Text="Explorer" />
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Button
+                                        Padding="4"
+                                        Command="{Binding ChangePaneDisplayCommand}"
+                                        IsVisible="{Binding !ShowPin}"
+                                        Theme="{StaticResource TransparentButton}"
+                                        ToolTip.Tip="Pin"
+                                        ToolTip.VerticalOffset="10">
+                                        <ui:BitmapIcon
+                                            Width="16"
+                                            Height="16"
+                                            ShowAsMonochrome="True"
+                                            UriSource="avares://KeyVaultExplorer/Assets/Pin.png" />
+                                    </Button>
+                                    <Button
+                                        Padding="4"
+                                        Command="{Binding ChangePaneDisplayCommand}"
+                                        IsVisible="{Binding ShowPin}"
+                                        Theme="{StaticResource TransparentButton}"
+                                        ToolTip.Tip="Unpin"
+                                        ToolTip.VerticalOffset="10">
+                                        <ui:BitmapIcon
+                                            Width="16"
+                                            Height="16"
+                                            ShowAsMonochrome="True"
+                                            UriSource="avares://KeyVaultExplorer/Assets/Pin.png">
+                                            <ui:BitmapIcon.RenderTransform>
+                                                <RotateTransform Angle="45" />
+                                            </ui:BitmapIcon.RenderTransform>
+                                        </ui:BitmapIcon>
+                                    </Button>
+                                    <ToggleButton
+                                        Padding="4"
+                                        Click="IsPaneToggled_ButtonClick"
+                                        Theme="{StaticResource TransparentButton}"
+                                        ToolTip.Tip="Close"
+                                        ToolTip.VerticalOffset="10">
+                                        <ui:BitmapIcon
+                                            Width="16"
+                                            Height="16"
+                                            ShowAsMonochrome="True"
+                                            UriSource="avares://KeyVaultExplorer/Assets/Close.png" />
+                                    </ToggleButton>
+                                </StackPanel>
+                            </DockPanel>
+                            <custom:KeyVaultTreeList
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch" />
+                        </DockPanel>
+                    </Border>
+                </Panel>
+
+            </Border>
+        </SplitView.Pane>
+
+        <Grid Name="TabViewGrid" Classes.emptyTabViewDragMargin="{Binding !Documents.Count}">
+            <ui:TabView
+                Name="TabView"
+                VerticalAlignment="Stretch"
+                AllowDropTabs="True"
+                CanDragTabs="True"
+                CanReorderTabs="True"
+                CloseButtonOverlayMode="Auto"
+                IsAddTabButtonVisible="False"
+                SelectedItem="{Binding SelectedItem}"
+                TabCloseRequested="TabCloseRequested"
+                TabDroppedOutside="TabDroppedOutside"
+                TabItems="{Binding Documents}"
+                TabStripDrop="TabStripDrop"
+                TabStripHeader="{OnPlatform '         ',
+                                            macOS=''}"
+                TabWidthMode="SizeToContent">
+                <ui:TabView.Styles>
+                    <!--<Styles>
+                        <Style Selector="uip|TabViewListView#TabListView">
+                            <Setter Property="Margin" Value="35,0,50,0" />
+                            <Setter Property="Padding" Value="35,0,50,0" />
+                        </Style>
+                    </Styles>-->
+                </ui:TabView.Styles>
+
+                <ui:TabView.TabItemTemplate>
+                    <DataTemplate DataType="vmm:DocumentItem">
+                        <ui:TabViewItem
+                            Name="TabViewItem"
+                            Content="{Binding Content}"
+                            Header="{Binding Header}"
+                            IconSource="{Binding IconSource}" />
+                    </DataTemplate>
+                </ui:TabView.TabItemTemplate>
+                <ui:TabView.TabStripFooter>
+                    <Panel Name="CustomDragRegion" IsHitTestVisible="False" />
+                </ui:TabView.TabStripFooter>
+            </ui:TabView>
+            <StackPanel
+                VerticalAlignment="Stretch"
+                IsVisible="{Binding !Documents.Count}"
+                Orientation="Vertical">
+                <Grid Margin="{OnPlatform '0, 0, 0, 0', Windows='0, 23, 0, 0', macOS='0,18,0,0' x:TypeArguments=Thickness}" RowDefinitions="Auto">
+                    <Border
+                        Grid.Row="0"
+                        Margin="10,0,10,0"
+                        Padding="1"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <custom:ToolBar />
+                    </Border>
+
+                </Grid>
+                <Image
+                    Name="BackgroundImg"
+                    Width="150"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Opacity=".15"
+                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    Source="avares://KeyVaultExplorer/Assets/kv-gray.png" />
+                <StackPanel HorizontalAlignment="Center">
+                    <StackPanel.Styles>
+                        <Style Selector="TextBlock">
+                            <Setter Property="Foreground" Value="#ababab" />
+                            <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                        </Style>
+                    </StackPanel.Styles>
+                    <TextBlock
+                        Margin="10,10"
+                        HorizontalAlignment="Center"
+                        ClipToBounds="True">
+                        You have no key vaults selected.
+                    </TextBlock>
+                    <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
+                        Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
+                        Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
+                        <HyperlinkButton
+                            Padding="0,-1,0,0"
+                            HorizontalAlignment="Center"
+                            Content="Azure RBAC Documentation"
+                            NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
+                    </TextBlock>
+
+                </StackPanel>
+
+
+
+            </StackPanel>
+        </Grid>
+    </SplitView>
+</UserControl>

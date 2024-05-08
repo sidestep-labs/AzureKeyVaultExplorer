@@ -1,0 +1,91 @@
+<UserControl
+    x:Class="KeyVaultExplorer.Views.MainView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="using:FluentAvalonia.UI.Controls"
+    xmlns:custom="clr-namespace:KeyVaultExplorer.Views.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+    xmlns:views="clr-namespace:KeyVaultExplorer.Views.Pages"
+    xmlns:vm="clr-namespace:KeyVaultExplorer.ViewModels"
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid
+            Name="TitleBarHost"
+            Background="Transparent"
+            ColumnDefinitions="Auto,Auto,*,330">
+
+            <Button
+                Margin="6,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Command="{Binding #FrameView.GoBack}"
+                Content="&#xE112;"
+                DockPanel.Dock="Left"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                FontSize="{StaticResource FontSizeLarge}"
+                FontWeight="Black"
+                IsVisible="{Binding #FrameView.CanGoBack}"
+                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                Theme="{StaticResource TransparentButton}"
+                ToolTip.Tip="Back"
+                ToolTip.VerticalOffset="10">
+
+                <Button.Styles>
+                    <Style Selector="ToolTip">
+                        <Setter Property="FontWeight" Value="Regular" />
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Image
+                Name="WindowIcon"
+                Height="20"
+                Margin="12,12,0,4"
+                DockPanel.Dock="Left"
+                IsHitTestVisible="False"
+                RenderOptions.BitmapInterpolationMode="HighQuality"
+                Source="/Assets/kv-orange.ico">
+                <Image.IsVisible>
+                    <OnPlatform>
+                        <OnPlatform.Default>
+                            <Binding FallbackValue="True" />
+                        </OnPlatform.Default>
+                        <OnPlatform.macOS>
+                            <Binding Path="#FrameView.CanGoBack" />
+                        </OnPlatform.macOS>
+                    </OnPlatform>
+                </Image.IsVisible>
+            </Image>
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="8,8,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="12"
+                IsHitTestVisible="False"
+                IsVisible="{Binding #FrameView.CanGoBack}"
+                Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                <TextBlock.IsVisible>
+                    <OnPlatform Default="False">
+                        <On Content="True" Options="Windows" />
+                    </OnPlatform>
+                </TextBlock.IsVisible>
+            </TextBlock>
+        </Grid>
+        <ui:Frame
+            Name="FrameView"
+            Grid.Row="0"
+            Grid.RowSpan="2" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,77 @@
+<Window
+    x:Class="KeyVaultExplorer.Views.Pages.TabViewWindowingPopout"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer.shared"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:KeyVaultExplorer.ViewModels"
+    xmlns:vmm="using:KeyVaultExplorer.ViewModels.Models"
+    Title="TabViewWindowingPopout"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:TabViewPageViewModel"
+    Background="{x:Null}"
+    ExtendClientAreaChromeHints="Default, OSXThickTitleBar, PreferSystemChrome"
+    ExtendClientAreaToDecorationsHint="{OnPlatform False,
+                                                   macOS=True}"
+    TransparencyLevelHint="Mica, AcrylicBlur"
+    mc:Ignorable="d">
+
+    <!--
+        Reordering in a TabView is handled automatically,
+        DragDrop must be implemented manually
+        TabDroppedOutside="TabDroppedOutside"
+    -->
+    <Window.Styles>
+        <Styles>
+            <Style Selector="ui|TabView#TabView.macOSTitleBarSafeArea">
+                <Style Selector="^ /template/ Border">
+                    <Setter Property="Margin" Value="70,0,0,0" />
+                </Style>
+            </Style>
+        </Styles>
+    </Window.Styles>
+
+
+    <ui:TabView
+        Name="TabView"
+        VerticalAlignment="Stretch"
+        AllowDropTabs="False"
+        Background="{x:Null}"
+        CanDragTabs="True"
+        CanReorderTabs="True"
+        Classes.macOSTitleBarSafeArea="{OnPlatform False,
+                                                   macOS=True}"
+        IsAddTabButtonVisible="False"
+        TabCloseRequested="TabCloseRequested"
+        TabDragStarting="TabDragStarting"
+        TabItems="{Binding Documents}"
+        TabStripDragOver="TabStripDragOver"
+        TabStripDrop="TabStripDrop">
+
+
+        <ui:TabView.TabItemTemplate>
+            <DataTemplate DataType="vmm:DocumentItem">
+                <ui:TabViewItem
+                    Content="{Binding Content}"
+                    Header="{Binding Header}"
+                    IconSource="{Binding IconSource}" />
+
+            </DataTemplate>
+        </ui:TabView.TabItemTemplate>
+        <ui:TabView.TabStripFooter>
+
+            <!--
+                Use this so we can set the margin in the tabstrip so it
+                doesn't end up underneath the caption buttons
+                This also forms our custom drag region for the titlebar so we
+                can still drag the window around
+                On Mac/Linux this is irrelevant since we don't replace the
+                system titlebar
+            -->
+            <Panel Name="CustomDragRegion" Width="400" />
+        </ui:TabView.TabStripFooter>
+    </ui:TabView>
+</Window>

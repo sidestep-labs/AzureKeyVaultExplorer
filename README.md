@@ -59,7 +59,7 @@ Accepting PRs, suggestions, code reviews, feature requests and more. This is my 
 ### Dependencies
 
 - **[AvaloniaUI](https://github.com/AvaloniaUI/Avalonia/)** (Version: 11.0.10-preview2)
-- **[FluentAvaloniaUI](https://github.com/amwx/FluentAvalonia/)** (Version: 2.1.0-preview4)
+- **[FluentAvalonia](https://github.com/amwx/FluentAvalonia/)** (Version: 2.1.0-preview4)
 - **Azure.ResourceManager.KeyVault**
 - **Azure.Security.KeyVault.Certificates**
 - **Azure.Security.KeyVault.Keys**

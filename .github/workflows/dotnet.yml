@@ -56,10 +56,8 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-           
         ./KeyVaultExplorer/build.ps1 -Runtime osx-x64 -PublishAot          
         Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\final\Key Vault Explorer.app
-       
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
@@ -85,11 +83,9 @@ jobs:
             mac-nuget
     - name: Publish macOS Arm
       run: | 
-                 
         ./KeyVaultExplorer/build.ps1 -Runtime osx-arm64 -PublishAot          
         Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\final\Key Vault Explorer.app
         Get-ChildItem -Recurse
-
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4

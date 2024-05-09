@@ -56,24 +56,10 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-        dotnet publish ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj --configuration Release --runtime osx-x64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -f net8.0
-        $initialRootDir = "Key Vault Explorer"
-        $contentsDir = "$initialRootDir\Contents"
-        $macOSDir = "$($initialRootDir)\Contents\MacOS"
-        $resourcesPath = "$($initialRootDir)\Contents\Resources"
-        New-Item -ItemType Directory -Path $initialRootDir -Force | Out-Null
-        New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
-        New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
-        New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
-        New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\final" -Force | Out-Null
-        Copy-Item -Path -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-x64" -Destination $macOSDir -Force -Recurse -Exclude @("*.pdb") 
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/Info.plist" -Destination $contentsDir -Force
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
-        Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-        Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"
-        # Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-x64.zip"
-        Get-ChildItem -Recurse
-        Rename-Item -Path  "$($initialRootDir).app" -NewName "x64_$($initialRootDir).app"  -Force 
+           
+        ./KeyVaultExplorer/build.ps1 -Runtime osx-x64 -PublishAot          
+        Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\final\Key Vault Explorer.app
+       
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
@@ -99,25 +85,9 @@ jobs:
             mac-nuget
     - name: Publish macOS Arm
       run: | 
-        dotnet publish ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj --configuration Release --runtime osx-arm64 --output "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -f net8.0
-        $initialRootDir = "Key Vault Explorer"
-        $contentsDir = "$initialRootDir\Contents"
-        $macOSDir = "$($initialRootDir)\Contents\MacOS"
-        $resourcesPath = "$($initialRootDir)\Contents\Resources"
-        New-Item -ItemType Directory -Path $initialRootDir -Force | Out-Null
-        New-Item -ItemType Directory -Path $contentsDir -Force | Out-Null
-        New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
-        New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
-        
-        Copy-Item -Path -Path "$($env:GITHUB_WORKSPACE)\artifacts\osx-arm64" -Destination $macOSDir -Force -Recurse -Exclude @("*.pdb") 
-
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/Info.plist" -Destination $contentsDir -Force
-        Copy-Item -Path "$env:GITHUB_WORKSPACE/KeyVaultExplorer/Assets/AppIcon.icns" -Destination $resourcesPath -Force
-        Rename-Item -Path $initialRootDir -NewName "$($initialRootDir).app" -Force 
-
-        Move-Item -Path "$($initialRootDir).app" -Destination "$env:GITHUB_WORKSPACE\final\$($initialRootDir).app"
-
-        # Compress-Archive -Path "$($initialRootDir).app" -DestinationPath "$env:GITHUB_WORKSPACE\final\mac-arm64.zip"
+                 
+        ./KeyVaultExplorer/build.ps1 -Runtime osx-arm64 -PublishAot          
+        Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\final\Key Vault Explorer.app
         Get-ChildItem -Recurse
 
       shell: pwsh
@@ -125,7 +95,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: macOS_arm64
-        path: ${{ github.workspace }}/final/mac-arm64.zip
+        path: ${{ github.workspace }}/final/Key Vault Explorer.app
         
   release:
     name: Release code

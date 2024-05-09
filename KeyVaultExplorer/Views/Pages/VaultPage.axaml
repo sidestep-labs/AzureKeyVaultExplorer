@@ -108,11 +108,9 @@
                     ToolTip.VerticalOffset="10">
                     <StackPanel Orientation="Horizontal">
                         <ui:BitmapIcon
-                            Width="32"
-                            Height="32"
-                            Margin="-8"
+                            Width="16"
+                            Height="16"
                             RenderOptions.BitmapInterpolationMode="HighQuality"
-                            RenderTransform="Scale(0.5, 0.5)"
                             ShowAsMonochrome="True"
                             UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
                     </StackPanel>

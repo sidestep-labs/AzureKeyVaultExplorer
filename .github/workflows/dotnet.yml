@@ -2,7 +2,7 @@ name: .NET Build and Publish
 
 on:
   push:
-    branches: [ master, dev ]
+    branches: [ master ]
   pull_request:
     branches: [ dev ]
 

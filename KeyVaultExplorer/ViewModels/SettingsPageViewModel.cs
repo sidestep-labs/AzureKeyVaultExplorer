@@ -19,7 +19,7 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class SettingsPageViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public string version;
+    private string version;
 
     private const string BackgroundTranparency = "BackgroundTransparency";
     private readonly AuthService _authService;

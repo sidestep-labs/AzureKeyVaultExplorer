@@ -5,7 +5,7 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class ToolBarViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public bool isBusy;
+    private bool isBusy;
 
     public ToolBarViewModel()
     {

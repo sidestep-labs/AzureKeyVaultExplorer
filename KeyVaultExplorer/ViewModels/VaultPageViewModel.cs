@@ -27,28 +27,28 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class VaultPageViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public bool isBusy = false;
+    private bool isBusy = false;
 
     [ObservableProperty]
-    public bool hasAuthorizationError = false;
+    private bool hasAuthorizationError = false;
 
     [ObservableProperty]
-    public string authorizationMessage;
+    private string authorizationMessage;
 
     [ObservableProperty]
-    public string searchQuery;
+    private string searchQuery;
 
     [ObservableProperty]
-    public KeyVaultContentsAmalgamation selectedRow;
+    private KeyVaultContentsAmalgamation selectedRow;
 
     [ObservableProperty]
-    public TabStripItem selectedTab;
+    private TabStripItem selectedTab;
 
     [ObservableProperty]
-    public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
+    private ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     [ObservableProperty]
-    public Uri vaultUri;
+    private Uri vaultUri;
 
     private readonly AuthService _authService;
     private readonly VaultService _vaultService;

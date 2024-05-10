@@ -28,26 +28,26 @@ public partial class PropertiesPageViewModel : ViewModelBase
     private readonly IStorageProvider _storageService;
 
     [ObservableProperty]
-    public bool isSecret = false;
+    private bool isSecret = false;
 
     [ObservableProperty]
-    public bool isKey = false;
+    private bool isKey = false;
 
     [ObservableProperty]
-    public bool isCertificate = false;
+    private bool isCertificate = false;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ShouldShowValueCommand))]
-    public bool showValue = false;
+    private bool showValue = false;
 
     [ObservableProperty]
-    public string secretHidden = new('*', 20);
+    private string secretHidden = new('*', 20);
 
     [ObservableProperty]
-    public string secretPlainText = "";
+    private string secretPlainText = "";
 
     [ObservableProperty]
-    public string title = "Properties";
+    private string title = "Properties";
 
     public PropertiesPageViewModel()
     {
@@ -58,16 +58,16 @@ public partial class PropertiesPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public ObservableCollection<KeyProperties> keyPropertiesList;
+    private ObservableCollection<KeyProperties> keyPropertiesList;
 
     [ObservableProperty]
-    public ObservableCollection<SecretProperties> secretPropertiesList;
+    private ObservableCollection<SecretProperties> secretPropertiesList;
 
     [ObservableProperty]
-    public ObservableCollection<CertificateProperties> certificatePropertiesList;
+    private ObservableCollection<CertificateProperties> certificatePropertiesList;
 
     [ObservableProperty]
-    public KeyVaultContentsAmalgamation openedItem;
+    private KeyVaultContentsAmalgamation openedItem;
 
     private SettingsPageViewModel _settingsPageViewModel;
 

@@ -25,16 +25,16 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     public IEnumerable<KvSubscriptionModel> _treeViewList;
 
     [ObservableProperty]
-    public bool isBusy = false;
+    private bool isBusy = false;
 
     [ObservableProperty]
-    public string searchQuery;
+    private string searchQuery;
 
     [ObservableProperty]
-    public KeyVaultResource selectedTreeItem;
+    private KeyVaultResource selectedTreeItem;
 
     [ObservableProperty]
-    public ObservableCollection<KvSubscriptionModel> treeViewList;
+    private ObservableCollection<KvSubscriptionModel> treeViewList;
 
     private readonly AuthService _authService;
     private readonly KvExplorerDb _dbContext;

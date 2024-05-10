@@ -98,11 +98,9 @@
                     ToolTip.Tip="Refresh available subscriptions"
                     ToolTip.VerticalOffset="10">
                     <ui:BitmapIcon
-                        Width="32"
-                        Height="32"
-                        Margin="-8"
+                        Width="16"
+                        Height="16"
                         RenderOptions.BitmapInterpolationMode="HighQuality"
-                        RenderTransform="Scale(0.5, 0.5)"
                         ShowAsMonochrome="True"
                         UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
                 </Button>
@@ -116,11 +114,9 @@
                     ToolTip.VerticalOffset="10">
                     <StackPanel Orientation="Horizontal">
                         <ui:BitmapIcon
-                            Width="32"
-                            Height="32"
-                            Margin="-8"
+                            Width="16"
+                            Height="16"
                             RenderOptions.BitmapInterpolationMode="HighQuality"
-                            RenderTransform="Scale(0.5, 0.5)"
                             ShowAsMonochrome="True"
                             UriSource="avares://KeyVaultExplorer/Assets/CollapseAll.png" />
                     </StackPanel>
@@ -249,6 +245,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Cursor="Hand"
+                            Spacing="2"
                             Orientation="Horizontal">
                             <Image Margin="0,1,5,0">
                                 <Image.Source>
@@ -267,16 +264,16 @@
                         <StackPanel
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
+                            Spacing="2"
                             Cursor="Hand"
                             Orientation="Horizontal"
                             ToolTip.ShowDelay="1000"
                             ToolTip.Tip="Double click to open"
                             ToolTip.VerticalOffset="10">
                             <ui:BitmapIcon
-                                Width="32"
-                                Height="32"
+                                Width="16"
+                                Height="16"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
-                                RenderTransform="Scale(0.5, 0.5)"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://KeyVaultExplorer/Assets/KeyVault.png" />
                             <TextBlock

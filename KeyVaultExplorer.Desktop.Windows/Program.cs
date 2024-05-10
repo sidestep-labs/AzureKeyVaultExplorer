@@ -2,7 +2,7 @@
 using System;
 
 
-namespace kvexplorer.Desktop.Windows;
+namespace KeyVaultExplorer.Desktop.Windows;
 
 internal class Program
 {

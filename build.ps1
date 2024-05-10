@@ -11,9 +11,21 @@ param(
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
 $env:KVEXPLORER_APP_VERSION = $BuildNumber
-# // -p:PublishSingleFile=true
-# --self-contained
-dotnet publish  ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj  --runtime $Runtime  -o .\publish -c Release  -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -f $Platform -p:PublishAot=$PublishAot  -p:PublishReadyToRun=true  -p:PublishTrimmed=true -p:TrimMode=partial -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishSingleFile=$($PublishAot ? "false":"true") --self-contained
+dotnet publish  ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj `
+    --runtime $Runtime `
+    -o .\publish `
+    -c Release  `
+    -p:VersionPrefix=$VersionPrefix `
+    -p:VersionSuffix=$VersionSuffix `
+    -f $Platform `
+    -p:PublishAot=$PublishAot  `
+    -p:PublishReadyToRun=true  `
+    -p:PublishTrimmed=true `
+    -p:TrimMode=partial `
+    -p:IncludeNativeLibrariesForSelfExtract=true `
+    -p:PublishSingleFile=$($PublishAot ? "false":"true") `
+    -p:UseAppHost=true `
+    --self-contained 
 
 if ($Runtime -match "osx") { 
 
@@ -33,5 +45,11 @@ if ($Runtime -match "osx") {
     }
     Copy-Item -Path ".\KeyVaultExplorer\Assets\Info.plist" -Destination $contentsDir -Force
     Copy-Item -Path ".\KeyVaultExplorer\Assets\AppIcon.icns" -Destination $resourcesPath -Force
+
+    # $filesToModify = Get-ChildItem  -Path $macOSDir 
+    # foreach ($file in $filesToModify) {
+    #     chmod +x $file 
+    # }
     Rename-Item -Path $initialRootDir -NewName "Key Vault Explorer.app" -Force 
+
 }

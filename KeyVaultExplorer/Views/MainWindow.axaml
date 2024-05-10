@@ -47,7 +47,7 @@
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
-         
+           <NativeMenuItem Header="View" />
         </NativeMenu>
     </NativeMenu.Menu>
 

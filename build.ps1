@@ -6,7 +6,7 @@ param(
     [ValidateSet('net8.0', 'net8.0-windows10.0.19041.0')]
     [string]$Platform = 'net8.0',
     [ValidateSet('win-x64', 'win-arm64', 'osx-x64', 'osx-arm64')]
-    [string]$Runtime = 'win-arm64'
+    [string]$Runtime = 'win-x64'
 )
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
@@ -18,9 +18,9 @@ dotnet publish  ./KeyVaultExplorer.Desktop/KeyVaultExplorer.Desktop.csproj `
     -p:VersionPrefix=$VersionPrefix `
     -p:VersionSuffix=$VersionSuffix `
     -f $Platform `
-    -p:PublishAot=$PublishAot  `
+    -p:PublishAot=$PublishAot `
     -p:PublishReadyToRun=true  `
-    -p:PublishTrimmed=true `
+    -p:PublishTrimmed=$PublishAot `
     -p:TrimMode=partial `
     -p:IncludeNativeLibrariesForSelfExtract=true `
     -p:PublishSingleFile=$($PublishAot ? "false":"true") `

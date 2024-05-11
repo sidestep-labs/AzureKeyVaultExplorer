@@ -5,4 +5,8 @@
 	<assembly fullname="Azure.Security.KeyVault.Keys" />
 	<assembly fullname="Azure.Security.KeyVault.Secrets" />
 	<assembly fullname="System.Text.Json" />
+	<assembly fullname="DeviceId" />
+	<!--<assembly fullname="DeviceId.Mac" />
+	<assembly fullname="DeviceId.Windows" />
+	<assembly fullname="DeviceId.Linux" />-->
 </linker>

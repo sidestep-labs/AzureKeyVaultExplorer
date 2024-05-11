@@ -21,18 +21,10 @@ public partial class KvExplorerDb : IDisposable
     {
     }
 
-    private static SqliteConnection NewSqlConnection()
-    {
-        string DataSource = Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db");
-        var pass = DatabaseEncryptedPasswordManager.GetSecret();
-        using var connection = new SqliteConnection($"Filename={DataSource}; Password={pass}");
-        return connection;
-    }
-
     public static void OpenSqlConnection()
     {
         string DataSource = Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db");
-        var pass = DatabaseEncryptedPasswordManager.GetSecret();
+        var pass =  DatabaseEncryptedPasswordManager.GetSecret();
         var connection = new SqliteConnection($"Filename={DataSource}; Password={pass}");
         connection.Open();
         _connection = connection;

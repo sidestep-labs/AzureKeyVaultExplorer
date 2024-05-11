@@ -14,30 +14,32 @@ namespace KeyVaultExplorer.Services;
 
 public static class DatabaseEncryptedPasswordManager
 {
-
-    private const string EncryptedSecretFileName = "keyvaultexplorer_database_password.txt";
-    private const string ProtectedKeyFileName = "keyvaultexplorer_database_key.bin";
-
     private static byte[] GetMachineEntropy()
     {
         // Generate a machine-specific entropy source using DeviceId
-        string deviceId = new DeviceIdBuilder()
-             .AddMachineName()
-             .OnWindows(windows => windows
-                 .AddProcessorId()
-                 .AddMotherboardSerialNumber()
-                 .AddSystemDriveSerialNumber())
-             .OnLinux(linux => linux
-                 .AddMotherboardSerialNumber()
-                 .AddSystemDriveSerialNumber())
-             .OnMac(mac => mac
-                 .AddSystemDriveSerialNumber()
-                 .AddPlatformSerialNumber())
-             .ToString();
+        //        string deviceId = new DeviceIdBuilder()
+        //             .AddMachineName()
+        //             .OnWindows(windows => windows
+
+        //                 .AddMotherboardSerialNumber()
+        //                 .AddSystemDriveSerialNumber())
+        //#if LINUX
+        //.OnLinux(linux => linux
+        //.AddMotherboardSerialNumber()
+        //.AddSystemDriveSerialNumber())
+        //#endif
+        //#if MAC_OS
+        // .OnMac(mac => mac
+        //                 .AddSystemDriveSerialNumber()
+        //                 .AddPlatformSerialNumber())
+        //#endif
+
+        //             .ToString();
+
+        string deviceId = new DeviceIdBuilder().AddMachineName().AddOsVersion().AddFileToken(Path.Combine(Constants.LocalAppDataFolder, Constants.DeviceFileTokenName)).ToString();
 
         return deviceId.ToByteArray();
     }
-
 
     public static void SetSecret(string secret)
     {
@@ -61,7 +63,7 @@ public static class DatabaseEncryptedPasswordManager
             Array.Copy(iv, 0, combinedData, 0, iv.Length);
             Array.Copy(encryptedSecret, 0, combinedData, iv.Length, encryptedSecret.Length);
 
-            string encryptedSecretPath = Path.Combine(Constants.LocalAppDataFolder, EncryptedSecretFileName);
+            string encryptedSecretPath = Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName);
             File.WriteAllBytes(encryptedSecretPath, combinedData); // Write bytes directly
         }
     }
@@ -72,7 +74,7 @@ public static class DatabaseEncryptedPasswordManager
         byte[] entropySource = GetMachineEntropy();
         byte[] unprotectedKey = ProtectedData.Unprotect(storedProtectedKey, entropySource, DataProtectionScope.LocalMachine);
 
-        string encryptedSecretPath = Path.Combine(Constants.LocalAppDataFolder, EncryptedSecretFileName);
+        string encryptedSecretPath = Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName);
         if (!File.Exists(encryptedSecretPath))
             return null;
 
@@ -100,7 +102,7 @@ public static class DatabaseEncryptedPasswordManager
 
     private static byte[] GetProtectedKey()
     {
-        string protectedKeyPath = Path.Combine(Constants.LocalAppDataFolder, ProtectedKeyFileName);
+        string protectedKeyPath = Path.Combine(Constants.LocalAppDataFolder, Constants.ProtectedKeyFileName);
 
         if (File.Exists(protectedKeyPath))
         {

@@ -45,13 +45,18 @@ public partial class App : Application
     public static void CreateDesktopResources()
     {
         Directory.CreateDirectory(Constants.LocalAppDataFolder);
-        var exists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db"));
+        var dbExists = File.Exists(Constants.DatabaseFilePath);
+        var dbPassExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName));
+
+        if(!dbPassExists)
+            DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString().Substring(0, 6)}");
+
         KvExplorerDb.OpenSqlConnection();
-        if (!exists)
-        {
-            DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid}");
+        
+        if (!dbExists)
             KvExplorerDb.InitializeDatabase();
-        }
+
+
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         if (!File.Exists(settingsPath))
         {
@@ -66,7 +71,7 @@ public partial class App : Application
         }
     }
 
-    private async void MainWindowOnClosing(object? sender, WindowClosingEventArgs e)
+    private void MainWindowOnClosing(object? sender, WindowClosingEventArgs e)
     {
         if (sender is Window window)
         {

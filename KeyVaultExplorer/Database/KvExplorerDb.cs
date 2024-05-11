@@ -6,11 +6,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using Avalonia.Animation;
+using System.Data.Common;
+using KeyVaultExplorer.Services;
 
 namespace KeyVaultExplorer.Database;
 
-public partial class KvExplorerDb
+public partial class KvExplorerDb : IDisposable
 {
+    private static DbConnection _connection;
+
     public KvExplorerDb()
     {
     }
@@ -18,14 +24,32 @@ public partial class KvExplorerDb
     private static SqliteConnection NewSqlConnection()
     {
         string DataSource = Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db");
-        using var connection = new SqliteConnection($"Filename={DataSource}");
+        var pass = DatabaseEncryptedPasswordManager.GetSecret();
+        using var connection = new SqliteConnection($"Filename={DataSource}; Password={pass}");
         return connection;
+    }
+
+    public static void OpenSqlConnection()
+    {
+        string DataSource = Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db");
+        var pass = DatabaseEncryptedPasswordManager.GetSecret();
+        var connection = new SqliteConnection($"Filename={DataSource}; Password={pass}");
+        connection.Open();
+        _connection = connection;
+    }
+
+    public static void CloseSqlConnection()
+    {
+        _connection.Close();
+    }
+
+    public void Dispose()
+    {
+        _connection.Close();
     }
 
     public static async void InitializeDatabase()
     {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
         string tableCommand = """
                 PRAGMA foreign_keys = off;
                 BEGIN TRANSACTION;
@@ -60,16 +84,14 @@ public partial class KvExplorerDb
 
                 """;
 
-        var createTableCommand = connection.CreateCommand();
+        var createTableCommand = _connection.CreateCommand();
         createTableCommand.CommandText = tableCommand;
         await createTableCommand.ExecuteNonQueryAsync();
     }
 
     public IEnumerable<QuickAccess> GetQuickAccessItems()
     {
-        var connection = NewSqlConnection();
-        connection.Open();
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
 
         var reader = command.ExecuteReader();
@@ -95,9 +117,7 @@ public partial class KvExplorerDb
 
     public async IAsyncEnumerable<QuickAccess> GetQuickAccessItemsAsyncEnumerable()
     {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
 
         var reader = await command.ExecuteReaderAsync();
@@ -121,9 +141,7 @@ public partial class KvExplorerDb
 
     public async Task<bool> QuickAccessItemByKeyVaultIdExists(string keyVaultId)
     {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = "SELECT 1 FROM QuickAccess WHERE KeyVaultId = @KeyVaultId LIMIT 1;";
         command.Parameters.Add(new SqliteParameter("@KeyVaultId", keyVaultId));
 
@@ -133,9 +151,7 @@ public partial class KvExplorerDb
 
     public async Task<bool> DeleteQuickAccessItemByKeyVaultId(string keyVaultId)
     {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = "DELETE FROM QuickAccess WHERE KeyVaultId = @KeyVaultId;";
         command.Parameters.Add(new SqliteParameter("@KeyVaultId", keyVaultId));
 
@@ -147,9 +163,7 @@ public partial class KvExplorerDb
 
     public async Task InsertQuickAccessItemAsync(QuickAccess item)
     {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = """
                             INSERT INTO QuickAccess (Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location)
                             VALUES (@Name, @VaultUri, @KeyVaultId, @SubscriptionDisplayName, @SubscriptionId, @TenantId, @Location);
@@ -164,37 +178,9 @@ public partial class KvExplorerDb
         await command.ExecuteNonQueryAsync();
     }
 
-    //public async Task<bool> UpdateToggleSettings(SettingType name, bool value)
-    //{
-    //    var connection = NewSqlConnection();
-    //    await connection.OpenAsync();
-    //    var command = connection.CreateCommand();
-    //    command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
-    //    command.Parameters.Add(new SqliteParameter("@SettingValue", value ? 1 : 0));
-    //    command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
-    //    var rowsAffected = await command.ExecuteNonQueryAsync();
-    //    // Check if any rows were deleted (1 or more indicates success)
-    //    return rowsAffected > 0;
-    //}
-
-    //public async Task<T> UpdateToggleSettings<T>(SettingType name, T value)
-    //{
-    //    var connection = NewSqlConnection();
-    //    await connection.OpenAsync();
-    //    var command = connection.CreateCommand();
-    //    command.CommandText = "UPDATE SETTINGS SET Value = @SettingValue WHERE Name = @Name;";
-    //    command.Parameters.Add(new SqliteParameter("@SettingValue", value));
-    //    command.Parameters.Add(new SqliteParameter("@Name", name.ToString()));
-    //    var rowsAffected = await command.ExecuteNonQueryAsync();
-    //    // Check if any rows were deleted (1 or more indicates success)
-    //    return rowsAffected > 0 ? value : default;
-    //}
-
     public async Task<AppSettings> GetToggleSettings()
     {
-        var connection = NewSqlConnection();
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = "SELECT Name, Value FROM SETTINGS";
         var settings = new AppSettings();
         var reader = command.ExecuteReader();
@@ -220,10 +206,7 @@ public partial class KvExplorerDb
 
     public async Task<IEnumerable<Subscriptions>> GetStoredSubscriptions()
     {
-        var connection = NewSqlConnection();
-        connection.Open();
-
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         command.CommandText = "SELECT DisplayName, SubscriptionId, TenantId FROM Subscriptions;";
 
         var reader = command.ExecuteReader();
@@ -244,32 +227,26 @@ public partial class KvExplorerDb
 
     public async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
     {
-        var connection = NewSqlConnection();
-        connection.Open();
-
         foreach (var subscription in subscriptions)
         {
-            var command = connection.CreateCommand();
+            var command = _connection.CreateCommand();
             command.CommandText = "INSERT OR IGNORE INTO Subscriptions (DisplayName, SubscriptionId, TenantId) VALUES (@DisplayName, @SubscriptionId, @TenantId);";
-            command.Parameters.AddWithValue("@DisplayName", subscription.DisplayName);
-            command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
-            command.Parameters.AddWithValue("@TenantId", subscription.TenantId);
+            command.Parameters.Add(new SqliteParameter("@DisplayName", subscription.DisplayName));
+            command.Parameters.Add(new SqliteParameter("@SubscriptionId", subscription.SubscriptionId));
+            command.Parameters.Add(new SqliteParameter("@TenantId", subscription.TenantId));
             await command.ExecuteNonQueryAsync();
         }
     }
 
     public async Task RemoveSubscriptionsBySubscriptionIDs(IEnumerable<string> subscriptionIds)
     {
-        var connection = NewSqlConnection();
-        connection.Open();
-
-        var command = connection.CreateCommand();
+        var command = _connection.CreateCommand();
         var paramString = new StringBuilder("DELETE FROM Subscriptions WHERE SubscriptionId IN (");
 
         subscriptionIds.TryGetNonEnumeratedCount(out int count);
         foreach (var (subscriptionId, index) in subscriptionIds.Select((id, index) => (id, index)))
         {
-            command.Parameters.AddWithValue("@SubscriptionId" + index, subscriptionId);
+            command.Parameters.Add(new SqliteParameter("@SubscriptionId" + index, subscriptionId));
             paramString.Append(index > 0 && index > count ? ',' : "");
             paramString.Append($"@SubscriptionId{index}");
         }

@@ -11,18 +11,20 @@ using KeyVaultExplorer.Services;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer;
 
 public partial class App : Application
 {
-
     public App()
     {
         DataContext = new AppViewModel();
     }
-   public static void ConfigureDesktopServices()
+
+    public static void ConfigureDesktopServices()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
         serviceCollection.AddMemoryCache();
@@ -39,13 +41,17 @@ public partial class App : Application
         serviceCollection.AddSingleton<IClipboard, ClipboardService>();
         serviceCollection.AddSingleton<IStorageProvider, StorageProviderService>();
     }
+
     public static void CreateDesktopResources()
     {
         Directory.CreateDirectory(Constants.LocalAppDataFolder);
         var exists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db"));
+        KvExplorerDb.OpenSqlConnection();
         if (!exists)
+        {
+            DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid}");
             KvExplorerDb.InitializeDatabase();
-
+        }
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         if (!File.Exists(settingsPath))
         {
@@ -57,6 +63,14 @@ public partial class App : Application
                     "PaneDisplayMode": "inline"
                 }
                 """);
+        }
+    }
+
+    private async void MainWindowOnClosing(object? sender, WindowClosingEventArgs e)
+    {
+        if (sender is Window window)
+        {
+            KvExplorerDb.CloseSqlConnection();
         }
     }
 
@@ -116,5 +130,4 @@ public static class ApplicationExtensions
         }
         return null;
     }
-
 }

@@ -46,16 +46,15 @@ public partial class KvExplorerDb : IDisposable
                 PRAGMA foreign_keys = off;
                 BEGIN TRANSACTION;
                 -- Table: Subscriptions
-                CREATE TABLE Subscriptions (
+                CREATE TABLE IF NOT EXISTS Subscriptions (
                     DisplayName    TEXT NOT NULL CONSTRAINT UQ_DisplayName UNIQUE ON CONFLICT IGNORE,
                     SubscriptionId TEXT (200) PRIMARY KEY  UNIQUE ON CONFLICT IGNORE,
                     TenantId       TEXT (200)
                 );
-                CREATE UNIQUE INDEX IX_Subscriptions_DisplayName_SubscriptionsId ON Subscriptions (
+                CREATE UNIQUE INDEX IF NOT EXISTS IX_Subscriptions_DisplayName_SubscriptionsId ON Subscriptions (
                     SubscriptionId ASC,
                     DisplayName ASC
                 );
-
                 -- Table: QuickAccess
                 CREATE TABLE IF NOT EXISTS QuickAccess (
                     Id                      INTEGER NOT NULL CONSTRAINT PK_QuickAccess PRIMARY KEY AUTOINCREMENT,
@@ -73,9 +72,7 @@ public partial class KvExplorerDb : IDisposable
                 );
                 COMMIT TRANSACTION;
                 PRAGMA foreign_keys = on;
-
                 """;
-
         var createTableCommand = _connection.CreateCommand();
         createTableCommand.CommandText = tableCommand;
         await createTableCommand.ExecuteNonQueryAsync();

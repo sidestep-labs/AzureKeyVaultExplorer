@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "KeyVaultExplorer.Desktop": {
+    "Desktop": {
       "commandName": "Project"
     },
     "WSL": {

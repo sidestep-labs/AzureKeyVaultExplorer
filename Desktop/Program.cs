@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 
-namespace KeyVaultExplorer.Desktop;
+namespace Desktop;
 
 internal class Program
 {
@@ -34,10 +34,10 @@ internal class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+        => AppBuilder.Configure<KeyVaultExplorer.App>()
                  .AfterSetup(_ =>
                  {
-                     App.CreateDesktopResources();
+                     KeyVaultExplorer.App.CreateDesktopResources();
                      // HACK. https://github.com/AvaloniaUI/Avalonia/issues/14059
                      var x = Comparer<int>.Default;
                      var y = Comparer<decimal>.Default;

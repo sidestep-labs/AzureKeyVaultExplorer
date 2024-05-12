@@ -131,8 +131,7 @@
                 <ui:TabView.Styles>
                     <Styles>
                         <Style Selector="uip|TabViewListView#TabListView">
-                            <Setter Property="Margin" Value="0,11,0,00" />
-                            <!--<Setter Property="Padding" Value="35,50,50,50" />-->
+                            <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 11, 0, 0', macOS='0,0,0,0' x:TypeArguments=Thickness}" />
                         </Style>
                     </Styles>
                 </ui:TabView.Styles>

@@ -19,7 +19,10 @@
 - Filtering and sorting of values
 - Viewing last updates and next to expire values
 - Downloading and saving .pfx and .cer files
+
+### Privacy Features
 - **No telemetry or logs collected**
+
 
 # Security
 
@@ -55,6 +58,14 @@ Accepting PRs, suggestions, code reviews, feature requests and more. This is my 
   Run the following scripts and a 'Key Vault Explorer.app' mac os package will be generated in the publish directory. Move this to "Applications".
   run `.\KeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime osx-x64`
   run `.\KeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime osx-arm64`
+
+
+
+
+## Troubleshooting
+The folder where all app associated data like the database and other encrypted files is `/Users/YOUR_USER_NAME/Library/Application Support/KeyVaultExplorer/` on macOS
+and `` on Windows.
+
 
 ### Dependencies
 

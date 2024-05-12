@@ -9,7 +9,8 @@ public static class Constants
 {
     // database password file name
     public const string EncryptedSecretFileName = "keyvaultexplorer_database_password.txt";
-
+    public const string KeychainSecretName = "keyvaultexplorer_database_password";
+    public const string KeychainServiceName = "keyvaultexplorer";
     public const string ProtectedKeyFileName = "keyvaultexplorer_database_key.bin";
     public const string DeviceFileTokenName = "keyvaultexplorer_database_device-token.txt";
 

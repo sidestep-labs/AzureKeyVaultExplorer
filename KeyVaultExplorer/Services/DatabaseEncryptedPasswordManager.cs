@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using DeviceId;
-using System.Reflection.Metadata;
 using KeyVaultExplorer.Models;
 
 namespace KeyVaultExplorer.Services;
@@ -28,7 +27,7 @@ public static class DatabaseEncryptedPasswordManager
         //.AddMotherboardSerialNumber()
         //.AddSystemDriveSerialNumber())
         //#endif
-        //#if MAC_OS
+        //#if MACOS
         // .OnMac(mac => mac
         //                 .AddSystemDriveSerialNumber()
         //                 .AddPlatformSerialNumber())
@@ -43,6 +42,11 @@ public static class DatabaseEncryptedPasswordManager
 
     public static void SetSecret(string secret)
     {
+#if MACOS
+        MacOSKeyChainService.SaveToKeychain(Constants.KeychainServiceName, Constants.KeychainSecretName, secret);
+#endif
+
+#if WINDOWS
         byte[] protectedKey = GetProtectedKey();
         byte[] entropySource = GetMachineEntropy();
         byte[] unprotectedKey = ProtectedData.Unprotect(protectedKey, entropySource, DataProtectionScope.LocalMachine);
@@ -66,10 +70,17 @@ public static class DatabaseEncryptedPasswordManager
             string encryptedSecretPath = Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName);
             File.WriteAllBytes(encryptedSecretPath, combinedData); // Write bytes directly
         }
+#endif
+
     }
+
+
 
     public static string GetSecret()
     {
+
+
+#if WINDOWS
         byte[] storedProtectedKey = GetProtectedKey();
         byte[] entropySource = GetMachineEntropy();
         byte[] unprotectedKey = ProtectedData.Unprotect(storedProtectedKey, entropySource, DataProtectionScope.LocalMachine);
@@ -98,10 +109,23 @@ public static class DatabaseEncryptedPasswordManager
 
             return Encoding.UTF8.GetString(decryptedSecretBytes); // Decode bytes consistently
         }
+#endif
+
+#if MACOS
+
+            string password = MacOSKeychain.GetPassword(Constants.KeychainServiceName, Constants.KeychainSecretName);
+            
+            return password;
+#endif
+
+
+        return null;
     }
 
     private static byte[] GetProtectedKey()
     {
+#if WINDOWS
+        
         string protectedKeyPath = Path.Combine(Constants.LocalAppDataFolder, Constants.ProtectedKeyFileName);
 
         if (File.Exists(protectedKeyPath))
@@ -116,8 +140,11 @@ public static class DatabaseEncryptedPasswordManager
         }
 
         byte[] entropySource = GetMachineEntropy();
+
         byte[] protectedKey = ProtectedData.Protect(key, entropySource, DataProtectionScope.LocalMachine);
         File.WriteAllBytes(protectedKeyPath, protectedKey);
         return protectedKey;
+#endif
+        return new byte[32];
     }
 }

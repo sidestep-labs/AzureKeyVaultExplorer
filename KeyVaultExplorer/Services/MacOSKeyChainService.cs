@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace KeyVaultExplorer;
 
-
 public static class MacOSKeyChainService
 {
     public const string SecurityLibrary = "/System/Library/Frameworks/Security.framework/Security";
@@ -34,6 +33,7 @@ public static class MacOSKeyChainService
         out uint passwordLength,
         out IntPtr passwordData,
         IntPtr itemRef);
+
     public static void SaveToKeychain(string serviceName, string accountName, string password)
     {
         IntPtr itemRef = IntPtr.Zero;
@@ -59,7 +59,6 @@ public static class MacOSKeyChainService
             }
         }
     }
-
 
     public static string GetPassword(string serviceName, string accountName)
     {
@@ -108,5 +107,3 @@ public static class MacOSKeyChainService
         }
     }
 }
-
-

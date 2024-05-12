@@ -4,7 +4,7 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyVaultExplorer", "KeyVaultExplorer\KeyVaultExplorer.csproj", "{8BFCC07A-A60D-49E0-B1F6-8FAD1CD4F986}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyVaultExplorer.Desktop", "KeyVaultExplorer.Desktop\KeyVaultExplorer.Desktop.csproj", "{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktop", "KeyVaultExplorer.Desktop\Desktop.csproj", "{2C8F3B54-D3B7-454D-B48A-08F2EBBAB1BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F54C073E-0437-4F14-B96D-670DE6F3AAEE}"
 	ProjectSection(SolutionItems) = preProject
@@ -103,6 +103,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+	EndGlobalSection
+EndGlobal
+2}
 	EndGlobalSection
 EndGlobal
 -420B-B2C3-20EA9991AB9C}.Debug|x64.Build.0 = Debug|x64

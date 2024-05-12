@@ -42,9 +42,10 @@ public static class DatabaseEncryptedPasswordManager
 
     public static void SetSecret(string secret)
     {
+#if MACOS
 
         MacOSKeyChainService.SaveToKeychain(Constants.KeychainSecretName, Constants.KeychainServiceName, secret);
-
+#endif
 #if WINDOWS
         byte[] protectedKey = GetProtectedKey();
         byte[] entropySource = GetMachineEntropy();
@@ -109,12 +110,14 @@ public static class DatabaseEncryptedPasswordManager
             return Encoding.UTF8.GetString(decryptedSecretBytes); // Decode bytes consistently
         }
 #endif
+#if MACOS
 
 
             string password = MacOSKeyChainService.GetPassword(Constants.KeychainSecretName, Constants.KeychainServiceName);
 
             return password;
-
+#endif
+        return "";
 
     }
 

@@ -28,6 +28,29 @@
 
     <NativeMenu.Menu>
         <NativeMenu>
+            <NativeMenuItem Header="File">
+
+       <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="New Window" Gesture="Cmd+N" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
+           <NativeMenuItem Header="Edit">
+             <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Undo" Gesture="Cmd+Z"/>
+                        <NativeMenuItem Header="Redo" Gesture="Shift+Cmd+Z"/>
+                        <NativeMenuItemSeparator/>
+                <NativeMenuItem Header="Copy"   Gesture="Cmd+C"/>
+                <NativeMenuItem Header="Cut"   Gesture="Cmd+X"/>
+                <NativeMenuItem Header="Paste"   Gesture="Cmd+V"/>
+
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+
             <NativeMenuItem Header="Account">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
@@ -37,7 +60,7 @@
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
-
+           <NativeMenuItem Header="Window" />
             <NativeMenuItem Header="Help">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
@@ -47,7 +70,6 @@
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
-           <NativeMenuItem Header="View" />
         </NativeMenu>
     </NativeMenu.Menu>
 

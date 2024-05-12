@@ -28,7 +28,7 @@ jobs:
             win-nuget
     - name: Publish Windows
       run: | 
-        ./build.ps1 -Runtime win-x64 -PublishAot    
+        ./build.ps1 -Runtime win-x64  -PublishAot 
         New-Item -ItemType Directory -Path "win-x64" 
         Move-Item -Path ".\publish" -Destination "$env:GITHUB_WORKSPACE\win-x64\publish"
         gci -path  "$env:GITHUB_WORKSPACE\win-x64\publish"
@@ -58,7 +58,7 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-        ./build.ps1 -Runtime osx-x64 -PublishAot          
+        ./build.ps1 -Runtime osx-x64 -Platform net8.0-macos -PublishAot          
         New-Item -ItemType Directory -Path "osx-x64" 
         gci -recurse
         Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-x64\Key Vault Explorer.app"
@@ -89,7 +89,7 @@ jobs:
             mac-nuget
     - name: Publish macOS Arm
       run: | 
-        ./build.ps1 -Runtime osx-arm64 -PublishAot          
+        ./build.ps1 -Runtime osx-arm64 -Platform net8.0-macos -PublishAot          
         New-Item -ItemType Directory -Path "osx-arm64" 
         Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-arm64\Key Vault Explorer.app"
       shell: pwsh

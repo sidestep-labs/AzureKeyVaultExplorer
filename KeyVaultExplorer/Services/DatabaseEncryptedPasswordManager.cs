@@ -42,7 +42,7 @@ public static class DatabaseEncryptedPasswordManager
 
     public static void SetSecret(string secret)
     {
-#if MACOS
+#if (MACOS || OSX || __MACOS__ || MACOS12_0_OR_GREATER || OSX)
 
         MacOSKeyChainService.SaveToKeychain(Constants.KeychainSecretName, Constants.KeychainServiceName, secret);
 #endif
@@ -110,12 +110,14 @@ public static class DatabaseEncryptedPasswordManager
             return Encoding.UTF8.GetString(decryptedSecretBytes); // Decode bytes consistently
         }
 #endif
-#if MACOS
+#if (MACOS || OSX || __MACOS__ || MACOS12_0_OR_GREATER)
 
+        // HACK: is to have a file there rather than checking the keychain on mac.
+        string protectedKeyPath = Path.Combine(Constants.LocalAppDataFolder, Constants.ProtectedKeyFileName);
+        File.WriteAllBytes(protectedKeyPath, new byte[1]);
+        string password = MacOSKeyChainService.GetPassword(Constants.KeychainSecretName, Constants.KeychainServiceName);
 
-            string password = MacOSKeyChainService.GetPassword(Constants.KeychainSecretName, Constants.KeychainServiceName);
-
-            return password;
+        return password;
 #endif
         return "";
 

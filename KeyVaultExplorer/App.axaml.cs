@@ -46,13 +46,15 @@ public partial class App : Application
     {
         Directory.CreateDirectory(Constants.LocalAppDataFolder);
         var dbExists = File.Exists(Constants.DatabaseFilePath);
-        var dbPassExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName));
 
+#if WINDOWS
+        var dbPassExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName));
         if(!dbPassExists)
             DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString().Substring(0, 6)}");
+#endif
 
         KvExplorerDb.OpenSqlConnection();
-        
+
         if (!dbExists)
             KvExplorerDb.InitializeDatabase();
 

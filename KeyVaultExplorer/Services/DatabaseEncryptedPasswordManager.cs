@@ -42,9 +42,8 @@ public static class DatabaseEncryptedPasswordManager
 
     public static void SetSecret(string secret)
     {
-#if MACOS
-        MacOSKeyChainService.SaveToKeychain(Constants.KeychainServiceName, Constants.KeychainSecretName, secret);
-#endif
+
+        MacOSKeyChainService.SaveToKeychain(Constants.KeychainSecretName, Constants.KeychainServiceName, secret);
 
 #if WINDOWS
         byte[] protectedKey = GetProtectedKey();
@@ -111,15 +110,12 @@ public static class DatabaseEncryptedPasswordManager
         }
 #endif
 
-#if MACOS
 
-            string password = MacOSKeychain.GetPassword(Constants.KeychainServiceName, Constants.KeychainSecretName);
-            
+            string password = MacOSKeyChainService.GetPassword(Constants.KeychainSecretName, Constants.KeychainServiceName);
+
             return password;
-#endif
 
 
-        return null;
     }
 
     private static byte[] GetProtectedKey()

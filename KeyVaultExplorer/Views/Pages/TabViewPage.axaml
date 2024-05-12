@@ -23,7 +23,7 @@
     <UserControl.Styles>
         <Styles>
             <Style Selector="Grid#TabViewGrid.emptyTabViewDragMargin">
-                <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 21, 0, 0', macOS='0,26,0,0' x:TypeArguments=Thickness}" />
+                <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 32, 0, 0', macOS='0,26,0,0' x:TypeArguments=Thickness}" />
             </Style>
         </Styles>
     </UserControl.Styles>
@@ -128,13 +128,13 @@
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
                 TabWidthMode="SizeToContent">
-                <ui:TabView.Styles>
+                <!--<ui:TabView.Styles>
                     <Styles>
                         <Style Selector="uip|TabViewListView#TabListView">
                             <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 11, 0, 0', macOS='0,0,0,0' x:TypeArguments=Thickness}" />
                         </Style>
                     </Styles>
-                </ui:TabView.Styles>
+                </ui:TabView.Styles>-->
 
                 <ui:TabView.TabItemTemplate>
                     <DataTemplate DataType="vmm:DocumentItem">
@@ -153,10 +153,10 @@
                 VerticalAlignment="Stretch"
                 IsVisible="{Binding !Documents.Count}"
                 Orientation="Vertical">
-                <Grid Margin="{OnPlatform '0, 0, 0, 0', Windows='0, 23, 0, 0', macOS='0,18,0,0' x:TypeArguments=Thickness}" RowDefinitions="Auto">
+                <Grid RowDefinitions="Auto">
                     <Border
                         Grid.Row="0"
-                        Margin="10,0,10,0"
+                        Margin="10,12,10,0"
                         Padding="1"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"

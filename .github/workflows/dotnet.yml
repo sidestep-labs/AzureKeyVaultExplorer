@@ -41,7 +41,7 @@ jobs:
         name: keyvaultexplorer.win-x64
         path: keyvaultexplorer.win-x64.tar    
   build_macos_intel:
-    name: Build macOS_intel
+    name: Build macOS intel
     runs-on: macos-12
     steps:
     - uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
         path: keyvaultexplorer.osx-x64.tar    
 
   build_macos:
-    name: Build macOS_arm
+    name: Build macOS Arm64
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
@@ -86,7 +86,7 @@ jobs:
           # Look to see if there is a cache hit for the corresponding requirements file
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
-            mac-nuget
+            mac-arm-nuget
     - name: Publish macOS Arm
       run: | 
         ./build.ps1 -Runtime osx-arm64 -PublishAot          

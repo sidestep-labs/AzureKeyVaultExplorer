@@ -21,7 +21,7 @@ jobs:
         dotnet-version: 8.0.x
     - uses: actions/cache@v3
       with:
-          path: ~/.nuget/packages
+          path: ~/.nuget/win-packages
           # Look to see if there is a cache hit for the corresponding requirements file
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
@@ -51,7 +51,7 @@ jobs:
         dotnet-version: 8.0.x
     - uses: actions/cache@v3
       with:
-          path: ~/.nuget/packages
+          path: ~/.nuget/osx-intel-packages
           # Look to see if there is a cache hit for the corresponding requirements file
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
@@ -80,12 +80,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-#    - uses: actions/cache@v3
-      #with:
-          #path: ~/.nuget/packages
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/macos-arm-packages
           # Look to see if there is a cache hit for the corresponding requirements file
-          #key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          #restore-keys: |
+          key: ${{ runner.os }}-armnuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
             #mac-arm-nuget
     - name: Publish macOS Arm
       run: | 

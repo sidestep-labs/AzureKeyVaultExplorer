@@ -13,7 +13,7 @@ $DebugPreference = 'continue';
 
 $command = @"
 dotnet publish  ./Desktop/Desktop.csproj `
-    --runtime $Runtime `
+    -r $Runtime `
     -o .\publish `
     -c Release  `
     -f $Platform `
@@ -27,11 +27,11 @@ dotnet publish  ./Desktop/Desktop.csproj `
     --self-contained 
 "@
 
-Write-Host $command -ForegroundColor Gray -BackgroundColor Cyan
+Write-Host $command -ForegroundColor Green
 
 
 dotnet publish  ./Desktop/Desktop.csproj `
-    --runtime $Runtime `
+    -r $Runtime `
     -o .\publish `
     -c Release  `
     -f $Platform `

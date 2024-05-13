@@ -3,9 +3,9 @@
     <TargetFrameworks>net8.0</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
     <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">$(TargetFrameworks);net8.0-macos</TargetFrameworks> -->
-	  <Nullable>enable</Nullable>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-    <Version>0.0.0.1</Version>
+   	<Version>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)\\..\\VERSION"))</Version>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
  </PropertyGroup>
@@ -14,7 +14,6 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
-
   
   <ItemGroup>
     <AvaloniaXaml Remove="Resources\Resources.axaml" />
@@ -38,23 +37,6 @@
     <None Remove="Assets\StatusErrorOutline.png" />
   </ItemGroup>
 
-   <ItemGroup>
-    <TrimmerRootAssembly Include="KeyVaultExplorer" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <AvaloniaResource Include="Resources\Resources.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Include="Resources\Styles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
 
   <ItemGroup>
 	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.0-beta2" />
@@ -80,39 +62,18 @@
 
 
 
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\kv-gray.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AvaloniaResource>
-  </ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Resources\Resources.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaResource>
+		<AvaloniaResource Include="Resources\Styles.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Views\CustomControls\ToolBar.axaml.cs">
-      <DependentUpon>ToolBar.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\CustomControls\KeyVaultTreeList.axaml.cs">
-      <DependentUpon>KeyVaultTreeList.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Pages\AboutPageWindow.axaml.cs">
-      <DependentUpon>AboutPageWindow.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Pages\TabViewWindowingPopout.axaml.cs">
-      <DependentUpon>TabViewWindowingPopout.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Pages\VaultPage.axaml.cs">
-      <DependentUpon>VaultPage.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Pages\TabViewPage.axaml.cs">
-      <DependentUpon>TabViewPage.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Pages\SettingsPage.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Pages\SubscriptionsPage.axaml.cs">
-      <DependentUpon>SubscriptionsPage.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\MainPage.axaml.cs">
-      <DependentUpon>MainPage.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+
 </Project>

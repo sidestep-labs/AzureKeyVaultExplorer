@@ -1,5 +1,5 @@
 param(
-    [switch]$PublishAot = $false,
+    [switch]$PublishAot = $true,
     [string]$BuildNumber = '0.0.1.0',
     $VersionPrefix = "1.0.0",
     $VersionSuffix = "99",
@@ -10,22 +10,41 @@ param(
 )
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
-$env:KVEXPLORER_APP_VERSION = $BuildNumber
+
+$command = @"
 dotnet publish  ./Desktop/Desktop.csproj `
     --runtime $Runtime `
     -o .\publish `
     -c Release  `
-    -p:VersionPrefix=$VersionPrefix `
-    -p:VersionSuffix=$VersionSuffix `
     -f $Platform `
     -p:PublishAot=$PublishAot `
     -p:PublishReadyToRun=true  `
     -p:PublishTrimmed=$PublishAot `
-    -p:TrimMode=partial `
+    -p:TrimMode=link `
     -p:IncludeNativeLibrariesForSelfExtract=true `
     -p:PublishSingleFile=$($PublishAot ? "false":"true") `
-    -p:UseAppHost=true `
+    # -p:UseAppHost=true `
     --self-contained 
+"@
+
+Write-Host $command -ForegroundColor Gray -BackgroundColor Cyan
+
+
+dotnet publish  ./Desktop/Desktop.csproj `
+    --runtime $Runtime `
+    -o .\publish `
+    -c Release  `
+    -f $Platform `
+    -p:PublishAot=$PublishAot `
+    -p:PublishReadyToRun=true  `
+    -p:PublishTrimmed=$PublishAot `
+    -p:TrimMode=link `
+    -p:IncludeNativeLibrariesForSelfExtract=true `
+    -p:PublishSingleFile=$($PublishAot ? "false":"true") `
+    --self-contained 
+    # -p:UseAppHost=true `
+
+
 
 if ($Runtime -match "osx") { 
 

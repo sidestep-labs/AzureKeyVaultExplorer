@@ -38,6 +38,9 @@
     <None Remove="Assets\StatusErrorOutline.png" />
   </ItemGroup>
 
+   <ItemGroup>
+    <TrimmerRootAssembly Include="KeyVaultExplorer" />
+  </ItemGroup>
   
   <ItemGroup>
     <AvaloniaResource Include="Resources\Resources.axaml">

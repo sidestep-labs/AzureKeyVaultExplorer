@@ -7,7 +7,7 @@
     <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">$(TargetFrameworks);net8.0-macos</TargetFrameworks> -->
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>1.0.0.0</Version>
     <AssemblyName>keyvaultexplorerdesktop</AssemblyName>

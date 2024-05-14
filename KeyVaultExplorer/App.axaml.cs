@@ -58,9 +58,7 @@ public partial class App : Application
 
             if (!dbExists)
                 KvExplorerDb.InitializeDatabase();
-        }, DispatcherPriority.MaxValue);
-
-
+        }, DispatcherPriority.Loaded);
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         if (!File.Exists(settingsPath))

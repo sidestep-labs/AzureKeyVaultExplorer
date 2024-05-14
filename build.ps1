@@ -23,7 +23,6 @@ dotnet publish  ./Desktop/Desktop.csproj `
     -p:TrimMode=link `
     -p:IncludeNativeLibrariesForSelfExtract=true `
     -p:PublishSingleFile=$($PublishAot ? "false":"true") `
-    # -p:UseAppHost=true `
     --self-contained 
 "@
 

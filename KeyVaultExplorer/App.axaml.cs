@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
@@ -48,13 +49,17 @@ public partial class App : Application
         var dbExists = File.Exists(Constants.DatabaseFilePath);
 
         var dbPassExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName));
-        if(!dbPassExists)
-            DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString().Substring(0, 6)}");
+        if (!dbPassExists)
+            DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString()[..6]}");
 
-        KvExplorerDb.OpenSqlConnection();
+        Dispatcher.UIThread.Post(() =>
+        {
+            KvExplorerDb.OpenSqlConnection();
 
-        if (!dbExists)
-            KvExplorerDb.InitializeDatabase();
+            if (!dbExists)
+                KvExplorerDb.InitializeDatabase();
+        }, DispatcherPriority.MaxValue);
+
 
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");

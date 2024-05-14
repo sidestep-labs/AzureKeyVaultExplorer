@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer;
 
@@ -105,5 +106,15 @@ public static class MacOSKeyChainService
                 SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
             }
         }
+    }
+
+
+    public static async Task<string> GetPasswordAsync(string serviceName, string accountName)
+    {
+        return await Task.Run(() => GetPassword(serviceName, accountName));
+    }
+    public static async void SetPasswordAsync(string serviceName, string accountName, string password)
+    {
+        await Task.Run(() => SaveToKeychain(serviceName, accountName, password));
     }
 }

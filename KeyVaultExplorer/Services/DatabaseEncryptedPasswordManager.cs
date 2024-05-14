@@ -13,7 +13,7 @@ namespace KeyVaultExplorer.Services;
 
 public static class DatabaseEncryptedPasswordManager
 {
-    public static string GetSecret()
+    public static async Task<string> GetSecret()
     {
         if (OperatingSystem.IsWindows())
         {
@@ -46,7 +46,7 @@ public static class DatabaseEncryptedPasswordManager
         }
         if (OperatingSystem.IsMacOS())
         {
-            string password = MacOSKeyChainService.GetPassword(Constants.KeychainSecretName, Constants.KeychainServiceName);
+            string password = await MacOSKeyChainService.GetPasswordAsync(Constants.KeychainSecretName, Constants.KeychainServiceName);
             return password;
         }
 
@@ -64,7 +64,7 @@ public static class DatabaseEncryptedPasswordManager
             if (!dbPassExists)
             {
                 File.WriteAllBytes(protectedKeyPath, new byte[1]);
-                MacOSKeyChainService.SaveToKeychain(Constants.KeychainSecretName, Constants.KeychainServiceName, secret);
+                MacOSKeyChainService.SetPasswordAsync(Constants.KeychainSecretName, Constants.KeychainServiceName, secret);
             }
         }
 

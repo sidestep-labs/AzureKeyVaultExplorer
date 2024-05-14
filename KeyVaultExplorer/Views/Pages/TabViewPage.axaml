@@ -127,6 +127,8 @@
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
+                TabStripHeader="{OnPlatform '         ',
+                                            macOS=''}"
                 TabWidthMode="SizeToContent">
                 <!--<ui:TabView.Styles>
                     <Styles>

@@ -127,7 +127,14 @@
                 <ui:TabView.Styles>
                     <Styles>
                         <Style Selector="ui|TabView#TabView /template/ ContentPresenter#LeftContentPresenter">
-                            <Setter Property="Margin" Value="36,0,0,0" />
+                            <OnPlatform>
+                                <OnPlatform.macOS>
+                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                </OnPlatform.macOS>
+                                <OnPlatform.Default>
+                                    <Setter Property="Margin" Value="36,0,0,0" />
+                                </OnPlatform.Default>
+                            </OnPlatform>
                         </Style>
                     </Styles>
                 </ui:TabView.Styles>

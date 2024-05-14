@@ -63,9 +63,9 @@
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppInstallerUri>C:\Users\athomas\Documents\athomas\wap</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>EF679B58D17B20CA88C850B7C220B6DDB385C091</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>ABBFE9F079C53AE5EC601F425EBED981E5D2A4D2</PackageCertificateThumbprint>
     <AppxPackageDir>C:\Users\athomas\Documents\athomas\wap</AppxPackageDir>
-    <EntryPointProjectUniqueName>..\KeyVaultExplorer.Desktop\Desktop.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\Desktop\Desktop.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <AppxBundle>Auto</AppxBundle>
@@ -159,12 +159,13 @@
     <Content Include="Images\Wide310x150Logo.scale-150.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
+    <None Include="KeyVaultExplorer.Wap_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KeyVaultExplorer.Desktop\Desktop.csproj" />
+    <ProjectReference Include="..\Desktop\Desktop.csproj" />
   </ItemGroup>
 </Project>

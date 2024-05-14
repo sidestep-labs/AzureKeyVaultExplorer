@@ -29,6 +29,8 @@
 The authentication and credentials storage uses [Microsoft.Identity.Client.Extensions.Msal](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet) library are encrypted and stored with DPAPI on windows, and the keychain on macOS (you may be prompted multiple times to grant rights).
 The security is pulled directly from this document: https://github.com/AzureAD/microsoft-authentication-extensions-for-dotnet/wiki/Cross-platform-Token-Cache#configuring-the-token-cache
 
+The Sqlite database is encrypted using DPAPI on windows, and on macOS the password  in the keychain.
+
 ## Screenshots
 <img width="1419" alt="Dark" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/365cea71-2a68-4cab-997c-2631922e7bc6">
 <img width="1426" alt="Light" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/41793cfa-eb01-4954-b062-56072d19d5ea">
@@ -64,8 +66,8 @@ Accepting PRs, suggestions, code reviews, feature requests and more. This is my 
 
 ## Troubleshooting
 The folder where all app associated data like the database and other encrypted files is `/Users/YOUR_USER_NAME/Library/Application Support/KeyVaultExplorer/` on macOS
-and `` on Windows.
-
+and `C:\Users\YOUR_USER_NAME\AppData\Local\KeyVaultExplorer` on Windows.
+If youre facing trouble, I recommend deleteing all files in the directory. On macOS, i also recommend opening the key chain and deleting everything that begins with "keyvaultexplorer_".
 
 ### Dependencies
 

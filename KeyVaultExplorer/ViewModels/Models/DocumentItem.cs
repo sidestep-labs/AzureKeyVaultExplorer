@@ -9,10 +9,10 @@ namespace KeyVaultExplorer.ViewModels.Models;
 public partial class DocumentItem : ObservableObject
 {
     [ObservableProperty]
-    public ObservableCollection<SecretProperties> secretList;
+    private ObservableCollection<SecretProperties> secretList;
 
     [ObservableProperty]
-    public ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
+    private ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     public DocumentItem()
     {

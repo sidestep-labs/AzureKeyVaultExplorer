@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
+    One for Windows with net7.0-windows TFM, one for MacOS with net7.0-macos and one with net7.0 TFM for Linux.-->
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">$(TargetFrameworks);net8.0-macos</TargetFrameworks> -->
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>kv-orange.ico</ApplicationIcon>
+    <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>keyvaultexplorerdesktop</AssemblyName>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <ApplicationId>keyvaultexplorerdesktop</ApplicationId>
+    <SelfContained>true</SelfContained>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <RuntimeIdentifiers>win-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="kv-orange.ico" />
+  </ItemGroup>
+
+
+
+<ItemGroup>
+	<TrimmerRootAssembly Include="KeyVaultExplorer" />
+	<TrimmerRootAssembly Include="FluentAvalonia" />
+	<TrimmerRootAssembly Include="Azure.Core" />
+    <TrimmerRootAssembly Include="Azure.ResourceManager" />
+    <TrimmerRootAssembly Include="Azure.Security.KeyVault.Certificates" />
+    <TrimmerRootAssembly Include="Azure.Security.KeyVault.Keys" />
+    <TrimmerRootAssembly Include="Azure.Security.KeyVault.Secrets" />
+</ItemGroup>
+	
+
+
+  <ItemGroup>
+	<PackageReference Include="Avalonia.Desktop" Version="11.1.0-beta2" />
+  </ItemGroup>
+
+  	
+  <ItemGroup>
+    <ProjectReference Include="..\KeyVaultExplorer\KeyVaultExplorer.csproj" />
+  </ItemGroup>
+
+</Project>

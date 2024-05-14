@@ -30,6 +30,7 @@
                 <TextBlock Margin="0,0,0,15" Theme="{StaticResource TitleLargeTextBlockStyle}">Settings</TextBlock>
                 <ui:SettingsExpander
                     Name="AccountExpander"
+                    HorizontalAlignment="Stretch"
                     Description="View account details and perform actions"
                     Header="Account Information"
                     IconSource="Contact">
@@ -100,13 +101,13 @@
                             ItemsSource="{Binding AppThemes}"
                             SelectedItem="{Binding CurrentAppTheme, Mode=TwoWay}"
                             SelectionChanged="AppTheme_SelectionChanged">
-<ComboBox.Styles>
-    <Style Selector="ComboBox /template/ ContentPresenter#ContentPresenter">
-    <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
-    </ComboBox.Styles>
+                            <ComboBox.Styles>
+                                <Style Selector="ComboBox /template/ ContentPresenter#ContentPresenter">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </ComboBox.Styles>
 
-                            </ComboBox>
+                        </ComboBox>
                     </ui:SettingsExpander.Footer>
 
                 </ui:SettingsExpander>

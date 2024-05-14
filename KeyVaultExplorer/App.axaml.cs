@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
@@ -11,18 +12,20 @@ using KeyVaultExplorer.Services;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer;
 
 public partial class App : Application
 {
-
     public App()
     {
         DataContext = new AppViewModel();
     }
-   public static void ConfigureDesktopServices()
+
+    public static void ConfigureDesktopServices()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
         serviceCollection.AddMemoryCache();
@@ -39,12 +42,25 @@ public partial class App : Application
         serviceCollection.AddSingleton<IClipboard, ClipboardService>();
         serviceCollection.AddSingleton<IStorageProvider, StorageProviderService>();
     }
+
     public static void CreateDesktopResources()
     {
         Directory.CreateDirectory(Constants.LocalAppDataFolder);
-        var exists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db"));
-        if (!exists)
-            KvExplorerDb.InitializeDatabase();
+        var dbExists = File.Exists(Constants.DatabaseFilePath);
+
+        var dbPassExists = File.Exists(Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName));
+        if (!dbPassExists)
+            DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString()[..6]}");
+
+        Dispatcher.UIThread.Post(() =>
+        {
+            KvExplorerDb.OpenSqlConnection();
+
+            if (!dbExists)
+                KvExplorerDb.InitializeDatabase();
+        }, DispatcherPriority.MaxValue);
+
+
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         if (!File.Exists(settingsPath))
@@ -57,6 +73,14 @@ public partial class App : Application
                     "PaneDisplayMode": "inline"
                 }
                 """);
+        }
+    }
+
+    private void MainWindowOnClosing(object? sender, WindowClosingEventArgs e)
+    {
+        if (sender is Window window)
+        {
+            KvExplorerDb.CloseSqlConnection();
         }
     }
 
@@ -116,5 +140,4 @@ public static class ApplicationExtensions
         }
         return null;
     }
-
 }

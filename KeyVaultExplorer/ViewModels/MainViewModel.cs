@@ -16,13 +16,13 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public string email;
+    private string email;
 
     [ObservableProperty]
-    public AuthenticatedUserClaims authenticatedUserClaims;
+    private AuthenticatedUserClaims authenticatedUserClaims;
 
     [ObservableProperty]
-    public bool isAuthenticated = false;
+    private bool isAuthenticated = false;
 
     private readonly AuthService _authService;
 

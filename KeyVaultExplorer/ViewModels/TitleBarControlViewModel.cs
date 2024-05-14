@@ -15,7 +15,7 @@ public partial class TitleBarViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public string title = "Key Vault Explorer for Azure";
+    private string title = "Key Vault Explorer for Azure";
 
     public TitleBarViewModel()
     {

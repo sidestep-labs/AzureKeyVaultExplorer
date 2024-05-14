@@ -16,11 +16,11 @@ public partial class AppViewModel : ViewModelBase
     // private readonly AuthService _authService;
 
     [ObservableProperty]
-    public string email;
+    private string email;
 
 
     [ObservableProperty]
-    public bool isAuthenticated = false;
+    private bool isAuthenticated = false;
     public AppViewModel()
     {
         // _authService = Defaults.Locator.GetRequiredService<AuthService>();

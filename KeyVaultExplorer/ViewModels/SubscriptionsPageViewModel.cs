@@ -16,13 +16,13 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class SubscriptionsPageViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public string continuationToken;
+    private string continuationToken;
 
     [ObservableProperty]
-    public bool isBusy = true;
+    private bool isBusy = true;
 
     [ObservableProperty]
-    public ObservableCollection<SubscriptionDataItem> subscriptions;
+    private ObservableCollection<SubscriptionDataItem> subscriptions;
 
     private readonly KvExplorerDb _dbContext;
     private readonly IMemoryCache _memoryCache;

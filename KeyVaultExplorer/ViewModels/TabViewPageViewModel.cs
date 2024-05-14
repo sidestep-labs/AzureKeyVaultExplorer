@@ -31,7 +31,7 @@ public partial class TabViewPageViewModel : ViewModelBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowPin))]
-    public SplitViewDisplayMode splitViewDisplayMode = SplitViewDisplayMode.Inline;
+    private SplitViewDisplayMode splitViewDisplayMode = SplitViewDisplayMode.Inline;
 
     public bool ShowPin => SplitViewDisplayMode == SplitViewDisplayMode.Inline;
 
@@ -50,12 +50,12 @@ public partial class TabViewPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public ObservableCollection<TabViewItem> documents;
+    private ObservableCollection<TabViewItem> documents = [];
 
     public ObservableCollection<TabViewItem> KeyBindingDocuments { get; }
 
     [ObservableProperty]
-    public TabViewItem selectedItem;
+    private TabViewItem selectedItem;
 
     //public DocumentItem KeyBindingSelectedDocument
     //{

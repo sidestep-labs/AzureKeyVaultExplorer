@@ -108,10 +108,6 @@
 
             </Border>
         </SplitView.Pane>
-        <!--
-            TabStripHeader="{OnPlatform '         ',
-            macOS=''}"
-        -->
 
         <Grid Name="TabViewGrid" Classes.emptyTabViewDragMargin="{Binding !Documents.Count}">
             <ui:TabView
@@ -127,16 +123,14 @@
                 TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
-                TabStripHeader="{OnPlatform '         ',
-                                            macOS=''}"
                 TabWidthMode="SizeToContent">
-                <!--<ui:TabView.Styles>
+                <ui:TabView.Styles>
                     <Styles>
-                        <Style Selector="uip|TabViewListView#TabListView">
-                            <Setter Property="Margin" Value="{OnPlatform '0, 0, 0, 0', Windows='0, 11, 0, 0', macOS='0,0,0,0' x:TypeArguments=Thickness}" />
+                        <Style Selector="ui|TabView#TabView /template/ ContentPresenter#LeftContentPresenter">
+                            <Setter Property="Margin" Value="36,0,0,0" />
                         </Style>
                     </Styles>
-                </ui:TabView.Styles>-->
+                </ui:TabView.Styles>
 
                 <ui:TabView.TabItemTemplate>
                     <DataTemplate DataType="vmm:DocumentItem">

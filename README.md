@@ -1,9 +1,9 @@
-# Key Vault Explorer
+# Azure Key Vault Explorer
 
-<img src="KeyVaultExplorer\Assets\kv-icon.png" width="400" >
+<img src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/678b131f-58eb-452e-858c-c41ffaa89fbf" width="400" >
 
 ## Overview
-*Still in active development but in a usable state*
+Visit the releases section to download the application. *Still in active development but in a usable state*
 
 **Key Vault Explorer** is a lightweight tool with the idea to simplify finding and accessing secrets (and certitficates and keys) stored in Azure Key Vault, providing a interface for aggregating, filtering, and quickly getting secret values. The app was inspired by the original [AzureKeyVaultExplorer](https://github.com/microsoft/AzureKeyVaultExplorer) with the goal to eventually bring some more feature parity but first brining the application to macOS.
 
@@ -32,6 +32,11 @@ The security is pulled directly from this document: https://github.com/AzureAD/m
 The Sqlite database is encrypted using DPAPI on windows, and on macOS the password  in the keychain.
 
 ## Screenshots
+
+
+<img width="1419" alt="WinOS Dark" src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/e5b99908-47b9-45ac-a234-d9a5947bdc9c6">
+<img width="1419" alt="WinOS Light" src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/1f5e1a5b-1796-43c1-bbd9-1ee60e3deeb0">
+
 <img width="1419" alt="Dark" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/365cea71-2a68-4cab-997c-2631922e7bc6">
 <img width="1426" alt="Light" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/41793cfa-eb01-4954-b062-56072d19d5ea">
 

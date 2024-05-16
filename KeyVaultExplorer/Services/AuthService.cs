@@ -26,7 +26,7 @@ public class AuthService
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
             .WithRedirectUri($"msal{Constants.ClientId}://auth")
             .WithRedirectUri("http://localhost")
-            .WithIosKeychainSecurityGroup("com.sidestep.KeyVaultExplorer")
+            .WithIosKeychainSecurityGroup("us.sidesteplabs.keyvaultexplorer")
             .Build();
     }
 

@@ -122,7 +122,7 @@
 
                 <HyperlinkButton
                     Margin="-10,1"
-                    Content="Source Code (github)"
+                    Content="Source Code"
                     Foreground="{DynamicResource AccentTextFillColorTertiaryBrush}"
                     NavigateUri="https://github.com/cricketthomas/sidestep"
                     Theme="{StaticResource TransparentButton}" />

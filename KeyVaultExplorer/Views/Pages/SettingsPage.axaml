@@ -9,7 +9,7 @@
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     Margin="0,40,0,0"
     d:DesignHeight="450"
-    d:DesignWidth="1480"
+    d:DesignWidth="880"
     x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
 
@@ -120,7 +120,7 @@
                 HorizontalAlignment="Center">
                 <TextBlock FontWeight="Bold" Text="About this app" />
                 <TextBlock Text="Key Vault Explorer" />
-                <TextBlock Text="{Binding Path=Version, StringFormat='v{0}'}" />
+                <TextBlock Text="{Binding Version}" />
                 <HyperlinkButton
                     Margin="-10,1"
                     Content="Source Code"

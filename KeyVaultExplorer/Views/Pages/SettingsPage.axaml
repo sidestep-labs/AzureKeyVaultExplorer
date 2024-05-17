@@ -9,7 +9,7 @@
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     Margin="0,40,0,0"
     d:DesignHeight="450"
-    d:DesignWidth="980"
+    d:DesignWidth="1480"
     x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
 
@@ -19,12 +19,14 @@
 
 
     <ScrollViewer>
-        <WrapPanel
-            Margin="30,30,30,30"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Stretch">
+        <Grid
+            Margin="50,30,50,50"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ColumnDefinitions="*,200"
+            RowDefinitions="Auto,*">
             <StackPanel
-                Margin="0,0,30,0"
+                Grid.Column="0"
                 Orientation="Vertical"
                 Spacing="4">
                 <TextBlock Margin="0,0,0,15" Theme="{StaticResource TitleLargeTextBlockStyle}">Settings</TextBlock>
@@ -109,17 +111,16 @@
 
                         </ComboBox>
                     </ui:SettingsExpander.Footer>
-
                 </ui:SettingsExpander>
-
             </StackPanel>
 
-            <StackPanel Margin="0,70,0,0">
+            <StackPanel
+                Grid.Column="1"
+                Margin="0,70,0,0"
+                HorizontalAlignment="Center">
                 <TextBlock FontWeight="Bold" Text="About this app" />
-
                 <TextBlock Text="Key Vault Explorer" />
                 <TextBlock Text="{Binding Path=Version, StringFormat='v{0}'}" />
-
                 <HyperlinkButton
                     Margin="-10,1"
                     Content="Source Code"
@@ -137,6 +138,6 @@
                     Command="{Binding OpenIssueGithubCommand}"
                     Content="Send Feedback" />
             </StackPanel>
-        </WrapPanel>
+        </Grid>
     </ScrollViewer>
 </UserControl>

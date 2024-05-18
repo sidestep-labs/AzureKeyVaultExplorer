@@ -139,7 +139,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             Username = account.Account.Username,
             TenantId = account.TenantId,
             Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
-            Email = account.ClaimsPrincipal.Identities.First().FindFirst("email").Value,
+            Email = account.ClaimsPrincipal.Identities.First().FindFirst("{preferred_username")?.Value,
         };
     }
 

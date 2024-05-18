@@ -118,7 +118,8 @@
             <ui:ProgressRing
                 Width="80"
                 Height="100"
-                BorderThickness="{OnPlatform Default=5, macOS=5}"
+                BorderThickness="{OnPlatform Default=5,
+                                             macOS=5}"
                 IsIndeterminate="True" />
         </StackPanel>
         <DataGrid
@@ -150,25 +151,27 @@
                     Header="SubscriptionId" />
                 <DataGridTextColumn
                     Width="150"
-                    Binding="{Binding Data.Tags}"
-                    Header="Tags" />
-                <DataGridTextColumn
-                    Width="150"
                     Binding="{Binding Data.TenantId}"
                     Header="TenantId" />
+
                 <DataGridTextColumn
                     Width="200"
                     Binding="{Binding Data.State}"
                     Header="State" />
-
-                <DataGridTextColumn
+                <!--<DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding Data.Tags}"
+                    Header="Tags" />
+                             <DataGridTextColumn
                     Width="200"
                     Binding="{Binding Data.ManagedByTenants}"
                     Header="Managed By" />
+
+
                 <DataGridTextColumn
                     Width="200"
                     Binding="{Binding Data.AuthorizationSource}"
-                    Header="AuthorizationSource" />
+                    Header="AuthorizationSource" />-->
 
             </DataGrid.Columns>
         </DataGrid>

@@ -3,20 +3,20 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sty="using:FluentAvalonia.Styling"
-    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
-    x:DataType="vm:AppViewModel"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
-    Name="Key Vault Explorer">
+    xmlns:wnd="using:FluentAvalonia.UI.Windowing"
+    Name="Azure Key Vault Explorer"
+    x:DataType="vm:AppViewModel">
 
- <Design.DataContext>
+    <Design.DataContext>
         <vm:AppViewModel />
     </Design.DataContext>
- 
-  <NativeMenu.Menu>
-    <NativeMenu>
-      <NativeMenuItem Header="About Key Vault Explorer" Command="{Binding AboutCommand}" />
-    </NativeMenu>
-  </NativeMenu.Menu>
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Command="{Binding AboutCommand}" Header="About Azure Key Vault Explorer" />
+        </NativeMenu>
+    </NativeMenu.Menu>
 
     <Application.Resources>
         <ResourceDictionary>

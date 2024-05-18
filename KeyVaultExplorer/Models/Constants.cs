@@ -36,7 +36,7 @@ public static class Constants
     public const string KeyChainServiceName = "keyvaultexplorer_msal_service";
     public const string KeyChainAccountName = "keyvaultexplorer_msal_account";
 
-    public const string LinuxKeyRingSchema = "com.sidestep.keyvaultexplorer.tokencache";
+    public const string LinuxKeyRingSchema = "us.sidesteplabs.keyvaultexplorer.tokencache";
     public const string LinuxKeyRingCollection = MsalCacheHelper.LinuxKeyRingDefaultCollection;
     public const string LinuxKeyRingLabel = "MSAL token cache for key vault explorer.";
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");

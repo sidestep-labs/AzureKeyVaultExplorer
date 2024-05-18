@@ -3,9 +3,9 @@
     <OutputType>WinExe</OutputType>
     <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
     One for Windows with net7.0-windows TFM, one for MacOS with net7.0-macos and one with net7.0 TFM for Linux.-->
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">$(TargetFrameworks);net8.0-macos</TargetFrameworks> -->
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>-->
     <Nullable>enable</Nullable>
     <ApplicationIcon>kv-orange.ico</ApplicationIcon>
     <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
@@ -17,7 +17,7 @@
     <ApplicationId>keyvaultexplorerdesktop</ApplicationId>
     <SelfContained>true</SelfContained>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <RuntimeIdentifiers>win-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x64;win-arm64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
     <Title>Azure Key Vault Explorer</Title>
     <Description>A GUI client for quickly finding azure key vault values.</Description>
     <Product>Azure Key Vault Explorer</Product>
@@ -32,6 +32,7 @@
 	<TrimmerRootAssembly Include="KeyVaultExplorer" />
 	<TrimmerRootAssembly Include="FluentAvalonia" />
 	<TrimmerRootAssembly Include="Azure.Core" />
+	<TrimmerRootAssembly Include="Avalonia.Controls.DataGrid" />
     <TrimmerRootAssembly Include="Azure.ResourceManager" />
     <TrimmerRootAssembly Include="Azure.Security.KeyVault.Certificates" />
     <TrimmerRootAssembly Include="Azure.Security.KeyVault.Keys" />

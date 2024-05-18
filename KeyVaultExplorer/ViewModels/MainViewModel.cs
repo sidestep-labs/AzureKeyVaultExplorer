@@ -44,7 +44,7 @@ public partial class MainViewModel : ViewModelBase
             account = await _authService.LoginAsync(cancellation);
         //.ClaimsPrincipal.Identities.First().FindFirst("email").Value.ToLowerInvariant();
         var identity = account.ClaimsPrincipal.Identities.First();
-        var email = identity.FindAll("email").First().Value ?? account.Account.Username;
+        var email = identity.FindAll("preferred_username").First().Value ?? account.Account.Username;
 
         Email = email.ToLowerInvariant();
 
@@ -53,7 +53,7 @@ public partial class MainViewModel : ViewModelBase
             Username = account.Account.Username,
             TenantId = account.TenantId,
             Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
-            Email = account.ClaimsPrincipal.Identities.First().FindFirst("email").Value,
+            Email = account.ClaimsPrincipal.Identities.First().FindFirst("preferred_username").Value,
         };
 
         IsAuthenticated = _authService.IsAuthenticated;
@@ -66,7 +66,7 @@ public partial class MainViewModel : ViewModelBase
     {
         var cancellation = new CancellationToken();
         var account = await _authService.LoginAsync(cancellation);
-        Email = account.ClaimsPrincipal.Identities.First().FindFirst("email").Value;
+        Email = account.ClaimsPrincipal.Identities.First().FindFirst("preferred_username").Value;
     }
 
     [RelayCommand]

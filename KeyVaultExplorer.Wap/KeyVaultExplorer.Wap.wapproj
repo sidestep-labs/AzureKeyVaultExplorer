@@ -63,7 +63,7 @@
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppInstallerUri>C:\Users\athomas\Documents\athomas\wap</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>ABBFE9F079C53AE5EC601F425EBED981E5D2A4D2</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>4D1FB1054F9B7EAE754BBD661B24CC6A680369E4</PackageCertificateThumbprint>
     <AppxPackageDir>C:\Users\athomas\Documents\athomas\wap</AppxPackageDir>
     <EntryPointProjectUniqueName>..\Desktop\Desktop.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>

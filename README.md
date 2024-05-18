@@ -1,6 +1,6 @@
 # Azure Key Vault Explorer
 
-<img src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/678b131f-58eb-452e-858c-c41ffaa89fbf" width="400" >
+<img src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/678b131f-58eb-452e-858c-c41ffaa89fbf" width="250" >
 
 ## Overview
 Visit the releases section to download the application. *Still in active development but in a usable state*
@@ -22,6 +22,8 @@ Visit the releases section to download the application. *Still in active develop
 
 ### Privacy Features
 - **No telemetry or logs collected**
+- Sqlite Database encryption using DPAPI and KeyChain on Mac
+  
 
 
 # Security
@@ -43,8 +45,7 @@ The Sqlite database is encrypted using DPAPI on windows, and on macOS the passwo
 
 ## Running the application:
 
-This should be a simple clone, and set the start up project to be "KeyVaultExplorer.Desktop".
-The code is very much in the learning phase of things at the moment, with lots of small commits of stepping stones to learning AvaloniaUI, and navigating MVVM.
+Clone and set the start up project to be "Desktop".
 
 ## Contribution
 Accepting PRs, suggestions, code reviews, feature requests and more. This is my first time using avaloniaUI and building a desktop application so all feedback is welcome.  
@@ -56,8 +57,8 @@ Accepting PRs, suggestions, code reviews, feature requests and more. This is my 
   Download from the Microsoft Store:
   
   Run the following scripts check the publish directory for a folder.
-  run `.\KeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime win-x64`
-  run `.\KeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime win-arm64`
+  run `.\AzureKeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime win-x64`
+  run `.\AzureKeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime win-arm64`
 
 - ## macOS
   Download from the release section:
@@ -72,12 +73,14 @@ Accepting PRs, suggestions, code reviews, feature requests and more. This is my 
 ## Troubleshooting
 The folder where all app associated data like the database and other encrypted files is `/Users/YOUR_USER_NAME/Library/Application Support/KeyVaultExplorer/` on macOS
 and `C:\Users\YOUR_USER_NAME\AppData\Local\KeyVaultExplorer` on Windows.
-If youre facing trouble, I recommend deleteing all files in the directory. On macOS, i also recommend opening the key chain and deleting everything that begins with "keyvaultexplorer_".
+If you're facing trouble, I recommend deleteing all files in the directory. On macOS, i also recommend opening the key chain and deleting everything that begins with "keyvaultexplorer_".
+
+When downloading on windows, you may have to click properties on the exe/application file and check the "unblock" checkbox to allow running the application on the machine if you get a messages saying the app needs another app from the microsoft store to download.
 
 ### Dependencies
 
 - **[AvaloniaUI](https://github.com/AvaloniaUI/Avalonia/)** (Version: 11.0.10-preview2)
-- **[FluentAvalonia](https://github.com/amwx/FluentAvalonia/)** (Version: 2.1.0-preview4)
+- **[FluentAvalonia](https://github.com/amwx/FluentAvalonia/)** (Version: 2.1.0-preview5)
 - **Azure.ResourceManager.KeyVault**
 - **Azure.Security.KeyVault.Certificates**
 - **Azure.Security.KeyVault.Keys**

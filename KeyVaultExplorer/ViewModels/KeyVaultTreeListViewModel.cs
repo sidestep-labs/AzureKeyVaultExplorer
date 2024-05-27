@@ -39,6 +39,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly KvExplorerDb _dbContext;
     private readonly VaultService _vaultService;
+    private NotificationViewModel _notificationViewModel;
     private readonly string[] WatchedNameOfProps = { nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected) };
 
     public KeyVaultTreeListViewModel()
@@ -46,6 +47,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
         TreeViewList = [];
@@ -81,12 +83,20 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 //TODO: get all saved items, otherwise get the first item only.
                 var resource = _vaultService.GetKeyVaultResourceBySubscription();
-
-                await foreach (var item in resource)
+                try
                 {
-                    item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-                    item.HasSubNodeDataBeenFetched = false;
-                    TreeViewList.Add(item);
+                    await foreach (var item in resource)
+                    {
+                        item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
+                        item.HasSubNodeDataBeenFetched = false;
+                        TreeViewList.Add(item);
+                    }
+                }
+                catch (Exception ex) 
+                {
+
+                    Debug.Write(ex);
+                    _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error"});
                 }
 
                 //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV

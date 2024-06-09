@@ -91,45 +91,43 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                         item.HasSubNodeDataBeenFetched = false;
                         TreeViewList.Add(item);
                     }
-                }
-                catch (Exception ex) 
-                {
 
+                    //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
+                    var quickAccess = new KvSubscriptionModel
+                    {
+                        SubscriptionDisplayName = "Quick Access",
+                        SubscriptionId = "",
+                        IsExpanded = true,
+                        ResourceGroups = [new KvResourceGroupModel { }],
+                    };
+
+                    TreeViewList.Insert(0, quickAccess);
+
+                    var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
+                    var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+                    var armClient = new ArmClient(token);
+                    await foreach (var item in savedItems)
+                    {
+                        var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
+                        var kvrResponse = await kvr.GetAsync();
+                        //TODO: figure out why i can only have one or the other
+                        quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
+                        quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
+                    }
+                    quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
+                    quickAccess.ResourceGroups[0].IsExpanded = true;
+
+                    TreeViewList[0] = quickAccess;
+
+                    foreach (var sub in TreeViewList)
+                    {
+                        sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                    }
+                }
+                catch (Exception ex)
+                {
                     Debug.Write(ex);
-                    _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error"});
-                }
-
-                //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
-                var quickAccess = new KvSubscriptionModel
-                {
-                    SubscriptionDisplayName = "Quick Access",
-                    SubscriptionId = "",
-                    IsExpanded = true,
-                    ResourceGroups = [new KvResourceGroupModel { }],
-                    Subscription = null,
-                };
-
-                TreeViewList.Insert(0, quickAccess);
-
-                var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
-                var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-                var armClient = new ArmClient(token);
-                await foreach (var item in savedItems)
-                {
-                    var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
-                    var kvrResponse = await kvr.GetAsync();
-                    //TODO: figure out why i can only have one or the other
-                    quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
-                    quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-                }
-                quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
-                quickAccess.ResourceGroups[0].IsExpanded = true;
-
-                TreeViewList[0] = quickAccess;
-
-                foreach (var sub in TreeViewList)
-                {
-                    sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                    _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
                 }
             });
         }, DispatcherPriority.Background);
@@ -298,7 +296,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     //    }
     //}
 
-    partial void OnSearchQueryChanged(string value)
+   partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim();
         if (!string.IsNullOrWhiteSpace(query))
@@ -331,14 +329,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action == NotifyCollectionChangedAction.Add)
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems is not null)
         {
             foreach (KvSubscriptionModel newItem in e.NewItems)
             {
                 newItem.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
         }
-        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems is not null)
         {
             foreach (KvSubscriptionModel oldItem in e.OldItems)
             {

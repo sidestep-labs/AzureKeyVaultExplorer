@@ -39,6 +39,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly KvExplorerDb _dbContext;
     private readonly VaultService _vaultService;
+    private NotificationViewModel _notificationViewModel;
     private readonly string[] WatchedNameOfProps = { nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected) };
 
     public KeyVaultTreeListViewModel()
@@ -46,6 +47,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
         TreeViewList = [];
@@ -81,45 +83,51 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             {
                 //TODO: get all saved items, otherwise get the first item only.
                 var resource = _vaultService.GetKeyVaultResourceBySubscription();
-
-                await foreach (var item in resource)
+                try
                 {
-                    item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-                    item.HasSubNodeDataBeenFetched = false;
-                    TreeViewList.Add(item);
+                    await foreach (var item in resource)
+                    {
+                        item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
+                        item.HasSubNodeDataBeenFetched = false;
+                        TreeViewList.Add(item);
+                    }
+
+                    //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
+                    var quickAccess = new KvSubscriptionModel
+                    {
+                        SubscriptionDisplayName = "Quick Access",
+                        SubscriptionId = "",
+                        IsExpanded = true,
+                        ResourceGroups = [new KvResourceGroupModel { }],
+                    };
+
+                    TreeViewList.Insert(0, quickAccess);
+
+                    var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
+                    var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+                    var armClient = new ArmClient(token);
+                    await foreach (var item in savedItems)
+                    {
+                        var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
+                        var kvrResponse = await kvr.GetAsync();
+                        //TODO: figure out why i can only have one or the other
+                        quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
+                        quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
+                    }
+                    quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
+                    quickAccess.ResourceGroups[0].IsExpanded = true;
+
+                    TreeViewList[0] = quickAccess;
+
+                    foreach (var sub in TreeViewList)
+                    {
+                        sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                    }
                 }
-
-                //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
-                var quickAccess = new KvSubscriptionModel
+                catch (Exception ex)
                 {
-                    SubscriptionDisplayName = "Quick Access",
-                    SubscriptionId = "",
-                    IsExpanded = true,
-                    ResourceGroups = [new KvResourceGroupModel { }],
-                    Subscription = null,
-                };
-
-                TreeViewList.Insert(0, quickAccess);
-
-                var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
-                var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
-                var armClient = new ArmClient(token);
-                await foreach (var item in savedItems)
-                {
-                    var kvr = armClient.GetKeyVaultResource(new ResourceIdentifier(item.KeyVaultId));
-                    var kvrResponse = await kvr.GetAsync();
-                    //TODO: figure out why i can only have one or the other
-                    quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
-                    quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
-                }
-                quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
-                quickAccess.ResourceGroups[0].IsExpanded = true;
-
-                TreeViewList[0] = quickAccess;
-
-                foreach (var sub in TreeViewList)
-                {
-                    sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
+                    Debug.Write(ex);
+                    _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
                 }
             });
         }, DispatcherPriority.Background);
@@ -288,7 +296,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     //    }
     //}
 
-    partial void OnSearchQueryChanged(string value)
+   partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim();
         if (!string.IsNullOrWhiteSpace(query))
@@ -321,14 +329,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action == NotifyCollectionChangedAction.Add)
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems is not null)
         {
             foreach (KvSubscriptionModel newItem in e.NewItems)
             {
                 newItem.PropertyChanged += KvSubscriptionModel_PropertyChanged;
             }
         }
-        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems is not null)
         {
             foreach (KvSubscriptionModel oldItem in e.OldItems)
             {

@@ -114,8 +114,8 @@ jobs:
       - name: Create Release
         run: |
           Get-ChildItem -Recurse
-          gh release create v0.0.${{github.run_attempt}} --draft
-          gh release upload v0.0.${{github.run_attempt}} "./keyvaultexplorer.win-x64/keyvaultexplorer.win-x64.tar" "./keyvaultexplorer.osx-arm64/keyvaultexplorer.osx-arm64.tar" "./keyvaultexplorer.osx-x64/keyvaultexplorer.osx-x64.tar"
+          gh release create v0.0.${{github.run_number }} --draft
+          gh release upload v0.0.${{github.run_number }} "./keyvaultexplorer.win-x64/keyvaultexplorer.win-x64.tar" "./keyvaultexplorer.osx-arm64/keyvaultexplorer.osx-arm64.tar" "./keyvaultexplorer.osx-x64/keyvaultexplorer.osx-x64.tar"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh

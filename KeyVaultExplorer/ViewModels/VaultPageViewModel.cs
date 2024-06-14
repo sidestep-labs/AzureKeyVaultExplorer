@@ -395,7 +395,7 @@ public partial class VaultPageViewModel : ViewModelBase
             Title = $"{model.Type} {model.Name} Properties",
             Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
-            WindowStartupLocation = WindowStartupLocation.Manual,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,
             CanResize = true,
             Content = new PropertiesPage { DataContext = new PropertiesPageViewModel(model) },
@@ -407,7 +407,7 @@ public partial class VaultPageViewModel : ViewModelBase
             // Background = null,
         };
 
-        //var topLevel = Avalonia.Application.Current.GetTopLevel() as AppWindow;
-        taskDialog.Show();
+        var topLevel = Avalonia.Application.Current.GetTopLevel() as AppWindow;
+        taskDialog.Show(topLevel);
     }
 }

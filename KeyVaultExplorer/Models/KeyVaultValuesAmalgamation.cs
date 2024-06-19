@@ -29,8 +29,8 @@ public class KeyVaultContentsAmalgamation
 
     public DateTimeOffset? LastModifiedDate => UpdatedOn.HasValue ? UpdatedOn.Value.ToLocalTime() : CreatedOn!.Value.ToLocalTime();
 
-    public string? WhenLastModified => GetPrettyDatePastTense(LastModifiedDate!.Value.UtcDateTime);
-    public string? WhenExpires => ExpiresOn.HasValue ? GetPrettyDateInFuture(ExpiresOn!.Value.UtcDateTime) : "";
+    public string? WhenLastModified => GetRelativeDateString(LastModifiedDate!.Value.UtcDateTime, true);
+    public string? WhenExpires => ExpiresOn.HasValue ? GetRelativeDateString(ExpiresOn!.Value.UtcDateTime) : "";
 
     public SecretProperties SecretProperties { get; set; } = null!;
     public KeyProperties KeyProperties { get; set; } = null!;
@@ -44,113 +44,33 @@ public class KeyVaultContentsAmalgamation
 
     public string TagValuesString => string.Join(", ", Tags?.Values ?? []);
 
-    private string? GetPrettyDatePastTense(DateTime d)
+
+    private string? GetRelativeDateString(DateTime dateTime, bool isPast = false)
     {
-        TimeSpan s = DateTime.Now.Subtract(d);
-        int dayDiff = (int)s.TotalDays;
-        int secDiff = (int)s.TotalSeconds;
-        if (dayDiff < 0 || dayDiff >= 5000)
-            return null;
-        if (dayDiff == 0)
+        TimeSpan timeSpan = isPast ? DateTime.Now.Subtract(dateTime) : dateTime.Subtract(DateTime.Now);
+        int dayDifference = (int)timeSpan.TotalDays;
+        int secondDifference = (int)timeSpan.TotalSeconds;
+        var weeks = Math.Ceiling((double)dayDifference / 7);
+        var months = Math.Ceiling((double)dayDifference / 30);
+        var years = Math.Round((double)dayDifference / 365);
+
+        if (dayDifference < 0 || dayDifference >= 5000) return null;
+
+        return (dayDifference, secondDifference) switch
         {
-            // A.
-            // Less than one minute ago.
-            if (secDiff < 60)
-            {
-                return "just now";
-            }
-            // B.
-            // Less than 2 minutes ago.
-            if (secDiff < 120)
-            {
-                return "1 minute ago";
-            }
-            // C.
-            // Less than one hour ago.
-            if (secDiff < 3600)
-            {
-                return string.Format("{0} minutes ago",
-                    Math.Floor((double)secDiff / 60));
-            }
-            // D.
-            // Less than 2 hours ago.
-            if (secDiff < 7200)
-            {
-                return "1 hour ago";
-            }
-            // E.
-            // Less than one day ago.
-            if (secDiff < 86400)
-            {
-                return string.Format("{0} hours ago",
-                    Math.Floor((double)secDiff / 3600));
-            }
-        }
-        if (dayDiff == 1)
-            return "yesterday";
-        if (dayDiff < 7)
-            return string.Format("{0} days ago", dayDiff);
-        if (dayDiff < 30)
-        {
-            var w = Math.Ceiling((double)dayDiff / 7);
-            return $"""{w} {(w == 1 ? "week" : "weeks")} ago""";
-        }
-        if (dayDiff < 366)
-        {
-            var w = Math.Ceiling((double)dayDiff / 30);
-            return $"""{w} {(w == 1 ? "month" : "months")} ago""";
-        }
-        if (dayDiff > 366)
-        {
-            var w = Math.Round((double)dayDiff / 365);
-            return $"""{w} {(w == 1 ? "year" : "years")} ago""";
-        }
-        return null;
-    }
-
-    private string? GetPrettyDateInFuture(DateTime d)
-    {
-        TimeSpan s = d.Subtract(DateTime.Now);
-        int dayDiff = (int)s.TotalDays;
-        int secDiff = (int)s.TotalSeconds;
-
-        if (dayDiff < 0 || dayDiff >= 5000)
-            return null;
-
-        if (dayDiff == 0)
-        {
-            // Less than 24 hours from now.
-            if (secDiff < 86400)
-            {
-                return "in less than a day";
-            }
-        }
-
-        if (dayDiff == 1)
-            return "tomorrow";
-
-        if (dayDiff < 7)
-            return $"in {dayDiff} days";
-
-        if (dayDiff < 30)
-        {
-            var w = Math.Ceiling((double)dayDiff / 7);
-            return $"in {w} {(w == 1 ? "week" : "weeks")}";
-        }
-
-        if (dayDiff < 366)
-        {
-            var w = Math.Ceiling((double)dayDiff / 30);
-            return $"in {w} {(w == 1 ? "month" : "months")}";
-        }
-
-        if (dayDiff > 366)
-        {
-            var w = Math.Round((double)dayDiff / 365);
-            return $"in {w} {(w == 1 ? "year" : "years")}";
-        }
-
-        return null;
+            (0, < 60) when isPast => "just now",
+            (0, < 120) when isPast => "1 minute ago",
+            (0, < 3600) when isPast => $"{Math.Floor((double)secondDifference / 60)} minutes ago",
+            (0, < 7200) when isPast => "1 hour ago",
+            (0, < 86400) when isPast => $"{Math.Floor((double)secondDifference / 3600)} hours ago",
+            (0, < 86400) when !isPast => "in less than a day",
+            (1, _) when isPast => "yesterday",
+            (1, _) when !isPast => "tomorrow",
+            ( < 7, _) => $"{(isPast ? "" : "in ")}{dayDifference} days{(isPast ? " ago" : "")}",
+            ( < 30, _) => $"{(isPast ? "" : "in ")}{weeks} {(weeks == 1 ? "week" : "weeks")}{(isPast ? " ago" : "")}",
+            ( < 366, _) =>   $"{(isPast ? "" : "in ")}{months} {(months == 1 ? "month" : "months")}{(isPast ? " ago" : "")}",
+            (_, _) => $"{(isPast ? "" : "in ")}{years} {(years == 1 ? "year" : "years")}{(isPast ? " ago" : "")}"
+        };
     }
 }
 

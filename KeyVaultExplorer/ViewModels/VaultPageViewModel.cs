@@ -65,7 +65,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
         vaultContents = [];
-        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://KeyVaultExplorer/Assets/kv-orange.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://KeyVaultExplorer/Assets/AppIcon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
 
 #if DEBUG
         for (int i = 0; i < 5; i++)

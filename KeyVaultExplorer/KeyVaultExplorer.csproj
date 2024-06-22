@@ -8,6 +8,8 @@
    	<Version>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)\\..\\VERSION"))</Version>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+    <PackageIcon>AppIcon.png</PackageIcon>
  </PropertyGroup>
 
   
@@ -22,6 +24,7 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\AppIcon.ico" />
     <None Remove="Assets\Close.svg" />
     <None Remove="Assets\Cloud.png" />
     <None Remove="Assets\Cloud.svg" />
@@ -68,8 +71,26 @@
 		</AvaloniaResource>
 	</ItemGroup>
 
+
+
+	<ItemGroup>
+	  <Content Include="AppIcon.ico" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<None Include="..\.editorconfig" Link=".editorconfig" />
+		<None Include="..\Desktop\AppIcon.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AvaloniaResource Update="Assets\AppIcon.ico">
+	    <PackagePath>\</PackagePath>
+	    <Pack>True</Pack>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </AvaloniaResource>
 	</ItemGroup>
 
 

@@ -7,7 +7,6 @@
     <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">$(TargetFrameworks);net8.0-macos</TargetFrameworks> -->
     <!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>-->
     <Nullable>enable</Nullable>
-    <ApplicationIcon>kv-orange.ico</ApplicationIcon>
     <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>keyvaultexplorerdesktop</AssemblyName>
@@ -21,11 +20,12 @@
     <Title>Azure Key Vault Explorer</Title>
     <Description>A GUI client for quickly finding azure key vault values.</Description>
     <Product>Azure Key Vault Explorer</Product>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="kv-orange.ico" />
+    <Content Include="AppIcon.ico" />
   </ItemGroup>
-
 
 
 <ItemGroup>
@@ -48,6 +48,14 @@
   	
   <ItemGroup>
     <ProjectReference Include="..\KeyVaultExplorer\KeyVaultExplorer.csproj" />
+  </ItemGroup>
+
+  	
+  <ItemGroup>
+    <None Update="AppIcon.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

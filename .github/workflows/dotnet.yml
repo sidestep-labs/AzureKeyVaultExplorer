@@ -92,7 +92,7 @@ jobs:
         ./build.ps1 -Runtime osx-arm64 -PublishAot:$false          
         New-Item -ItemType Directory -Path "osx-arm64" 
         Move-Item -Path ".\publish" -Destination "$env:GITHUB_WORKSPACE\osx-arm64\publish"
-        Rename-Item -Path "$env:GITHUB_WORKSPACE\osx-arm64\publish\keyvaultexplorerdesktop" -NewName "$env:GITHUB_WORKSPACE\osx-arm64\publish\Azure Key Vault Explorer" -Force 
+        Rename-Item -Path "$env:GITHUB_WORKSPACE\osx-arm64\publish\keyvaultexplorerdesktop" -NewName "Azure Key Vault Explorer" -Force 
 
       shell: pwsh
     - name: Create Package

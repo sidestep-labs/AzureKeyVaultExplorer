@@ -61,7 +61,7 @@ jobs:
       run: |
         ./build.ps1 -Runtime osx-x64 -PublishAot        
         New-Item -ItemType Directory -Path "osx-x64" 
-        Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-x64\Key Vault Explorer.app"
+        Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-x64\Azure Key Vault Explorer.app"
       shell: pwsh
     - name: Create Package
       run: tar -cvf keyvaultexplorer.osx-x64.tar osx-x64/

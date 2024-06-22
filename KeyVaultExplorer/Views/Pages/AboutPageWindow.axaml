@@ -7,10 +7,10 @@
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     Title="About"
     Width="350"
-    Background="{x:Null}"
     Height="200"
-    WindowStartupLocation="CenterScreen"
     x:DataType="vm:AppViewModel"
+    Background="{x:Null}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -23,7 +23,7 @@
             Height="90"
             RenderOptions.BitmapInterpolationMode="HighQuality"
             Source="avares://KeyVaultExplorer/Assets/kv-icon.png" />
-        <Label Content="Key Vault Explorer" />
+        <Label Content="Azure Key Vault Explorer" />
         <Label HorizontalAlignment="Center" Content="v0.1.0" />
     </StackPanel>
 

@@ -6,7 +6,8 @@ param(
     [ValidateSet('net8.0', 'net8.0-windows10.0.19041.0', "net8.0-macos")]
     [string]$Platform = 'net8.0',
     [ValidateSet('win-x64', 'win-arm64', 'osx-x64', 'osx-arm64')]
-    [string]$Runtime = 'win-x64'
+    [string]$Runtime = 'win-x64',
+    [Switch]$CreateMacOSBundle = $false
 )
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
@@ -45,7 +46,7 @@ dotnet publish  ./Desktop/Desktop.csproj `
 
 
 
-if ($Runtime -match "osx") { 
+if ($Runtime -match "osx-x64") { 
 
     $initialRootDir = "macOSBundledFolder"
     $contentsDir = "$initialRootDir\Contents"
@@ -57,7 +58,7 @@ if ($Runtime -match "osx") {
     New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
     New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
 
-    $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Key Vault Explorer")  -Path .\publish
+    $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Azure Key Vault Explorer")  -Path .\publish
     foreach ($file in $filesToMove) {
         Copy-Item -Path $file -Destination $macOSDir -Force 
     }
@@ -68,6 +69,6 @@ if ($Runtime -match "osx") {
     # foreach ($file in $filesToModify) {
     #     chmod +x $file 
     # }
-    Rename-Item -Path $initialRootDir -NewName "Key Vault Explorer.app" -Force 
+    Rename-Item -Path $initialRootDir -NewName "Azure Key Vault Explorer.app" -Force 
 
 }

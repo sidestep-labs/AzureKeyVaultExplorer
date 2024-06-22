@@ -8,7 +8,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:views="clr-namespace:KeyVaultExplorer.Views"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
-    Title="Key Vault Explorer"
+    Title="Azure Key Vault Explorer"
     Width="900"
     Height="500"
     d:DesignHeight="450"
@@ -30,22 +30,22 @@
         <NativeMenu>
             <NativeMenuItem Header="File">
 
-       <NativeMenuItem.Menu>
+                <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="New Window" Gesture="Cmd+N" />
+                        <NativeMenuItem Gesture="Cmd+N" Header="New Window" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
 
-           <NativeMenuItem Header="Edit">
-             <NativeMenuItem.Menu>
+            <NativeMenuItem Header="Edit">
+                <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Undo" Gesture="Cmd+Z"/>
-                        <NativeMenuItem Header="Redo" Gesture="Shift+Cmd+Z"/>
-                        <NativeMenuItemSeparator/>
-                <NativeMenuItem Header="Copy"   Gesture="Cmd+C"/>
-                <NativeMenuItem Header="Cut"   Gesture="Cmd+X"/>
-                <NativeMenuItem Header="Paste"   Gesture="Cmd+V"/>
+                        <NativeMenuItem Gesture="Cmd+Z" Header="Undo" />
+                        <NativeMenuItem Gesture="Shift+Cmd+Z" Header="Redo" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Gesture="Cmd+C" Header="Copy" />
+                        <NativeMenuItem Gesture="Cmd+X" Header="Cut" />
+                        <NativeMenuItem Gesture="Cmd+V" Header="Paste" />
 
                     </NativeMenu>
                 </NativeMenuItem.Menu>
@@ -54,13 +54,13 @@
             <NativeMenuItem Header="Account">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Login" Command="{Binding ForceSignInCommand}" />
-                        <NativeMenuItem Header="Logout" Command="{Binding SignOutCommand}" />
+                        <NativeMenuItem Command="{Binding ForceSignInCommand}" Header="Login" />
+                        <NativeMenuItem Command="{Binding SignOutCommand}" Header="Logout" />
                         <NativeMenuItem Header="{Binding Email}" IsEnabled="False" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
-           <NativeMenuItem Header="Window" />
+            <NativeMenuItem Header="Window" />
             <NativeMenuItem Header="Help">
                 <NativeMenuItem.Menu>
                     <NativeMenu>

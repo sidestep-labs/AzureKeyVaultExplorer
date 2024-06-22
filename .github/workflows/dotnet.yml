@@ -59,9 +59,8 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-        ./build.ps1 -Runtime osx-x64 -PublishAot          
+        ./build.ps1 -Runtime osx-x64 -PublishAot        
         New-Item -ItemType Directory -Path "osx-x64" 
-        gci -recurse
         Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-x64\Key Vault Explorer.app"
       shell: pwsh
     - name: Create Package
@@ -90,9 +89,11 @@ jobs:
             #mac-arm-nuget
     - name: Publish macOS Arm
       run: | 
-        ./build.ps1 -Runtime osx-arm64 -PublishAot          
+        ./build.ps1 -Runtime osx-arm64 -PublishAot:$false          
         New-Item -ItemType Directory -Path "osx-arm64" 
-        Move-Item -Path "Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-arm64\Key Vault Explorer.app"
+        Move-Item -Path ".\publish" -Destination "$env:GITHUB_WORKSPACE\osx-arm64\publish"
+        Rename-Item -Path "$env:GITHUB_WORKSPACE\osx-arm64\publish\keyvaultexplorerdesktop" -NewName "$env:GITHUB_WORKSPACE\osx-arm64\publish\Azure Key Vault Explorer" -Force 
+
       shell: pwsh
     - name: Create Package
       run: tar -cvf keyvaultexplorer.osx-arm64.tar osx-arm64/

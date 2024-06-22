@@ -46,7 +46,7 @@ dotnet publish  ./Desktop/Desktop.csproj `
 
 
 
-if ($Runtime -match "osx-x64") { 
+if ($Runtime -eq "osx-x64") { 
 
     $initialRootDir = "macOSBundledFolder"
     $contentsDir = "$initialRootDir\Contents"

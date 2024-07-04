@@ -5,12 +5,19 @@
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives">
     <Design.PreviewWith />
 
-    <Style Selector="TextBox">
+    <Style Selector="TextBox.IsSmall">
         <Setter Property="MinHeight" Value="30" />
         <Setter Property="MaxHeight" Value="30" />
         <Setter Property="Height" Value="30" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="8,2,2,2" />
+    </Style>
+
+    <Style Selector="TextBox.isCompact">
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Padding" Value="5,0,0,0" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <Style Selector="ui|CommandBarFlyoutCommandBar /template/ Border#LayoutRoot">

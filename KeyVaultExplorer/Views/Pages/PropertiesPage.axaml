@@ -28,6 +28,17 @@
                     <Setter Property="VerticalAlignment" Value="Bottom" />
                 </Style>
             </Style>
+
+            <Style Selector="Border.isInput">
+                <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="4" />
+                <Style Selector="^ SelectableTextBlock">
+                    <Setter Property="Margin" Value="5,0" />
+                </Style>
+            </Style>
+
         </Styles>
     </UserControl.Styles>
 
@@ -57,13 +68,34 @@
                     ToolTip.VerticalOffset="10" />
                 <ui:CommandBarButton
                     Height="40"
+                    VerticalContentAlignment="Center"
                     Command="{Binding CopyCommand}"
                     IconSource="Copy"
                     IsVisible="{Binding !IsCertificate}"
                     Label="Copy"
-                    VerticalContentAlignment="Center"
-                    ToolTip.Tip="Copy Value (cleared after 30 seconds) "
+                    ToolTip.Tip="Copy Value (cleared after configured seconds)"
                     ToolTip.VerticalOffset="10" />
+
+                <ui:CommandBarButton
+                    Height="40"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding EditVersionCommand}"
+                    IconSource="Edit"
+                    IsEnabled="{Binding !IsManaged}"
+                    Label="Edit"
+                    ToolTip.Tip="Edit Current Version"
+                    ToolTip.VerticalOffset="10" />
+
+                <ui:CommandBarButton
+                    Height="40"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding NewVersionCommand}"
+                    IconSource="Add"
+                    IsEnabled="{Binding !IsManaged}"
+                    Label="New Version"
+                    ToolTip.Tip="Create New Version"
+                    ToolTip.VerticalOffset="10" />
+
                 <ui:CommandBarButton
                     Height="40"
                     Command="{Binding DownloadCommand}"
@@ -130,7 +162,7 @@
                                     FontSize="20"
                                     IsChecked="{Binding ShowValue}"
                                     RenderOptions.TextRenderingMode="Antialias"
-                                    Theme="{StaticResource TransparentButton}"
+                                    Theme="{StaticResource TransparentToggleButton}"
                                     ToolTip.Tip="Show/Hide"
                                     ToolTip.VerticalOffset="10"
                                     ZIndex="1" />
@@ -154,12 +186,13 @@
                             BorderThickness="1"
                             CornerRadius="4">
                             <ScrollViewer VerticalScrollBarVisibility="Visible">
-                                <StackPanel MaxHeight="300" VerticalAlignment="Stretch">
+                                <StackPanel  VerticalAlignment="Stretch">
                                     <TextBlock Text="Properties" Theme="{StaticResource BodyStrongTextBlockStyle}" />
                                     <Grid
                                         HorizontalAlignment="Stretch"
-                                        ColumnDefinitions="100,*"
-                                        RowDefinitions="*,*,*,*">
+                                        VerticalAlignment="Stretch"
+                                        ColumnDefinitions="250,*"
+                                        RowDefinitions="*,*,*,*,*,*,*">
                                         <Grid.Styles>
                                             <Style Selector="TextBlock">
                                                 <Setter Property="Theme" Value="{StaticResource CaptionTextBlockStyle}" />
@@ -168,39 +201,73 @@
                                         <TextBlock
                                             Grid.Row="0"
                                             Grid.Column="0"
-                                            Text="Created:" />
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Text="Updated:" />
-                                        <TextBlock
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            Text="Identifier:" />
-                                        <TextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="0"
-                                            Text="Expires:" />
+                                            Text="Name:" />
                                         <SelectableTextBlock
                                             Grid.Row="0"
                                             Grid.Column="1"
                                             xml:space="preserve"
-                                            Text="{Binding OpenedItem.CreatedOn}" />
+                                            Text="{Binding OpenedItem.Name}" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="Location:" />
                                         <SelectableTextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             xml:space="preserve"
-                                            Text="{Binding OpenedItem.UpdatedOn}" />
+                                            Text="{Binding OpenedItem.VaultUri}" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Text="Identifier:" />
                                         <SelectableTextBlock
                                             Grid.Row="2"
                                             Grid.Column="1"
                                             xml:space="preserve"
                                             Text="{Binding OpenedItem.Id}" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Text="Activation:" />
                                         <SelectableTextBlock
                                             Grid.Row="3"
                                             Grid.Column="1"
                                             xml:space="preserve"
+                                            Text="{Binding OpenedItem.NotBefore}" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            Text="Expiration:" />
+                                        <SelectableTextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
                                             Text="{Binding OpenedItem.ExpiresOn}" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="0"
+                                            Text="Created:" />
+                                        <SelectableTextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
+                                            Text="{Binding OpenedItem.CreatedOn}" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="0"
+                                            Text="Updated:" />
+                                        <SelectableTextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="1"
+                                            xml:space="preserve"
+                                            Text="{Binding OpenedItem.UpdatedOn}" />
+
                                     </Grid>
 
 

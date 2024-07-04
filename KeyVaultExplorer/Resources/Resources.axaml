@@ -4,7 +4,10 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls">
 
 
-    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+
+
+
+	<SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
     <!--<StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SelectedTabViewColorKv" />
     <SolidColorBrush x:Key="SelectedTabViewColorKv" Color="Transparent" />-->
 

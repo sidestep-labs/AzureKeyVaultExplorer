@@ -135,6 +135,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalContentAlignment="Center"
                 AcceptsReturn="False"
+                Classes.IsSmall="True"
                 Classes.clearButton="True"
                 FontSize="{StaticResource FontSizeSmall}"
                 IsEnabled="{Binding !IsBusy}"

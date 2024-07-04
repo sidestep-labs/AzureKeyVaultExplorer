@@ -29,8 +29,8 @@ public class KeyVaultContentsAmalgamation
 
     public DateTimeOffset? LastModifiedDate => UpdatedOn.HasValue ? UpdatedOn.Value.ToLocalTime() : CreatedOn!.Value.ToLocalTime();
 
-    public string? WhenLastModified => GetRelativeDateString(LastModifiedDate!.Value.UtcDateTime, true);
-    public string? WhenExpires => ExpiresOn.HasValue ? GetRelativeDateString(ExpiresOn!.Value.UtcDateTime) : "";
+    public string? WhenLastModified => GetRelativeDateString(LastModifiedDate!.Value, true);
+    public string? WhenExpires => ExpiresOn.HasValue ? GetRelativeDateString(ExpiresOn!.Value) : "";
 
     public SecretProperties SecretProperties { get; set; } = null!;
     public KeyProperties KeyProperties { get; set; } = null!;
@@ -45,9 +45,16 @@ public class KeyVaultContentsAmalgamation
     public string TagValuesString => string.Join(", ", Tags?.Values ?? []);
 
 
-    private string? GetRelativeDateString(DateTime dateTime, bool isPast = false)
+    private string? GetRelativeDateString(DateTimeOffset dateTimeOffset, bool isPast = false)
     {
-        TimeSpan timeSpan = isPast ? DateTime.Now.Subtract(dateTime) : dateTime.Subtract(DateTime.Now);
+        DateTimeOffset now = DateTimeOffset.Now;
+
+        if (dateTimeOffset < now && !isPast)
+        {
+            return "Expired";
+        }
+
+        TimeSpan timeSpan = isPast ? now.Subtract(dateTimeOffset) : dateTimeOffset.Subtract(now);
         int dayDifference = (int)timeSpan.TotalDays;
         int secondDifference = (int)timeSpan.TotalSeconds;
         var weeks = Math.Ceiling((double)dayDifference / 7);
@@ -68,10 +75,11 @@ public class KeyVaultContentsAmalgamation
             (1, _) when !isPast => "tomorrow",
             ( < 7, _) => $"{(isPast ? "" : "in ")}{dayDifference} days{(isPast ? " ago" : "")}",
             ( < 30, _) => $"{(isPast ? "" : "in ")}{weeks} {(weeks == 1 ? "week" : "weeks")}{(isPast ? " ago" : "")}",
-            ( < 366, _) =>   $"{(isPast ? "" : "in ")}{months} {(months == 1 ? "month" : "months")}{(isPast ? " ago" : "")}",
+            ( < 366, _) => $"{(isPast ? "" : "in ")}{months} {(months == 1 ? "month" : "months")}{(isPast ? " ago" : "")}",
             (_, _) => $"{(isPast ? "" : "in ")}{years} {(years == 1 ? "year" : "years")}{(isPast ? " ago" : "")}"
         };
     }
+
 }
 
 public enum KeyVaultItemType

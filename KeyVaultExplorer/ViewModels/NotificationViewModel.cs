@@ -1,7 +1,10 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using FluentAvalonia.UI.Controls;
-using System;
+using FluentAvalonia.UI.Windowing;
+using System.Linq;
 
 namespace KeyVaultExplorer.ViewModels;
 
@@ -16,21 +19,19 @@ public class NotificationViewModel
 
     public async void ShowErrorPopup(Notification notification)
     {
-        // Declaring a TaskDialog from C#:
         var td = new TaskDialog
         {
-            // Title property only applies on Windowed dialogs
             Title = notification.Title,
             Header = notification.Title,
             Content = notification.Message,
-            //IconSource = new SymbolIconSource { Symbol = Symbol.clos },
-            FooterVisibility = TaskDialogFooterVisibility.Auto,
-            //Footer = new CheckBox { Content = "Never show me this again" },
+            FooterVisibility = TaskDialogFooterVisibility.Always,
+            IsFooterExpanded = false,
+            Buttons = { TaskDialogButton.CloseButton },
 
-            Buttons = { TaskDialogButton.CloseButton }
         };
-        td.XamlRoot = App.Current.GetTopLevel();
-
-        var result = await td.ShowAsync();
+          //Avalonia.Application.Current.GetTopLevel() as AppWindow;
+        var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        td.XamlRoot = lifetime.Windows.Last() as AppWindow;
+        await td.ShowAsync(true);
     }
 }

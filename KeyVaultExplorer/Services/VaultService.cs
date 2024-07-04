@@ -185,6 +185,7 @@ public partial class VaultService
             }
         }
     }
+
     public async IAsyncEnumerable<KeyVaultResource> GetKeyVaultsByResourceGroup(ResourceGroupResource resource)
     {
         var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
@@ -230,12 +231,16 @@ public partial class VaultService
         {
             throw new KeyVaultItemNotFoundException(ex.Message, ex);
         }
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            throw new KeyVaultInSufficientPrivileges(ex.Message, ex);
+        }
     }
 
-    public async Task<List<SecretProperties>> GetSecretProperties(Uri kvUri, string name)
+    public async Task<List<SecretProperties>> GetSecretProperties(Uri keyVaultUri, string name)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-        var client = new SecretClient(kvUri, token);
+        var client = new SecretClient(keyVaultUri, token);
         List<SecretProperties> list = new();
         try
         {
@@ -269,6 +274,7 @@ public partial class VaultService
     }
 
     public record SubscriptionResourceWithNextPageToken(SubscriptionResource SubscriptionResource, string ContinuationToken);
+
     public async IAsyncEnumerable<CertificateProperties> GetVaultAssociatedCertificates(Uri kvUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
@@ -308,5 +314,22 @@ public partial class VaultService
         {
             yield return kvResource;
         }
+    }
+
+    public async Task<KeyVaultSecret> CreateSecret(KeyVaultSecret keyVaultSecret, Uri KeyVaultUri)
+    {
+            var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+            SecretClient client = new SecretClient(KeyVaultUri, token);
+            return await client.SetSecretAsync(keyVaultSecret);
+       
+    }
+
+    public async Task<SecretProperties> UpdateSecret(SecretProperties secretProperties, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+
+                SecretClient client = new SecretClient(KeyVaultUri, token);
+
+              return  await client.UpdateSecretPropertiesAsync(secretProperties);
     }
 }

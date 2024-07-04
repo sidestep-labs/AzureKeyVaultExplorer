@@ -27,6 +27,8 @@
             </Style>
         </Styles>
     </UserControl.Styles>
+    <!--  PanePlacement="Right"  -->
+
     <SplitView
         Name="VaultListSplitView"
         VerticalAlignment="Stretch"

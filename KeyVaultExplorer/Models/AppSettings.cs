@@ -12,4 +12,6 @@ public class AppSettings
 
     [AllowedValues("Inline", "Overlay")]
     public string SplitViewDisplayMode { get; set; } = "Inline";
+    public string PanePlacement { get; set; } = "Left";
+
 }

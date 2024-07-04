@@ -122,6 +122,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     AcceptsReturn="False"
+                    Classes.IsSmall="True"
                     Classes.clearButton="True"
                     ClipToBounds="True"
                     DockPanel.Dock="Right"

@@ -12,6 +12,8 @@ param(
 $DebugPreference = 'continue';
 # https://github.com/AvaloniaUI/Avalonia/issues/9503
 
+Set-Content -Path "VERSION" -Value $BuildNumber -Force
+
 $command = @"
 dotnet publish  ./Desktop/Desktop.csproj `
     -r $Runtime `

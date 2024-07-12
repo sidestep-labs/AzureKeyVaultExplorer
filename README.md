@@ -36,7 +36,7 @@ The Sqlite database is encrypted using DPAPI on windows, and on macOS the passwo
 ## Screenshots
 
 
-<img width="1419" alt="WinOS Dark" src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/e5b99908-47b9-45ac-a234-d9a5947bdc9c6">
+<img width="1419" alt="WinOS Dark"  src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/e5b99908-47b9-45ac-a234-d9a5947bdc9c6">
 <img width="1419" alt="WinOS Light" src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/1f5e1a5b-1796-43c1-bbd9-1ee60e3deeb0">
 
 <img width="1419" alt="Dark" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/365cea71-2a68-4cab-997c-2631922e7bc6">
@@ -45,29 +45,58 @@ The Sqlite database is encrypted using DPAPI on windows, and on macOS the passwo
 
 ## Running the application:
 
-Clone and set the start up project to be "Desktop".
+You will need the latest version of the .NET 8 SDK, and Visual Studio 2022 (this can be downloaded from the Microsoft Store).
 
-## Contribution
-Accepting PRs, suggestions, code reviews, feature requests and more. This is my first time using avaloniaUI and building a desktop application so all feedback is welcome.  
+Clone the project, open the `.\AzureKeyVaultExplorer` directory and open the solution file called "kv.sln" or "kv.slnx". 
+
 
 ## Building from source
-
-- ## WindowsOS
-
-  Download from the Microsoft Store:
-  
-  Run the following scripts check the publish directory for a folder.
-  run `.\AzureKeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime win-x64`
-  run `.\AzureKeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime win-arm64`
-
-- ## macOS
-  Download from the release section:
-  
-  Run the following scripts and a 'Key Vault Explorer.app' mac os package will be generated in the publish directory. Move this to "Applications".
-  run `.\KeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime osx-x64`
-  run `.\KeyVaultExplorer\build.ps1 -RunBuild -Platform net8.0 -Runtime osx-arm64`
+### You can also download from the release section: https://github.com/cricketthomas/AzureKeyVaultExplorer/releases
+If downloaded from this section, you will need to follow this guide to run the app: https://github.com/cricketthomas/AzureKeyVaultExplorer/discussions/67#discussioncomment-10014603
 
 
+Install the lastest .NET 8 SDK: https://dotnet.microsoft.com/en-us/download/dotnet
+
+1. Open PowerShell 7+ (on windows and mac, or zsh on mac)
+
+2. `cd c:\repos` (choose the folder of your choice)
+
+3. `git clone https://github.com/cricketthomas/AzureKeyVaultExplorer.git` (to clone/download the sources)
+
+4. `cd AzureKeyVaultExplorer` (to get into the freshly cloned repo)
+
+5. `.\build.ps1 -RunBuild -Platform net8.0 -Runtime win-x64` (other platforms include win-arm64, osx-x64, osx-arm64)
+
+
+If you get an error message stating "Platform linker not found" when building on Windows, please ensure you have all the required prerequisites documented at https://aka.ms/nativeaot-prerequisites, in particular the Desktop Development for C++ workload in Visual Studio. 
+
+Open the Visual Studio Installer, Modify, install Desktop Development for C++
+<img width="800" src="https://github.com/user-attachments/assets/867c043e-ba41-4b3e-bc68-5ef2c56f2cff"/>
+
+
+For ARM64 development also install C++ ARM64 build tools. 
+<img width="600" src="https://github.com/user-attachments/assets/0ddb7ef8-1378-4258-af50-d877093f121a"/>
+
+
+
+Repeat step 5. The build starts and might take a couple of minutes. The final output looks something like this: `Desktop -> C:\Repos\AzureKeyVaultExplorer\publish\`
+
+6. Open that folder in Windows Explorer and run `keyvaultexplorerdesktop.exe`. On macOS, a `Key Vault Explorer.app` mac os package will be generated in the publish directory. Move this to "Applications", you will have to force open the app using System Preferences, and click "Open anyway".
+
+7. It will lauch your default browser window and prompt you to login and grant consent. 
+### Notes: 
+The app is shown as unverified. I am working on getting into the Microsoft Partner Program to verify the app. 
+<img width="400" src="https://github.com/user-attachments/assets/f2500559-21ae-452c-af12-f7aca366eed7"/>
+
+When you run it for the first time, it creates an enterprise application in your tenant. 
+Please contact your Azure tenant admin to make sure the application has been consented for use. 
+Otherwise you will get an error message:
+<img src="https://github.com/user-attachments/assets/f1d093d6-8e4c-4c70-b917-bc62d030b6b2"/>
+
+Alternatively, you create an enterprise application with the following permissions, then you can modify the clientId in the `Constants.cs` file to your newly created app that is hosted in your own tenant.
+<img  src="https://github.com/user-attachments/assets/e17754a6-728e-490b-ad74-8e87e895387a"/>
+
+<sup>Thank you to reddit user AzureToujours for helping with the readme.</sub>
 
 
 ## Troubleshooting
@@ -77,10 +106,14 @@ If you're facing trouble, I recommend deleteing all files in the directory. On m
 
 When downloading on windows, you may have to click properties on the exe/application file and check the "unblock" checkbox to allow running the application on the machine if you get a messages saying the app needs another app from the microsoft store to download.
 
-### Dependencies
+## Contribution
+Accepting PRs, suggestions, code reviews, feature requests and more. This is my first time using avaloniaUI and building a desktop application so all feedback is welcome.  
 
-- **[AvaloniaUI](https://github.com/AvaloniaUI/Avalonia/)** (Version: 11.0.10-preview2)
-- **[FluentAvalonia](https://github.com/amwx/FluentAvalonia/)** (Version: 2.1.0-preview5)
+
+### Dependencies
+- **[.NET 8](https://github.com/dotnet/runtime)**
+- **[AvaloniaUI](https://github.com/AvaloniaUI/Avalonia/)** 
+- **[FluentAvalonia](https://github.com/amwx/FluentAvalonia/)**
 - **Azure.ResourceManager.KeyVault**
 - **Azure.Security.KeyVault.Certificates**
 - **Azure.Security.KeyVault.Keys**

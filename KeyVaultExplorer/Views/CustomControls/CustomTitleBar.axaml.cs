@@ -6,7 +6,7 @@ namespace KeyVaultExplorer.Views.CustomControls;
 public class CustomTitleBar : TemplatedControl
 {
     public static readonly StyledProperty<string> TitleProperty =
-   AvaloniaProperty.Register<CustomTitleBar, string>(nameof(Title), defaultValue: "Key Vault Explorer for Azure");
+   AvaloniaProperty.Register<CustomTitleBar, string>(nameof(Title), defaultValue: "Azure Key Vault Explorer");
 
     public string Title
     {

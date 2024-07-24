@@ -9,22 +9,41 @@ using System.Threading;
 using System.Linq;
 using Azure.Security.KeyVault.Secrets;
 using System;
+using System.Collections.Generic;
+using KeyVaultExplorer.Models;
+using System.Collections.ObjectModel;
+using Avalonia.Threading;
 
 namespace KeyVaultExplorer.ViewModels;
 
 public partial class CreateNewSecretVersionViewModel : ViewModelBase
 {
     [ObservableProperty]
+    public List<KvResourceGroupModel> resourceGroupItems;
+
+    private readonly AuthService _authService;
+
+    private readonly VaultService _vaultService;
+
+    private NotificationViewModel _notificationViewModel;
+
+    private SubscriptionsPageViewModel _subscriptionsPageViewModel;
+
+    [ObservableProperty]
+    private TimeSpan? expiresOnTimespan;
+
+    [ObservableProperty]
     private bool isBusy = false;
 
     [ObservableProperty]
     private bool isEdit = false;
 
-    public bool HasActivationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.NotBefore.HasValue;
-    public bool HasExpirationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.ExpiresOn.HasValue;
+    [ObservableProperty]
+    private bool isNew = false;
+
 
     [ObservableProperty]
-    private string secretValue;
+    private ObservableCollection<SubscriptionDataItem> subscriptions;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Location))]
@@ -32,25 +51,37 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(HasExpirationDate))]
     private SecretProperties keyVaultSecretModel;
 
+
     [ObservableProperty]
-    private TimeSpan? expiresOnTimespan;
+
+    private ObservableCollection<string> testItems;
+
 
     [ObservableProperty]
     private TimeSpan? notBeforeTimespan;
 
-    public string? Location => KeyVaultSecretModel?.VaultUri.ToString();
-    public string? Identifier => KeyVaultSecretModel?.Id.ToString();
-
-    private readonly AuthService _authService;
-    private readonly VaultService _vaultService;
-    private NotificationViewModel _notificationViewModel;
+    [ObservableProperty]
+    private string secretValue;
 
     public CreateNewSecretVersionViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
+        _subscriptionsPageViewModel = Defaults.Locator.GetRequiredService<SubscriptionsPageViewModel>();
+        if (Subscriptions is null || Subscriptions.Count == 0)
+        {
+            Dispatcher.UIThread.InvokeAsync(async() => await _subscriptionsPageViewModel.GetSubscriptions(), DispatcherPriority.MaxValue);
+            Subscriptions = _subscriptionsPageViewModel.Subscriptions;
+        }
     }
+
+    public bool HasActivationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.NotBefore.HasValue;
+    public bool HasExpirationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.ExpiresOn.HasValue;
+    public string? Identifier => KeyVaultSecretModel?.Id?.ToString();
+    public string? Location => KeyVaultSecretModel?.VaultUri.ToString();
+
+
 
     [RelayCommand]
     public async Task EditDetails()

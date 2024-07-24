@@ -25,24 +25,7 @@ public partial class App : Application
         DataContext = new AppViewModel();
     }
 
-    public static void ConfigureDesktopServices()
-    {
-        IServiceCollection serviceCollection = new ServiceCollection();
-        serviceCollection.AddMemoryCache();
-        serviceCollection.AddSingleton<AuthService>();
-        serviceCollection.AddSingleton<VaultService>();
-        serviceCollection.AddSingleton<TabViewPageViewModel>();
-        serviceCollection.AddSingleton<ToolBarViewModel>();
-        serviceCollection.AddSingleton<KeyVaultTreeListViewModel>();
-        serviceCollection.AddSingleton<SettingsPageViewModel>();
-        serviceCollection.AddSingleton<MainViewModel>();
-        serviceCollection.AddSingleton<NotificationViewModel>();
-        serviceCollection.AddSingleton<KvExplorerDb>();
-        serviceCollection.AddTransient<AppSettingReader>();
-        serviceCollection.AddSingleton<IClipboard, ClipboardService>();
-        serviceCollection.AddSingleton<IStorageProvider, StorageProviderService>();
-    }
-
+ 
     public static void CreateDesktopResources()
     {
         Directory.CreateDirectory(Constants.LocalAppDataFolder);

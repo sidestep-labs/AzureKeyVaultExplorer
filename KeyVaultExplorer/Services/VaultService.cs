@@ -318,18 +318,32 @@ public partial class VaultService
 
     public async Task<KeyVaultSecret> CreateSecret(KeyVaultSecret keyVaultSecret, Uri KeyVaultUri)
     {
-            var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-            SecretClient client = new SecretClient(KeyVaultUri, token);
-            return await client.SetSecretAsync(keyVaultSecret);
-       
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        SecretClient client = new SecretClient(KeyVaultUri, token);
+        return await client.SetSecretAsync(keyVaultSecret);
     }
 
-    public async Task<SecretProperties> UpdateSecret(SecretProperties secretProperties, Uri KeyVaultUri)
+    public async Task<SecretProperties> UpdateSecret(SecretProperties properties, Uri KeyVaultUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-
-                SecretClient client = new SecretClient(KeyVaultUri, token);
-
-              return  await client.UpdateSecretPropertiesAsync(secretProperties);
+        SecretClient client = new SecretClient(KeyVaultUri, token);
+        return await client.UpdateSecretPropertiesAsync(properties);
     }
+
+
+
+    public async Task<KeyVaultKey> CreateKey(KeyVaultKey key, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(KeyVaultUri, token);
+        return await client.CreateKeyAsync(key.Name, key.KeyType);
+    }
+
+    public async Task<KeyVaultKey> UpdateKey(KeyProperties properties, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(KeyVaultUri, token);
+        return await client.UpdateKeyPropertiesAsync(properties);
+    }
+
 }

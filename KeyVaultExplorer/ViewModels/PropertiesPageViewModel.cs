@@ -190,23 +190,27 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 IsPrimaryButtonEnabled = true,
                 CloseButtonText = "Cancel",
             };
-            var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
-            var newVersion = new SecretProperties(currentItem.Id)
-            {
-                Enabled = true,
-            };
-           
-            var viewModel = new CreateNewSecretVersionViewModel();
-            viewModel.KeyVaultSecretModel = newVersion;
 
-            dialog.PrimaryButtonClick += async (sender, args) =>
+            if (IsSecret)
             {
-                var def = args.GetDeferral();
-                await viewModel.NewVersionCommand.ExecuteAsync(null);
-                def.Complete();
-            };
+                var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
+                var newVersion = new SecretProperties(currentItem.Id)
+                {
+                    Enabled = true,
+                };
+                var viewModel = new CreateNewSecretVersionViewModel();
+                viewModel.KeyVaultSecretModel = newVersion;
 
-            dialog.Content = new CreateNewSecretVersion() { DataContext = viewModel };
+                dialog.PrimaryButtonClick += async (sender, args) =>
+                {
+                    var def = args.GetDeferral();
+                    await viewModel.NewVersionCommand.ExecuteAsync(null);
+                    def.Complete();
+                };
+
+                dialog.Content = new CreateNewSecretVersion() { DataContext = viewModel };
+            }
+
 
             var result = await dialog.ShowAsync();
         }
@@ -218,6 +222,9 @@ public partial class PropertiesPageViewModel : ViewModelBase
             _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
         }
     }
+
+  
+
 
     private async void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
@@ -232,32 +239,36 @@ public partial class PropertiesPageViewModel : ViewModelBase
         {
             var dialog = new ContentDialog()
             {
-                Title = "Edit Secret",
+                Title = string.Join("Edit ", IsKey ? "Key" : IsSecret ? "Secret" : "Certificate"),
                 IsPrimaryButtonEnabled = true,
                 PrimaryButtonText = "Apply Changes",
                 CloseButtonText = "Cancel",
+                MinWidth = 600
             };
 
-            var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
-            var viewModel = new CreateNewSecretVersionViewModel();
-            bool? isEnabledSecret = currentItem.Enabled;
-            if (isEnabledSecret is not null && isEnabledSecret is true)
-                await ShouldShowValue(true);
-            viewModel.KeyVaultSecretModel = currentItem;
-            viewModel.IsEdit = true;
-            dialog.PrimaryButtonClick += async (sender, args) =>
+           
+            if (IsSecret)
             {
-                var def = args.GetDeferral();
-                await viewModel.EditDetailsCommand.ExecuteAsync(null);
-                def.Complete();
-            };
+                var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
+                var viewModel = new CreateNewSecretVersionViewModel();
+                bool? isEnabledSecret = currentItem.Enabled;
+                if (isEnabledSecret is not null && isEnabledSecret is true)
+                    await ShouldShowValue(true);
+                viewModel.KeyVaultSecretModel = currentItem;
+                viewModel.IsEdit = true;
+                dialog.PrimaryButtonClick += async (sender, args) =>
+                {
+                    var def = args.GetDeferral();
+                    await viewModel.EditDetailsCommand.ExecuteAsync(null);
+                    def.Complete();
+                };
 
-            // In our case the Content is a UserControl, but can be anything.
-            dialog.Content = new CreateNewSecretVersion()
-            {
-                DataContext = viewModel
-            };
-
+                // In our case the Content is a UserControl, but can be anything.
+                dialog.Content = new CreateNewSecretVersion()
+                {
+                    DataContext = viewModel
+                };
+            }
             var result = await dialog.ShowAsync();
         }
         catch (KeyVaultItemNotFoundException ex)
@@ -335,4 +346,5 @@ public partial class PropertiesPageViewModel : ViewModelBase
         var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
+
 }

@@ -8,11 +8,11 @@ namespace KeyVaultExplorer.Models;
 public static class Constants
 {
     // database password file name
-    public const string EncryptedSecretFileName = "keyvaultexplorer_database_password.txt";
-    public const string KeychainSecretName = "keyvaultexplorer_database_password";
-    public const string KeychainServiceName = "keyvaultexplorer";
-    public const string ProtectedKeyFileName = "keyvaultexplorer_database_key.bin";
-    public const string DeviceFileTokenName = "keyvaultexplorer_database_device-token.txt";
+    public const string EncryptedSecretFileName = "azurekeyvaultexplorer_database_password.txt";
+    public const string KeychainSecretName = "azurekeyvaultexplorer_database_password";
+    public const string KeychainServiceName = "azurekeyvaultexplorer";
+    public const string ProtectedKeyFileName = "azurekeyvaultexplorer_database_key.bin";
+    public const string DeviceFileTokenName = "azurekeyvaultexplorer_database_device-token.txt";
 
     //The Application or Client ID will be generated while registering the app in the Azure portal. Copy and paste the GUID.
     public static readonly string ClientId = "fdc1e6da-d735-4627-af3e-d40377f55713";
@@ -29,16 +29,16 @@ public static class Constants
     // Cache settings
     public const string CacheFileName = "keyvaultexplorer_msal_cache.txt";
 
-    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\KeyVaultExplorer";
+    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AzureKeyVaultExplorer";
 
-    public static readonly string DatabaseFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\KeyVaultExplorer\\KeyVaultExplorer.db";
+    public static readonly string DatabaseFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AzureKeyVaultExplorer\\AzureKeyVaultExplorer.db";
 
-    public const string KeyChainServiceName = "keyvaultexplorer_msal_service";
-    public const string KeyChainAccountName = "keyvaultexplorer_msal_account";
+    public const string KeyChainServiceName = "azurekeyvaultexplorer_msal_service";
+    public const string KeyChainAccountName = "azurekeyvaultexplorer_msal_account";
 
     public const string LinuxKeyRingSchema = "us.sidesteplabs.keyvaultexplorer.tokencache";
     public const string LinuxKeyRingCollection = MsalCacheHelper.LinuxKeyRingDefaultCollection;
-    public const string LinuxKeyRingLabel = "MSAL token cache for key vault explorer.";
+    public const string LinuxKeyRingLabel = "MSAL token cache for azure key vault explorer.";
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr1 = new KeyValuePair<string, string>("Version", "1");
     public static readonly KeyValuePair<string, string> LinuxKeyRingAttr2 = new KeyValuePair<string, string>("ProductGroup", "MyApps");
 }

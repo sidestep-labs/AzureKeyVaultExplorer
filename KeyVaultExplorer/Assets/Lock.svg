@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightLock</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M2.5,14.5h10v-8H2.5Z" />
+    <path class="light-defaultgrey" d="M8,12H7V9H8Z" />
+    <path class="light-defaultgrey" d="M12.5,6H11V4.536a3.5,3.5,0,0,0-7,0V6H2.5L2,6.5v8l.5.5h10l.5-.5v-8ZM5,4.536a2.5,2.5,0,0,1,5,0V6H5ZM12,14H3V7h9Z" />
+  </g>
+</svg>

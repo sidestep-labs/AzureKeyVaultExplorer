@@ -24,6 +24,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SubscriptionDataItem> subscriptions;
 
+ 
     private readonly KvExplorerDb _dbContext;
     private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;

@@ -14,7 +14,7 @@ public partial class SubscriptionsPage : UserControl
     public SubscriptionsPage()
     {
         InitializeComponent();
-        DataContext = new SubscriptionsPageViewModel();
+        DataContext = Defaults.Locator.GetRequiredService<SubscriptionsPageViewModel>();
         AddHandler(Frame.NavigatedToEvent, OnNavigatedTo, RoutingStrategies.Direct);
     }
 

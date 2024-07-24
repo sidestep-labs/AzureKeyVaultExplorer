@@ -46,7 +46,7 @@
                         </ui:SettingsExpanderItem.Content>
                     </ui:SettingsExpanderItem>
 
-                    <ui:SettingsExpanderItem Content="Sign In" Description="Sign into to Key Vault Explorer with Microsoft Account">
+                    <ui:SettingsExpanderItem Content="Sign In" Description="Sign into to Azure Key Vault Explorer with Microsoft Account">
                         <ui:SettingsExpanderItem.Footer>
                             <Button Command="{Binding SignInOrRefreshTokenCommand}">Sign In</Button>
                         </ui:SettingsExpanderItem.Footer>

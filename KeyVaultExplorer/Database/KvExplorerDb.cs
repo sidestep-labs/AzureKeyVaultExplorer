@@ -23,7 +23,7 @@ public partial class KvExplorerDb : IDisposable
 
     public static async void OpenSqlConnection()
     {
-        string DataSource = Path.Combine(Constants.LocalAppDataFolder, "KeyVaultExplorer.db");
+        string DataSource = Path.Combine(Constants.DatabaseFilePath);
         var pass =  await DatabaseEncryptedPasswordManager.GetSecret();
         var connection = new SqliteConnection($"Filename={DataSource}; Password={pass}");
         connection.Open();

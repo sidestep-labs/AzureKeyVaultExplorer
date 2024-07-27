@@ -177,12 +177,11 @@ public partial class PropertiesPageViewModel : ViewModelBase
         {
             var dialog = new ContentDialog()
             {
-                Title = string.Join("Edit ", IsKey ? "Key" : IsSecret ? "Secret" : "Certificate"),
+                Title = "Edit " + (IsKey ? "Key" : IsSecret ? "Secret" : "Certificate"),
                 IsPrimaryButtonEnabled = true,
                 PrimaryButtonText = "Apply Changes",
                 CloseButtonText = "Cancel",
-                FullSizeDesired = true,
-                MinWidth = 500
+                MinWidth = 650
             };
 
             if (IsSecret)
@@ -274,9 +273,9 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 Title = "New Version",
                 PrimaryButtonText = "Create Version",
                 IsPrimaryButtonEnabled = true,
-                FullSizeDesired = true,
                 CloseButtonText = "Cancel",
-                MinWidth = 500,
+                MinWidth = 650,
+                MinHeight = 700
             };
 
             if (IsSecret)

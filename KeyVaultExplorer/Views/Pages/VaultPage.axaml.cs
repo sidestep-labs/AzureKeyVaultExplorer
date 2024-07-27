@@ -196,7 +196,7 @@ public partial class VaultPage : UserControl
             XamlRoot = lifetime?.Windows.Last() as AppWindow,
             Buttons = { applyChangesBtn, TaskDialogButton.CancelButton, },
             MinWidth = 600,
-            MinHeight = 700,
+            MinHeight = 650,
             Content = new CreateNewSecretVersion() { DataContext = vm }
         };
 

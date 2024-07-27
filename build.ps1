@@ -1,6 +1,6 @@
 param(
     [switch]$PublishAot = $true,
-    [string]$BuildNumber = '0.0.1.0',
+    [string]$BuildNumber = '1.0.0.0',
     $VersionPrefix = "1.0.0",
     $VersionSuffix = "99",
     [ValidateSet('net8.0', 'net8.0-windows10.0.19041.0', "net8.0-macos")]

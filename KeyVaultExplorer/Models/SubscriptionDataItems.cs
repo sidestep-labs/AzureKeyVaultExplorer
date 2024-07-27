@@ -7,6 +7,8 @@ public partial class SubscriptionDataItem : ObservableObject
 {
     public SubscriptionData Data { get; set; } = null!;
 
+    public SubscriptionResource Resource { get; set; } = null!;
+
     [ObservableProperty]
     private bool isPinned;
 

@@ -36,7 +36,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     public bool ShowPin => SplitViewDisplayMode == SplitViewDisplayMode.Inline;
 
     [RelayCommand]
-    private async void ChangePaneDisplay()
+    private void ChangePaneDisplay()
     {
         if (SplitViewDisplayMode is SplitViewDisplayMode.Inline)
             SplitViewDisplayMode = SplitViewDisplayMode.Overlay;

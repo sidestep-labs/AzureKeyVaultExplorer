@@ -24,6 +24,7 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\Add.png" />
     <None Remove="Assets\AppIcon.ico" />
     <None Remove="Assets\Certificate.png" />
     <None Remove="Assets\Certificate.svg" />
@@ -40,6 +41,7 @@
     <None Remove="Assets\kv-gray.png" />
     <None Remove="Assets\Lock.png" />
     <None Remove="Assets\Lock.svg" />
+    <None Remove="Assets\NewKey.png" />
     <None Remove="Assets\Pin.png" />
     <None Remove="Assets\Pin.svg" />
     <None Remove="Assets\Refresh.svg" />
@@ -48,12 +50,12 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.0" />
+	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.1" />
     <PackageReference Include="Avalonia.Svg.Skia" Version="11.1.0" />
     <PackageReference Include="DeviceId" Version="6.7.0" />
     <PackageReference Include="FluentAvaloniaUI" Version="2.1.0-preview6" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.6.24327.7" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0-preview.6.24327.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />

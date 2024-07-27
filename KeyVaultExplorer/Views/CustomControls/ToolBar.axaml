@@ -58,27 +58,7 @@
                 </StackPanel>
             </Button.Content>
         </Button>
-        <Button
-            Name="CeeateSecret"
-            Height="25"
-            Click="CreateSecret_Clicked"
-            FontSize="13"
-            Theme="{StaticResource TransparentButton}"
-            ToolTip.Tip="Create New Secret"
-            ToolTip.VerticalOffset="10">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <ui:BitmapIcon
-                        Width="16"
-                        Height="16"
-                        Margin="0,0,2,0"
-                        RenderOptions.BitmapInterpolationMode="HighQuality"
-                        ShowAsMonochrome="True"
-                        UriSource="avares://KeyVaultExplorer/Assets/Lock.png" />
-                    <TextBlock VerticalAlignment="{OnPlatform Bottom, Windows=Center}" Text="New Secret" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
+
 
         <Button
             Name="SettingsPage"

@@ -67,10 +67,10 @@
                             <Label VerticalAlignment="Top">Select All</Label>
                         </StackPanel>
                     </Button>
-
                     <Button
                         Padding="4,2"
                         VerticalAlignment="Top"
+                        Command="{Binding LoadMoreCommand}"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         ToolTip.Tip="Load additional subscriptions in batches of 100"
                         ToolTip.VerticalOffset="10">

@@ -1,9 +1,40 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:effects="using:Avalonia.Media"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives">
-    <Design.PreviewWith />
+    <Design.PreviewWith>
+
+        <StackPanel Width="310" Height="300">
+
+
+            <DropDownButton
+                Name="CreateDropDownButton"
+                Margin="50"
+                Content="Create"
+                FontSize="{DynamicResource FontSizeSmall}"
+                ToolTip.Tip="Create new item"
+                ToolTip.VerticalOffset="10">
+                <DropDownButton.Flyout>
+                    <MenuFlyout>
+                        <MenuItem Header="Create Secret.." />
+                        <MenuItem Header="Create Key.." IsEnabled="False" />
+                        <MenuItem Header="Create Certificate.." IsEnabled="False" />
+                    </MenuFlyout>
+                </DropDownButton.Flyout>
+            </DropDownButton>
+        </StackPanel>
+    </Design.PreviewWith>
+    <!--
+    <Style Selector="MenuFlyoutPresenter">
+        <Setter Property="BorderBrush" Value="Red" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" />
+        <Setter Property="BoxShadow" Value="0 2 10 0 #34000000" />
+    </Style>-->
+
+
 
     <Style Selector="TextBox.IsSmall">
         <Setter Property="MinHeight" Value="30" />
@@ -12,6 +43,37 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="8,2,2,2" />
     </Style>
+
+    <!-- <Style Selector="MenuFlyoutPresenter">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="LayoutRoot"
+                    Margin="25"
+                    Padding="4,2"
+                    Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
+                    BorderBrush="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
+                    BoxShadow="0 6 10 0 #4F000000"
+                    CornerRadius="5">
+                    <Border.Effect>
+                        <BlurEffect Radius="25" />
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <TranslateTransform X="-10" Y="-25" />
+                    </Border.RenderTransform>
+
+                    <ScrollViewer>
+                        <ItemsPresenter Name="PART_ItemsPresenter" />
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>-->
+
+    <!--    <Style Selector="DropDownButton /template/ Border#LayoutRoot">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+    </Style>-->
 
     <Style Selector="TextBox.isCompact">
         <Setter Property="MinHeight" Value="25" />

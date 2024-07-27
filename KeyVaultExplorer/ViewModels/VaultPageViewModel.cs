@@ -396,18 +396,17 @@ public partial class VaultPageViewModel : ViewModelBase
             Icon = BitmapImage,
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            ShowAsDialog = true,
+            ShowAsDialog = false,
             CanResize = true,
             Content = new PropertiesPage { DataContext = new PropertiesPageViewModel(model) },
             Width = 820,
             Height = 680,
-            Topmost = false,
             ExtendClientAreaToDecorationsHint = true,
             // TransparencyLevelHint = new List<WindowTransparencyLevel>() { WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur },
             // Background = null,
         };
 
         var topLevel = Avalonia.Application.Current.GetTopLevel() as AppWindow;
-        taskDialog.ShowDialog(topLevel);
+        taskDialog.Show(topLevel);
     }
 }

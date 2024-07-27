@@ -36,7 +36,7 @@
                     Width="16"
                     Height="16"
                     VerticalAlignment="Bottom"
-                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    RenderOptions.BitmapInterpolationMode="None"
                     UriSource="avares://KeyVaultExplorer/Assets/StatusErrorOutline.png" />
                 <TextBlock
                     Margin="5,0"
@@ -55,7 +55,7 @@
                     Height="16"
                     VerticalAlignment="Bottom"
                     IsVisible="{Binding AuthenticatedUserClaims.TenantId}"
-                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    RenderOptions.BitmapInterpolationMode="None"
                     ShowAsMonochrome="True"
                     UriSource="avares://KeyVaultExplorer/Assets/Cloud.png" />
                 <TextBlock

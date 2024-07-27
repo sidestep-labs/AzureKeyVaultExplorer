@@ -78,7 +78,7 @@ public partial class KvExplorerDb : IDisposable
         await createTableCommand.ExecuteNonQueryAsync();
     }
 
-    public IEnumerable<QuickAccess> GetQuickAccessItems()
+    public List<QuickAccess> GetQuickAccessItems()
     {
         var command = _connection.CreateCommand();
         command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
@@ -128,7 +128,7 @@ public partial class KvExplorerDb : IDisposable
         }
     }
 
-    public async Task<bool> QuickAccessItemByKeyVaultIdExists(string keyVaultId)
+    public async Task<bool> QuickAccessItemByKeyVaultIdExists(string? keyVaultId)
     {
         var command = _connection.CreateCommand();
         command.CommandText = "SELECT 1 FROM QuickAccess WHERE KeyVaultId = @KeyVaultId LIMIT 1;";
@@ -193,7 +193,7 @@ public partial class KvExplorerDb : IDisposable
         return settings;
     }
 
-    public async Task<IEnumerable<Subscriptions>> GetStoredSubscriptions()
+    public async Task<List<Subscriptions>> GetStoredSubscriptions()
     {
         var command = _connection.CreateCommand();
         command.CommandText = "SELECT DisplayName, SubscriptionId, TenantId FROM Subscriptions;";

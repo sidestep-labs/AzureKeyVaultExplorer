@@ -1,14 +1,19 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Azure.Security.KeyVault.Secrets;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Windowing;
+using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -18,6 +23,7 @@ public partial class VaultPage : UserControl
 {
     private const string DatGridElementName = "VaultContentDataGrid";
     private readonly VaultPageViewModel vaultPageViewModel;
+    private readonly NotificationViewModel _notificationViewModel;
 
     public VaultPage()
     {
@@ -30,6 +36,7 @@ public partial class VaultPage : UserControl
         KeyUp += Control_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
     }
 
     public VaultPage(Uri kvUri)
@@ -41,10 +48,10 @@ public partial class VaultPage : UserControl
         model.VaultUri = kvUri;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
-        var copyItemToClipboard = this.FindControl<MenuFlyoutItem>("CopyMenuFlyoutItem");
         KeyUp += Control_KeyUp;
         TabHost.SelectionChanged += TabHostSelectionChanged;
         TabHostSelectionChanged(KeyVaultItemType.Secret, null);
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
     }
 
     private DataGrid ValuesDataGrid { get; set; }
@@ -165,5 +172,51 @@ public partial class VaultPage : UserControl
                 GroupDescriptions = { new DataGridPathGroupDescription("Type") }
             };
         }
+    }
+
+    private void CreateSecret_Clicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Dispatcher.UIThread.Post(async () => await CreateNewSecret());
+    }
+
+    private async Task CreateNewSecret()
+    {
+        var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        var applyChangesBtn = new TaskDialogButton("Create Secret", "ApplyChangesButtonResult");
+        var vm = new CreateNewSecretVersionViewModel()
+        {
+            KeyVaultSecretModel = new SecretProperties("new-secret") { Enabled = true },
+            VaultUri = (DataContext as VaultPageViewModel).VaultUri,
+            IsEdit = false,
+            IsNew = true,
+        };
+        var dialog = new TaskDialog()
+        {
+            Title = "Create New Secret",
+            XamlRoot = lifetime?.Windows.Last() as AppWindow,
+            Buttons = { applyChangesBtn, TaskDialogButton.CancelButton, },
+            MinWidth = 600,
+            MinHeight = 700,
+            Content = new CreateNewSecretVersion() { DataContext = vm }
+        };
+
+        applyChangesBtn.Click += async (sender, args) =>
+        {
+            try
+            {
+                await vm.NewVersionCommand.ExecuteAsync(null);
+
+            }
+            catch (KeyVaultInSufficientPrivileges ex)
+            {
+                _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+            }
+            catch (Exception ex)
+            {
+                _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+            }
+        };
+
+        var result = await dialog.ShowAsync();
     }
 }

@@ -25,36 +25,49 @@ namespace KeyVaultExplorer.ViewModels;
 
 public partial class PropertiesPageViewModel : ViewModelBase
 {
-    private readonly VaultService _vaultService;
     private readonly AuthService _authService;
     private readonly IClipboard _clipboardService;
-    private readonly IStorageProvider _storageService;
     private readonly NotificationViewModel _notificationViewModel;
+    private readonly IStorageProvider _storageService;
+    private readonly VaultService _vaultService;
+    private SettingsPageViewModel _settingsPageViewModel;
 
     [ObservableProperty]
-    private bool isManaged = false;
-
-    [ObservableProperty]
-    private bool isEnabled = false;
-
-    [ObservableProperty]
-    private bool isSecret = false;
-
-    [ObservableProperty]
-    private bool isKey = false;
+    private ObservableCollection<CertificateProperties> certificatePropertiesList;
 
     [ObservableProperty]
     private bool isCertificate = false;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ShouldShowValueCommand))]
-    private bool showValue = false;
+    private bool isEnabled = false;
+
+    [ObservableProperty]
+    private bool isKey = false;
+
+    [ObservableProperty]
+    private bool isManaged = false;
+
+    [ObservableProperty]
+    private bool isSecret = false;
+
+    [ObservableProperty]
+    private ObservableCollection<KeyProperties> keyPropertiesList;
+
+    [ObservableProperty]
+    private KeyVaultContentsAmalgamation openedItem;
 
     [ObservableProperty]
     private string secretHidden = new('*', 20);
 
     [ObservableProperty]
     private string secretPlainText = "";
+
+    [ObservableProperty]
+    private ObservableCollection<SecretProperties> secretPropertiesList;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ShouldShowValueCommand))]
+    private bool showValue = false;
 
     [ObservableProperty]
     private string title = "Properties";
@@ -66,20 +79,6 @@ public partial class PropertiesPageViewModel : ViewModelBase
         _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
         _storageService = Defaults.Locator.GetRequiredService<IStorageProvider>();
     }
-
-    [ObservableProperty]
-    private ObservableCollection<KeyProperties> keyPropertiesList;
-
-    [ObservableProperty]
-    private ObservableCollection<SecretProperties> secretPropertiesList;
-
-    [ObservableProperty]
-    private ObservableCollection<CertificateProperties> certificatePropertiesList;
-
-    [ObservableProperty]
-    private KeyVaultContentsAmalgamation openedItem;
-
-    private SettingsPageViewModel _settingsPageViewModel;
 
     public PropertiesPageViewModel(KeyVaultContentsAmalgamation model)
     {
@@ -96,50 +95,10 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }, priority: DispatcherPriority.Normal);
     }
 
-    private async Task GetPropertiesForKeyVaultValue(KeyVaultContentsAmalgamation model)
+    public async Task ClearClipboardAsync()
     {
-        switch (model.Type)
-        {
-            case KeyVaultItemType.Certificate:
-                var certificateProperties = await _vaultService.GetCertificateProperties(model.VaultUri, model.Name);
-                CertificatePropertiesList = new ObservableCollection<CertificateProperties>(certificateProperties);
-                IsEnabled = certificateProperties.First().Enabled ?? false;
-                IsCertificate = true;
-                break;
-
-            case KeyVaultItemType.Key:
-                var keyPropertiesList = new ObservableCollection<KeyProperties>(await _vaultService.GetKeyProperties(model.VaultUri, model.Name));
-                IsManaged = keyPropertiesList.First().Managed;
-                IsEnabled = keyPropertiesList.First().Enabled ?? false;
-                KeyPropertiesList = new ObservableCollection<KeyProperties>(keyPropertiesList);
-                IsKey = true;
-                break;
-
-            case KeyVaultItemType.Secret:
-                var secretPropertiesList = new ObservableCollection<SecretProperties>(await _vaultService.GetSecretProperties(model.VaultUri, model.Name));
-                IsManaged = secretPropertiesList.First().Managed;
-                IsEnabled = secretPropertiesList.First().Enabled ?? false;
-                SecretPropertiesList = new ObservableCollection<SecretProperties>(secretPropertiesList);
-                IsSecret = true;
-                break;
-
-            default:
-                IsSecret = false;
-                IsCertificate = false;
-                IsKey = false;
-                break;
-        }
-        Title = $"{model.Type} {model.Name} Properties";
-    }
-
-    [RelayCommand]
-    private async Task ShouldShowValue(bool val)
-    {
-        if (IsSecret && val && IsEnabled)
-        {
-            var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
-            SecretPlainText = s.Value;
-        }
+        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
+        await _clipboardService.ClearAsync();
     }
 
     [RelayCommand]
@@ -179,114 +138,6 @@ public partial class PropertiesPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task NewVersion()
-    {
-        try
-        {
-            var dialog = new ContentDialog()
-            {
-                Title = "New Version",
-                PrimaryButtonText = "Create Version",
-                IsPrimaryButtonEnabled = true,
-                CloseButtonText = "Cancel",
-            };
-
-            if (IsSecret)
-            {
-                var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
-                var newVersion = new SecretProperties(currentItem.Id)
-                {
-                    Enabled = true,
-                };
-                var viewModel = new CreateNewSecretVersionViewModel();
-                viewModel.KeyVaultSecretModel = newVersion;
-
-                dialog.PrimaryButtonClick += async (sender, args) =>
-                {
-                    var def = args.GetDeferral();
-                    await viewModel.NewVersionCommand.ExecuteAsync(null);
-                    def.Complete();
-                };
-
-                dialog.Content = new CreateNewSecretVersion() { DataContext = viewModel };
-            }
-
-
-            var result = await dialog.ShowAsync();
-        }
-        catch (KeyVaultItemNotFoundException ex)
-        {
-        }
-        catch (KeyVaultInSufficientPrivileges ex)
-        {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
-        }
-    }
-
-  
-
-
-    private async void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-    {
-        var def = args.GetDeferral();
-        def.Complete();
-    }
-
-    [RelayCommand]
-    private async Task EditVersion()
-    {
-        try
-        {
-            var dialog = new ContentDialog()
-            {
-                Title = string.Join("Edit ", IsKey ? "Key" : IsSecret ? "Secret" : "Certificate"),
-                IsPrimaryButtonEnabled = true,
-                PrimaryButtonText = "Apply Changes",
-                CloseButtonText = "Cancel",
-                MinWidth = 600
-            };
-
-           
-            if (IsSecret)
-            {
-                var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
-                var viewModel = new CreateNewSecretVersionViewModel();
-                bool? isEnabledSecret = currentItem.Enabled;
-                if (isEnabledSecret is not null && isEnabledSecret is true)
-                    await ShouldShowValue(true);
-                viewModel.KeyVaultSecretModel = currentItem;
-                viewModel.IsEdit = true;
-                dialog.PrimaryButtonClick += async (sender, args) =>
-                {
-                    var def = args.GetDeferral();
-                    await viewModel.EditDetailsCommand.ExecuteAsync(null);
-                    def.Complete();
-                };
-
-                // In our case the Content is a UserControl, but can be anything.
-                dialog.Content = new CreateNewSecretVersion()
-                {
-                    DataContext = viewModel
-                };
-            }
-            var result = await dialog.ShowAsync();
-        }
-        catch (KeyVaultItemNotFoundException ex)
-        {
-        }
-        catch (KeyVaultInSufficientPrivileges ex)
-        {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
-        }
-    }
-
-    public async Task ClearClipboardAsync()
-    {
-        await Task.Delay(_settingsPageViewModel.ClearClipboardTimeout * 1000); // convert to seconds
-        await _clipboardService.ClearAsync();
-    }
-
-    [RelayCommand]
     private async Task Download(string exportType)
     {
         if (exportType == "Key")
@@ -319,6 +170,170 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    private async Task EditVersion()
+    {
+        try
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = string.Join("Edit ", IsKey ? "Key" : IsSecret ? "Secret" : "Certificate"),
+                IsPrimaryButtonEnabled = true,
+                PrimaryButtonText = "Apply Changes",
+                CloseButtonText = "Cancel",
+                FullSizeDesired = true,
+                MinWidth = 500
+            };
+
+            if (IsSecret)
+            {
+                var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
+                var viewModel = new CreateNewSecretVersionViewModel();
+                bool? isEnabledSecret = currentItem.Enabled;
+                if (isEnabledSecret is not null && isEnabledSecret is true)
+                    await ShouldShowValue(true);
+                viewModel.KeyVaultSecretModel = currentItem;
+                viewModel.IsEdit = true;
+                dialog.PrimaryButtonClick += async (sender, args) =>
+                {
+                    try
+                    {
+                        var def = args.GetDeferral();
+                        await viewModel.EditDetailsCommand.ExecuteAsync(null);
+                        def.Complete();
+                    }
+                    catch (KeyVaultInSufficientPrivileges ex)
+                    {
+                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+                    }
+                    catch (Exception ex)
+                    {
+                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    }
+                };
+
+                dialog.Content = new CreateNewSecretVersion()
+                {
+                    DataContext = viewModel
+                };
+            }
+            var result = await dialog.ShowAsync();
+        }
+        catch (KeyVaultItemNotFoundException ex)
+        {
+        }
+        catch (KeyVaultInSufficientPrivileges ex)
+        {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+        }
+    }
+
+    private async Task GetPropertiesForKeyVaultValue(KeyVaultContentsAmalgamation model)
+    {
+        switch (model.Type)
+        {
+            case KeyVaultItemType.Certificate:
+                var certificateProperties = await _vaultService.GetCertificateProperties(model.VaultUri, model.Name);
+                CertificatePropertiesList = new ObservableCollection<CertificateProperties>(certificateProperties);
+                IsEnabled = certificateProperties.First().Enabled ?? false;
+                IsCertificate = true;
+                break;
+
+            case KeyVaultItemType.Key:
+                var keyPropertiesList = new ObservableCollection<KeyProperties>(await _vaultService.GetKeyProperties(model.VaultUri, model.Name));
+                IsManaged = keyPropertiesList.First().Managed;
+                IsEnabled = keyPropertiesList.First().Enabled ?? false;
+                KeyPropertiesList = new ObservableCollection<KeyProperties>(keyPropertiesList);
+                IsKey = true;
+                break;
+
+            case KeyVaultItemType.Secret:
+                var secretPropertiesList = new ObservableCollection<SecretProperties>(await _vaultService.GetSecretProperties(model.VaultUri, model.Name));
+                IsManaged = secretPropertiesList.First().Managed;
+                IsEnabled = secretPropertiesList.First().Enabled ?? false;
+                SecretPropertiesList = new ObservableCollection<SecretProperties>(secretPropertiesList);
+                IsSecret = true;
+                break;
+
+            default:
+                IsSecret = false;
+                IsCertificate = false;
+                IsKey = false;
+                break;
+        }
+        Title = $"{model.Type} {model.Name} Properties";
+    }
+
+    [RelayCommand]
+    private async Task NewVersion()
+    {
+        try
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "New Version",
+                PrimaryButtonText = "Create Version",
+                IsPrimaryButtonEnabled = true,
+                FullSizeDesired = true,
+                CloseButtonText = "Cancel",
+                MinWidth = 500,
+            };
+
+            if (IsSecret)
+            {
+                var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
+                var newVersion = new SecretProperties(currentItem.Id)
+                {
+                    Enabled = true,
+                    ContentType = currentItem.ContentType,
+                };
+
+                foreach (var tag in currentItem.Tags)
+                    newVersion.Tags.Add(tag.Key, tag.Value);
+
+                var viewModel = new CreateNewSecretVersionViewModel();
+                viewModel.KeyVaultSecretModel = newVersion;
+
+                dialog.PrimaryButtonClick += async (sender, args) =>
+                {
+                    try
+                    {
+                        var def = args.GetDeferral();
+                        await viewModel.NewVersionCommand.ExecuteAsync(null);
+                        def.Complete();
+                    }
+                    catch (KeyVaultInSufficientPrivileges ex)
+                    {
+                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+                    }
+                    catch (Exception ex)
+                    {
+                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    }
+                };
+
+                dialog.Content = new CreateNewSecretVersion() { DataContext = viewModel };
+            }
+
+            var result = await dialog.ShowAsync();
+        }
+        catch (KeyVaultItemNotFoundException ex)
+        {
+        }
+        catch (KeyVaultInSufficientPrivileges ex)
+        {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+        }
+    }
+
+    [RelayCommand]
+    private void OpenInAzure()
+    {
+        if (OpenedItem is null) return;
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
+        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+    }
+
     private async void SaveFile(string fileName, string ext, string content)
     {
         var desktopFolder = await _storageService.TryGetWellKnownFolderAsync(WellKnownFolder.Downloads);
@@ -340,11 +355,12 @@ public partial class PropertiesPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void OpenInAzure()
+    private async Task ShouldShowValue(bool val)
     {
-        if (OpenedItem is null) return;
-        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
-        Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+        if (IsSecret && val && IsEnabled)
+        {
+            var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+            SecretPlainText = s.Value;
+        }
     }
-
 }

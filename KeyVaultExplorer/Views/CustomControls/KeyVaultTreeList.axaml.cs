@@ -84,8 +84,15 @@ public partial class KeyVaultTreeList : UserControl
     {
         Dispatcher.UIThread.Post(async () =>
         {
-            await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true);
+            await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true).ContinueWith((t) =>
+             {
+                 ((Control)sender)!.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
+
+             });
         }, DispatcherPriority.Input);
+
+     
+
     }
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)

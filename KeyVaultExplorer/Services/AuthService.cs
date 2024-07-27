@@ -4,6 +4,7 @@ using Microsoft.Identity.Client.Extensions.Msal;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ public class AuthService
 
     // Providing the RedirectionUri to receive the token based on success or failure.
     public bool IsAuthenticated { get; private set; } = false;
+
+    public AuthenticatedUserClaims AuthenticatedUserClaims { get; private set; }
 
     public string TenantName { get; private set; }
 
@@ -34,7 +37,7 @@ public class AuthService
     public async Task<AuthenticationResult> LoginAsync(CancellationToken cancellationToken)
     {
         await AttachTokenCache();
-        AuthenticationResult result;
+        AuthenticationResult authenticationResult;
         try
         {
             var options = new SystemWebViewOptions()
@@ -47,7 +50,7 @@ public class AuthService
             //.WithUseEmbeddedWebView(false)
             //.WithSystemWebViewOptions(options)
             //#endif
-            result = await authenticationClient.AcquireTokenInteractive(Constants.Scopes)
+            authenticationResult = await authenticationClient.AcquireTokenInteractive(Constants.Scopes)
                 //.WithExtraScopesToConsent(Constants.AzureRMScope)
                 /*
                  * Not including extra scopes allows personal accounts to sign in, however, this will be thrown.
@@ -60,11 +63,19 @@ public class AuthService
                 .ExecuteAsync(cancellationToken);
 
             IsAuthenticated = true;
-            TenantName = result.Account.Username.Split("@").TakeLast(1).Single();
+            TenantName = authenticationResult.Account.Username.Split("@").TakeLast(1).Single();
+            AuthenticatedUserClaims = new AuthenticatedUserClaims()
+            {
+                Username = authenticationResult.Account.Username,
+                TenantId = authenticationResult.TenantId,
+                Name = authenticationResult.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
+                Email = authenticationResult.ClaimsPrincipal.Identities.First().FindFirst("preferred_username").Value
+            };
+
             // set the preferences/settings of the signed in account
             //IAccount cachedUserAccount = Task.Run(async () => await PublicClientSingleton.Instance.MSALClientHelper.FetchSignedInUserFromCache()).Result;
             //Preferences.Default.Set("auth_account_id", JsonSerializer.Serialize(result.UniqueId));
-            return result;
+            return authenticationResult;
         }
         catch (MsalClientException ex)
         {
@@ -90,6 +101,14 @@ public class AuthService
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
         IsAuthenticated = true;
         TenantName = Account.Username.Split("@").TakeLast(1).Single();
+        AuthenticatedUserClaims = new AuthenticatedUserClaims()
+        {
+            Username = authenticationResult.Account.Username,
+            TenantId = authenticationResult.TenantId,
+            Name = authenticationResult.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
+            Email = authenticationResult.ClaimsPrincipal.Identities.First().FindFirst("preferred_username").Value
+        };
+
         return authenticationResult;
     }
 
@@ -122,6 +141,8 @@ public class AuthService
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
         Account = null;
+        IsAuthenticated = false;
+        AuthenticatedUserClaims = null;
         await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
     }
 

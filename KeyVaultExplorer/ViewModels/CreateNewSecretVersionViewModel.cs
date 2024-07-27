@@ -83,14 +83,6 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
-        if (Subscriptions is null || Subscriptions.Count == 0)
-        {
-            Dispatcher.UIThread.InvokeAsync(async () =>
-            {
-                Subscriptions = await GetAvailableSubscriptions();
-            }, DispatcherPriority.Input);
-        }
-        
     }
 
     public bool HasActivationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.NotBefore.HasValue;

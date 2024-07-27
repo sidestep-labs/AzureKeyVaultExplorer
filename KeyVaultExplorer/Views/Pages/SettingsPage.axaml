@@ -48,14 +48,14 @@
 
                     <ui:SettingsExpanderItem Content="Sign In" Description="Sign into to Azure Key Vault Explorer with Microsoft Account">
                         <ui:SettingsExpanderItem.Footer>
-                            <Button Command="{Binding SignInOrRefreshTokenCommand}">Sign In</Button>
+                            <Button Click="SignInButton_Click" Command="{Binding SignInOrRefreshTokenCommand}">Sign In</Button>
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
 
                     <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache.">
                         <ui:SettingsExpanderItem.Footer>
                             <Button
-                                Click="SignoutButton_Click"
+                                Click="SignOutButton_Click"
                                 Command="{Binding SignOutCommand}"
                                 Content="Sign out" />
                         </ui:SettingsExpanderItem.Footer>

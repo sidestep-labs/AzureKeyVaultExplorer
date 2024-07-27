@@ -16,9 +16,6 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string email;
-
-    [ObservableProperty]
     private AuthenticatedUserClaims authenticatedUserClaims;
 
     [ObservableProperty]
@@ -28,13 +25,18 @@ public partial class MainViewModel : ViewModelBase
 
     public NavigationFactory NavigationFactory { get; }
 
+
+    partial void OnIsAuthenticatedChanged(bool value)
+    {
+        AuthenticatedUserClaims = _authService.AuthenticatedUserClaims;
+    }
+
     public MainViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         NavigationFactory = new NavigationFactory();
     }
 
-  
     public async Task RefreshTokenAndGetAccountInformation()
     {
         var cancellation = new CancellationToken();
@@ -46,35 +48,26 @@ public partial class MainViewModel : ViewModelBase
         var identity = account.ClaimsPrincipal.Identities.First();
         var email = identity.FindAll("preferred_username").First().Value ?? account.Account.Username;
 
-        Email = email.ToLowerInvariant();
-
-        AuthenticatedUserClaims = new AuthenticatedUserClaims()
-        {
-            Username = account.Account.Username,
-            TenantId = account.TenantId,
-            Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
-            Email = account.ClaimsPrincipal.Identities.First().FindFirst("preferred_username").Value,
-        };
+        AuthenticatedUserClaims = _authService.AuthenticatedUserClaims;
 
         IsAuthenticated = _authService.IsAuthenticated;
     }
 
-
-
-     [RelayCommand]
+    [RelayCommand]
     private async Task ForceSignIn()
     {
         var cancellation = new CancellationToken();
         var account = await _authService.LoginAsync(cancellation);
-        Email = account.ClaimsPrincipal.Identities.First().FindFirst("preferred_username").Value;
+        AuthenticatedUserClaims = _authService.AuthenticatedUserClaims;
+        IsAuthenticated = _authService.IsAuthenticated;
     }
 
     [RelayCommand]
     private async Task SignOut()
     {
         await _authService.RemoveAccount();
+        AuthenticatedUserClaims = null;
     }
-
 }
 
 public class NavigationFactory : INavigationPageFactory

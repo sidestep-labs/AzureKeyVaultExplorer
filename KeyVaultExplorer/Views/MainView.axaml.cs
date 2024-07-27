@@ -12,6 +12,7 @@ using FluentAvalonia.UI.Navigation;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
 using System;
+using System.Diagnostics;
 
 #nullable disable
 
@@ -23,6 +24,11 @@ public partial class MainView : UserControl
     public static readonly RoutedEvent<RoutedEventArgs> NavigateHomeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateHomeEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSettingsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSettingsEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSubscriptionsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSubscriptionsEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> SignOutRoutedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(SignOutRoutedEvent), RoutingStrategies.Tunnel);
+
+    private readonly KeyVaultTreeListViewModel keyVaultTreeListViewModel;
+    private readonly TabViewPageViewModel tabViewPageViewModel;
+    private readonly MainViewModel mainViewModel;
 
     public MainView()
     {
@@ -30,27 +36,36 @@ public partial class MainView : UserControl
         InitializeComponent();
         KeyUp += TabViewPage_KeyUpFocusSearchBox;
         //NavView.BackRequested += OnNavigationViewBackRequested;
-        var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
-        var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
+        keyVaultTreeListViewModel = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
+        tabViewPageViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+        mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
 
         Dispatcher.UIThread.Post(async () =>
         {
             await mainViewModel.RefreshTokenAndGetAccountInformation().ContinueWith(async (t) =>
             {
-                await treeVaultVm.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
+                await keyVaultTreeListViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
             });
         }, DispatcherPriority.MaxValue);
 
         AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         AddHandler(NavigateSettingsEvent, OnNavigateSettingsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         AddHandler(NavigateSubscriptionsEvent, OnNavigateSubscriptionsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(SignOutRoutedEvent, OnSignOutRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: true);
+
     }
 
     private void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs e)
     {
         FrameView.GoBack();
     }
-
+    private void OnSignOutRoutedEvent(object sender, RoutedEventArgs e)
+    {
+        Debug.WriteLine("Signed out button pressed");
+        keyVaultTreeListViewModel.TreeViewList.Clear();
+        tabViewPageViewModel.Documents.Clear();
+        mainViewModel.IsAuthenticated = false;
+    }
     private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
     {
         if (FrameView.Content.GetType().Name != nameof(MainPage))

@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using KeyVaultExplorer.ViewModels;
+using KeyVaultExplorer.Views.CustomControls;
 
 namespace KeyVaultExplorer.Views.Pages;
 
@@ -47,5 +48,12 @@ public partial class SettingsPage : UserControl
     {
         Control control = (Control)sender!;
         control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
+    }
+
+    private void SignoutButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.SignOutRoutedEvent));
+
     }
 }

@@ -166,7 +166,7 @@
                             <BlurEffect Radius="25" />
                         </Border.Effect>
                         <Border.RenderTransform>
-                            <TranslateTransform X="-15" Y="-25" />
+                            <TranslateTransform X="-10" Y="-25" />
                         </Border.RenderTransform>
                     </Border>
 

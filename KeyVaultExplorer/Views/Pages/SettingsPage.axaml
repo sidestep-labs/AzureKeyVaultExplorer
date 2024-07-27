@@ -54,7 +54,10 @@
 
                     <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache.">
                         <ui:SettingsExpanderItem.Footer>
-                            <Button Command="{Binding SignOutCommand}" Content="Sign out" />
+                            <Button
+                                Click="SignoutButton_Click"
+                                Command="{Binding SignOutCommand}"
+                                Content="Sign out" />
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
                 </ui:SettingsExpander>

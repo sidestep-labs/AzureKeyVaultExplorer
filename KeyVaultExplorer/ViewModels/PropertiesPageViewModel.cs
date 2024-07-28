@@ -132,41 +132,57 @@ public partial class PropertiesPageViewModel : ViewModelBase
             await _clipboardService.SetTextAsync(value);
             ClearClipboardAsync().ConfigureAwait(false);
         }
-        catch (KeyVaultItemNotFoundException ex)
+        catch (KeyVaultInSufficientPrivileges ex)
         {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+        }
+        catch (Exception ex)
+        {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
         }
     }
 
     [RelayCommand]
     private async Task Download(string exportType)
     {
-        if (exportType == "Key")
+        try
         {
-            var key = await _vaultService.GetKey(OpenedItem.KeyProperties.VaultUri, OpenedItem.KeyProperties.Name);
-            using var rsa = key.Key.ToRSA();
-            var publicKey = rsa.ExportRSAPublicKey();
-            string pem = "-----BEGIN PUBLIC KEY-----\n" + Convert.ToBase64String(publicKey) + "\n-----END PUBLIC KEY-----";
-            SaveFile(OpenedItem.KeyProperties.Name, content: pem, ext: "pem");
+            if (exportType == "Key")
+            {
+                var key = await _vaultService.GetKey(OpenedItem.KeyProperties.VaultUri, OpenedItem.KeyProperties.Name);
+                using var rsa = key.Key.ToRSA();
+                var publicKey = rsa.ExportRSAPublicKey();
+                string pem = "-----BEGIN PUBLIC KEY-----\n" + Convert.ToBase64String(publicKey) + "\n-----END PUBLIC KEY-----";
+                SaveFile(OpenedItem.KeyProperties.Name, content: pem, ext: "pem");
+            }
+            else
+            {
+                var certificateWithPolicy = await _vaultService.GetCertificate(OpenedItem.CertificateProperties.VaultUri, OpenedItem.CertificateProperties.Name);
+                // Create X.509 certificate from bytes
+                var certificate = new X509Certificate2(certificateWithPolicy.Cer);
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("-----BEGIN CERTIFICATE-----");
+                var ext = "cer";
+                if (exportType == nameof(X509ContentType.Cert))
+                {
+                    sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Cert), Base64FormattingOptions.None));
+                }
+                else if (exportType == nameof(X509ContentType.Pfx))
+                {
+                    ext = "pfx";
+                    sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Pfx), Base64FormattingOptions.None));
+                }
+                sb.AppendLine("-----END CERTIFICATE-----");
+                SaveFile(OpenedItem.CertificateProperties.Name, content: sb.ToString(), ext: ext);
+            }
         }
-        else
+        catch (KeyVaultInSufficientPrivileges ex)
         {
-            var certificateWithPolicy = await _vaultService.GetCertificate(OpenedItem.CertificateProperties.VaultUri, OpenedItem.CertificateProperties.Name);
-            // Create X.509 certificate from bytes
-            var certificate = new X509Certificate2(certificateWithPolicy.Cer);
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("-----BEGIN CERTIFICATE-----");
-            var ext = "cer";
-            if (exportType == nameof(X509ContentType.Cert))
-            {
-                sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Cert), Base64FormattingOptions.None));
-            }
-            else if (exportType == nameof(X509ContentType.Pfx))
-            {
-                ext = "pfx";
-                sb.AppendLine(Convert.ToBase64String(certificate.Export(X509ContentType.Pfx), Base64FormattingOptions.None));
-            }
-            sb.AppendLine("-----END CERTIFICATE-----");
-            SaveFile(OpenedItem.CertificateProperties.Name, content: sb.ToString(), ext: ext);
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+        }
+        catch (Exception ex)
+        {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
         }
     }
 

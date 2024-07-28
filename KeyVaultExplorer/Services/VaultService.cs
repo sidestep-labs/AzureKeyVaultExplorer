@@ -241,7 +241,7 @@ public partial class VaultService
         var client = new SecretClient(kvUri, token);
         try
         {
-            var secret = await client.GetSecretAsync(secretName);
+            var secret = await client.GetSecretAsync(secretName, cancellationToken: CancellationToken.None);
             return secret;
         }
         catch (Exception ex) when (ex.Message.Contains("404"))

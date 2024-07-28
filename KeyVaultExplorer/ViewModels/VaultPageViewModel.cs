@@ -21,6 +21,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+//#if WINDOWS
+//using Windows.Data.Xml.Dom;
+//using Windows.UI.Notifications;
+//#endif
 
 namespace KeyVaultExplorer.ViewModels;
 
@@ -309,12 +313,20 @@ public partial class VaultPageViewModel : ViewModelBase
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
             await _clipboardService.SetTextAsync(value);
-            ShowCopiedStatusNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
+            ShowInAppNotification("Copied", $"The value of '{keyVaultItem.Name}' has been copied to the clipboard.", NotificationType.Success);
             _ = ClearClipboardAsync().ConfigureAwait(false);
         }
         catch (KeyVaultItemNotFoundException ex)
         {
-            ShowCopiedStatusNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
+            ShowInAppNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
+        }
+        catch (KeyVaultInSufficientPrivileges ex)
+        {
+            ShowInAppNotification($"Insufficient Rights to access '{keyVaultItem.Name}'.", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
+        }
+        catch (Exception ex)
+        {
+            ShowInAppNotification($"There was an error attempting to access '{keyVaultItem.Name}'.", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
         }
     }
 
@@ -378,11 +390,36 @@ public partial class VaultPageViewModel : ViewModelBase
         await FilterAndLoadVaultValueType(item);
     }
 
-    private void ShowCopiedStatusNotification(string subject, string message, NotificationType notificationType)
+    private  void ShowInAppNotification(string subject, string message, NotificationType notificationType)
     {
         //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
-        var notif = new Notification(subject, message, notificationType);
+        var notif = new Avalonia.Controls.Notifications.Notification(subject, message, notificationType);
         _notificationViewModel.AddMessage(notif);
+
+
+//#if WINDOWS
+//        var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
+//        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
+//        var id = new Random().Next(0, 100);
+//        string toastXml = $"""
+//          <toast activationType="protocol"> // protocol,Background,Foreground
+//            <visual>
+//                <binding template='ToastGeneric'><text id="{id}">{message}</text></binding>
+//            </visual>
+//        </toast>
+//        """;
+//        XmlDocument doc = new XmlDocument();
+//        doc.LoadXml(toastXml);
+//        var toast = new ToastNotification(doc)
+//        {
+//            ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
+//            //Tag = "Copied KV Values",
+//            ExpiresOnReboot = true
+//        };
+//        toastNotifier.Show(toast);
+//#endif
+
+
     }
 
     [RelayCommand]

@@ -82,6 +82,7 @@
                     Command="{Binding EditVersionCommand}"
                     IconSource="Edit"
                     IsEnabled="{Binding !IsManaged}"
+                    IsVisible="{Binding IsSecret}"
                     Label="Edit"
                     ToolTip.Tip="Edit Current Version"
                     ToolTip.VerticalOffset="10" />
@@ -92,6 +93,7 @@
                     Command="{Binding NewVersionCommand}"
                     IconSource="Add"
                     IsEnabled="{Binding !IsManaged}"
+                    IsVisible="{Binding IsSecret}"
                     Label="New Version"
                     ToolTip.Tip="Create New Version"
                     ToolTip.VerticalOffset="10" />
@@ -186,7 +188,7 @@
                             BorderThickness="1"
                             CornerRadius="4">
                             <ScrollViewer VerticalScrollBarVisibility="Visible">
-                                <StackPanel  VerticalAlignment="Stretch">
+                                <StackPanel VerticalAlignment="Stretch">
                                     <TextBlock Text="Properties" Theme="{StaticResource BodyStrongTextBlockStyle}" />
                                     <Grid
                                         HorizontalAlignment="Stretch"
@@ -271,7 +273,7 @@
                                     </Grid>
 
 
-                                    <StackPanel IsVisible="{Binding !!OpenedItem.Tags.Keys.Count}">
+                                    <WrapPanel IsVisible="{Binding !!OpenedItem.Tags.Keys.Count}">
                                         <TextBlock
                                             Margin="0,5"
                                             Text="Tags"
@@ -306,7 +308,7 @@
                                                 </ItemsRepeater.ItemTemplate>
                                             </ItemsRepeater>
                                         </ItemsControl>
-                                    </StackPanel>
+                                    </WrapPanel>
                                 </StackPanel>
                             </ScrollViewer>
                         </Border>

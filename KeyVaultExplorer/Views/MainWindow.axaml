@@ -56,7 +56,7 @@
                     <NativeMenu>
                         <NativeMenuItem Command="{Binding ForceSignInCommand}" Header="Login" />
                         <NativeMenuItem Command="{Binding SignOutCommand}" Header="Logout" />
-                        <NativeMenuItem Header="{Binding Email}" IsEnabled="False" />
+                        <NativeMenuItem Header="{Binding  AuthenticatedUserClaims.Email}" IsEnabled="False" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightCertificate</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M14.5,1.5v10H7V8.942H7A3.493,3.493,0,0,0,2.5,3.635V1.5Z" />
+    <path class="light-defaultgrey" d="M12,4V5H9V4ZM9,7h3V6H9Z" />
+    <path class="light-defaultgrey" d="M15,1.5v10l-.5.5H7V11H8V10H9v1h1V10h1v1h1V10h1v1h1V10H13V9h1V8H13V7h1V6H13V5h1V4H13V3h1V2H13V3H12V2H11V3H10V2H9V3H8V2H7V3H6V2H5V3H4V2H3V3.351a3.515,3.515,0,0,0-1,.707V1.5L2.5,1h12Z" />
+    <path class="light-defaultgrey-10" d="M4.5,10a3.48,3.48,0,0,0,2-.635V14.5l-2-2-2,2V9.365A3.48,3.48,0,0,0,4.5,10Zm0-6.5a3,3,0,1,0,3,3A3,3,0,0,0,4.5,3.5Z" />
+    <path class="light-defaultgrey" d="M8,6.5A3.5,3.5,0,1,0,2,8.942H2V14.5l.854.354L4.5,13.207l1.646,1.647L7,14.5V8.942H7A3.485,3.485,0,0,0,8,6.5ZM6,9.649v3.644L4.854,12.146H4.146L3,13.293V9.649H3a3.381,3.381,0,0,0,3,0ZM4.5,9A2.5,2.5,0,1,1,7,6.5,2.5,2.5,0,0,1,4.5,9Z" />
+  </g>
+</svg>

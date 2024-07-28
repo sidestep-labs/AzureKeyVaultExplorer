@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions {
         collection.AddSingleton<KeyVaultTreeListViewModel>();
         collection.AddSingleton<SettingsPageViewModel>();
         collection.AddSingleton<MainViewModel>();
+        collection.AddSingleton<SubscriptionsPageViewModel>();
         collection.AddSingleton<NotificationViewModel>();
         collection.AddSingleton<KvExplorerDb>();
         collection.AddTransient<AppSettingReader>();

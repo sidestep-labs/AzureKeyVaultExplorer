@@ -66,6 +66,7 @@
                                         <ui:BitmapIcon
                                             Width="16"
                                             Height="16"
+                                            RenderOptions.BitmapInterpolationMode="None"
                                             ShowAsMonochrome="True"
                                             UriSource="avares://KeyVaultExplorer/Assets/Pin.png" />
                                     </Button>

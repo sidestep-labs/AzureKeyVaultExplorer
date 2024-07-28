@@ -1,0 +1,56 @@
+{
+  "outputTypes": [
+    "msi",
+    "msix"
+  ],
+  "outputDirectory": "Azure Key Vault Explorer\\output",
+  "packageName": "AzureKeyVaultExplorer",
+  "publisher": "Arthur Thomas",
+  "version": "1.0.0",
+  "platform": "x86",
+  "installDir": "%ProgramFiles(x86)%\\Azure Key Vault Explorer",
+  "icon": "AppIcon.ico",
+  "fileSystemEntries": [
+    {
+      "sourcePath": "publish",
+      "targetPath": "$.installDir"
+    }
+  ],
+  "registries": [
+    {
+      "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\AzureKeyVaultExplorer",
+      "value": "This is value for default key."
+    },
+    {
+      "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\AzureKeyVaultExplorer",
+      "name": "SomeName",
+      "value": "Packaging should not be hard!"
+    }
+  ],
+  "shortcuts": [
+    {
+      "target": "$.installDir\\keyvaultexplorerdesktop.exe",
+      "name": "Azure Key Vault Explorer"
+    }
+  ],
+  "environmentVariables": [],
+  "digitalSignature": {
+    "generateTestCertificate": true,
+    "timestampServer": "http://timestamp.comodoca.com"
+  },
+  "msi": {
+    "upgradeCode": "{B1E93764-4E4C-499D-A55E-3324B6327E9F}",
+    "installDialog": {
+      "packageDescription": "Azure Key Vault Explorer, a GUI for finding secrets in Microsoft Azure Key Vault",
+      "publisherUrl": "https://sidesteplabs.us/",
+      "releaseNotesUrl": "https://github.com/sidestep-labs/AzureKeyVaultExplorer/releases",
+      "eulaUrl": "https://github.com/sidestep-labs/AzureKeyVaultExplorer/blob/master/LICENSE",
+      "primaryAccent": "#ff6200"
+    }
+  },
+  "msix": {
+    "installDialog": {
+      "primaryAccent": "#ff6200"
+    }
+  }
+}

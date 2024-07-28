@@ -15,12 +15,13 @@ namespace KeyVaultExplorer.Views.CustomControls;
 public partial class KeyVaultTreeList : UserControl
 {
     private readonly TabViewPageViewModel _tabViewViewModel;
-    public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<KeyVaultTreeList, string>(nameof(Title), defaultValue: "test");
-    public string Title
-    {
-        get => GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
+    //public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<KeyVaultTreeList, string>(nameof(Title), defaultValue: "test");
+
+    //public string Title
+    //{
+    //    get => GetValue(TitleProperty);
+    //    set => SetValue(TitleProperty, value);
+    //}
     public KeyVaultTreeList()
     {
         InitializeComponent();
@@ -83,8 +84,15 @@ public partial class KeyVaultTreeList : UserControl
     {
         Dispatcher.UIThread.Post(async () =>
         {
-            await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true);
+            await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true).ContinueWith((t) =>
+             {
+                 ((Control)sender)!.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
+
+             });
         }, DispatcherPriority.Input);
+
+     
+
     }
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)

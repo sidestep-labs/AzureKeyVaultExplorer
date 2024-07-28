@@ -1,4 +1,6 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Threading;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
@@ -39,8 +41,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly AuthService _authService;
     private readonly KvExplorerDb _dbContext;
     private readonly VaultService _vaultService;
-    private NotificationViewModel _notificationViewModel;
-    private readonly string[] WatchedNameOfProps = { nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected) };
+    private readonly NotificationViewModel _notificationViewModel;
+    private readonly string[] WatchedNameOfProps = [nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected)];
 
     public KeyVaultTreeListViewModel()
     {
@@ -61,7 +63,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void CollpaseAll()
+    public void CollapseAll()
     {
         foreach (KvSubscriptionModel item in TreeViewList)
         {

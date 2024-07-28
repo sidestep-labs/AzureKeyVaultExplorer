@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,16 +21,32 @@ namespace KeyVaultExplorer.Services;
 
 public partial class VaultService
 {
+#pragma warning disable IDE0290 // Use primary constructor
     public VaultService(AuthService authService, IMemoryCache memoryCache, KvExplorerDb dbContext)
+#pragma warning restore IDE0290 // Use primary constructor
     {
         _authService = authService;
         _memoryCache = memoryCache;
         _dbContext = dbContext;
     }
 
-    public AuthService _authService { get; set; }
-    public IMemoryCache _memoryCache { get; set; }
-    public KvExplorerDb _dbContext { get; set; }
+    private AuthService _authService { get; set; }
+    private KvExplorerDb _dbContext { get; set; }
+    private IMemoryCache _memoryCache { get; set; }
+
+    public async Task<KeyVaultKey> CreateKey(KeyVaultKey key, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(KeyVaultUri, token);
+        return await client.CreateKeyAsync(key.Name, key.KeyType);
+    }
+
+    public async Task<KeyVaultSecret> CreateSecret(KeyVaultSecret secret, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new SecretClient(KeyVaultUri, token);
+        return await client.SetSecretAsync(secret);
+    }
 
     public async IAsyncEnumerable<SubscriptionResourceWithNextPageToken> GetAllSubscriptions(CancellationToken cancellationToken = default, string continuationToken = null)
     {
@@ -224,7 +241,7 @@ public partial class VaultService
         var client = new SecretClient(kvUri, token);
         try
         {
-            var secret = await client.GetSecretAsync(secretName);
+            var secret = await client.GetSecretAsync(secretName, cancellationToken: CancellationToken.None);
             return secret;
         }
         catch (Exception ex) when (ex.Message.Contains("404"))
@@ -233,7 +250,7 @@ public partial class VaultService
         }
         catch (Exception ex) when (ex.Message.Contains("403"))
         {
-            throw new KeyVaultInSufficientPrivileges(ex.Message, ex);
+            throw new KeyVaultInsufficientPrivilegesException(ex.Message, ex);
         }
     }
 
@@ -257,9 +274,9 @@ public partial class VaultService
         }
     }
 
-    public async Task<Dictionary<string, KeyVaultResource>> GetStoredSelectedSubscriptions(string subsriptionId)
+    public async Task<Dictionary<string, KeyVaultResource>> GetStoredSelectedSubscriptions(string subscriptionId)
     {
-        var resource = new ResourceIdentifier(subsriptionId);
+        var resource = new ResourceIdentifier(subscriptionId);
         var armClient = new ArmClient(new CustomTokenCredential(await _authService.GetAzureArmTokenSilent()));
         SubscriptionResource subscription = armClient.GetSubscriptionResource(resource);
 
@@ -308,7 +325,7 @@ public partial class VaultService
         }
     }
 
-    public async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
+    public static async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
     {
         await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
         {
@@ -316,20 +333,17 @@ public partial class VaultService
         }
     }
 
-    public async Task<KeyVaultSecret> CreateSecret(KeyVaultSecret keyVaultSecret, Uri KeyVaultUri)
-    {
-            var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
-            SecretClient client = new SecretClient(KeyVaultUri, token);
-            return await client.SetSecretAsync(keyVaultSecret);
-       
-    }
-
-    public async Task<SecretProperties> UpdateSecret(SecretProperties secretProperties, Uri KeyVaultUri)
+    public async Task<KeyVaultKey> UpdateKey(KeyProperties properties, Uri KeyVaultUri)
     {
         var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new KeyClient(KeyVaultUri, token);
+        return await client.UpdateKeyPropertiesAsync(properties);
+    }
 
-                SecretClient client = new SecretClient(KeyVaultUri, token);
-
-              return  await client.UpdateSecretPropertiesAsync(secretProperties);
+    public async Task<SecretProperties> UpdateSecret(SecretProperties properties, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new SecretClient(KeyVaultUri, token);
+        return await client.UpdateSecretPropertiesAsync(properties);
     }
 }

@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using KeyVaultExplorer.ViewModels;
+using KeyVaultExplorer.Views.CustomControls;
 
 namespace KeyVaultExplorer.Views.Pages;
 
@@ -20,16 +21,10 @@ public partial class SettingsPage : UserControl
         AddHandler(Frame.NavigatedToEvent, OnNavigatedTo, RoutingStrategies.Direct);
     }
 
-    private void OnNavigatedTo(object sender, NavigationEventArgs e)
+    private void AppTheme_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
-        if (e.NavigationMode != NavigationMode.Back && IsInitialLoad)
-        {
-            IsInitialLoad = false;
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.Execute(null);
-            }, DispatcherPriority.Background);
-        }
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
     }
 
     private void BackgroundTransparency_ChangedEvent(object? sender, RoutedEventArgs e)
@@ -40,12 +35,32 @@ public partial class SettingsPage : UserControl
 
     private void FetchUserInfoSettingsExpanderItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.Execute(null);
+        (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.ExecuteAsync(null);
     }
 
-    private void AppTheme_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    private void OnNavigatedTo(object sender, NavigationEventArgs e)
+    {
+        if (e.NavigationMode != NavigationMode.Back && IsInitialLoad)
+        {
+            IsInitialLoad = false;
+            Dispatcher.UIThread.InvokeAsync(async() =>
+            {
+                await (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.ExecuteAsync(null);
+                //((Control)sender)!.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
+
+            }, DispatcherPriority.Background);
+        }
+    }
+
+    private void SignInButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         Control control = (Control)sender!;
-        control.RaiseEvent(new RoutedEventArgs(MainWindow.SetAppThemeEvent));
+        control.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
+    }
+
+    private void SignOutButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Control control = (Control)sender!;
+        control.RaiseEvent(new RoutedEventArgs(MainView.SignOutRoutedEvent));
     }
 }

@@ -100,7 +100,7 @@
                     <ui:BitmapIcon
                         Width="16"
                         Height="16"
-                        RenderOptions.BitmapInterpolationMode="HighQuality"
+                        RenderOptions.BitmapInterpolationMode="None"
                         ShowAsMonochrome="True"
                         UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
                 </Button>
@@ -108,7 +108,7 @@
                 <Button
                     Margin="5,0,0,0"
                     VerticalAlignment="Center"
-                    Command="{Binding CollpaseAllCommand}"
+                    Command="{Binding CollapseAllCommand}"
                     Theme="{StaticResource TransparentButton}"
                     ToolTip.Tip="Collapse All"
                     ToolTip.VerticalOffset="10">
@@ -116,7 +116,7 @@
                         <ui:BitmapIcon
                             Width="16"
                             Height="16"
-                            RenderOptions.BitmapInterpolationMode="HighQuality"
+                            RenderOptions.BitmapInterpolationMode="None"
                             ShowAsMonochrome="True"
                             UriSource="avares://KeyVaultExplorer/Assets/CollapseAll.png" />
                     </StackPanel>
@@ -274,7 +274,7 @@
                             <ui:BitmapIcon
                                 Width="16"
                                 Height="16"
-                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                RenderOptions.BitmapInterpolationMode="None"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://KeyVaultExplorer/Assets/KeyVault.png" />
                             <TextBlock

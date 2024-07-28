@@ -9,9 +9,13 @@ using Avalonia.VisualTree;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;
 using FluentAvalonia.UI.Navigation;
+using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
 using System;
+using System.Diagnostics;
+using System.Linq;
 
 #nullable disable
 
@@ -19,10 +23,15 @@ namespace KeyVaultExplorer.Views;
 
 public partial class MainView : UserControl
 {
-    public static MainView? Instance { get; private set; }
     public static readonly RoutedEvent<RoutedEventArgs> NavigateHomeEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateHomeEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSettingsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSettingsEvent), RoutingStrategies.Tunnel);
     public static readonly RoutedEvent<RoutedEventArgs> NavigateSubscriptionsEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(NavigateSubscriptionsEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> SignInRoutedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(SignInRoutedEvent), RoutingStrategies.Tunnel);
+    public static readonly RoutedEvent<RoutedEventArgs> SignOutRoutedEvent = RoutedEvent.Register<MainView, RoutedEventArgs>(nameof(SignOutRoutedEvent), RoutingStrategies.Tunnel);
+    private readonly KeyVaultTreeListViewModel keyVaultTreeListViewModel;
+    private readonly MainViewModel mainViewModel;
+    private readonly TabViewPageViewModel tabViewPageViewModel;
+    private readonly AuthService authService;
 
     public MainView()
     {
@@ -30,47 +39,33 @@ public partial class MainView : UserControl
         InitializeComponent();
         KeyUp += TabViewPage_KeyUpFocusSearchBox;
         //NavView.BackRequested += OnNavigationViewBackRequested;
-        var treeVaultVm = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
-        var mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
+        keyVaultTreeListViewModel = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
+        tabViewPageViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+        mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
+        authService = Defaults.Locator.GetRequiredService<AuthService>();
+
 
         Dispatcher.UIThread.Post(async () =>
         {
             await mainViewModel.RefreshTokenAndGetAccountInformation().ContinueWith(async (t) =>
             {
-                await treeVaultVm.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
+                await keyVaultTreeListViewModel.GetAvailableKeyVaultsCommand.ExecuteAsync(false);
             });
         }, DispatcherPriority.MaxValue);
 
         AddHandler(NavigateHomeEvent, OnNavigateHomeEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         AddHandler(NavigateSettingsEvent, OnNavigateSettingsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
         AddHandler(NavigateSubscriptionsEvent, OnNavigateSubscriptionsEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(SignInRoutedEvent, OnSignInRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
+        AddHandler(SignOutRoutedEvent, OnSignOutRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }
 
-    private void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs e)
+    public static MainView? Instance { get; private set; }
+    private FrameNavigationOptions NavOptions => new FrameNavigationOptions
     {
-        FrameView.GoBack();
-    }
-
-    private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
-    {
-        if (FrameView.Content.GetType().Name != nameof(MainPage))
-            FrameView.NavigateFromObject(new MainPage(), NavOptions);
-    }
-
-    private void OnNavigateSettingsEvent(object sender, RoutedEventArgs e)
-    {
-        if (FrameView.Content.GetType().Name != nameof(SettingsPage))
-            FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
-    }
-
-    private void OnNavigateSubscriptionsEvent(object sender, RoutedEventArgs e)
-    {
-        if (FrameView.Content.GetType().Name != nameof(SubscriptionsPage))
-            FrameView.NavigateFromObject(new SubscriptionsPage(), NavOptions);
-    }
-
-    //var menuItems = new List<NavigationViewItemBase>(4);
-    //var footerItems = new List<NavigationViewItemBase>(2);
+        TransitionInfoOverride = new SlideNavigationTransitionInfo(),
+        IsNavigationStackEnabled = true
+    };
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
@@ -84,20 +79,6 @@ public partial class MainView : UserControl
         FrameView.Navigated += OnFrameViewNavigated;
 
         FrameView.NavigateFromObject(new MainPage());
-    }
-
-    private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
-    {
-        var page = e.Content as Control;
-
-        if (FrameView.BackStackDepth > 0) //&& !NavView.IsBackButtonVisible
-        {
-            AnimateContentForBackButton(true);
-        }
-        else if (FrameView.BackStackDepth == 0) // && NavView.IsBackButtonVisible
-        {
-            AnimateContentForBackButton(false);
-        }
     }
 
     private async void AnimateContentForBackButton(bool show)
@@ -171,11 +152,44 @@ public partial class MainView : UserControl
         }
     }
 
-    private FrameNavigationOptions NavOptions => new FrameNavigationOptions
+    //var menuItems = new List<NavigationViewItemBase>(4);
+    //var footerItems = new List<NavigationViewItemBase>(2);
+    private void OnFrameViewNavigated(object sender, NavigationEventArgs e)
     {
-        TransitionInfoOverride = new SlideNavigationTransitionInfo(),
-        IsNavigationStackEnabled = true
-    };
+        var page = e.Content as Control;
+
+        if (FrameView.BackStackDepth > 0) //&& !NavView.IsBackButtonVisible
+        {
+            AnimateContentForBackButton(true);
+        }
+        else if (FrameView.BackStackDepth == 0) // && NavView.IsBackButtonVisible
+        {
+            AnimateContentForBackButton(false);
+        }
+    }
+
+    private void OnNavigateHomeEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(MainPage))
+            FrameView.NavigateFromObject(new MainPage(), NavOptions);
+    }
+
+    private void OnNavigateSettingsEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(SettingsPage))
+            FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
+    }
+
+    private void OnNavigateSubscriptionsEvent(object sender, RoutedEventArgs e)
+    {
+        if (FrameView.Content.GetType().Name != nameof(SubscriptionsPage))
+            FrameView.NavigateFromObject(new SubscriptionsPage(), NavOptions);
+    }
+
+    private void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs e)
+    {
+        FrameView.GoBack();
+    }
 
     private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
@@ -185,18 +199,19 @@ public partial class MainView : UserControl
         }
     }
 
-    //private void ShowAccountTeachingTip(object sender, TappedEventArgs e)
-    //{
-    //    AccountTeachingTip.IsOpen = true;
-    //}
+    private void OnSignInRoutedEvent(object sender, RoutedEventArgs e)
+    {
+        mainViewModel.AuthenticatedUserClaims = authService.AuthenticatedUserClaims;
+        mainViewModel.IsAuthenticated = authService.IsAuthenticated;
+    }
 
-    //private void TeachingTip_ActionButtonClick(TeachingTip sender, System.EventArgs args)
-    //{
-    //    if (FrameView.Content.GetType().Name == nameof(SettingsPage))
-    //        return;
-    //    FrameView.NavigateFromObject(new SettingsPage(), NavOptions);
-    //}
-
+    private void OnSignOutRoutedEvent(object sender, RoutedEventArgs e)
+    {
+        keyVaultTreeListViewModel.TreeViewList.Clear();
+        tabViewPageViewModel.Documents.Clear();
+        mainViewModel.IsAuthenticated = false;
+        mainViewModel.AuthenticatedUserClaims = null;
+    }
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))

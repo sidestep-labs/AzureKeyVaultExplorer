@@ -133,21 +133,14 @@ public partial class SettingsPageViewModel : ViewModelBase
 
         if (account is null)
             account = await _authService.LoginAsync(cancellation);
-
-        AuthenticatedUserClaims = new AuthenticatedUserClaims()
-        {
-            Username = account.Account.Username,
-            TenantId = account.TenantId,
-            Name = account.ClaimsPrincipal.Identities.First().FindFirst("name").Value,
-            Email = account.ClaimsPrincipal.Identities.First().FindFirst("{preferred_username")?.Value,
-        };
+        AuthenticatedUserClaims = _authService.AuthenticatedUserClaims;
     }
 
     [RelayCommand]
     private async Task SignOut()
     {
         await _authService.RemoveAccount();
-        AuthenticatedUserClaims = null;
+        AuthenticatedUserClaims = _authService.AuthenticatedUserClaims;
     }
 
     [RelayCommand]
@@ -156,20 +149,5 @@ public partial class SettingsPageViewModel : ViewModelBase
         Process.Start(new ProcessStartInfo("https://github.com/cricketthomas/KeyVaultExplorer/issues/new") { UseShellExecute = true, Verb = "open" });
     }
 
-    // TODO: Create method of changing the background color from transparent to non stranparent
-    //[RelayCommand]
-    //private async Task SetNavigationLayout()
-    //{
-    //    await AddOrUpdateAppSettings(nameof(NavigationLayoutMode), NavigationLayoutMode);
-    //}
-    //private async Task LoadApplicationVersion()
-    //{
-    //    //string buildDirProps = Environment.GetEnvironmentVariable("EnvironmentName");
-    //    //string _version = await File.ReadAllTextAsync(".\\VERSION.txt");
-    //    //if (!System.Version.TryParse(_version, out Version fullVersion))
-    //    //{
-    //    //    Version = "Missing version file" + buildDirProps;
-    //    //    return;
-    //    //}
-    //    //Version = $"{fullVersion.Major}.{fullVersion.Minor}.{fullVersion.Build}.{fullVersion.Revision}-{buildDirProps}";
+ 
 }

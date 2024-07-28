@@ -24,6 +24,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SubscriptionDataItem> subscriptions;
 
+ 
     private readonly KvExplorerDb _dbContext;
     private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;
@@ -53,7 +54,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
                 IsPinned = savedSubscriptions.GetValueOrDefault(item.SubscriptionResource.Data.SubscriptionId)?.SubscriptionId is not null
             });
             count++;
-            if (item.ContinuationToken != null && count > 50)
+            if (item.ContinuationToken != null && count > 150)
             {
                 ContinuationToken = item.ContinuationToken;
                 Debug.WriteLine(item.ContinuationToken);
@@ -62,6 +63,35 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         }
         IsBusy = false;
     }
+
+
+
+    [RelayCommand]
+    public async Task LoadMore()
+    {
+        int count = 0;
+        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions()).ToDictionary(s => s.SubscriptionId);
+
+        await foreach (var item in _vaultService.GetAllSubscriptions(continuationToken: ContinuationToken))
+        {
+            Subscriptions.Add(new SubscriptionDataItem
+            {
+                Data = item.SubscriptionResource.Data,
+                IsPinned = savedSubscriptions.GetValueOrDefault(item.SubscriptionResource.Data.SubscriptionId)?.SubscriptionId is not null
+            });
+            count++;
+            if (item.ContinuationToken != null && count > 150)
+            {
+                ContinuationToken = item.ContinuationToken;
+                Debug.WriteLine(item.ContinuationToken);
+                break;
+            }
+        }
+        IsBusy = false;
+    }
+
+
+
 
     [RelayCommand]
     public void SelectAllSubscriptions()

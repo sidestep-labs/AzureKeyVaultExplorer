@@ -7,7 +7,7 @@
 
 
 
-	<SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+    <SolidColorBrush x:Key="DynamicActiveBackgroundFAColor" Color="{DynamicResource SolidBackgroundFillColorBase}" />
     <!--<StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SelectedTabViewColorKv" />
     <SolidColorBrush x:Key="SelectedTabViewColorKv" Color="Transparent" />-->
 
@@ -102,7 +102,7 @@
 
                 <Grid>
                     <!--  Blurred border  -->
-                    <Border Margin="25" BoxShadow="0 6 10 0 #4F000000">
+                    <Border Margin="25" BoxShadow="0 4 10 0 #44000000">
                         <Border.Effect>
                             <BlurEffect Radius="25" />
                         </Border.Effect>
@@ -122,7 +122,7 @@
                         Background="{TemplateBinding Background}"
                         BackgroundSizing="CenterBorder"
                         BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}"
-                        BorderThickness="2"
+                        BorderThickness="1"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.RenderTransform>
                             <TranslateTransform X="-10" Y="-20" />
@@ -144,6 +144,64 @@
         </Setter>
     </ControlTheme>
 
+
+
+    <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
+        <Setter Property="Background" Value="{DynamicResource MenuFlyoutPresenterBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MenuFlyoutPresenterBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource MenuFlyoutPresenterBorderThemeThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource MenuFlyoutPresenterThemePadding}" />
+        <Setter Property="MaxWidth" Value="{DynamicResource FlyoutThemeMaxWidth}" />
+        <Setter Property="MinHeight" Value="{DynamicResource MenuFlyoutThemeMinHeight}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Grid>
+                    <!--  Blurred border  -->
+                    <Border Margin="25" BoxShadow="0 4 10 0 #44000000">
+                        <Border.Effect>
+                            <BlurEffect Radius="25" />
+                        </Border.Effect>
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-10" Y="-25" />
+                        </Border.RenderTransform>
+                    </Border>
+
+                    <!--  Content  Y="-20"  -->
+
+                    <!--  BoxShadow="0 2 10 0 #56000000"  -->
+                    <Border
+                        Name="LayoutRoot"
+                        Margin="25"
+                        Padding="{DynamicResource FlyoutBorderThemePadding}"
+                        VerticalAlignment="Top"
+                        Background="{TemplateBinding Background}"
+                        BackgroundSizing="CenterBorder"
+                        BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-10" Y="-25" />
+                        </Border.RenderTransform>
+                        <ScrollViewer
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            <ItemsPresenter
+                                Name="PART_ItemsPresenter"
+                                Grid.IsSharedSizeScope="True"
+                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                KeyboardNavigation.TabNavigation="Continue" />
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
 
 
 

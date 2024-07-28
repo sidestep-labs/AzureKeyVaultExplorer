@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:custom="clr-namespace:KeyVaultExplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:effects="using:Avalonia.Media"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer.shared"
     xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
@@ -47,6 +48,10 @@
                 IconSource="Copy"
                 Text="Copy URI" />
         </ui:FAMenuFlyout>
+
+
+
+
     </UserControl.Resources>
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
@@ -84,11 +89,20 @@
                 Grid.ColumnSpan="5">
                 <TabStrip
                     Name="TabHost"
+                    Height="30"
                     VerticalAlignment="Center"
                     ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
                     SelectedIndex="0"
                     SelectedValue="{Binding SelectedTab, Mode=TwoWay}"
                     Theme="{StaticResource AlternateTabStripTheme}">
+                    <TabStrip.Styles>
+                        <Styles>
+                            <Style Selector="TabStripItem">
+                                <Setter Property="Height" Value="30" />
+                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                            </Style>
+                        </Styles>
+                    </TabStrip.Styles>
                     <TabStripItem
                         Name="Secret"
                         Content="Secrets"
@@ -99,7 +113,7 @@
                 </TabStrip>
 
                 <Button
-                    Margin="5,0,0,0"
+                    Margin="5,0,5,0"
                     VerticalAlignment="Center"
                     Click="RefreshButton_OnClick"
                     Theme="{StaticResource TransparentButton}"
@@ -115,10 +129,52 @@
                             UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
                     </StackPanel>
                 </Button>
+                <!--
+                    Click="CreateSecret_Clicked"
+                    Theme="{StaticResource TransparentButton}"
+                -->
 
+                <DropDownButton
+                    Name="CreateDropDownButton"
+                    Margin="5,0,5,0"
+                    FontSize="{DynamicResource FontSizeSmall}"
+                    ToolTip.Tip="Create new item"
+                    ToolTip.VerticalOffset="10">
+                    <DropDownButton.Styles>
+                        <!--       <Style Selector="DropDownButton /template/ Border#RootBorder">
+                            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+                        </Style>-->
+
+                        <Style Selector="DropDownButton#CreateDropDownButton">
+                            <Setter Property="MinHeight" Value="28" />
+                            <Setter Property="Height" Value="28" />
+                            <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                        </Style>
+
+
+                    </DropDownButton.Styles>
+                    <DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <ui:BitmapIcon
+                                Width="16"
+                                Height="16"
+                                VerticalAlignment="{OnPlatform Bottom,
+                                                               Windows=Bottom}"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                UriSource="avares://KeyVaultExplorer/Assets/Add.png" />
+                            <TextBlock VerticalAlignment="{OnPlatform Bottom, Windows=Center}" Text="Create Item" />
+                        </StackPanel>
+                    </DropDownButton.Content>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout>
+                            <MenuItem Click="CreateSecret_Clicked" Header="Create Secret.." />
+                            <MenuItem Header="Create Key.." IsEnabled="False" />
+                            <MenuItem Header="Create Certificate.." IsEnabled="False" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
                 <TextBox
                     Name="SearchTextBox"
-                    Margin="80,0,0,0"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     AcceptsReturn="False"

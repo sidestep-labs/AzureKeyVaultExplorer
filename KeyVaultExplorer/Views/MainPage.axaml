@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
     xmlns:pages="clr-namespace:KeyVaultExplorer.Views.Pages"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="clr-namespace:KeyVaultExplorer.ViewModels"
@@ -36,13 +37,19 @@
                     Width="16"
                     Height="16"
                     VerticalAlignment="Bottom"
-                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    RenderOptions.BitmapInterpolationMode="None"
                     UriSource="avares://KeyVaultExplorer/Assets/StatusErrorOutline.png" />
                 <TextBlock
-                    Margin="5,0"
+                    Margin="4,0"
                     Background="{x:Null}"
                     FontSize="{StaticResource FontSizeSmall}"
-                    Text="No User Found" />
+                    Text="You are currently signed out." />
+                <!--    <TextBlock
+                    Margin="4,0"
+                    Background="{x:Null}"
+                    FontSize="{StaticResource FontSizeSmall}"
+                    Text="Sign In"
+                    TextDecorations="Underline" />-->
             </StackPanel>
 
 
@@ -55,14 +62,14 @@
                     Height="16"
                     VerticalAlignment="Bottom"
                     IsVisible="{Binding AuthenticatedUserClaims.TenantId}"
-                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                    RenderOptions.BitmapInterpolationMode="None"
                     ShowAsMonochrome="True"
                     UriSource="avares://KeyVaultExplorer/Assets/Cloud.png" />
                 <TextBlock
                     Margin="5,0"
                     Background="{x:Null}"
                     FontSize="{StaticResource FontSizeSmall}"
-                    Text="{Binding Email}" />
+                    Text="{Binding AuthenticatedUserClaims.Email}" />
             </StackPanel>
         </StackPanel>
     </Grid>

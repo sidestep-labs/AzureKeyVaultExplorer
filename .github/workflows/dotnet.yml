@@ -3,9 +3,6 @@ name: .NET Build and Publish
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: 
-      - "*"
   workflow_dispatch:
 
 permissions:

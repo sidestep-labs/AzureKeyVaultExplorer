@@ -320,7 +320,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             ShowInAppNotification($"A value was not found for '{keyVaultItem.Name}'", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
         }
-        catch (KeyVaultInSufficientPrivileges ex)
+        catch (KeyVaultInsufficientPrivilegesException ex)
         {
             ShowInAppNotification($"Insufficient Rights to access '{keyVaultItem.Name}'.", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
         }

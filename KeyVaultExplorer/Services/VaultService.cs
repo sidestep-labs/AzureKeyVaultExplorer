@@ -250,7 +250,7 @@ public partial class VaultService
         }
         catch (Exception ex) when (ex.Message.Contains("403"))
         {
-            throw new KeyVaultInSufficientPrivileges(ex.Message, ex);
+            throw new KeyVaultInsufficientPrivilegesException(ex.Message, ex);
         }
     }
 

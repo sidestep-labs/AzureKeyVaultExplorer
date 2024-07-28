@@ -36,18 +36,36 @@ public class KeyVaultItemNotFailedToUpdate : Exception
     }
 }
 
-public class KeyVaultInSufficientPrivileges : Exception
+public class KeyVaultInsufficientPrivilegesException : Exception
 {
-    public KeyVaultInSufficientPrivileges()
+    public KeyVaultInsufficientPrivilegesException()
     {
     }
 
-    public KeyVaultInSufficientPrivileges(string message)
+    public KeyVaultInsufficientPrivilegesException(string message)
         : base(message)
     {
     }
 
-    public KeyVaultInSufficientPrivileges(string message, Exception inner)
+    public KeyVaultInsufficientPrivilegesException(string message, Exception inner)
+        : base(message, inner)
+    {
+    }
+}
+
+
+public class SubscriptionInsufficientPrivileges : Exception
+{
+    public SubscriptionInsufficientPrivileges()
+    {
+    }
+
+    public SubscriptionInsufficientPrivileges(string message)
+        : base(message)
+    {
+    }
+
+    public SubscriptionInsufficientPrivileges(string message, Exception inner)
         : base(message, inner)
     {
     }

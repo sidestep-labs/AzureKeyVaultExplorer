@@ -207,7 +207,7 @@ public partial class VaultPage : UserControl
                 await vm.NewVersionCommand.ExecuteAsync(null);
 
             }
-            catch (KeyVaultInSufficientPrivileges ex)
+            catch (KeyVaultInsufficientPrivilegesException ex)
             {
                 _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
             }

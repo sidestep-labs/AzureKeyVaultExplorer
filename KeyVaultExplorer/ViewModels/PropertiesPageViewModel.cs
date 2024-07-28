@@ -132,7 +132,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
             await _clipboardService.SetTextAsync(value);
             ClearClipboardAsync().ConfigureAwait(false);
         }
-        catch (KeyVaultInSufficientPrivileges ex)
+        catch (KeyVaultInsufficientPrivilegesException ex)
         {
             _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
         }
@@ -176,7 +176,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 SaveFile(OpenedItem.CertificateProperties.Name, content: sb.ToString(), ext: ext);
             }
         }
-        catch (KeyVaultInSufficientPrivileges ex)
+        catch (KeyVaultInsufficientPrivilegesException ex)
         {
             _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
         }
@@ -217,7 +217,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                         await viewModel.EditDetailsCommand.ExecuteAsync(null);
                         def.Complete();
                     }
-                    catch (KeyVaultInSufficientPrivileges ex)
+                    catch (KeyVaultInsufficientPrivilegesException ex)
                     {
                         _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
                     }
@@ -237,7 +237,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         catch (KeyVaultItemNotFoundException ex)
         {
         }
-        catch (KeyVaultInSufficientPrivileges ex)
+        catch (KeyVaultInsufficientPrivilegesException ex)
         {
             _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
         }
@@ -317,7 +317,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                         await viewModel.NewVersionCommand.ExecuteAsync(null);
                         def.Complete();
                     }
-                    catch (KeyVaultInSufficientPrivileges ex)
+                    catch (KeyVaultInsufficientPrivilegesException ex)
                     {
                         _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
                     }
@@ -335,7 +335,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         catch (KeyVaultItemNotFoundException ex)
         {
         }
-        catch (KeyVaultInSufficientPrivileges ex)
+        catch (KeyVaultInsufficientPrivilegesException ex)
         {
             _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
         }

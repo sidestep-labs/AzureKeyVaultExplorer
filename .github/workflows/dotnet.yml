@@ -27,7 +27,7 @@ jobs:
             win-nuget
     - name: Publish Windows
       run: | 
-        ./build.ps1 -Runtime win-x64 -PublishAot -BuildNumber '0.0.${{github.run_number }}'
+        ./build.ps1 -Runtime win-x64 -PublishAot -BuildNumber '1.0.${{github.run_number }}'
         New-Item -ItemType Directory -Path "win-x64" 
         Move-Item -Path ".\publish" -Destination "$env:GITHUB_WORKSPACE\win-x64\publish"
         gci -path  "$env:GITHUB_WORKSPACE\win-x64\publish"
@@ -57,7 +57,7 @@ jobs:
             mac-nuget
     - name: publish_macOS_intel
       run: |
-        ./build.ps1 -Runtime osx-x64 -PublishAot -BuildNumber '0.0.${{github.run_number }}'       
+        ./build.ps1 -Runtime osx-x64 -PublishAot -BuildNumber '1.0.${{github.run_number }}'       
         New-Item -ItemType Directory -Path "osx-x64" 
         Move-Item -Path "Azure Key Vault Explorer.app" -Destination "$env:GITHUB_WORKSPACE\osx-x64\Azure Key Vault Explorer.app"
       shell: pwsh
@@ -87,7 +87,7 @@ jobs:
             #mac-arm-nuget
     - name: Publish macOS Arm
       run: | 
-        ./build.ps1 -Runtime osx-arm64 -PublishAot:$false -BuildNumber '0.0.${{github.run_number }}'      
+        ./build.ps1 -Runtime osx-arm64 -PublishAot:$false -BuildNumber '1.0.${{github.run_number }}'      
         New-Item -ItemType Directory -Path "osx-arm64" 
         Move-Item -Path ".\publish" -Destination "$env:GITHUB_WORKSPACE\osx-arm64\publish"
         Rename-Item -Path "$env:GITHUB_WORKSPACE\osx-arm64\publish\keyvaultexplorerdesktop" -NewName "Azure Key Vault Explorer" -Force 

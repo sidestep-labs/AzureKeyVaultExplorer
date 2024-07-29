@@ -74,3 +74,12 @@ if ($Runtime -eq "osx-x64") {
     Rename-Item -Path $initialRootDir -NewName "Azure Key Vault Explorer.app" -Force 
 
 }
+
+
+
+# //TODO create a script that can edit the appxmanifest to change settings and repack the app for msft store submission
+# mpdev build .\msix.json
+# Push-Location 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\'
+# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Azure Key Vault Explorer - for Azure 1.0.259.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Unpacked"
+# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Azure Key Vault Explorer - for Azure.msix"
+

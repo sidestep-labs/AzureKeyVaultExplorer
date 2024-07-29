@@ -4,9 +4,9 @@
     "msix"
   ],
   "outputDirectory": "Azure Key Vault Explorer\\output",
-  "packageName": "AzureKeyVaultExplorer",
-  "publisher": "Arthur Thomas",
-  "version": "1.0.0",
+  "packageName": "Azure Key Vault Explorer - for Azure",
+  "publisher": "Arthur Thomas IV",
+  "version": "1.0.259.0",
   "platform": "x86",
   "installDir": "%ProgramFiles(x86)%\\Azure Key Vault Explorer",
   "icon": "AppIcon.ico",
@@ -17,15 +17,7 @@
     }
   ],
   "registries": [
-    {
-      "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\AzureKeyVaultExplorer",
-      "value": "This is value for default key."
-    },
-    {
-      "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\AzureKeyVaultExplorer",
-      "name": "SomeName",
-      "value": "Packaging should not be hard!"
-    }
+   
   ],
   "shortcuts": [
     {

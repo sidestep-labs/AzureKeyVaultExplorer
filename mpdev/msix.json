@@ -1,12 +1,12 @@
 {
   "outputTypes": [
-    "msi",
+   
     "msix"
   ],
   "outputDirectory": "Key Vault Explorer for Azure\\output",
   "packageName": "Key Vault Explorer for Azure",
   "publisher": "Arthur Thomas IV",
-  "version": "1.0.259.0",
+  "version": "1.0.263.0",
   "platform": "x86",
   "installDir": "%ProgramFiles(x86)%\\Key Vault Explorer for Azure",
   "icon": "AppIcon.ico",
@@ -20,10 +20,6 @@
   "shortcuts": [
     {
       "target": "$.installDir\\keyvaultexplorerdesktop.exe",
-      "name": "Azure Key Vault Explorer"
-    },
-    {
-      "target": "$.installDir\\keyvaultexplorerdesktop.exe",
       "name": "Key Vault Explorer for Azure"
     }
   ],
@@ -35,7 +31,7 @@
   "msi": {
     "upgradeCode": "{B1E93764-4E4C-499D-A55E-3324B6327E9F}",
     "installDialog": {
-      "packageDescription": "Key Vault Explorer for Azure, a GUI for finding secrets in Microsoft Azure Key Vault.  Not ",
+      "packageDescription": "Key Vault Explorer for Azure, a GUI for finding secrets in Microsoft Azure Key Vault. Unofficial client, not affiliated with or endorsed by Microsoft.",
       "publisherUrl": "https://sidesteplabs.us/",
       "releaseNotesUrl": "https://github.com/sidestep-labs/AzureKeyVaultExplorer/releases",
       "eulaUrl": "https://github.com/sidestep-labs/AzureKeyVaultExplorer/blob/master/LICENSE",

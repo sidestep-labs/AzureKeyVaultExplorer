@@ -455,4 +455,5 @@ $RECYCLE.BIN/
 /KeyVaultExplorer.Desktop/publish*
 /KeyVaultExplorer.Desktop/publish-aot*
 /KeyVaultExplorer.Desktop/mac
+/mpdev
 .DS_Store

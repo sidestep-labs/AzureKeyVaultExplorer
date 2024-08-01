@@ -211,11 +211,10 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 viewModel.IsEdit = true;
                 dialog.PrimaryButtonClick += async (sender, args) =>
                 {
+                    var def = args.GetDeferral();
                     try
                     {
-                        var def = args.GetDeferral();
                         await viewModel.EditDetailsCommand.ExecuteAsync(null);
-                        def.Complete();
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
@@ -224,6 +223,10 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     catch (Exception ex)
                     {
                         _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    }
+                    finally
+                    {
+                        def.Complete();
                     }
                 };
 
@@ -311,11 +314,10 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
                 dialog.PrimaryButtonClick += async (sender, args) =>
                 {
+                    var def = args.GetDeferral();
                     try
                     {
-                        var def = args.GetDeferral();
                         await viewModel.NewVersionCommand.ExecuteAsync(null);
-                        def.Complete();
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
@@ -324,6 +326,10 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     catch (Exception ex)
                     {
                         _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    }
+                    finally
+                    {
+                        def.Complete();
                     }
                 };
 
@@ -372,10 +378,24 @@ public partial class PropertiesPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task ShouldShowValue(bool val)
     {
-        if (IsSecret && val && IsEnabled)
+        try
         {
-            var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
-            SecretPlainText = s.Value;
+            if (IsSecret && val && IsEnabled)
+            {
+                await Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+                    SecretPlainText = s.Value;
+                });
+            }
+        }
+        catch (KeyVaultInsufficientPrivilegesException ex)
+        {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+        }
+        catch (Exception ex)
+        {
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
         }
     }
 }

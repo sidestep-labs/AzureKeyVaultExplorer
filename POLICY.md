@@ -1,6 +1,6 @@
 # Privacy Policy
 
-This privacy policy applies to the Azure Key Vault Explorer ("the app") for desktop devices, created by Arthur Thomas (hereby referred to as "Service Provider") as an Open Source and Free GUI service. This service is intended for use "AS IS". It is designed to simplify finding and accessing secrets, certificates, and keys stored in Azure Key Vault. This Privacy Policy explains how we handle user data and ensure its security.
+This privacy policy applies to the Azure Key Vault Explorer or Key Vault Explorer for Azure ("the app") for desktop devices, created by Arthur Thomas (hereby referred to as "Service Provider") as an Open Source and Free GUI service. This service is intended for use "AS IS". It is designed to simplify finding and accessing secrets, certificates, and keys stored in Azure Key Vault. This Privacy Policy explains how we handle user data and ensure its security.
 
 ## Data Collection
 

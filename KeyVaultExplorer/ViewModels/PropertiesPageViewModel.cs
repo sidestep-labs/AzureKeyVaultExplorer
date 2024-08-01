@@ -196,6 +196,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 Title = "Edit " + (IsKey ? "Key" : IsSecret ? "Secret" : "Certificate"),
                 IsPrimaryButtonEnabled = true,
                 PrimaryButtonText = "Apply Changes",
+                DefaultButton = ContentDialogButton.Primary,
                 CloseButtonText = "Cancel",
                 MinWidth = 650
             };
@@ -205,8 +206,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
                 var viewModel = new CreateNewSecretVersionViewModel();
                 bool? isEnabledSecret = currentItem.Enabled;
-                if (isEnabledSecret is not null && isEnabledSecret is true)
-                    await ShouldShowValue(true);
+           
                 viewModel.KeyVaultSecretModel = currentItem;
                 viewModel.IsEdit = true;
                 dialog.PrimaryButtonClick += async (sender, args) =>
@@ -293,6 +293,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 PrimaryButtonText = "Create Version",
                 IsPrimaryButtonEnabled = true,
                 CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
                 MinWidth = 650,
                 MinHeight = 700
             };

@@ -60,7 +60,7 @@ if ($Runtime -eq "osx-x64") {
     New-Item -ItemType Directory -Path $macOSDir -Force | Out-Null
     New-Item -ItemType Directory -Path $resourcesPath -Force | Out-Null
 
-    $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Azure Key Vault Explorer")  -Path .\publish
+    $filesToMove = Get-ChildItem  -Exclude @("*.pdb", "*.dsym", "Key Vault Explorer for Azure")  -Path .\publish
     foreach ($file in $filesToMove) {
         Copy-Item -Path $file -Destination $macOSDir -Force 
     }
@@ -71,7 +71,7 @@ if ($Runtime -eq "osx-x64") {
     # foreach ($file in $filesToModify) {
     #     chmod +x $file 
     # }
-    Rename-Item -Path $initialRootDir -NewName "Azure Key Vault Explorer.app" -Force 
+    Rename-Item -Path $initialRootDir -NewName "Key Vault Explorer for Azure.app" -Force 
 
 }
 
@@ -80,6 +80,6 @@ if ($Runtime -eq "osx-x64") {
 # //TODO create a script that can edit the appxmanifest to change settings and repack the app for msft store submission
 # mpdev build .\msix.json
 # Push-Location 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\'
-# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Azure Key Vault Explorer - for Azure 1.0.259.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Unpacked"
-# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Azure Key Vault Explorer\output\Azure Key Vault Explorer - for Azure.msix"
+# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Key Vault Explorer for Azure - for Azure 1.0.259.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Unpacked"
+# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Key Vault Explorer for Azure - for Azure.msix"
 

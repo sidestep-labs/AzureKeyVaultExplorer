@@ -32,7 +32,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2024 Arthur Thomas</string>
 	<key>CFBundleName</key>
-	<string>Azure Key Vault Explorer</string>
+	<string>Key Vault Explorer for Azure</string>
 	<key>CFBundleExecutable</key>
 	<string>keyvaultexplorerdesktop</string>
 	<key>CFBundleDisplayName</key>

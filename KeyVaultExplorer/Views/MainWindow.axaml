@@ -8,7 +8,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:views="clr-namespace:KeyVaultExplorer.Views"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
-    Title="Azure Key Vault Explorer"
+    Title="Key Vault Explorer for Azure"
     Width="900"
     Height="500"
     d:DesignHeight="450"

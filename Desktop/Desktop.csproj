@@ -17,9 +17,9 @@
     <SelfContained>true</SelfContained>
     <PublishReadyToRun>true</PublishReadyToRun>
     <RuntimeIdentifiers>win-x64;win-arm64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
-    <Title>Azure Key Vault Explorer</Title>
+    <Title>Key Vault Explorer for Azure</Title>
     <Description>A GUI client for quickly finding azure key vault values.</Description>
-    <Product>Azure Key Vault Explorer</Product>
+    <Product>Key Vault Explorer for Azure</Product>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>

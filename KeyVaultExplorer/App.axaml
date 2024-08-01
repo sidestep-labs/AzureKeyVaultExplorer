@@ -5,7 +5,7 @@
     xmlns:sty="using:FluentAvalonia.Styling"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     xmlns:wnd="using:FluentAvalonia.UI.Windowing"
-    Name="Azure Key Vault Explorer"
+    Name="Key Vault Explorer for Azure"
     x:DataType="vm:AppViewModel">
 
     <Design.DataContext>
@@ -14,7 +14,7 @@
 
     <NativeMenu.Menu>
         <NativeMenu>
-            <NativeMenuItem Command="{Binding AboutCommand}" Header="About Azure Key Vault Explorer" />
+            <NativeMenuItem Command="{Binding AboutCommand}" Header="About Key Vault Explorer for Azure" />
         </NativeMenu>
     </NativeMenu.Menu>
 

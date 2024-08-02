@@ -21,7 +21,7 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class CreateNewSecretVersionViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public List<KvResourceGroupModel> resourceGroupItems;
+    private List<KvResourceGroupModel> resourceGroupItems;
 
     private readonly AuthService _authService;
 
@@ -124,7 +124,7 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async Task NewVersion()
+    private async Task NewVersion()
     {
         var newSecret = new KeyVaultSecret(SecretName ?? KeyVaultSecretModel.Name, SecretValue);
         if (KeyVaultSecretModel.NotBefore.HasValue)
@@ -153,7 +153,7 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
 
 
     [RelayCommand]
-    public void SelectedSubscriptionChanged(SubscriptionDataItem value)
+    private void SelectedSubscriptionChanged(SubscriptionDataItem value)
     {
         if (value is not null && !_seenSubscriptions.Contains(value.Data.SubscriptionId))
         {

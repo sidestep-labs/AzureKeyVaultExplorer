@@ -21,7 +21,7 @@ public partial class KvExplorerDb : IDisposable
     {
     }
 
-    public static async void OpenSqlConnection()
+    public static async Task OpenSqlConnection()
     {
         string DataSource = Path.Combine(Constants.DatabaseFilePath);
         var pass =  await DatabaseEncryptedPasswordManager.GetSecret();

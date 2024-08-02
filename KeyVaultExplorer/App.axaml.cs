@@ -35,9 +35,9 @@ public partial class App : Application
         if (!dbPassExists)
             DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString()[..6]}");
 
-        Dispatcher.UIThread.Post(() =>
+        Dispatcher.UIThread.Post(async () =>
         {
-            KvExplorerDb.OpenSqlConnection();
+            await KvExplorerDb.OpenSqlConnection();
 
             if (!dbExists)
                 KvExplorerDb.InitializeDatabase();

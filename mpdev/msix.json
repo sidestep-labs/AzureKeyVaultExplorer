@@ -3,12 +3,12 @@
    
     "msix"
   ],
-  "outputDirectory": "Key Vault Explorer for Azure\\output",
-  "packageName": "Key Vault Explorer for Azure",
+  "outputDirectory": "Key Vault Explorer\\output",
+  "packageName": "Key Vault Explorer",
   "publisher": "Arthur Thomas IV",
   "version": "1.0.263.0",
   "platform": "x86",
-  "installDir": "%ProgramFiles(x86)%\\Key Vault Explorer for Azure",
+  "installDir": "%ProgramFiles(x86)%\\Key Vault Explorer",
   "icon": "AppIcon.ico",
   "fileSystemEntries": [
     {
@@ -20,7 +20,7 @@
   "shortcuts": [
     {
       "target": "$.installDir\\keyvaultexplorerdesktop.exe",
-      "name": "Key Vault Explorer for Azure"
+      "name": "Key Vault Explorer"
     }
   ],
   "environmentVariables": [],

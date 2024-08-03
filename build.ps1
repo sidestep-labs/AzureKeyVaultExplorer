@@ -80,6 +80,6 @@ if ($Runtime -eq "osx-x64") {
 # //TODO create a script that can edit the appxmanifest to change settings and repack the app for msft store submission
 # mpdev build .\msix.json
 # Push-Location 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\'
-# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Key Vault Explorer for Azure 1.0.263.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Unpacked"
-# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer for Azure\output\KeyVaultExplorerforAzure_1263.msix"
+# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Key Vault Explorer 1.0.263.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Unpacked"
+# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\KeyVaultExplorerforAzure_1263_1.msix"
 

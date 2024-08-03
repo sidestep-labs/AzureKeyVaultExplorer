@@ -53,7 +53,7 @@
 	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.1" />
     <PackageReference Include="Avalonia.Svg.Skia" Version="11.1.0" />
     <PackageReference Include="DeviceId" Version="6.7.0" />
-    <PackageReference Include="FluentAvaloniaUI" Version="2.1.0-preview6" />
+    <PackageReference Include="FluentAvaloniaUI" Version="2.1.0" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.6.24327.7" />

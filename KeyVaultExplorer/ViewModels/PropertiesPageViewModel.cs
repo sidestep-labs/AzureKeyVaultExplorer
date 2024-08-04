@@ -341,7 +341,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 };
 
                 dialog.Content = new CreateNewSecretVersion() { DataContext = vm };
-                var result = await dialog.ShowAsync();
+                var result = await dialog.ShowAsync(true);
 
             }
 

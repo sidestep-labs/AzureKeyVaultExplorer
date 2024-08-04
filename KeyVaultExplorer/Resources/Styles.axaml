@@ -8,7 +8,7 @@
 
         <StackPanel Width="310" Height="300">
 
-
+            <TextBox />
             <DropDownButton
                 Name="CreateDropDownButton"
                 Margin="50"
@@ -84,7 +84,7 @@
 
     <Style Selector="ui|CommandBarFlyoutCommandBar /template/ Border#LayoutRoot">
         <Setter Property="Margin" Value="10" />
-        <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+        <Setter Property="BoxShadow" Value="0 4 10 0 #24000000" />
     </Style>
 
 
@@ -92,7 +92,7 @@
         <Setter Property="CornerRadius" Value="5" />
         <Style Selector="^ Border">
             <Setter Property="Margin" Value="10" />
-            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+            <Setter Property="BoxShadow" Value="0 4 10 0 #24000000" />
         </Style>
     </Style>
 
@@ -172,5 +172,72 @@
         <Setter Property="Margin" Value="0 40 0 0" />
     </Style>
 
+
+
+
+
+
+
+
+
+
+    <Style Selector="DataValidationErrors">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel LastChildFill="True">
+                    <ContentControl
+                        Content="{Binding (DataValidationErrors.Errors)}"
+                        ContentTemplate="{TemplateBinding ErrorTemplate}"
+                        DataContext="{TemplateBinding Owner}"
+                        DockPanel.Dock="Right"
+                        IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        CornerRadius="{TemplateBinding CornerRadius}" />
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="ErrorTemplate">
+            <DataTemplate x:DataType="{x:Type x:Object}">
+                <Canvas
+                    Width="14"
+                    Height="14"
+                    Margin="4,0,1,0"
+                    Background="Transparent">
+                    <Canvas.Styles>
+                        <!--<Style Selector="ToolTip">
+                            <Setter Property="CornerRadius" Value="5" />
+                            <Style Selector="^ Border">
+                                <Setter Property="Margin" Value="10" />
+                                <Setter Property="BoxShadow" Value="0 4 10 0 #24000000" />
+                            </Style>
+                        </Style>-->
+                    </Canvas.Styles>
+                    <ToolTip.Tip>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.Styles>
+                                <Styles>
+                                    <Style Selector="Border">
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
+                                    </Style>
+                                </Styles>
+                            </ItemsControl.Styles>
+                        </ItemsControl>
+                    </ToolTip.Tip>
+                    <Path
+                        Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
+                        Stroke="Red"
+                        StrokeThickness="2" />
+                </Canvas>
+            </DataTemplate>
+        </Setter>
+    </Style>
 </Styles>
 

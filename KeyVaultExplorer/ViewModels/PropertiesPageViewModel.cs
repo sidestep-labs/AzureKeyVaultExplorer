@@ -1,4 +1,6 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
@@ -9,6 +11,7 @@ using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Windowing;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
@@ -206,7 +209,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 var currentItem = SecretPropertiesList.OrderByDescending(x => x.CreatedOn).First();
                 var viewModel = new CreateNewSecretVersionViewModel();
                 bool? isEnabledSecret = currentItem.Enabled;
-           
+
                 viewModel.KeyVaultSecretModel = currentItem;
                 viewModel.IsEdit = true;
                 dialog.PrimaryButtonClick += async (sender, args) =>
@@ -287,16 +290,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
     {
         try
         {
-            var dialog = new ContentDialog()
-            {
-                Title = "New Version",
-                PrimaryButtonText = "Create Version",
-                IsPrimaryButtonEnabled = true,
-                CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary,
-                MinWidth = 650,
-                MinHeight = 700
-            };
+            var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
 
             if (IsSecret)
             {
@@ -310,15 +304,28 @@ public partial class PropertiesPageViewModel : ViewModelBase
                 foreach (var tag in currentItem.Tags)
                     newVersion.Tags.Add(tag.Key, tag.Value);
 
-                var viewModel = new CreateNewSecretVersionViewModel();
-                viewModel.KeyVaultSecretModel = newVersion;
+                var vm = new CreateNewSecretVersionViewModel();
+                vm.KeyVaultSecretModel = newVersion;
 
-                dialog.PrimaryButtonClick += async (sender, args) =>
+                var newVersionBtn = new TaskDialogButton("Create Secret", "CreateSecretButtonResult") { IsDefault = true, };
+                newVersionBtn.Bind(TaskDialogButton.IsEnabledProperty, new Binding { Path = "!HasErrors", Mode = BindingMode.OneWay, FallbackValue = false, Source = vm, });
+
+                var dialog = new TaskDialog()
                 {
-                    var def = args.GetDeferral();
+                    Title = "New Version",
+                    XamlRoot = lifetime?.Windows.Last() as AppWindow,
+                    Buttons = { newVersionBtn, TaskDialogButton.CancelButton, },
+                    MinWidth = 650,
+                    MinHeight = 500,
+                    Content = new CreateNewSecretVersion() { DataContext = vm, },
+                };
+
+                newVersionBtn.Click += async (sender, args) =>
+                {
                     try
                     {
-                        await viewModel.NewVersionCommand.ExecuteAsync(null);
+                        await vm.NewVersionCommand.ExecuteAsync(null);
+                        _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("New Version", "Your value has been created.", Avalonia.Controls.Notifications.NotificationType.Success));
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
@@ -330,14 +337,14 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     }
                     finally
                     {
-                        def.Complete();
                     }
                 };
 
-                dialog.Content = new CreateNewSecretVersion() { DataContext = viewModel };
+                dialog.Content = new CreateNewSecretVersion() { DataContext = vm };
+                var result = await dialog.ShowAsync();
+
             }
 
-            var result = await dialog.ShowAsync();
         }
         catch (KeyVaultItemNotFoundException ex)
         {

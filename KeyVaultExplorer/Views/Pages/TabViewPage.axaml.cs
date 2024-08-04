@@ -18,8 +18,6 @@ public partial class TabViewPage : UserControl
     public TabViewPage()
     {
         InitializeComponent();
-        //var vm = new TabViewPageViewModel();
-        //KeyUp += TabViewPage_KeyUpFocusSearchBox;
         DataContext = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
         AddHandler(PaneToggledRoutedEvent, OnPaneToggledRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }

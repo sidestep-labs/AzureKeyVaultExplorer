@@ -1,6 +1,7 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -12,6 +13,7 @@ using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -182,30 +184,44 @@ public partial class VaultPage : UserControl
     private async Task CreateNewSecret()
     {
         var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-        var applyChangesBtn = new TaskDialogButton("Create Secret", "ApplyChangesButtonResult");
+     
         var vm = new CreateNewSecretVersionViewModel()
         {
-            KeyVaultSecretModel = new SecretProperties("new-secret") { Enabled = true },
+            KeyVaultSecretModel = new SecretProperties("new_secret") { Enabled = true },
             VaultUri = (DataContext as VaultPageViewModel).VaultUri,
             IsEdit = false,
             IsNew = true,
         };
+
+        var createSecretBtn = new TaskDialogButton("Create Secret", "CreateSecretButtonResult")
+        {
+            IsDefault = true,
+        };
+
+        createSecretBtn.Bind(TaskDialogButton.IsEnabledProperty, new Binding
+        {
+            Path = "!HasErrors",
+            Mode = BindingMode.OneWay,
+            FallbackValue = false,
+            Source = vm,
+        });
+        
         var dialog = new TaskDialog()
         {
             Title = "Create New Secret",
             XamlRoot = lifetime?.Windows.Last() as AppWindow,
-            Buttons = { applyChangesBtn, TaskDialogButton.CancelButton, },
+            Buttons = { createSecretBtn, TaskDialogButton.CancelButton, },
             MinWidth = 600,
             MinHeight = 650,
-            Content = new CreateNewSecretVersion() { DataContext = vm }
+            Content = new CreateNewSecretVersion() { DataContext = vm, },
         };
 
-        applyChangesBtn.Click += async (sender, args) =>
+        createSecretBtn.Click += async (sender, args) =>
         {
             try
             {
                 await vm.NewVersionCommand.ExecuteAsync(null);
-
+                _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("Created", "Your secret has been created.", Avalonia.Controls.Notifications.NotificationType.Success));
             }
             catch (KeyVaultInsufficientPrivilegesException ex)
             {
@@ -217,6 +233,8 @@ public partial class VaultPage : UserControl
             }
         };
 
+      ;
         var result = await dialog.ShowAsync();
     }
+
 }

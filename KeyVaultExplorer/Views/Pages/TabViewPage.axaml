@@ -111,7 +111,9 @@
 
             </Border>
         </SplitView.Pane>
-
+        <!--
+            TabDroppedOutside="TabDroppedOutside"
+        -->
         <Grid Name="TabViewGrid" Classes.emptyTabViewDragMargin="{Binding !Documents.Count}">
             <ui:TabView
                 Name="TabView"
@@ -123,7 +125,6 @@
                 IsAddTabButtonVisible="False"
                 SelectedItem="{Binding SelectedItem}"
                 TabCloseRequested="TabCloseRequested"
-                TabDroppedOutside="TabDroppedOutside"
                 TabItems="{Binding Documents}"
                 TabStripDrop="TabStripDrop"
                 TabWidthMode="SizeToContent">

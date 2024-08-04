@@ -17,8 +17,7 @@ public partial class TabViewPageViewModel : ViewModelBase
     {
         Documents = new ObservableCollection<TabViewItem>();
 #if DEBUG
-        for (int i = 0; i < 3; i++)
-            Documents.Add(AddDocument(i));
+            Documents.Add(AddDocument(1));
 #endif
 
         Dispatcher.UIThread.Post(async () =>

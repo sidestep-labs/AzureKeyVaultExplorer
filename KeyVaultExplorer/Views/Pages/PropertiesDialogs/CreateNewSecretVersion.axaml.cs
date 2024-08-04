@@ -19,25 +19,15 @@ public partial class CreateNewSecretVersion : UserControl
     public CreateNewSecretVersion()
     {
         InitializeComponent();
-        DataContext = new CreateNewSecretVersionViewModel();
+        var vm = new CreateNewSecretVersionViewModel();
+        DataContext = vm;
     }
 
-    //private void InputField_OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+
+
+    //private void Subscription_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     //{
-    //    // We will set the focus into our input field just after it got attached to the visual tree.
-    //    if (sender is InputElement inputElement)
-    //    {
-    //        Dispatcher.UIThread.InvokeAsync(() =>
-    //        {
-    //            inputElement.Focus(NavigationMethod.Unspecified, KeyModifiers.None);
-    //        });
-    //    }
+    //    var item = (sender as AutoCompleteBox)!.SelectedItem as SubscriptionDataItem;
+    //    (DataContext as CreateNewSecretVersionViewModel)!.SelectedSubscriptionChangedCommand.Execute(item);
     //}
-
-
-    private void Subscription_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
-    {
-        var item = (sender as AutoCompleteBox)!.SelectedItem as SubscriptionDataItem;
-        (DataContext as CreateNewSecretVersionViewModel)!.SelectedSubscriptionChangedCommand.Execute(item);
-    }
 }

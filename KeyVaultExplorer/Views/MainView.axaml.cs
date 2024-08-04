@@ -60,7 +60,7 @@ public partial class MainView : UserControl
         AddHandler(SignOutRoutedEvent, OnSignOutRoutedEvent, RoutingStrategies.Tunnel, handledEventsToo: false);
     }
 
-    public static MainView? Instance { get; private set; }
+    public static MainView Instance { get; private set; }
     private FrameNavigationOptions NavOptions => new FrameNavigationOptions
     {
         TransitionInfoOverride = new SlideNavigationTransitionInfo(),

@@ -15,14 +15,13 @@ using System.Collections.ObjectModel;
 using Avalonia.Threading;
 using System.Diagnostics;
 using Azure.ResourceManager.KeyVault;
+using KeyVaultExplorer.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace KeyVaultExplorer.ViewModels;
 
 public partial class CreateNewSecretVersionViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private List<KvResourceGroupModel> resourceGroupItems;
-
     private readonly AuthService _authService;
 
     private readonly VaultService _vaultService;
@@ -41,86 +40,68 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
     [ObservableProperty]
     private bool isNew = false;
 
-    [ObservableProperty]
-    private Uri vaultUri;
-
-
-    [ObservableProperty]
-    private ObservableCollection<KeyVaultResource> keyVaultResources = [];
+    //[ObservableProperty]
+    //private ObservableCollection<KeyVaultResource> keyVaultResources = [];
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Location))]
-    [NotifyPropertyChangedFor(nameof(HasActivationDate))]
-    [NotifyPropertyChangedFor(nameof(HasExpirationDate))]
     private SecretProperties keyVaultSecretModel;
 
     [ObservableProperty]
     private TimeSpan? notBeforeTimespan;
 
-    [ObservableProperty]
-    private string secretValue;
+    //[ObservableProperty]
+    //private List<KvResourceGroupModel> resourceGroupItems;
 
-
     [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [CustomValidation(typeof(SecretNameValidationAttribute), nameof(SecretNameValidationAttribute.ValidateName))]
     private string secretName;
 
-    partial void OnKeyVaultSecretModelChanged(SecretProperties value)
-    {
-        SecretName = value.Name;
-    }
+    [Required]
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    private string secretValue;
 
     [ObservableProperty]
-    private SubscriptionDataItem selectedSubscription;
-
-    [ObservableProperty]
-    private KeyVaultResource selectedKeyVault;
-
-    [ObservableProperty]
-    private ObservableCollection<SubscriptionDataItem> subscriptions;
+    private Uri vaultUri;
 
     public CreateNewSecretVersionViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
+        ValidateAllProperties();
     }
 
-    public bool HasActivationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.NotBefore.HasValue;
+    [ObservableProperty]
+    public bool hasActivationDateChecked;
 
-    public bool HasExpirationDate => KeyVaultSecretModel is not null && KeyVaultSecretModel.ExpiresOn.HasValue;
+    [ObservableProperty]
+    public bool hasExpirationDateChecked;
 
     public string? Identifier => KeyVaultSecretModel?.Id?.ToString();
-
     public string? Location => KeyVaultSecretModel?.VaultUri.ToString();
 
     [RelayCommand]
     public async Task EditDetails()
     {
-        if (KeyVaultSecretModel.NotBefore.HasValue)
+        if (KeyVaultSecretModel.NotBefore.HasValue && HasActivationDateChecked)
             KeyVaultSecretModel.NotBefore = KeyVaultSecretModel.NotBefore.Value.Date + (NotBeforeTimespan ?? TimeSpan.Zero);
+        else
+            KeyVaultSecretModel.NotBefore = null;
 
-        if (KeyVaultSecretModel.ExpiresOn.HasValue)
+        if (KeyVaultSecretModel.ExpiresOn.HasValue && HasExpirationDateChecked)
             KeyVaultSecretModel.ExpiresOn = KeyVaultSecretModel.ExpiresOn.Value.Date + (ExpiresOnTimespan ?? TimeSpan.Zero);
+        else
+            KeyVaultSecretModel.ExpiresOn = null;
+
 
         //foreach (var tag in KeyVaultSecretModel.Tags)
         //    KeyVaultSecretModel.Properties.Tags.Add(tag.Key, tag.Value);
 
         var updatedProps = await _vaultService.UpdateSecret(KeyVaultSecretModel, KeyVaultSecretModel.VaultUri);
         KeyVaultSecretModel = updatedProps;
-    }
-
-    public async Task<ObservableCollection<SubscriptionDataItem>> GetAvailableSubscriptions()
-    {
-        var subscriptions = new List<SubscriptionDataItem>();
-        await foreach (var item in _vaultService.GetAllSubscriptions())
-        {
-            subscriptions.Add(new SubscriptionDataItem
-            {
-                Data = item.SubscriptionResource.Data,
-                Resource = item.SubscriptionResource
-            });
-        }
-        return new ObservableCollection<SubscriptionDataItem>(subscriptions);
     }
 
     [RelayCommand]
@@ -143,29 +124,63 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         KeyVaultSecretModel = properties;
     }
 
+    partial void OnKeyVaultSecretModelChanged(SecretProperties value)
+    {
+        SecretName = value.Name;
+    }
+
     partial void OnKeyVaultSecretModelChanging(SecretProperties value)
     {
+        HasActivationDateChecked = value.NotBefore.HasValue;
+        HasExpirationDateChecked = value.ExpiresOn.HasValue;
         ExpiresOnTimespan = value is not null && value.ExpiresOn.HasValue ? value?.ExpiresOn.Value.LocalDateTime.TimeOfDay : null;
         NotBeforeTimespan = value is not null && value.NotBefore.HasValue ? value?.NotBefore.Value.LocalDateTime.TimeOfDay : null;
     }
 
-    private readonly string[] _seenSubscriptions = [];
 
-
-    [RelayCommand]
-    private void SelectedSubscriptionChanged(SubscriptionDataItem value)
+    partial void OnHasActivationDateCheckedChanged(bool oldValue, bool newValue)
     {
-        if (value is not null && !_seenSubscriptions.Contains(value.Data.SubscriptionId))
+        if (newValue is false)
         {
-            Dispatcher.UIThread.Post(async () =>
-            {
-                var keyVaults = _vaultService.GetKeyVaultsBySubscription(new KvSubscriptionModel { Subscription = value.Resource });
-                await foreach (var item in keyVaults)
-                {
-                    KeyVaultResources.Add(item);
-                }
-                _seenSubscriptions.Append(value.Data.SubscriptionId);
-            }, DispatcherPriority.ApplicationIdle);
+            KeyVaultSecretModel.NotBefore = null;
         }
     }
+    partial void OnHasExpirationDateCheckedChanged(bool oldValue, bool newValue)
+    {
+        if (newValue is false)
+        {
+            KeyVaultSecretModel.ExpiresOn = null;
+        }
+
+    }
+    //public async Task<ObservableCollection<SubscriptionDataItem>> GetAvailableSubscriptions()
+    //{
+    //    var subscriptions = new List<SubscriptionDataItem>();
+    //    await foreach (var item in _vaultService.GetAllSubscriptions())
+    //    {
+    //        subscriptions.Add(new SubscriptionDataItem
+    //        {
+    //            Data = item.SubscriptionResource.Data,
+    //            Resource = item.SubscriptionResource
+    //        });
+    //    }
+    //    return new ObservableCollection<SubscriptionDataItem>(subscriptions);
+    //}
+    //private readonly string[] _seenSubscriptions = [];
+    //[RelayCommand]
+    //private void SelectedSubscriptionChanged(SubscriptionDataItem value)
+    //{
+    //    if (value is not null && !_seenSubscriptions.Contains(value.Data.SubscriptionId))
+    //    {
+    //        Dispatcher.UIThread.Post(async () =>
+    //        {
+    //            var keyVaults = _vaultService.GetKeyVaultsBySubscription(new KvSubscriptionModel { Subscription = value.Resource });
+    //            await foreach (var item in keyVaults)
+    //            {
+    //                KeyVaultResources.Add(item);
+    //            }
+    //            _seenSubscriptions.Append(value.Data.SubscriptionId);
+    //        }, DispatcherPriority.ApplicationIdle);
+    //    }
+    //}
 }

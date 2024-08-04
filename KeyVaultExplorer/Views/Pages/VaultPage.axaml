@@ -158,9 +158,8 @@
                             <ui:BitmapIcon
                                 Width="16"
                                 Height="16"
-                                VerticalAlignment="{OnPlatform Bottom,
-                                                               Windows=Bottom}"
-                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                VerticalAlignment="Bottom"
+                                RenderOptions.BitmapInterpolationMode="None"
                                 UriSource="avares://KeyVaultExplorer/Assets/Add.png" />
                             <TextBlock VerticalAlignment="{OnPlatform Bottom, Windows=Center}" Text="Create Item" />
                         </StackPanel>

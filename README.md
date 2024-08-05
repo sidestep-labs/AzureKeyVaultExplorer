@@ -3,9 +3,9 @@
 <img src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/678b131f-58eb-452e-858c-c41ffaa89fbf" width="250" >
 
 <p align="left" style="margin-left:30px">
-  <a href="https://apps.microsoft.com/detail/9mz794c6t74m?mode=direct">
-	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
-</a>
+    <a href="https://apps.microsoft.com/detail/9mz794c6t74m?cid=github_readme&mode=direct">
+	<img src="https://get.microsoft.com/images/en-us%20light.svg" width="200"/>
+    </a>
 </p>
 
 ## Overview

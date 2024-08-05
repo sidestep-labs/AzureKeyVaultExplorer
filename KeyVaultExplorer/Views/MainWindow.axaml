@@ -9,10 +9,10 @@
     xmlns:views="clr-namespace:KeyVaultExplorer.Views"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     Title="Key Vault Explorer for Azure"
-    Width="900"
-    Height="500"
+    Width="980"
+    Height="520"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="900"
     x:DataType="vm:MainViewModel"
     ExtendClientAreaChromeHints="Default, PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="{OnPlatform False,
@@ -56,7 +56,7 @@
                     <NativeMenu>
                         <NativeMenuItem Command="{Binding ForceSignInCommand}" Header="Login" />
                         <NativeMenuItem Command="{Binding SignOutCommand}" Header="Logout" />
-                        <NativeMenuItem Header="{Binding  AuthenticatedUserClaims.Email}" IsEnabled="False" />
+                        <NativeMenuItem Header="{Binding AuthenticatedUserClaims.Email}" IsEnabled="False" />
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>

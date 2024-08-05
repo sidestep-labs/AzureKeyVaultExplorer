@@ -2,6 +2,12 @@
 
 <img src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/678b131f-58eb-452e-858c-c41ffaa89fbf" width="250" >
 
+<p align="left" style="margin-left:30px">
+  <a href="https://apps.microsoft.com/detail/9mz794c6t74m?rtc=1&hl=en-us&gl=US&cid=github&gl=US">
+    <img src="https://get.microsoft.com/images/en-us%20light.svg" width="200" alt="Download" />
+  </a>
+</p>
+
 ## Overview
 Visit the releases section to download the application. *Still in active development but in a usable state*
 
@@ -24,7 +30,6 @@ Visit the releases section to download the application. *Still in active develop
 - **No telemetry or logs collected**
 - Sqlite Database encryption using DPAPI and KeyChain on Mac
   
-
 
 # Security
 
@@ -59,7 +64,14 @@ Clone the project, open the `.\AzureKeyVaultExplorer` directory and open the sol
 
 
 ## Building from source
-### You can also download from the release section: https://github.com/cricketthomas/AzureKeyVaultExplorer/releases
+Get it from the Microsoft store!
+<p align="left">
+  <a href="https://apps.microsoft.com/detail/9mz794c6t74m?rtc=1&hl=en-us&gl=US&cid=github&gl=US">
+    <img src="https://get.microsoft.com/images/en-us%20light.svg" width="150" alt="Download" />
+  </a>
+</p>
+
+### You can also download from the release section for exe and macOS versions: https://github.com/cricketthomas/AzureKeyVaultExplorer/releases 
 If downloaded from this section, you will need to follow this guide to run the app: https://github.com/cricketthomas/AzureKeyVaultExplorer/discussions/67#discussioncomment-10014603
 
 

@@ -225,7 +225,7 @@ public partial class VaultPage : UserControl
             }
             catch (KeyVaultInsufficientPrivilegesException ex)
             {
-                _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+                _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
             }
             catch (Exception ex)
             {

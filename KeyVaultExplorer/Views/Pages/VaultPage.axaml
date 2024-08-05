@@ -56,19 +56,10 @@
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ScrollViewer Margin="10" IsVisible="{Binding HasAuthorizationError}">
-            <WrapPanel>
-                <SelectableTextBlock
-                    xml:space="preserve"
-                    Text="{Binding AuthorizationMessage}"
-                    TextWrapping="Wrap" />
-            </WrapPanel>
-        </ScrollViewer>
         <Grid
             Margin="10,2,10,0"
             VerticalAlignment="Stretch"
             ColumnDefinitions="*, *, *, *, *"
-            IsVisible="{Binding !HasAuthorizationError}"
             RowDefinitions="Auto,Auto,5,*">
             <Border
                 Grid.Row="0"
@@ -224,7 +215,10 @@
                 IsVisible="{Binding IsBusy}"
                 Orientation="Horizontal" />
 
-            <DockPanel Grid.Row="3" Grid.ColumnSpan="5">
+            <DockPanel
+                Grid.Row="3"
+                Grid.ColumnSpan="5"
+                IsVisible="{Binding !HasAuthorizationError}">
 
                 <!--
                     IsVisible="{Binding !IsBusy}"
@@ -370,6 +364,28 @@
 
 
             </DockPanel>
+            <ScrollViewer
+                Grid.Row="4"
+                Grid.ColumnSpan="5"
+                IsVisible="{Binding HasAuthorizationError}">
+                <StackPanel Orientation="Vertical">
+                    <Button
+                        Margin="0,0,12,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Command="{Binding CloseErrorCommand}"
+                        Content="&#xE8BB;"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Foreground="Red"
+                        IsDefault="True"
+                        IsVisible="{Binding HasAuthorizationError}"
+                        ToolTip.Tip="Close Message" />
+                    <SelectableTextBlock
+                        xml:space="preserve"
+                        Text="{Binding AuthorizationMessage}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
     </Panel>

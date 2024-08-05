@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+
 //#if WINDOWS
 //using Windows.Data.Xml.Dom;
 //using Windows.UI.Notifications;
@@ -30,15 +31,26 @@ namespace KeyVaultExplorer.ViewModels;
 
 public partial class VaultPageViewModel : ViewModelBase
 {
+    private readonly AuthService _authService;
+
+    private readonly IClipboard _clipboardService;
+
+    private readonly VaultService _vaultService;
+
+    private NotificationViewModel _notificationViewModel;
+
+    private SettingsPageViewModel _settingsPageViewModel;
+
     [ObservableProperty]
-    private bool isBusy = false;
+    private string authorizationMessage;
+
+    private Bitmap BitmapImage;
 
     [ObservableProperty]
     private bool hasAuthorizationError = false;
 
     [ObservableProperty]
-    private string authorizationMessage;
-
+    private bool isBusy = false;
     [ObservableProperty]
     private string searchQuery;
 
@@ -53,14 +65,6 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     private Uri vaultUri;
-
-    private readonly AuthService _authService;
-    private readonly VaultService _vaultService;
-    private SettingsPageViewModel _settingsPageViewModel;
-    private NotificationViewModel _notificationViewModel;
-    private Bitmap BitmapImage;
-    private readonly IClipboard _clipboardService;
-
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -121,79 +125,89 @@ public partial class VaultPageViewModel : ViewModelBase
 
     public async Task FilterAndLoadVaultValueType(KeyVaultItemType item)
     {
-        if (!LoadedItemTypes.ContainsKey(item))
+        try
         {
-            IsBusy = true;
-            switch (item)
+            if (!LoadedItemTypes.ContainsKey(item))
             {
-                case KeyVaultItemType.Certificate:
-                    await GetCertificatesForVault(VaultUri);
-                    LoadedItemTypes.TryAdd(item, true);
-                    break;
+                IsBusy = true;
 
-                case KeyVaultItemType.Key:
-                    await GetKeysForVault(VaultUri);
-                    LoadedItemTypes.TryAdd(item, true);
-                    break;
+                switch (item)
+                {
+                    case KeyVaultItemType.Certificate:
+                        await GetCertificatesForVault(VaultUri);
+                        LoadedItemTypes.TryAdd(item, true);
+                        break;
 
-                case KeyVaultItemType.Secret:
-                    await GetSecretsForVault(VaultUri);
-                    LoadedItemTypes.TryAdd(item, true);
-                    break;
+                    case KeyVaultItemType.Key:
+                        await GetKeysForVault(VaultUri);
+                        LoadedItemTypes.TryAdd(item, true);
+                        break;
 
-                case KeyVaultItemType.All:
-                    VaultContents.Clear();
-                    await Task.WhenAny(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
-                    LoadedItemTypes.TryAdd(KeyVaultItemType.Secret, true);
-                    LoadedItemTypes.TryAdd(KeyVaultItemType.Key, true);
-                    LoadedItemTypes.TryAdd(KeyVaultItemType.Certificate, true);
-                    LoadedItemTypes.TryAdd(KeyVaultItemType.All, true);
-                    break;
+                    case KeyVaultItemType.Secret:
+                        await GetSecretsForVault(VaultUri);
+                        LoadedItemTypes.TryAdd(item, true);
+                        break;
 
-                default:
-                    break;
+                    case KeyVaultItemType.All:
+                        VaultContents.Clear();
+                        await Task.WhenAny(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
+                        LoadedItemTypes.TryAdd(KeyVaultItemType.Secret, true);
+                        LoadedItemTypes.TryAdd(KeyVaultItemType.Key, true);
+                        LoadedItemTypes.TryAdd(KeyVaultItemType.Certificate, true);
+                        LoadedItemTypes.TryAdd(KeyVaultItemType.All, true);
+                        break;
+
+                    default:
+                        break;
+                }
             }
+            if (item == KeyVaultItemType.All)
+                VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
+            else
+                VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
         }
-        if (item == KeyVaultItemType.All)
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
-        else
-            VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
-
-        await DelaySetIsBusy(false);
+        catch (Exception ex) when (ex.Message.Contains("403"))
+        {
+            _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification
+            {
+                Message = string.Concat(ex.Message.AsSpan(0, 90), "..."),
+                Title = $"Insufficient Privileges on type '{item}'",
+                Expiration = TimeSpan.Zero,
+                Type = NotificationType.Error,
+            });
+            Debug.WriteLine(ex.Message);
+            HasAuthorizationError = true;
+            AuthorizationMessage = ex.Message;
+        }
+        finally
+        {
+            await DelaySetIsBusy(false);
+        }
     }
 
     public async Task GetCertificatesForVault(Uri kvUri)
     {
         var certs = _vaultService.GetVaultAssociatedCertificates(kvUri);
-        try
+        await foreach (var val in certs)
         {
-            await foreach (var val in certs)
+            VaultContents.Add(new KeyVaultContentsAmalgamation
             {
-                VaultContents.Add(new KeyVaultContentsAmalgamation
-                {
-                    Name = val.Name,
-                    Id = val.Id,
-                    Type = KeyVaultItemType.Certificate,
-                    VaultUri = val.VaultUri,
-                    ValueUri = val.Id,
-                    Version = val.Version,
-                    CertificateProperties = val,
-                    Tags = val.Tags,
-                    UpdatedOn = val.UpdatedOn,
-                    CreatedOn = val.CreatedOn,
-                    ExpiresOn = val.ExpiresOn,
-                    Enabled = val.Enabled,
-                    NotBefore = val.NotBefore,
-                    RecoverableDays = val.RecoverableDays,
-                    RecoveryLevel = val.RecoveryLevel
-                });
-            }
-        }
-        catch (Exception ex) when (ex.Message.Contains("403"))
-        {
-            HasAuthorizationError = true;
-            AuthorizationMessage = ex.Message;
-            Debug.WriteLine(ex.Message);
+                Name = val.Name,
+                Id = val.Id,
+                Type = KeyVaultItemType.Certificate,
+                VaultUri = val.VaultUri,
+                ValueUri = val.Id,
+                Version = val.Version,
+                CertificateProperties = val,
+                Tags = val.Tags,
+                UpdatedOn = val.UpdatedOn,
+                CreatedOn = val.CreatedOn,
+                ExpiresOn = val.ExpiresOn,
+                Enabled = val.Enabled,
+                NotBefore = val.NotBefore,
+                RecoverableDays = val.RecoverableDays,
+                RecoveryLevel = val.RecoveryLevel
+            });
         }
         _vaultContents = VaultContents;
     }
@@ -201,35 +215,26 @@ public partial class VaultPageViewModel : ViewModelBase
     public async Task GetKeysForVault(Uri kvUri)
     {
         var keys = _vaultService.GetVaultAssociatedKeys(kvUri);
-        try
+        await foreach (var val in keys)
         {
-            await foreach (var val in keys)
+            VaultContents.Add(new KeyVaultContentsAmalgamation
             {
-                VaultContents.Add(new KeyVaultContentsAmalgamation
-                {
-                    Name = val.Name,
-                    Id = val.Id,
-                    Type = KeyVaultItemType.Key,
-                    VaultUri = val.VaultUri,
-                    ValueUri = val.Id,
-                    Version = val.Version,
-                    KeyProperties = val,
-                    Tags = val.Tags,
-                    UpdatedOn = val.UpdatedOn,
-                    CreatedOn = val.CreatedOn,
-                    ExpiresOn = val.ExpiresOn,
-                    Enabled = val.Enabled,
-                    NotBefore = val.NotBefore,
-                    RecoverableDays = val.RecoverableDays,
-                    RecoveryLevel = val.RecoveryLevel
-                });
-            }
-        }
-        catch (Exception ex) when (ex.Message.Contains("403"))
-        {
-            HasAuthorizationError = true;
-            AuthorizationMessage = ex.Message;
-            Debug.WriteLine(ex.Message);
+                Name = val.Name,
+                Id = val.Id,
+                Type = KeyVaultItemType.Key,
+                VaultUri = val.VaultUri,
+                ValueUri = val.Id,
+                Version = val.Version,
+                KeyProperties = val,
+                Tags = val.Tags,
+                UpdatedOn = val.UpdatedOn,
+                CreatedOn = val.CreatedOn,
+                ExpiresOn = val.ExpiresOn,
+                Enabled = val.Enabled,
+                NotBefore = val.NotBefore,
+                RecoverableDays = val.RecoverableDays,
+                RecoveryLevel = val.RecoveryLevel
+            });
         }
         _vaultContents = VaultContents;
     }
@@ -237,40 +242,34 @@ public partial class VaultPageViewModel : ViewModelBase
     public async Task GetSecretsForVault(Uri kvUri)
     {
         var values = _vaultService.GetVaultAssociatedSecrets(kvUri);
-        try
+        await foreach (var val in values)
         {
-            await foreach (var val in values)
+            VaultContents.Add(new KeyVaultContentsAmalgamation
             {
-                VaultContents.Add(new KeyVaultContentsAmalgamation
-                {
-                    Name = val.Name,
-                    Id = val.Id,
-                    Type = KeyVaultItemType.Secret,
-                    ContentType = val.ContentType,
-                    VaultUri = val.VaultUri,
-                    ValueUri = val.Id,
-                    Version = val.Version,
-                    SecretProperties = val,
-                    Tags = val.Tags,
-                    UpdatedOn = val.UpdatedOn,
-                    CreatedOn = val.CreatedOn,
-                    ExpiresOn = val.ExpiresOn,
-                    Enabled = val.Enabled,
-                    NotBefore = val.NotBefore,
-                    RecoverableDays = val.RecoverableDays,
-                    RecoveryLevel = val.RecoveryLevel
-                });
-            }
+                Name = val.Name,
+                Id = val.Id,
+                Type = KeyVaultItemType.Secret,
+                ContentType = val.ContentType,
+                VaultUri = val.VaultUri,
+                ValueUri = val.Id,
+                Version = val.Version,
+                SecretProperties = val,
+                Tags = val.Tags,
+                UpdatedOn = val.UpdatedOn,
+                CreatedOn = val.CreatedOn,
+                ExpiresOn = val.ExpiresOn,
+                Enabled = val.Enabled,
+                NotBefore = val.NotBefore,
+                RecoverableDays = val.RecoverableDays,
+                RecoveryLevel = val.RecoveryLevel
+            });
         }
-        catch (Exception ex) when (ex.Message.Contains("403"))
-        {
-            HasAuthorizationError = true;
-            AuthorizationMessage = ex.Message;
-            Debug.WriteLine(ex.Message);
-        }
+
         _vaultContents = VaultContents;
     }
 
+    [RelayCommand]
+    private void CloseError() => HasAuthorizationError = false;
     [RelayCommand]
     private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)
     {
@@ -322,7 +321,7 @@ public partial class VaultPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            ShowInAppNotification($"Insufficient Rights to access '{keyVaultItem.Name}'.", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
+            ShowInAppNotification($"Insufficient Privileges to access '{keyVaultItem.Name}'.", $"The value of was not able to be retrieved.\n {ex.Message}", NotificationType.Error);
         }
         catch (Exception ex)
         {
@@ -390,36 +389,33 @@ public partial class VaultPageViewModel : ViewModelBase
         await FilterAndLoadVaultValueType(item);
     }
 
-    private  void ShowInAppNotification(string subject, string message, NotificationType notificationType)
+    private void ShowInAppNotification(string subject, string message, NotificationType notificationType)
     {
         //TODO: https://github.com/pr8x/DesktopNotifications/issues/26
         var notif = new Avalonia.Controls.Notifications.Notification(subject, message, notificationType);
         _notificationViewModel.AddMessage(notif);
 
-
-//#if WINDOWS
-//        var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
-//        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
-//        var id = new Random().Next(0, 100);
-//        string toastXml = $"""
-//          <toast activationType="protocol"> // protocol,Background,Foreground
-//            <visual>
-//                <binding template='ToastGeneric'><text id="{id}">{message}</text></binding>
-//            </visual>
-//        </toast>
-//        """;
-//        XmlDocument doc = new XmlDocument();
-//        doc.LoadXml(toastXml);
-//        var toast = new ToastNotification(doc)
-//        {
-//            ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
-//            //Tag = "Copied KV Values",
-//            ExpiresOnReboot = true
-//        };
-//        toastNotifier.Show(toast);
-//#endif
-
-
+        //#if WINDOWS
+        //        var appUserModelId = System.AppDomain.CurrentDomain.FriendlyName;
+        //        var toastNotifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier(appUserModelId);
+        //        var id = new Random().Next(0, 100);
+        //        string toastXml = $"""
+        //          <toast activationType="protocol"> // protocol,Background,Foreground
+        //            <visual>
+        //                <binding template='ToastGeneric'><text id="{id}">{message}</text></binding>
+        //            </visual>
+        //        </toast>
+        //        """;
+        //        XmlDocument doc = new XmlDocument();
+        //        doc.LoadXml(toastXml);
+        //        var toast = new ToastNotification(doc)
+        //        {
+        //            ExpirationTime = DateTimeOffset.Now.AddSeconds(1),
+        //            //Tag = "Copied KV Values",
+        //            ExpiresOnReboot = true
+        //        };
+        //        toastNotifier.Show(toast);
+        //#endif
     }
 
     [RelayCommand]

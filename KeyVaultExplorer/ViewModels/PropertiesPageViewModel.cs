@@ -137,7 +137,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
         catch (Exception ex)
         {
@@ -181,7 +181,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
         catch (Exception ex)
         {
@@ -221,7 +221,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
-                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
                     }
                     catch (Exception ex)
                     {
@@ -245,7 +245,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
     }
 
@@ -329,7 +329,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
-                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
                     }
                     catch (Exception ex)
                     {
@@ -351,7 +351,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
     }
 
@@ -399,7 +399,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Rights" });
+            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
         catch (Exception ex)
         {

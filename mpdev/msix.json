@@ -6,7 +6,7 @@
   "outputDirectory": "Key Vault Explorer\\output",
   "packageName": "Key Vault Explorer",
   "publisher": "Arthur Thomas IV",
-  "version": "1.0.263.0",
+  "version": "1.0.293.0",
   "platform": "x86",
   "installDir": "%ProgramFiles(x86)%\\Key Vault Explorer",
   "icon": "AppIcon.ico",

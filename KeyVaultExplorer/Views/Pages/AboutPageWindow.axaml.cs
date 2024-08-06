@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using FluentAvalonia.UI.Windowing;
 
 namespace KeyVaultExplorer;
 

@@ -8,7 +8,6 @@ using KeyVaultExplorer.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading;
@@ -148,6 +147,4 @@ public partial class SettingsPageViewModel : ViewModelBase
     {
         Process.Start(new ProcessStartInfo("https://github.com/cricketthomas/KeyVaultExplorer/issues/new") { UseShellExecute = true, Verb = "open" });
     }
-
- 
 }

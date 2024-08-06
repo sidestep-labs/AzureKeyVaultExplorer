@@ -1,23 +1,18 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
-using Avalonia.Layout;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Azure.Security.KeyVault.Keys;
-using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Windowing;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -187,7 +182,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             var contents = item == KeyVaultItemType.All ? _vaultContents : _vaultContents.Where(x => item == x.Type);
 
-             VaultContents = KeyVaultFilterHelper.FilterByQuery( contents, SearchQuery, item => item.Name, item => item.Tags);
+            VaultContents = KeyVaultFilterHelper.FilterByQuery(contents, SearchQuery, item => item.Name, item => item.Tags);
 
             await DelaySetIsBusy(false);
         }
@@ -379,7 +374,6 @@ public partial class VaultPageViewModel : ViewModelBase
             list = list.Where(k => k.Type == item);
 
         VaultContents = KeyVaultFilterHelper.FilterByQuery(list, value, item => item.Name, item => item.Tags);
-
     }
 
     [RelayCommand]

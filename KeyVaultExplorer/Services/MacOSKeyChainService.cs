@@ -108,11 +108,11 @@ public static class MacOSKeyChainService
         }
     }
 
-
     public static async Task<string> GetPasswordAsync(string serviceName, string accountName)
     {
         return await Task.Run(() => GetPassword(serviceName, accountName));
     }
+
     public static async void SetPasswordAsync(string serviceName, string accountName, string password)
     {
         await Task.Run(() => SaveToKeychain(serviceName, accountName, password));

@@ -4,7 +4,6 @@ using Microsoft.Identity.Client.Extensions.Msal;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 

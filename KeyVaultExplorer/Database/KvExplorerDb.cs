@@ -1,15 +1,13 @@
 ﻿using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using Avalonia.Animation;
-using System.Data.Common;
-using KeyVaultExplorer.Services;
 
 namespace KeyVaultExplorer.Database;
 
@@ -24,7 +22,7 @@ public partial class KvExplorerDb : IDisposable
     public static async Task OpenSqlConnection()
     {
         string DataSource = Path.Combine(Constants.DatabaseFilePath);
-        var pass =  await DatabaseEncryptedPasswordManager.GetSecret();
+        var pass = await DatabaseEncryptedPasswordManager.GetSecret();
         var connection = new SqliteConnection($"Filename={DataSource}; Password={pass}");
         connection.Open();
         _connection = connection;

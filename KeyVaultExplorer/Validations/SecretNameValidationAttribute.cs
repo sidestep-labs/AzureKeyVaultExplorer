@@ -20,6 +20,4 @@ public class SecretNameValidationAttribute : ObservableValidator
 
         return new ValidationResult("Invalid secret name format.");
     }
-
-   
 }

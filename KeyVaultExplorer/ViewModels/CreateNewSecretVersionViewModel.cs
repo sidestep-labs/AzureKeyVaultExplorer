@@ -1,22 +1,12 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeyVaultExplorer.Views;
 using KeyVaultExplorer.Services;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Linq;
-using Azure.Security.KeyVault.Secrets;
-using System;
-using System.Collections.Generic;
-using KeyVaultExplorer.Models;
-using System.Collections.ObjectModel;
-using Avalonia.Threading;
-using System.Diagnostics;
-using Azure.ResourceManager.KeyVault;
 using KeyVaultExplorer.Validations;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.ViewModels;
 
@@ -120,13 +110,11 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         KeyVaultSecretModel = properties;
     }
 
-    partial void OnKeyVaultSecretModelChanged(SecretProperties value)
-    {
-        SecretName = value.Name;
-    }
+  
 
     partial void OnKeyVaultSecretModelChanging(SecretProperties value)
     {
+        SecretName = value.Name;
         HasActivationDateChecked = value.NotBefore.HasValue;
         HasExpirationDateChecked = value.ExpiresOn.HasValue;
         ExpiresOnTimespan = value is not null && value.ExpiresOn.HasValue ? value?.ExpiresOn.Value.LocalDateTime.TimeOfDay : null;
@@ -140,14 +128,15 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
             KeyVaultSecretModel.NotBefore = null;
         }
     }
+
     partial void OnHasExpirationDateCheckedChanged(bool oldValue, bool newValue)
     {
         if (newValue is false)
         {
             KeyVaultSecretModel.ExpiresOn = null;
         }
-
     }
+
     //public async Task<ObservableCollection<SubscriptionDataItem>> GetAvailableSubscriptions()
     //{
     //    var subscriptions = new List<SubscriptionDataItem>();

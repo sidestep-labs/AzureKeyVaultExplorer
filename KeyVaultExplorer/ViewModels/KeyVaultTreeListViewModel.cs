@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
@@ -298,7 +296,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     //    }
     //}
 
-   partial void OnSearchQueryChanged(string value)
+    partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim();
         if (!string.IsNullOrWhiteSpace(query))

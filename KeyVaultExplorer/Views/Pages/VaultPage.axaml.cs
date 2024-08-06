@@ -13,7 +13,6 @@ using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -170,7 +169,7 @@ public partial class VaultPage : UserControl
     private async Task CreateNewSecret()
     {
         var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-     
+
         var vm = new CreateNewSecretVersionViewModel()
         {
             KeyVaultSecretModel = new SecretProperties("new_secret") { Enabled = true },
@@ -191,7 +190,7 @@ public partial class VaultPage : UserControl
             FallbackValue = false,
             Source = vm,
         });
-        
+
         var dialog = new TaskDialog()
         {
             Title = "Create New Secret",
@@ -219,8 +218,7 @@ public partial class VaultPage : UserControl
             }
         };
 
-      ;
+        ;
         var result = await dialog.ShowAsync();
     }
-
 }

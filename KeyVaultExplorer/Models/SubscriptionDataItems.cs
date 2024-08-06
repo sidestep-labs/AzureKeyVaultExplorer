@@ -15,7 +15,6 @@ public partial class SubscriptionDataItem : ObservableObject
     [ObservableProperty]
     private bool? isUpdated;
 
-
     // this sets the default value to make sure we're not tracking initially loaded items, only changed.
     partial void OnIsPinnedChanging(bool oldValue, bool newValue)
     {

@@ -4,5 +4,4 @@ namespace KeyVaultExplorer.ViewModels;
 
 public class ViewModelBase : ObservableValidator
 {
-
 }

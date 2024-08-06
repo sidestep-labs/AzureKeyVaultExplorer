@@ -25,7 +25,6 @@ public partial class MainViewModel : ViewModelBase
 
     public NavigationFactory NavigationFactory { get; }
 
-
     partial void OnIsAuthenticatedChanged(bool value)
     {
         AuthenticatedUserClaims = _authService.AuthenticatedUserClaims;

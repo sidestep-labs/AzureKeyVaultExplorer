@@ -1,30 +1,23 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KeyVaultExplorer.Views;
-using KeyVaultExplorer.Services;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Linq;
 
 namespace KeyVaultExplorer.ViewModels;
 
 public partial class AppViewModel : ViewModelBase
 {
-
     // private readonly AuthService _authService;
 
     [ObservableProperty]
     private string email;
 
-
     [ObservableProperty]
     private bool isAuthenticated = false;
+
     public AppViewModel()
     {
         // _authService = Defaults.Locator.GetRequiredService<AuthService>();
-
     }
 
     [RelayCommand]
@@ -43,6 +36,4 @@ public partial class AppViewModel : ViewModelBase
         var top = Avalonia.Application.Current.GetTopLevel() as MainWindow;
         aboutWindow.ShowDialog(top);
     }
-
-  
 }

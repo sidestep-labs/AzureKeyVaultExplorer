@@ -12,7 +12,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,6 +21,7 @@ namespace KeyVaultExplorer.Services;
 public partial class VaultService
 {
 #pragma warning disable IDE0290 // Use primary constructor
+
     public VaultService(AuthService authService, IMemoryCache memoryCache, KvExplorerDb dbContext)
 #pragma warning restore IDE0290 // Use primary constructor
     {

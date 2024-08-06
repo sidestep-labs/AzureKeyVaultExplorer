@@ -53,7 +53,6 @@ public class KeyVaultInsufficientPrivilegesException : Exception
     }
 }
 
-
 public class SubscriptionInsufficientPrivileges : Exception
 {
     public SubscriptionInsufficientPrivileges()

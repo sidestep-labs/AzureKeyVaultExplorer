@@ -1,9 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using KeyVaultExplorer.Database;
@@ -12,9 +10,7 @@ using KeyVaultExplorer.Services;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace KeyVaultExplorer;
 
@@ -25,7 +21,6 @@ public partial class App : Application
         DataContext = new AppViewModel();
     }
 
- 
     public static void CreateDesktopResources()
     {
         Directory.CreateDirectory(Constants.LocalAppDataFolder);
@@ -35,8 +30,8 @@ public partial class App : Application
         if (!dbPassExists)
             DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString()[..6]}");
 
-
-        Dispatcher.UIThread.Post(async () => {
+        Dispatcher.UIThread.Post(async () =>
+        {
             await KvExplorerDb.OpenSqlConnection();
 
             if (!dbExists)

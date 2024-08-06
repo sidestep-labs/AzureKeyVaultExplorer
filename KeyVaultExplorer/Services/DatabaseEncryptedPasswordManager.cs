@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DeviceId;
+using KeyVaultExplorer.Models;
+using System;
+using System.IO;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using DeviceId;
-using KeyVaultExplorer.Models;
 
 namespace KeyVaultExplorer.Services;
 
@@ -106,6 +103,7 @@ public static class DatabaseEncryptedPasswordManager
         string deviceId = new DeviceIdBuilder().AddMachineName().AddOsVersion().AddFileToken(Path.Combine(Constants.LocalAppDataFolder, Constants.DeviceFileTokenName)).ToString();
         return deviceId.ToByteArray();
     }
+
     private static byte[] GetProtectedKey()
     {
         if (OperatingSystem.IsWindows())

@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -87,12 +86,8 @@ public partial class KeyVaultTreeList : UserControl
             await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true).ContinueWith((t) =>
              {
                  ((Control)sender)!.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
-
              });
         }, DispatcherPriority.Input);
-
-     
-
     }
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)

@@ -96,10 +96,6 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         else
             KeyVaultSecretModel.ExpiresOn = null;
 
-
-        //foreach (var tag in KeyVaultSecretModel.Tags)
-        //    KeyVaultSecretModel.Properties.Tags.Add(tag.Key, tag.Value);
-
         var updatedProps = await _vaultService.UpdateSecret(KeyVaultSecretModel, KeyVaultSecretModel.VaultUri);
         KeyVaultSecretModel = updatedProps;
     }
@@ -136,7 +132,6 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         ExpiresOnTimespan = value is not null && value.ExpiresOn.HasValue ? value?.ExpiresOn.Value.LocalDateTime.TimeOfDay : null;
         NotBeforeTimespan = value is not null && value.NotBefore.HasValue ? value?.NotBefore.Value.LocalDateTime.TimeOfDay : null;
     }
-
 
     partial void OnHasActivationDateCheckedChanged(bool oldValue, bool newValue)
     {

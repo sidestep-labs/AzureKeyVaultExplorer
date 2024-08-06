@@ -208,7 +208,7 @@
                 <Canvas
                     Width="14"
                     Height="14"
-                    Margin="4,0,1,0"
+                    Margin="4,0,2,0"
                     Background="Transparent">
                     <Canvas.Styles>
                         <!--<Style Selector="ToolTip">

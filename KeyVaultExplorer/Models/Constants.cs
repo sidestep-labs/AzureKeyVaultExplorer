@@ -29,9 +29,9 @@ public static class Constants
     // Cache settings
     public const string CacheFileName = "keyvaultexplorer_msal_cache.txt";
 
-    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\keyvaultexplorerforazure";
+    public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\KeyVaultExplorerForAzure";
 
-    public static readonly string DatabaseFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\keyvaultexplorerforazure\\keyvaultexplorerforazure.db";
+    public static readonly string DatabaseFilePath = LocalAppDataFolder+ "\\KeyVaultExplorerForAzure.db";
 
     public const string KeyChainServiceName = "keyvaultexplorerforazure_msal_service";
     public const string KeyChainAccountName = "keyvaultexplorerforazure_msal_account";

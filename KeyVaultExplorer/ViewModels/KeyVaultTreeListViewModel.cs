@@ -129,7 +129,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 catch (Exception ex)
                 {
                     Debug.Write(ex);
-                    _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
                 }
             });
         }, DispatcherPriority.Background);

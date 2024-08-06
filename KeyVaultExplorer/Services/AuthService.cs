@@ -42,7 +42,7 @@ public class AuthService
         {
             var options = new SystemWebViewOptions()
             {
-                HtmlMessageError = "<p> An error occured: {0}. Details {1}</p>",
+                HtmlMessageError = "<p> An error occurred: {0}. Details {1}</p>",
                 BrowserRedirectSuccess = new Uri("https://www.microsoft.com")
             };
             //.WithPrompt(Prompt.ForceLogin) //This is optional. If provided, on each execution, the username and the password must be entered.

@@ -15,7 +15,9 @@ using FluentAvalonia.UI.Windowing;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
+using Microsoft.VisualBasic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -51,6 +53,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool isBusy = false;
+
     [ObservableProperty]
     private string searchQuery;
 
@@ -65,6 +68,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [ObservableProperty]
     private Uri vaultUri;
+
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -115,7 +119,7 @@ public partial class VaultPageViewModel : ViewModelBase
     }
 
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
-    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; }
+    private IEnumerable<KeyVaultContentsAmalgamation> _vaultContents { get; set; } = [];
 
     public async Task ClearClipboardAsync()
     {
@@ -127,6 +131,8 @@ public partial class VaultPageViewModel : ViewModelBase
     {
         try
         {
+            HasAuthorizationError = false;
+
             if (!LoadedItemTypes.ContainsKey(item))
             {
                 IsBusy = true;
@@ -134,26 +140,26 @@ public partial class VaultPageViewModel : ViewModelBase
                 switch (item)
                 {
                     case KeyVaultItemType.Certificate:
-                        await GetCertificatesForVault(VaultUri);
-                        LoadedItemTypes.TryAdd(item, true);
+                        await LoadAndMarkAsLoaded(GetCertificatesForVault, KeyVaultItemType.Certificate);
                         break;
 
                     case KeyVaultItemType.Key:
-                        await GetKeysForVault(VaultUri);
-                        LoadedItemTypes.TryAdd(item, true);
+                        await LoadAndMarkAsLoaded(GetKeysForVault, KeyVaultItemType.Key);
                         break;
 
                     case KeyVaultItemType.Secret:
-                        await GetSecretsForVault(VaultUri);
-                        LoadedItemTypes.TryAdd(item, true);
+                        await LoadAndMarkAsLoaded(GetSecretsForVault, KeyVaultItemType.Secret);
                         break;
 
                     case KeyVaultItemType.All:
                         VaultContents.Clear();
-                        await Task.WhenAny(GetSecretsForVault(VaultUri), GetKeysForVault(VaultUri), GetCertificatesForVault(VaultUri));
-                        LoadedItemTypes.TryAdd(KeyVaultItemType.Secret, true);
-                        LoadedItemTypes.TryAdd(KeyVaultItemType.Key, true);
-                        LoadedItemTypes.TryAdd(KeyVaultItemType.Certificate, true);
+                        var loadTasks = new List<Task>
+                            {
+                                LoadAndMarkAsLoaded(GetSecretsForVault, KeyVaultItemType.Secret),
+                                LoadAndMarkAsLoaded(GetKeysForVault, KeyVaultItemType.Key),
+                                LoadAndMarkAsLoaded(GetCertificatesForVault, KeyVaultItemType.Certificate)
+                            };
+                        await Task.WhenAny(loadTasks);
                         LoadedItemTypes.TryAdd(KeyVaultItemType.All, true);
                         break;
 
@@ -161,26 +167,28 @@ public partial class VaultPageViewModel : ViewModelBase
                         break;
                 }
             }
-            if (item == KeyVaultItemType.All)
-                VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
-            else
-                VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => item == v.Type && v.Name.Contains(SearchQuery ?? "", StringComparison.OrdinalIgnoreCase)));
         }
         catch (Exception ex) when (ex.Message.Contains("403"))
         {
-            _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification
+            //_notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification
+            //{
+            //    Message = string.Concat(ex.Message.AsSpan(0, 90), "..."),
+            //    Title = $"Insufficient Privileges on type '{item}'",
+            //    Type = NotificationType.Error,
+            //});
+            if (!item.HasFlag(KeyVaultItemType.All))
             {
-                Message = string.Concat(ex.Message.AsSpan(0, 90), "..."),
-                Title = $"Insufficient Privileges on type '{item}'",
-                Expiration = TimeSpan.Zero,
-                Type = NotificationType.Error,
-            });
-            Debug.WriteLine(ex.Message);
-            HasAuthorizationError = true;
-            AuthorizationMessage = ex.Message;
+                HasAuthorizationError = true;
+                AuthorizationMessage = ex.Message;
+            }
         }
+        catch { }
         finally
         {
+            var contents = item == KeyVaultItemType.All ? _vaultContents : _vaultContents.Where(x => item == x.Type);
+
+             VaultContents = KeyVaultFilterHelper.FilterByQuery( contents, SearchQuery, item => item.Name, item => item.Tags);
+
             await DelaySetIsBusy(false);
         }
     }
@@ -270,6 +278,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
     [RelayCommand]
     private void CloseError() => HasAuthorizationError = false;
+
     [RelayCommand]
     private async Task Copy(KeyVaultContentsAmalgamation keyVaultItem)
     {
@@ -342,6 +351,12 @@ public partial class VaultPageViewModel : ViewModelBase
         IsBusy = val;
     }
 
+    private async Task LoadAndMarkAsLoaded(Func<Uri, Task> loadFunction, KeyVaultItemType type)
+    {
+        await loadFunction(VaultUri);
+        LoadedItemTypes.TryAdd(type, true);
+    }
+
     partial void OnSearchQueryChanged(string value)
     {
         var isValidEnum = Enum.TryParse(SelectedTab?.Name.ToString(), true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
@@ -357,18 +372,14 @@ public partial class VaultPageViewModel : ViewModelBase
             VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(contents);
             return;
         }
-        //var toFilter = CheckedBoxes.Where(v => v.Value == true).Select(s => s.Key).ToList();
-        //       && toFilter.Contains(v.Type)
 
-        var list = _vaultContents.Where(v => v.Name.Contains(query, StringComparison.OrdinalIgnoreCase)
-                || (v.Tags is not null
-                && v.Tags.Any(x => x.Value.Contains(query, StringComparison.OrdinalIgnoreCase)
-                || x.Key.Contains(query, StringComparison.OrdinalIgnoreCase))
-              ));
+        var list = _vaultContents;
 
         if (item != KeyVaultItemType.All)
             list = list.Where(k => k.Type == item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(list);
+
+        VaultContents = KeyVaultFilterHelper.FilterByQuery(list, value, item => item.Name, item => item.Tags);
+
     }
 
     [RelayCommand]
@@ -385,7 +396,11 @@ public partial class VaultPageViewModel : ViewModelBase
         var isValidEnum = Enum.TryParse(SelectedTab?.Name, true, out KeyVaultItemType parsedEnumValue) && Enum.IsDefined(typeof(KeyVaultItemType), parsedEnumValue);
         var item = isValidEnum ? parsedEnumValue : KeyVaultItemType.Secret;
         LoadedItemTypes.Remove(item);
-        VaultContents = new ObservableCollection<KeyVaultContentsAmalgamation>(_vaultContents.Where(v => v.Type != item));
+        if (item.HasFlag(KeyVaultItemType.All))
+            _vaultContents = [];
+
+        VaultContents = KeyVaultFilterHelper.FilterByQuery(_vaultContents.Where(v => v.Type != item), SearchQuery, item => item.Name, item => item.Tags);
+
         await FilterAndLoadVaultValueType(item);
     }
 
@@ -441,5 +456,28 @@ public partial class VaultPageViewModel : ViewModelBase
 
         var topLevel = Avalonia.Application.Current.GetTopLevel() as AppWindow;
         taskDialog.Show(topLevel);
+    }
+
+    public static class KeyVaultFilterHelper
+    {
+        public static ObservableCollection<T> FilterByQuery<T>(
+            IEnumerable<T> source,
+            string query,
+            Func<T, string> nameSelector,
+            Func<T, IDictionary<string, string>> tagsSelector)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return new ObservableCollection<T>(source);
+            }
+
+            var filteredItems = source.Where(item =>
+                nameSelector(item).AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)
+                || (tagsSelector(item)?.Any(tag =>
+                    tag.Key.AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)
+                    || tag.Value.AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)) ?? false));
+
+            return new ObservableCollection<T>(filteredItems);
+        }
     }
 }

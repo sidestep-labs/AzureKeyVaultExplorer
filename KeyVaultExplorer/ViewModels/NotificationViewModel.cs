@@ -17,7 +17,7 @@ public class NotificationViewModel
         NotificationManager?.Show(notification);
     }
 
-    public async void ShowErrorPopup(Notification notification)
+    public async void ShowPopup(Notification notification)
     {
         var td = new TaskDialog
         {

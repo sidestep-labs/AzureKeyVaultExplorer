@@ -137,11 +137,11 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
         catch (Exception ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
         }
     }
 
@@ -181,11 +181,11 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
         catch (Exception ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
         }
     }
 
@@ -218,14 +218,16 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     try
                     {
                         await viewModel.EditDetailsCommand.ExecuteAsync(null);
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification("Success", "The properties have been updated."));
+
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
-                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
                     }
                     catch (Exception ex)
                     {
-                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
                     }
                     finally
                     {
@@ -245,7 +247,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
     }
 
@@ -325,15 +327,15 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     try
                     {
                         await vm.NewVersionCommand.ExecuteAsync(null);
-                        _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("New Version", "Your value has been created.", Avalonia.Controls.Notifications.NotificationType.Success));
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification("Success", "The secret version has been created."));
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
-                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
                     }
                     catch (Exception ex)
                     {
-                        _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
                     }
                     finally
                     {
@@ -351,7 +353,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
     }
 
@@ -399,11 +401,11 @@ public partial class PropertiesPageViewModel : ViewModelBase
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
         }
         catch (Exception ex)
         {
-            _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+            _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
         }
     }
 }

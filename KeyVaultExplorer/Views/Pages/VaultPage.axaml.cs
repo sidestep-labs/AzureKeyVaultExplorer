@@ -24,7 +24,6 @@ namespace KeyVaultExplorer.Views.Pages;
 public partial class VaultPage : UserControl
 {
     private const string DatGridElementName = "VaultContentDataGrid";
-    private readonly VaultPageViewModel vaultPageViewModel;
     private readonly NotificationViewModel _notificationViewModel;
 
     public VaultPage()
@@ -32,7 +31,6 @@ public partial class VaultPage : UserControl
         InitializeComponent();
         var model = new VaultPageViewModel();
         DataContext = model;
-        vaultPageViewModel = model;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
         KeyUp += Control_KeyUp;
@@ -46,7 +44,6 @@ public partial class VaultPage : UserControl
         InitializeComponent();
         var model = new VaultPageViewModel();
         DataContext = model;
-        vaultPageViewModel = model;
         model.VaultUri = kvUri;
         ValuesDataGrid = this.FindControl<DataGrid>(DatGridElementName);
         ValuesDataGrid.ContextRequested += OnDataGridRowContextRequested;
@@ -62,7 +59,7 @@ public partial class VaultPage : UserControl
     {
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            await vaultPageViewModel.CopyCommand.ExecuteAsync((KeyVaultContentsAmalgamation)e.Item);
+            await (DataContext as VaultPageViewModel).CopyCommand.ExecuteAsync((KeyVaultContentsAmalgamation)e.Item);
         });
     }
 
@@ -75,18 +72,7 @@ public partial class VaultPage : UserControl
         }
         if (e.Key == Avalonia.Input.Key.F5)
         {
-            Dispatcher.UIThread.Post(async () =>
-            {
-                await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
-                if (TabHost.SelectedIndex > 2)
-                {
-                    ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
-                    {
-                        GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-                    };
-                }
-            }, DispatcherPriority.Background);
-            e.Handled = true;
+            RefreshButton_OnClick(sender, e);
         }
     }
 
@@ -105,18 +91,16 @@ public partial class VaultPage : UserControl
 
     private void OnDoubleTapped(object sender, TappedEventArgs e)
     {
-        // Do something when double tapped
         var dg = (DataGrid)sender;
         var model = dg.SelectedItem as KeyVaultContentsAmalgamation;
         (DataContext as VaultPageViewModel).ShowPropertiesCommand.Execute(model);
-        //Debug.Write(model.Name);
     }
 
     public void RefreshButton_OnClick(object sender, RoutedEventArgs args)
     {
         Dispatcher.UIThread.Post(async () =>
         {
-            await vaultPageViewModel.RefreshCommand.ExecuteAsync(null);
+            await (DataContext as VaultPageViewModel).RefreshCommand.ExecuteAsync(null);
             if (TabHost.SelectedIndex > 2)
             {
                 ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
@@ -124,7 +108,7 @@ public partial class VaultPage : UserControl
                     GroupDescriptions = { new DataGridPathGroupDescription("Type") }
                 };
             }
-        }, DispatcherPriority.MaxValue);
+        }, DispatcherPriority.Send);
     }
 
     private void SearchBoxChanges(object sender, TextChangedEventArgs e)
@@ -164,16 +148,18 @@ public partial class VaultPage : UserControl
             2 => KeyVaultItemType.Key,
             _ => KeyVaultItemType.All
         };
-
         await vm.FilterAndLoadVaultValueType(item);
 
-        if (item == KeyVaultItemType.All)
+        await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+            if (item == KeyVaultItemType.All)
             {
-                GroupDescriptions = { new DataGridPathGroupDescription("Type") }
-            };
-        }
+                ValuesDataGrid.ItemsSource = new DataGridCollectionView(ValuesDataGrid.ItemsSource)
+                {
+                    GroupDescriptions = { new DataGridPathGroupDescription("Type") }
+                };
+            }
+        }, DispatcherPriority.Input);
     }
 
     private void CreateSecret_Clicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -225,11 +211,11 @@ public partial class VaultPage : UserControl
             }
             catch (KeyVaultInsufficientPrivilegesException ex)
             {
-                _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+                _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
             }
             catch (Exception ex)
             {
-                _notificationViewModel.ShowErrorPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
             }
         };
 

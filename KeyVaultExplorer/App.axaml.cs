@@ -36,13 +36,12 @@ public partial class App : Application
             DatabaseEncryptedPasswordManager.SetSecret($"keyvaultexplorer_{System.Guid.NewGuid().ToString()[..6]}");
 
 
-        Task.Run(async () =>
-        {
+        Dispatcher.UIThread.Post(async () => {
             await KvExplorerDb.OpenSqlConnection();
 
             if (!dbExists)
                 KvExplorerDb.InitializeDatabase();
-        });
+        }, DispatcherPriority.Loaded);
 
         string settingsPath = Path.Combine(Constants.LocalAppDataFolder, "settings.json");
         if (!File.Exists(settingsPath))

@@ -63,13 +63,25 @@ You will need the latest version of the .NET 8 SDK, and Visual Studio 2022 (this
 Clone the project, open the `.\AzureKeyVaultExplorer` directory and open the solution file called "kv.sln" or "kv.slnx". 
 
 
-## Building from source
+# Installing / building from source:
 Get it from the Microsoft store!
 <p align="left">
   <a href="https://apps.microsoft.com/detail/9mz794c6t74m?rtc=1&hl=en-us&gl=US&cid=github&gl=US">
-    <img src="https://get.microsoft.com/images/en-us%20light.svg" width="150" alt="Download" />
+    <img src="https://get.microsoft.com/images/en-us%20light.svg" width="200" alt="Download" />
   </a>
 </p>
+
+
+## First time installs in Azure Tenant:
+
+Please follow this Microsoft learn artilce if you encourter this error: https://learn.microsoft.com/en-us/answers/questions/1393470/azure-enterprise-apps-missing-a-permission-listed
+<p align="left">
+<img width="450" src="https://github.com/user-attachments/assets/8bc44343-ff85-41a6-a2d3-63f3c0db2301">
+</p>
+Your Azure tenant global admin will have to consent via this URL: 
+
+ `https://login.microsoftonline.com/{the id of your customer tenant}/adminconsent?client_id={client id}` 
+
 
 ### You can also download from the release section for exe and macOS versions: https://github.com/cricketthomas/AzureKeyVaultExplorer/releases 
 If downloaded from this section, you will need to follow this guide to run the app: https://github.com/cricketthomas/AzureKeyVaultExplorer/discussions/67#discussioncomment-10014603
@@ -111,7 +123,7 @@ The app is now verified as I am member of the Microsoft Partner Program.
 
 When you run it for the first time, it creates an enterprise application in your tenant. 
 Please contact your Azure tenant admin to make sure the application has been consented for use. 
-Otherwise you will get an error message:
+Otherwise you will get an error message, see the "[First time installs in Azure Tenant:](https://github.com/sidestep-labs/AzureKeyVaultExplorer/edit/master/README.md#first-time-installs-in-azure-tenant)" section
 <img src="https://github.com/user-attachments/assets/f1d093d6-8e4c-4c70-b917-bc62d030b6b2"/>
 
 Alternatively, you create an enterprise application with the following permissions, then you can modify the clientId in the `Constants.cs` file to your newly created app that is hosted in your own tenant.

@@ -368,12 +368,7 @@ public partial class VaultPageViewModel : ViewModelBase
             return;
         }
 
-        var list = _vaultContents;
-
-        if (item != KeyVaultItemType.All)
-            list = list.Where(k => k.Type == item);
-
-        VaultContents = KeyVaultFilterHelper.FilterByQuery(list, value, item => item.Name, item => item.Tags);
+        VaultContents = KeyVaultFilterHelper.FilterByQuery(item != KeyVaultItemType.All ? _vaultContents.Where(k => k.Type == item) : _vaultContents, value ?? SearchQuery, item => item.Name, item => item.Tags);
     }
 
     [RelayCommand]

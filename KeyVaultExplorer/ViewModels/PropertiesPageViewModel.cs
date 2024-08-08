@@ -388,9 +388,12 @@ public partial class PropertiesPageViewModel : ViewModelBase
         {
             if (IsSecret && val && IsEnabled)
             {
-                await Dispatcher.UIThread.InvokeAsync(async () =>
+                var s = await Task.Run(async () =>
                 {
-                    var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+                    return await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+                });
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
                     SecretPlainText = s.Value;
                 });
             }

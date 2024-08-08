@@ -77,7 +77,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
             TreeViewList.Clear();
         }
 
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+        await Task.Run(async () =>
         {
             await DelaySetIsBusy(async () =>
             {
@@ -130,8 +130,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                     _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
                 }
             });
-        }, DispatcherPriority.Background);
-        _treeViewList = TreeViewList;
+        });
+
+        Dispatcher.UIThread.Post(() => _treeViewList = TreeViewList , DispatcherPriority.Background);
     }
 
     // this will set isBusy to true if the fetching takes longer than 1500 ms.
@@ -296,7 +297,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     //    }
     //}
 
-    partial void OnSearchQueryChanged(string value)
+     partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim();
         if (!string.IsNullOrWhiteSpace(query))

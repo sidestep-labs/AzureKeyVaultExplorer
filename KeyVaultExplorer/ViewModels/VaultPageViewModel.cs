@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -6,6 +7,7 @@ using Avalonia.Input.Platform;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Azure.Security.KeyVault.Keys;
+using Azure.Security.KeyVault.Secrets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Windowing;
@@ -41,8 +43,6 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     private string authorizationMessage;
 
-    private Bitmap BitmapImage;
-
     [ObservableProperty]
     private bool hasAuthorizationError = false;
 
@@ -64,6 +64,8 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     private Uri vaultUri;
 
+    private readonly Lazy<Bitmap> BitmapImage;
+
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -72,7 +74,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
         vaultContents = [];
-        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://KeyVaultExplorer/Assets/AppIcon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+        BitmapImage = new Lazy<Bitmap>(() => LoadImage("avares://KeyVaultExplorer/Assets/AppIcon.ico"));
 
 #if DEBUG
         for (int i = 0; i < 5; i++)
@@ -111,6 +113,14 @@ public partial class VaultPageViewModel : ViewModelBase
         }
         _vaultContents = VaultContents;
 #endif
+    }
+
+    public Bitmap LazyLoadedImage => BitmapImage.Value.CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+
+    private static Bitmap LoadImage(string uri)
+    {
+        var asset = AssetLoader.Open(new Uri(uri));
+        return new Bitmap(asset);
     }
 
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
@@ -430,7 +440,7 @@ public partial class VaultPageViewModel : ViewModelBase
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
-            Icon = BitmapImage,
+            Icon = LazyLoadedImage,
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,

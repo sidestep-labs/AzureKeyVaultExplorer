@@ -34,7 +34,7 @@
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
         IsPaneOpen="True"
-        OpenPaneLength="280"
+        OpenPaneLength="330"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
             <Border

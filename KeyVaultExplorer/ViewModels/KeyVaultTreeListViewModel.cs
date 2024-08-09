@@ -135,10 +135,11 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
 
         var searched = await Task.Run(() =>
         {
-            return new ObservableCollection<KvSubscriptionModel>(FilterService.Filter(_treeViewList, SearchQuery));
+            return new ObservableCollection<KvSubscriptionModel>(_treeViewList);
         });
         Dispatcher.UIThread.Post(() => {
             TreeViewList = searched;
+            SearchQuery = string.Empty;
         }, DispatcherPriority.Background);
     }
 

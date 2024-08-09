@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
+    xmlns:res="clr-namespace:KeyVaultExplorer.Resources;assembly=KeyVaultExplorer"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:uip="clr-namespace:FluentAvalonia.UI.Controls.Primitives;assembly=FluentAvalonia"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
@@ -19,7 +20,9 @@
     <Design.DataContext>
         <vm:TabViewPageViewModel />
     </Design.DataContext>
-
+    <UserControl.Resources>
+        <res:PercentageConverter x:Key="PercentageConverter" />
+    </UserControl.Resources>
     <UserControl.Styles>
         <Styles>
             <Style Selector="Grid#TabViewGrid.emptyTabViewDragMargin">
@@ -34,7 +37,7 @@
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
         IsPaneOpen="True"
-        OpenPaneLength="400"
+        OpenPaneLength="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Width, Converter={StaticResource PercentageConverter}}"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
             <Border

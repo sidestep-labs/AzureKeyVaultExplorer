@@ -76,36 +76,18 @@ public partial class KvExplorerDb : IDisposable
         await createTableCommand.ExecuteNonQueryAsync();
     }
 
-    public List<QuickAccess> GetQuickAccessItems()
+    public async IAsyncEnumerable<QuickAccess> GetQuickAccessItemsAsyncEnumerable(string tenantId = null)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
+        var query = new StringBuilder("SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess");
 
-        var reader = command.ExecuteReader();
-
-        var items = new List<QuickAccess>();
-        while (reader.Read())
+        if (!string.IsNullOrWhiteSpace(tenantId))
         {
-            var item = new QuickAccess
-            {
-                Id = reader.GetInt32(0),
-                Name = reader.GetString(1),
-                VaultUri = reader.GetString(2),
-                KeyVaultId = reader.GetString(3),
-                SubscriptionDisplayName = reader.IsDBNull(4) ? null : reader.GetString(4),
-                SubscriptionId = reader.IsDBNull(5) ? null : reader.GetString(5),
-                TenantId = reader.GetString(6),
-                Location = reader.GetString(7),
-            };
-            items.Add(item);
+            query.Append($" WHERE TenantId = '{tenantId}'");
         }
-        return items;
-    }
+        query.Append(";");
+        command.CommandText = query.ToString();
 
-    public async IAsyncEnumerable<QuickAccess> GetQuickAccessItemsAsyncEnumerable()
-    {
-        var command = _connection.CreateCommand();
-        command.CommandText = "SELECT Id, Name, VaultUri, KeyVaultId, SubscriptionDisplayName, SubscriptionId, TenantId, Location FROM QuickAccess;";
 
         var reader = await command.ExecuteReaderAsync();
 
@@ -191,11 +173,17 @@ public partial class KvExplorerDb : IDisposable
         return settings;
     }
 
-    public async Task<List<Subscriptions>> GetStoredSubscriptions()
+    public async Task<List<Subscriptions>> GetStoredSubscriptions(string tenantId = null)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = "SELECT DisplayName, SubscriptionId, TenantId FROM Subscriptions;";
-
+        var query = new StringBuilder("SELECT DisplayName, SubscriptionId, TenantId FROM Subscriptions");
+    
+        if (!string.IsNullOrWhiteSpace(tenantId))
+        {
+            query.Append($" WHERE TenantId = '{tenantId.ToUpperInvariant()}'");
+        }
+        query.Append(";");
+        command.CommandText = query.ToString();
         var reader = command.ExecuteReader();
 
         var subscriptions = new List<Subscriptions>();

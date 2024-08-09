@@ -13,6 +13,7 @@ using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -90,6 +91,13 @@ public partial class VaultPage : UserControl
 
     private void OnDoubleTapped(object sender, TappedEventArgs e)
     {
+        // hack to prevent double click on column header from opening the properties flyout
+        var control = (e.Source as Control);
+        if (control.Name is not null && control.Name.EndsWith("PART_ColumnHeaderRoot"))
+        {
+            e.Handled = true;
+            return;
+        }
         var dg = (DataGrid)sender;
         var model = dg.SelectedItem as KeyVaultContentsAmalgamation;
         (DataContext as VaultPageViewModel).ShowPropertiesCommand.Execute(model);

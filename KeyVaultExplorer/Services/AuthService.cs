@@ -21,6 +21,9 @@ public class AuthService
 
     public string TenantName { get; private set; }
 
+    public string TenantId { get; private set; }
+
+
     public IAccount Account { get; private set; }
 
     public AuthService()
@@ -63,6 +66,7 @@ public class AuthService
 
             IsAuthenticated = true;
             TenantName = authenticationResult.Account.Username.Split("@").TakeLast(1).Single();
+            TenantId = authenticationResult.TenantId;
             AuthenticatedUserClaims = new AuthenticatedUserClaims()
             {
                 Username = authenticationResult.Account.Username,
@@ -100,6 +104,7 @@ public class AuthService
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
         IsAuthenticated = true;
         TenantName = Account.Username.Split("@").TakeLast(1).Single();
+        TenantId = authenticationResult.TenantId;
         AuthenticatedUserClaims = new AuthenticatedUserClaims()
         {
             Username = authenticationResult.Account.Username,

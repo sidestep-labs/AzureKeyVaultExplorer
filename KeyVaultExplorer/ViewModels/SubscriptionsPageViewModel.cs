@@ -27,6 +27,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     private readonly KvExplorerDb _dbContext;
     private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;
+    private readonly AuthService _authService;
     private NotificationViewModel _notificationViewModel;
 
     public SubscriptionsPageViewModel()
@@ -34,6 +35,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         _memoryCache = Defaults.Locator.GetRequiredService<IMemoryCache>();
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         Subscriptions = [];
     }
@@ -43,7 +45,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     {
         int count = 0;
 
-        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions()).ToDictionary(s => s.SubscriptionId);
+        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions(_authService.TenantId ?? null)).ToDictionary(s => s.SubscriptionId);
 
         await foreach (var item in _vaultService.GetAllSubscriptions())
         {
@@ -67,7 +69,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     public async Task LoadMore()
     {
         int count = 0;
-        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions()).ToDictionary(s => s.SubscriptionId);
+        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions(_authService.TenantId ?? null)).ToDictionary(s => s.SubscriptionId);
 
         await foreach (var item in _vaultService.GetAllSubscriptions(continuationToken: ContinuationToken))
         {

@@ -34,7 +34,7 @@
         VerticalAlignment="Stretch"
         DisplayMode="{Binding SplitViewDisplayMode}"
         IsPaneOpen="True"
-        OpenPaneLength="330"
+        OpenPaneLength="400"
         PaneBackground="{x:Null}">
         <SplitView.Pane>
             <Border
@@ -66,7 +66,7 @@
                                         <ui:BitmapIcon
                                             Width="16"
                                             Height="16"
-                                            RenderOptions.BitmapInterpolationMode="None"
+                                            RenderOptions.BitmapInterpolationMode="HighQuality"
                                             ShowAsMonochrome="True"
                                             UriSource="avares://KeyVaultExplorer/Assets/Pin.png" />
                                     </Button>

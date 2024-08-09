@@ -151,6 +151,7 @@
                                 Height="16"
                                 VerticalAlignment="Bottom"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
+                                ShowAsMonochrome="True"
                                 UriSource="avares://KeyVaultExplorer/Assets/Add.png" />
                             <TextBlock VerticalAlignment="{OnPlatform Bottom, Windows=Center}" Text="Create Item" />
                         </StackPanel>

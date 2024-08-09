@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
@@ -10,6 +8,8 @@ using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
 using System;
+using System.Buffers;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -24,7 +24,7 @@ namespace KeyVaultExplorer.ViewModels;
 
 public partial class KeyVaultTreeListViewModel : ViewModelBase
 {
-    public IEnumerable<KvSubscriptionModel> _treeViewList;
+    public  ObservableCollection<KvSubscriptionModel> _treeViewList = [];
 
     [ObservableProperty]
     private bool isBusy = false;
@@ -36,7 +36,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private KeyVaultResource selectedTreeItem;
 
     [ObservableProperty]
-    private ObservableCollection<KvSubscriptionModel> treeViewList;
+    private ObservableCollection<KvSubscriptionModel> treeViewList = [];
 
     private readonly AuthService _authService;
     private readonly KvExplorerDb _dbContext;
@@ -52,7 +52,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
-        TreeViewList = [];
         //foreach (var item in TreeViewList)
         //{
         //    item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
@@ -76,10 +75,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         if (isRefresh)
         {
-            TreeViewList.Clear();
+            _treeViewList.Clear();
         }
 
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+        await Task.Run(async () =>
         {
             await DelaySetIsBusy(async () =>
             {
@@ -91,7 +90,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                     {
                         item.PropertyChanged += KvSubscriptionModel_PropertyChanged;
                         item.HasSubNodeDataBeenFetched = false;
-                        TreeViewList.Add(item);
+                        _treeViewList.Add(item);
                     }
 
                     //pinned items, insert the item so it appears instantly, then replace it once it finishes process items from KV
@@ -100,12 +99,12 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                         SubscriptionDisplayName = "Quick Access",
                         SubscriptionId = "",
                         IsExpanded = true,
-                        ResourceGroups = [new KvResourceGroupModel { }],
+                        ResourceGroups = [new KvResourceGroupModel { ResourceGroupDisplayName = string.Empty }],
                     };
 
-                    TreeViewList.Insert(0, quickAccess);
+                    _treeViewList.Insert(0, quickAccess);
 
-                    var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable();
+                    var savedItems = _dbContext.GetQuickAccessItemsAsyncEnumerable(_authService.TenantId ?? null);
                     var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
                     var armClient = new ArmClient(token);
                     await foreach (var item in savedItems)
@@ -119,9 +118,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                     quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
                     quickAccess.ResourceGroups[0].IsExpanded = true;
 
-                    TreeViewList[0] = quickAccess;
+                    _treeViewList[0] = quickAccess;
 
-                    foreach (var sub in TreeViewList)
+                    foreach (var sub in _treeViewList)
                     {
                         sub.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
                     }
@@ -129,11 +128,19 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                 catch (Exception ex)
                 {
                     Debug.Write(ex);
-                    _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    Dispatcher.UIThread.Post(() => _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" }), DispatcherPriority.Background);
                 }
             });
+        });
+
+        var searched = await Task.Run(() =>
+        {
+            return new ObservableCollection<KvSubscriptionModel>(_treeViewList);
+        });
+        Dispatcher.UIThread.Post(() => {
+            TreeViewList = searched;
+            SearchQuery = string.Empty;
         }, DispatcherPriority.Background);
-        _treeViewList = TreeViewList;
     }
 
     // this will set isBusy to true if the fetching takes longer than 1500 ms.
@@ -298,29 +305,17 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     //    }
     //}
 
-   partial void OnSearchQueryChanged(string value)
+    partial void OnSearchQueryChanged(string value)
     {
         string query = value.Trim();
-        if (!string.IsNullOrWhiteSpace(query))
-        {
-            TreeViewList = new ObservableCollection<KvSubscriptionModel>(_treeViewList);
-        }
+        var searched = Task.Run(() =>
+         {
+             return new ObservableCollection<KvSubscriptionModel>(FilterService.Filter(_treeViewList, query)); ;
+         });
 
-        //  var searchValues = SearchValues.Create(query.AsSpan());
-        //  var listSearched = _treeViewList.Where(v =>
-        //    v.SubscriptionDisplayName.AsSpan().ContainsAny(searchValues) ||
-        //    //v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.Contains(query))
-        //    v.KeyVaultResources.Any(x => x.HasData && x.Data.Name.AsSpan().ContainsAny(searchValues))
-        //);
-
-        var listSearched = _treeViewList.Where(v =>
-            v.SubscriptionDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase)
-            || v.ResourceGroups.Any(r => r.ResourceGroupDisplayName is not null && r.ResourceGroupDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase)
-            || r.KeyVaultResources.Any(kr => kr.HasData && kr.Data.Name.Contains(query, StringComparison.OrdinalIgnoreCase)))
-        );
-        TreeViewList = new ObservableCollection<KvSubscriptionModel>(listSearched);
+        var res = searched.GetAwaiter().GetResult();
+        Dispatcher.UIThread.InvokeAsync(() => TreeViewList = res, DispatcherPriority.Background);
     }
-
     [RelayCommand]
     private void OpenInAzure(KeyVaultResource model)
     {
@@ -364,4 +359,5 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         //    }
         //}
     }
+   
 }

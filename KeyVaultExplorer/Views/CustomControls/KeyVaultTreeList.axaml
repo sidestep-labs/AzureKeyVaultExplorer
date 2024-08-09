@@ -100,7 +100,7 @@
                     <ui:BitmapIcon
                         Width="16"
                         Height="16"
-                        RenderOptions.BitmapInterpolationMode="None"
+                        RenderOptions.BitmapInterpolationMode="HighQuality"
                         ShowAsMonochrome="True"
                         UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
                 </Button>
@@ -116,7 +116,7 @@
                         <ui:BitmapIcon
                             Width="16"
                             Height="16"
-                            RenderOptions.BitmapInterpolationMode="None"
+                            RenderOptions.BitmapInterpolationMode="HighQuality"
                             ShowAsMonochrome="True"
                             UriSource="avares://KeyVaultExplorer/Assets/CollapseAll.png" />
                     </StackPanel>
@@ -213,7 +213,7 @@
                         <Setter Property="IsVisible" Value="True" />
                     </Style>
 
-                    <!--<Style Selector="TreeViewItem#SubscriptionTreeItem /template/ ToggleButton#PART_ExpandCollapseChevron:unchecked">
+                    <!--      <Style Selector="TreeViewItem#SubscriptionTreeItem /template/ ToggleButton#PART_ExpandCollapseChevron:unchecked">
                         <Setter Property="IsVisible" Value="True" />
                     </Style>-->
                 </TreeView.Styles>
@@ -274,7 +274,7 @@
                             <ui:BitmapIcon
                                 Width="16"
                                 Height="16"
-                                RenderOptions.BitmapInterpolationMode="None"
+                                RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://KeyVaultExplorer/Assets/KeyVault.png" />
                             <TextBlock

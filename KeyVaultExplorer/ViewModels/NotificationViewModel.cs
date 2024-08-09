@@ -1,6 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
@@ -27,9 +25,8 @@ public class NotificationViewModel
             FooterVisibility = TaskDialogFooterVisibility.Always,
             IsFooterExpanded = false,
             Buttons = { TaskDialogButton.CloseButton },
-
         };
-          //Avalonia.Application.Current.GetTopLevel() as AppWindow;
+        //Avalonia.Application.Current.GetTopLevel() as AppWindow;
         var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
         td.XamlRoot = lifetime.Windows.Last() as AppWindow;
         await td.ShowAsync(true);

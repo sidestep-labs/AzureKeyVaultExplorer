@@ -12,7 +12,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,6 +21,7 @@ namespace KeyVaultExplorer.Services;
 public partial class VaultService
 {
 #pragma warning disable IDE0290 // Use primary constructor
+
     public VaultService(AuthService authService, IMemoryCache memoryCache, KvExplorerDb dbContext)
 #pragma warning restore IDE0290 // Use primary constructor
     {
@@ -156,14 +156,15 @@ public partial class VaultService
         var placeholder = new KeyVaultResourcePlaceholder();
         var rgPlaceholder = new KvResourceGroupModel() //needed to show chevron
         {
-            KeyVaultResources = [placeholder]
+            KeyVaultResources = [placeholder],
+            //ResourceGroupDisplayName = string.Empty
         };
 
-        var subscriptions = await _memoryCache.GetOrCreateAsync("subscriptions", async (f) =>
+        var subscriptions = await _memoryCache.GetOrCreateAsync($"subscriptions_{_authService.TenantId}", async (f) =>
         {
-            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
+            f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
 
-            var savedSubscriptions = await _dbContext.GetStoredSubscriptions();
+            var savedSubscriptions = await _dbContext.GetStoredSubscriptions(_authService.TenantId ??  null);
             List<SubscriptionResource> subscriptionCollection = [];
             foreach (var sub in savedSubscriptions)
             {

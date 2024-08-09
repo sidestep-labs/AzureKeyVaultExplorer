@@ -1,10 +1,9 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
-using Avalonia.Layout;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Azure.Security.KeyVault.Keys;
@@ -15,9 +14,7 @@ using FluentAvalonia.UI.Windowing;
 using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -46,8 +43,6 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     private string authorizationMessage;
 
-    private Bitmap BitmapImage;
-
     [ObservableProperty]
     private bool hasAuthorizationError = false;
 
@@ -69,6 +64,8 @@ public partial class VaultPageViewModel : ViewModelBase
     [ObservableProperty]
     private Uri vaultUri;
 
+    private readonly Lazy<Bitmap> BitmapImage;
+
     public VaultPageViewModel()
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
@@ -77,7 +74,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
         vaultContents = [];
-        BitmapImage = new Bitmap(AssetLoader.Open(new Uri("avares://KeyVaultExplorer/Assets/AppIcon.ico"))).CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+        BitmapImage = new Lazy<Bitmap>(() => LoadImage("avares://KeyVaultExplorer/Assets/AppIcon.ico"));
 
 #if DEBUG
         for (int i = 0; i < 5; i++)
@@ -116,6 +113,14 @@ public partial class VaultPageViewModel : ViewModelBase
         }
         _vaultContents = VaultContents;
 #endif
+    }
+
+    public Bitmap LazyLoadedImage => BitmapImage.Value.CreateScaledBitmap(new Avalonia.PixelSize(24, 24), BitmapInterpolationMode.HighQuality);
+
+    private static Bitmap LoadImage(string uri)
+    {
+        var asset = AssetLoader.Open(new Uri(uri));
+        return new Bitmap(asset);
     }
 
     public Dictionary<KeyVaultItemType, bool> LoadedItemTypes { get; set; } = new() { };
@@ -187,7 +192,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             var contents = item == KeyVaultItemType.All ? _vaultContents : _vaultContents.Where(x => item == x.Type);
 
-             VaultContents = KeyVaultFilterHelper.FilterByQuery( contents, SearchQuery, item => item.Name, item => item.Tags);
+            VaultContents = KeyVaultFilterHelper.FilterByQuery(contents, SearchQuery, item => item.Name, item => item.Tags);
 
             await DelaySetIsBusy(false);
         }
@@ -373,13 +378,7 @@ public partial class VaultPageViewModel : ViewModelBase
             return;
         }
 
-        var list = _vaultContents;
-
-        if (item != KeyVaultItemType.All)
-            list = list.Where(k => k.Type == item);
-
-        VaultContents = KeyVaultFilterHelper.FilterByQuery(list, value, item => item.Name, item => item.Tags);
-
+        VaultContents = KeyVaultFilterHelper.FilterByQuery(item != KeyVaultItemType.All ? _vaultContents.Where(k => k.Type == item) : _vaultContents, value ?? SearchQuery, item => item.Name, item => item.Tags);
     }
 
     [RelayCommand]
@@ -441,7 +440,7 @@ public partial class VaultPageViewModel : ViewModelBase
         var taskDialog = new AppWindow
         {
             Title = $"{model.Type} {model.Name} Properties",
-            Icon = BitmapImage,
+            Icon = LazyLoadedImage,
             SizeToContent = SizeToContent.Manual,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             ShowAsDialog = false,

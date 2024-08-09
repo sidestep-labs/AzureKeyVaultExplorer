@@ -4,7 +4,6 @@ using Microsoft.Identity.Client.Extensions.Msal;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +20,9 @@ public class AuthService
     public AuthenticatedUserClaims AuthenticatedUserClaims { get; private set; }
 
     public string TenantName { get; private set; }
+
+    public string TenantId { get; private set; }
+
 
     public IAccount Account { get; private set; }
 
@@ -64,6 +66,7 @@ public class AuthService
 
             IsAuthenticated = true;
             TenantName = authenticationResult.Account.Username.Split("@").TakeLast(1).Single();
+            TenantId = authenticationResult.TenantId;
             AuthenticatedUserClaims = new AuthenticatedUserClaims()
             {
                 Username = authenticationResult.Account.Username,
@@ -101,6 +104,7 @@ public class AuthService
         authenticationResult = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault()).WithForceRefresh(true).ExecuteAsync();
         IsAuthenticated = true;
         TenantName = Account.Username.Split("@").TakeLast(1).Single();
+        TenantId = authenticationResult.TenantId;
         AuthenticatedUserClaims = new AuthenticatedUserClaims()
         {
             Username = authenticationResult.Account.Username,

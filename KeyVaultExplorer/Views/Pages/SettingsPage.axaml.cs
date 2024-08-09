@@ -4,7 +4,6 @@ using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
 using KeyVaultExplorer.ViewModels;
-using KeyVaultExplorer.Views.CustomControls;
 
 namespace KeyVaultExplorer.Views.Pages;
 
@@ -43,11 +42,10 @@ public partial class SettingsPage : UserControl
         if (e.NavigationMode != NavigationMode.Back && IsInitialLoad)
         {
             IsInitialLoad = false;
-            Dispatcher.UIThread.InvokeAsync(async() =>
+            Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 await (DataContext as SettingsPageViewModel)!.SignInOrRefreshTokenCommand.ExecuteAsync(null);
                 //((Control)sender)!.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
-
             }, DispatcherPriority.Background);
         }
     }

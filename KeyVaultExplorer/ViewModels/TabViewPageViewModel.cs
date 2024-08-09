@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using KeyVaultExplorer.Views.Pages;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.ViewModels;
 
@@ -17,14 +18,19 @@ public partial class TabViewPageViewModel : ViewModelBase
     {
         Documents = new ObservableCollection<TabViewItem>();
 #if DEBUG
-            Documents.Add(AddDocument(1));
+        Documents.Add(AddDocument(1));
 #endif
 
-        Dispatcher.UIThread.Post(async () =>
+        _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
+
+        var settings = Task.Run(async () =>
         {
-            _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
-            var settings = await _settingsPageViewModel.GetAppSettings();
-            SplitViewDisplayMode = settings.SplitViewDisplayMode == "Inline" ? SplitViewDisplayMode.Inline : SplitViewDisplayMode.Overlay;
+            return await _settingsPageViewModel.GetAppSettings();
+        });
+
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            SplitViewDisplayMode = (await settings).SplitViewDisplayMode == "Inline" ? SplitViewDisplayMode.Inline : SplitViewDisplayMode.Overlay;
         });
     }
 

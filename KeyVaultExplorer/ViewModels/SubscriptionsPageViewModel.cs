@@ -24,10 +24,10 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<SubscriptionDataItem> subscriptions;
 
- 
     private readonly KvExplorerDb _dbContext;
     private readonly IMemoryCache _memoryCache;
     private readonly VaultService _vaultService;
+    private readonly AuthService _authService;
     private NotificationViewModel _notificationViewModel;
 
     public SubscriptionsPageViewModel()
@@ -35,6 +35,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         _memoryCache = Defaults.Locator.GetRequiredService<IMemoryCache>();
+        _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         Subscriptions = [];
     }
@@ -42,9 +43,11 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [RelayCommand]
     public async Task GetSubscriptions()
     {
-        int count = 0;
 
-        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions()).ToDictionary(s => s.SubscriptionId);
+        int count = 0;
+        Subscriptions.Clear();
+
+        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions(_authService.TenantId ?? null)).ToDictionary(s => s.SubscriptionId);
 
         await foreach (var item in _vaultService.GetAllSubscriptions())
         {
@@ -64,13 +67,11 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         IsBusy = false;
     }
 
-
-
     [RelayCommand]
     public async Task LoadMore()
     {
         int count = 0;
-        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions()).ToDictionary(s => s.SubscriptionId);
+        var savedSubscriptions = (await _dbContext.GetStoredSubscriptions(_authService.TenantId ?? null)).ToDictionary(s => s.SubscriptionId);
 
         await foreach (var item in _vaultService.GetAllSubscriptions(continuationToken: ContinuationToken))
         {
@@ -89,9 +90,6 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
         }
         IsBusy = false;
     }
-
-
-
 
     [RelayCommand]
     public void SelectAllSubscriptions()
@@ -112,7 +110,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [RelayCommand]
     public async Task SaveSelectedSubscriptions()
     {
-        var updatedItems = Subscriptions.Where(i => i.IsUpdated is not null);
+        var updatedItems = Subscriptions.Where(i => i.IsUpdated is not null || i.IsUpdated == true);
 
         var added = updatedItems.Where(i => i.IsPinned).Select(s => new Subscriptions
         {
@@ -123,9 +121,13 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
 
         var removed = updatedItems.Where(i => !i.IsPinned).Select(s => s.Data.SubscriptionId);
 
-        await _dbContext.InsertSubscriptions(added);
+        await _dbContext.InsertSubscriptions(added.ToList());
         await _dbContext.RemoveSubscriptionsBySubscriptionIDs(removed);
-        _memoryCache.Remove("subscriptions");
+        _memoryCache.Remove($"subscriptions_{_authService.TenantId}");
         _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("Saved", "Your changes have been saved.", Avalonia.Controls.Notifications.NotificationType.Information));
+
+        foreach (var item in Subscriptions)
+            item.IsUpdated = false;
+    
     }
 }

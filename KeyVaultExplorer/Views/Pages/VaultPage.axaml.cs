@@ -91,6 +91,13 @@ public partial class VaultPage : UserControl
 
     private void OnDoubleTapped(object sender, TappedEventArgs e)
     {
+        // hack to prevent double click on column header from opening the properties flyout
+        var control = (e.Source as Control);
+        if (control.Name is not null && control.Name.EndsWith("PART_ColumnHeaderRoot"))
+        {
+            e.Handled = true;
+            return;
+        }
         var dg = (DataGrid)sender;
         var model = dg.SelectedItem as KeyVaultContentsAmalgamation;
         (DataContext as VaultPageViewModel).ShowPropertiesCommand.Execute(model);
@@ -170,7 +177,7 @@ public partial class VaultPage : UserControl
     private async Task CreateNewSecret()
     {
         var lifetime = App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-     
+
         var vm = new CreateNewSecretVersionViewModel()
         {
             KeyVaultSecretModel = new SecretProperties("new_secret") { Enabled = true },
@@ -191,7 +198,7 @@ public partial class VaultPage : UserControl
             FallbackValue = false,
             Source = vm,
         });
-        
+
         var dialog = new TaskDialog()
         {
             Title = "Create New Secret",
@@ -219,8 +226,7 @@ public partial class VaultPage : UserControl
             }
         };
 
-      ;
+        ;
         var result = await dialog.ShowAsync();
     }
-
 }

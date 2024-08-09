@@ -32,5 +32,6 @@ public partial class KvResourceGroupModel : ObservableObject
 
     public ObservableCollection<KeyVaultResource> KeyVaultResources { get; set; } = [];
     public string ResourceGroupDisplayName { get; set; } = null!;
+
     public ResourceGroupResource ResourceGroupResource { get; set; } = null!;
 }

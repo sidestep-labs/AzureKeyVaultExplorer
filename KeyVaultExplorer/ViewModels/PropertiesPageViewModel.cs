@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
@@ -219,7 +218,6 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     {
                         await viewModel.EditDetailsCommand.ExecuteAsync(null);
                         _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification("Success", "The properties have been updated."));
-
                     }
                     catch (KeyVaultInsufficientPrivilegesException ex)
                     {
@@ -344,9 +342,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
                 dialog.Content = new CreateNewSecretVersion() { DataContext = vm };
                 var result = await dialog.ShowAsync(true);
-
             }
-
         }
         catch (KeyVaultItemNotFoundException ex)
         {
@@ -392,9 +388,12 @@ public partial class PropertiesPageViewModel : ViewModelBase
         {
             if (IsSecret && val && IsEnabled)
             {
-                await Dispatcher.UIThread.InvokeAsync(async () =>
+                var s = await Task.Run(async () =>
                 {
-                    var s = await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+                    return await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name).ConfigureAwait(false);
+                });
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
                     SecretPlainText = s.Value;
                 });
             }

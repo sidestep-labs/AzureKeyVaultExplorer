@@ -1,7 +1,6 @@
 ﻿using Microsoft.Identity.Client.Extensions.Msal;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace KeyVaultExplorer.Models;
 
@@ -9,6 +8,7 @@ public static class Constants
 {
     // database password file name
     public const string EncryptedSecretFileName = "keyvaultexplorerforazure_database_password.txt";
+
     public const string KeychainSecretName = "keyvaultexplorerforazure_database_password";
     public const string KeychainServiceName = "keyvaultexplorerforazure";
     public const string ProtectedKeyFileName = "keyvaultexplorerforazure_database_key.bin";
@@ -31,7 +31,7 @@ public static class Constants
 
     public static readonly string LocalAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\KeyVaultExplorerForAzure";
 
-    public static readonly string DatabaseFilePath = LocalAppDataFolder+ "\\KeyVaultExplorerForAzure.db";
+    public static readonly string DatabaseFilePath = LocalAppDataFolder + "\\KeyVaultExplorerForAzure.db";
 
     public const string KeyChainServiceName = "keyvaultexplorerforazure_msal_service";
     public const string KeyChainAccountName = "keyvaultexplorerforazure_msal_account";

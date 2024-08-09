@@ -6,8 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace KeyVaultExplorer.Services;
 
-public static class ServiceCollectionExtensions {
-    public static void AddCommonServices(this IServiceCollection collection) {
+public static class ServiceCollectionExtensions
+{
+    public static void AddCommonServices(this IServiceCollection collection)
+    {
         collection.AddMemoryCache();
         collection.AddSingleton<AuthService>();
         collection.AddSingleton<VaultService>();

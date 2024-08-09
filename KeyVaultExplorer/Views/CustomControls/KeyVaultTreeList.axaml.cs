@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -36,7 +35,7 @@ public partial class KeyVaultTreeList : UserControl
         var tv = sender as TreeView;
         if (tv.SelectedItem is not null)
         {
-            var kvm = tv.ItemsSource.ElementAt(0) as KvSubscriptionModel;
+            var kvm = (tv.DataContext as KeyVaultTreeListViewModel)._treeViewList.ElementAt(0) as KvSubscriptionModel;
             var showUnpin = kvm.ResourceGroups[0].KeyVaultResources.Contains(tv.SelectedItem as KeyVaultResource);
             ShowMenu(isTransient: true, isCurrentlyPinned: showUnpin);
         }
@@ -87,12 +86,8 @@ public partial class KeyVaultTreeList : UserControl
             await (DataContext as KeyVaultTreeListViewModel)!.GetAvailableKeyVaultsCommand.ExecuteAsync(true).ContinueWith((t) =>
              {
                  ((Control)sender)!.RaiseEvent(new RoutedEventArgs(MainView.SignInRoutedEvent));
-
              });
         }, DispatcherPriority.Input);
-
-     
-
     }
 
     private void OnDoubleClicked(object sender, TappedEventArgs args)

@@ -9,13 +9,10 @@ using Avalonia.VisualTree;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;
 using FluentAvalonia.UI.Navigation;
-using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
 using System;
-using System.Diagnostics;
-using System.Linq;
 
 #nullable disable
 
@@ -44,7 +41,6 @@ public partial class MainView : UserControl
         mainViewModel = Defaults.Locator.GetRequiredService<MainViewModel>();
         authService = Defaults.Locator.GetRequiredService<AuthService>();
 
-
         Dispatcher.UIThread.Post(async () =>
         {
             await mainViewModel.RefreshTokenAndGetAccountInformation().ContinueWith(async (t) =>
@@ -61,6 +57,7 @@ public partial class MainView : UserControl
     }
 
     public static MainView Instance { get; private set; }
+
     private FrameNavigationOptions NavOptions => new FrameNavigationOptions
     {
         TransitionInfoOverride = new SlideNavigationTransitionInfo(),
@@ -212,6 +209,7 @@ public partial class MainView : UserControl
         mainViewModel.IsAuthenticated = false;
         mainViewModel.AuthenticatedUserClaims = null;
     }
+
     private void TabViewPage_KeyUpFocusSearchBox(object sender, KeyEventArgs e)
     {
         if (e.Key == Avalonia.Input.Key.F && (e.KeyModifiers == KeyModifiers.Control || e.Key == Avalonia.Input.Key.LWin || e.Key == Avalonia.Input.Key.RWin))

@@ -1,15 +1,7 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
-using Avalonia.Threading;
-using Azure.Security.KeyVault.Secrets;
-using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Windowing;
-using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.ViewModels;
 using KeyVaultExplorer.Views.Pages;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Views.CustomControls;
 

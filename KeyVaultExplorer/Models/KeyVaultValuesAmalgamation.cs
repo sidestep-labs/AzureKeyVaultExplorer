@@ -44,7 +44,6 @@ public class KeyVaultContentsAmalgamation
 
     public string TagValuesString => string.Join(", ", Tags?.Values ?? []);
 
-
     private string? GetRelativeDateString(DateTimeOffset dateTimeOffset, bool isPast = false)
     {
         DateTimeOffset now = DateTimeOffset.Now;
@@ -79,7 +78,6 @@ public class KeyVaultContentsAmalgamation
             (_, _) => $"{(isPast ? "" : "in ")}{years} {(years == 1 ? "year" : "years")}{(isPast ? " ago" : "")}"
         };
     }
-
 }
 
 public enum KeyVaultItemType

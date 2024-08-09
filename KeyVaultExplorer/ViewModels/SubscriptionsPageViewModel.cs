@@ -43,7 +43,9 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [RelayCommand]
     public async Task GetSubscriptions()
     {
+
         int count = 0;
+        Subscriptions.Clear();
 
         var savedSubscriptions = (await _dbContext.GetStoredSubscriptions(_authService.TenantId ?? null)).ToDictionary(s => s.SubscriptionId);
 
@@ -108,7 +110,7 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
     [RelayCommand]
     public async Task SaveSelectedSubscriptions()
     {
-        var updatedItems = Subscriptions.Where(i => i.IsUpdated is not null);
+        var updatedItems = Subscriptions.Where(i => i.IsUpdated is not null || i.IsUpdated == true);
 
         var added = updatedItems.Where(i => i.IsPinned).Select(s => new Subscriptions
         {
@@ -119,9 +121,13 @@ public partial class SubscriptionsPageViewModel : ViewModelBase
 
         var removed = updatedItems.Where(i => !i.IsPinned).Select(s => s.Data.SubscriptionId);
 
-        await _dbContext.InsertSubscriptions(added);
+        await _dbContext.InsertSubscriptions(added.ToList());
         await _dbContext.RemoveSubscriptionsBySubscriptionIDs(removed);
-        _memoryCache.Remove("subscriptions");
+        _memoryCache.Remove($"subscriptions_{_authService.TenantId}");
         _notificationViewModel.AddMessage(new Avalonia.Controls.Notifications.Notification("Saved", "Your changes have been saved.", Avalonia.Controls.Notifications.NotificationType.Information));
+
+        foreach (var item in Subscriptions)
+            item.IsUpdated = false;
+    
     }
 }

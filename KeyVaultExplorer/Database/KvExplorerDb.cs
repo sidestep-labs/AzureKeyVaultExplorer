@@ -45,8 +45,8 @@ public partial class KvExplorerDb : IDisposable
                 BEGIN TRANSACTION;
                 -- Table: Subscriptions
                 CREATE TABLE IF NOT EXISTS Subscriptions (
-                    DisplayName    TEXT NOT NULL CONSTRAINT UQ_DisplayName UNIQUE ON CONFLICT IGNORE,
-                    SubscriptionId TEXT (200) PRIMARY KEY  UNIQUE ON CONFLICT IGNORE,
+                    DisplayName    TEXT NOT NULL,
+                    SubscriptionId TEXT (200) PRIMARY KEY UNIQUE ON CONFLICT IGNORE,
                     TenantId       TEXT (200)
                 );
                 CREATE UNIQUE INDEX IF NOT EXISTS IX_Subscriptions_DisplayName_SubscriptionsId ON Subscriptions (
@@ -200,7 +200,7 @@ public partial class KvExplorerDb : IDisposable
         return subscriptions;
     }
 
-    public async Task InsertSubscriptions(IEnumerable<Subscriptions> subscriptions)
+    public async Task InsertSubscriptions(IList<Subscriptions> subscriptions)
     {
         foreach (var subscription in subscriptions)
         {

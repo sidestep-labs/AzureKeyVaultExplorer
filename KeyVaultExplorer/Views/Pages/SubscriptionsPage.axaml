@@ -70,6 +70,21 @@
                     <Button
                         Padding="4,2"
                         VerticalAlignment="Top"
+                        Command="{Binding GetSubscriptionsCommand}"
+                        ToolTip.Tip="Refresh all subscriptions"
+                        ToolTip.VerticalOffset="10">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="18"
+                                Glyph="&#xE117;"
+                                RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                            <Label VerticalAlignment="Top">Refresh</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Padding="4,2"
+                        VerticalAlignment="Top"
                         Command="{Binding LoadMoreCommand}"
                         IsEnabled="{Binding ContinuationToken, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         ToolTip.Tip="Load additional subscriptions in batches of 100"
@@ -78,7 +93,7 @@
                             <ui:FontIcon
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 FontSize="18"
-                                Glyph="&#xE117;"
+                                Glyph="&#xE896;"
                                 RenderOptions.TextRenderingMode="SubpixelAntialias" />
                             <Label VerticalAlignment="Top">Load More..</Label>
                         </StackPanel>
@@ -133,7 +148,7 @@
             CanUserResizeColumns="True"
             GridLinesVisibility="Horizontal"
             HorizontalScrollBarVisibility="Visible"
-            ItemsSource="{Binding Subscriptions, Mode=OneTime}"
+            ItemsSource="{Binding Subscriptions, Mode=TwoWay}"
             VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn

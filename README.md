@@ -47,13 +47,13 @@ The Sqlite database is encrypted using DPAPI on windows, and on macOS the passwo
 <img width="1419" alt="MacDark" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/365cea71-2a68-4cab-997c-2631922e7bc6">
 <img width="1426" alt="MacLight" src="https://github.com/cricketthomas/KeyVaultExplorer/assets/15821271/41793cfa-eb01-4954-b062-56072d19d5ea">
 
-
+<img width="1426" alt="linuxDark" src="https://github.com/user-attachments/assets/80d7b240-b94c-45e9-9dde-00ef190d4b8e">
+<img width="1426" alt="linuxLight" src="https://github.com/user-attachments/assets/798511de-1491-4a87-b4ea-613fb25f68b9">
 
 <img width="400" alt="Light" src="https://github.com/user-attachments/assets/ed0b7919-666d-4f03-a09a-c6763fe2ca1d">
 <img width="400" alt="Light" src="https://github.com/user-attachments/assets/87823029-e98d-4f4b-91d3-b7ea78f934ae">
 <img width="400" alt="Light" src="https://github.com/user-attachments/assets/d33521b6-effd-4a51-b0c5-161feac56ffe">
 <img width="400" alt="Light" src="https://github.com/user-attachments/assets/ec1c614d-5de1-47c4-97ce-20c0246690ea">
-<!-- <img height="350" alt="Light" src="https://github.com/user-attachments/assets/8d051a29-c653-4e35-9968-388f9dcc5d07"> -->
 
 
 ## Running the application:
@@ -89,7 +89,7 @@ If downloaded from this section, you will need to follow this guide to run the a
 
 Install the lastest .NET 8 SDK: https://dotnet.microsoft.com/en-us/download/dotnet
 
-1. Open PowerShell 7+ (on windows and mac, or zsh on mac)
+1. Open PowerShell 7+ (on windows, linux and mac, or zsh on mac)
 
 2. `cd c:\repos` (choose the folder of your choice)
 
@@ -97,7 +97,7 @@ Install the lastest .NET 8 SDK: https://dotnet.microsoft.com/en-us/download/dotn
 
 4. `cd AzureKeyVaultExplorer` (to get into the freshly cloned repo)
 
-5. `.\build.ps1 -RunBuild -Platform net8.0 -Runtime win-x64` (other platforms include win-arm64, osx-x64, osx-arm64). 
+5. `.\build.ps1 -RunBuild -Platform net8.0 -Runtime win-x64` (other platforms include win-arm64, osx-x64, osx-arm64, linux-x64). 
 <strong>To build a self contained `.exe` please run `.\build.ps1 -Runtime win-x64 -PublishAot:$false`, you can ignore the `.pdb` files. </strong>
 
 If you get an error message stating "Platform linker not found" when building on Windows, please ensure you have all the required prerequisites documented at https://aka.ms/nativeaot-prerequisites, in particular the Desktop Development for C++ workload in Visual Studio. 

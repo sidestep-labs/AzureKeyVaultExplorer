@@ -5,7 +5,7 @@ param(
     $VersionSuffix = "99",
     [ValidateSet('net8.0', 'net8.0-windows10.0.19041.0', "net8.0-macos")]
     [string]$Platform = 'net8.0',
-    [ValidateSet('win-x64', 'win-arm64', 'osx-x64', 'osx-arm64')]
+    [ValidateSet('win-x64', 'win-arm64', 'osx-x64', 'osx-arm64', 'linux-x64')]
     [string]$Runtime = 'win-x64',
     [Switch]$CreateMacOSBundle = $false
 )

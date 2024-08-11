@@ -132,7 +132,7 @@ jobs:
 
   release:
     name: Release code
-    needs: [ build_macos, build_windows, build_macos_intel]
+    needs: [ build_macos, build_windows, build_macos_intel, build_linux]
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4

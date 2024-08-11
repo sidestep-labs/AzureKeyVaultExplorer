@@ -11,7 +11,7 @@ public class PercentageConverter : IValueConverter
         if (value is double width)
         {
             var calculatedWidth = width * 0.25;
-            return calculatedWidth < 325 ? 325 : calculatedWidth;
+            return calculatedWidth < 310 ? 310 : calculatedWidth;
         }
         return value;
     }

@@ -132,7 +132,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
             var dataObject = new DataObject();
             dataObject.Set(DataFormats.Text, value);
             await _clipboardService.SetTextAsync(value);
-            ClearClipboardAsync().ConfigureAwait(false);
+            _ = Task.Run(async () => await ClearClipboardAsync().ConfigureAwait(false));
         }
         catch (KeyVaultInsufficientPrivilegesException ex)
         {

@@ -24,7 +24,7 @@
             Click="IsPaneToggledButton_Click"
             FontSize="13"
             Theme="{StaticResource TransparentButton}"
-            ToolTip.Tip="Toggle Vault List Sidebar"
+            ToolTip.Tip="Show/Hide Vault List Sidebar"
             ToolTip.VerticalOffset="10">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">

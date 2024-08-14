@@ -141,7 +141,7 @@
                 IsEnabled="{Binding !IsBusy}"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 TextWrapping="NoWrap"
-                Watermark="Search">
+                Watermark="Filter visible items">
                 <TextBox.Styles>
                     <Style Selector="TextBox">
                         <Setter Property="Background" Value="Transparent" />

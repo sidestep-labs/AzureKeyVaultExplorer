@@ -35,7 +35,8 @@
                     HorizontalAlignment="Stretch"
                     Description="View account details and perform actions"
                     Header="Account Information"
-                    IconSource="Contact">
+                    IconSource="Contact"
+                    IsExpanded="True">
                     <ui:SettingsExpanderItem Click="FetchUserInfoSettingsExpanderItem_Click" IsClickEnabled="True">
                         <ui:SettingsExpanderItem.Content>
                             <StackPanel>
@@ -52,7 +53,7 @@
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
 
-                    <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache.">
+                    <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache">
                         <ui:SettingsExpanderItem.Footer>
                             <Button
                                 Click="SignOutButton_Click"
@@ -64,7 +65,7 @@
 
                 <ui:SettingsExpander
                     Name="ClearFromClipboardAfter"
-                    Description="This will clear the clipboard after a set amount of time in seconds."
+                    Description="This will clear the clipboard after a set amount of time in seconds, when using Control + C, or any 'Copy' button"
                     Header="Clear Clipboard secret after"
                     IconSource="Clock">
                     <ui:SettingsExpander.Footer>

@@ -102,6 +102,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\CustomControls\UserStatusTag.axaml.cs">
+	    <DependentUpon>UserStatusTag.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Pages\PropertiesDialogs\CreateNewSecretVersion.axaml.cs">
 	    <DependentUpon>CreateNewSecretVersion.axaml</DependentUpon>
 	  </Compile>

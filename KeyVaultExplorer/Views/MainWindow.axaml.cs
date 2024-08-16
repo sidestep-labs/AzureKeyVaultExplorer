@@ -83,9 +83,9 @@ public partial class MainWindow : AppWindow
         {
             var parent = this.FindControl<Views.MainView>("MainView")!.FindControl<FluentAvalonia.UI.Controls.Frame>("FrameView");
 
-            var grid = ((MainPage)parent.Content).Content as Grid;
-            var tab = grid.Children[0] as TabViewPage;
+            var tab = ((MainPage)parent.Content).Content as TabViewPage;
             var dragRegion = tab.FindControl<Panel>("CustomDragRegion");
+            //var tab = grid.Children[0] as TabViewPage;
             dragRegion.Width = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight ?
                 TitleBar.RightInset * 1.25 : TitleBar.LeftInset * 1.25;
         }

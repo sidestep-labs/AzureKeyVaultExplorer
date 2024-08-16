@@ -22,7 +22,7 @@
             Width="90"
             Height="90"
             RenderOptions.BitmapInterpolationMode="HighQuality"
-            Source="avares://KeyVaultExplorer/Assets/kv-icon.png" />
+            Source="avares://KeyVaultExplorer/Assets/kv-orange.ico" />
         <Label Content="Key Vault Explorer for Azure" />
         <Label HorizontalAlignment="Center" Content="v0.1.0" />
     </StackPanel>

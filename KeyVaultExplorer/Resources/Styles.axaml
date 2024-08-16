@@ -113,34 +113,37 @@
     <!--  Datagrid styles  -->
 
     <Style Selector="DataGridColumnHeader">
-        <Setter Property="MinHeight" Value="25" />
-        <Setter Property="Height" Value="25" />
+        <Setter Property="MinHeight" Value="27" />
+        <Setter Property="Height" Value="27" />
     </Style>
     <Style Selector="DataGridRowGroupHeader">
-        <Setter Property="MinHeight" Value="25" />
-        <Setter Property="Height" Value="25" />
-    </Style>
-    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
-        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
-    </Style>
-    <Style Selector="DataGridRow">
-        <Setter Property="Height" Value="25" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
-    </Style>
-    <Style Selector="DataGridCell">
-        <Setter Property="Height" Value="22" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
+        <Setter Property="MinHeight" Value="27" />
+        <Setter Property="Height" Value="27" />
     </Style>
 
     <Style Selector="DataGridRow">
-        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
+        <Setter Property="Height" Value="27" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="DataGridCell">
+        <Setter Property="Height" Value="27" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style Selector="DataGridRow">
+        <!--<Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />-->
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="Focusable" Value="False" />
     </Style>
 
     <Style Selector="DataGridCell/template/ Grid#PART_CellRoot">
-        <Setter Property="Height" Value="25" />
+        <Setter Property="Height" Value="27" />
     </Style>
 
+
+    <Style Selector="DataGrid DataGridRow:nth-child(2n)">
+        <Setter Property="Background" Value="rgba(148, 148, 148, 0.04)" />
+    </Style>
 
     <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
         <Setter Property="IsVisible" Value="False" />

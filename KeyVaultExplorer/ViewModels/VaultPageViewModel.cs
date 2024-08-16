@@ -39,6 +39,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private NotificationViewModel _notificationViewModel;
 
     private SettingsPageViewModel _settingsPageViewModel;
+    public string VaultTotalString => VaultContents.Count == 0 || VaultContents.Count > 1 ? $"{VaultContents.Count} items" : "1 item";
 
     [ObservableProperty]
     private string authorizationMessage;
@@ -47,6 +48,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private bool hasAuthorizationError = false;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VaultTotalString))]
     private bool isBusy = false;
 
     [ObservableProperty]
@@ -59,6 +61,7 @@ public partial class VaultPageViewModel : ViewModelBase
     private TabStripItem selectedTab;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VaultTotalString))]
     private ObservableCollection<KeyVaultContentsAmalgamation> vaultContents;
 
     [ObservableProperty]

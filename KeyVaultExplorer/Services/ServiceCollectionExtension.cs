@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
         collection.AddSingleton<AuthService>();
         collection.AddSingleton<VaultService>();
         collection.AddSingleton<TabViewPageViewModel>();
-        collection.AddSingleton<ToolBarViewModel>();
+        //collection.AddSingleton<ToolBarViewModel>();
         collection.AddSingleton<KeyVaultTreeListViewModel>();
         collection.AddSingleton<SettingsPageViewModel>();
         collection.AddSingleton<MainViewModel>();

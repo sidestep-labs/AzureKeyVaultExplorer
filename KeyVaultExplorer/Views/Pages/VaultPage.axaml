@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:custom="clr-namespace:KeyVaultExplorer.Views.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:effects="using:Avalonia.Media"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer.shared"
     xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
@@ -49,319 +48,332 @@
                 Text="Copy URI" />
         </ui:FAMenuFlyout>
 
-
-
-
+        <DataTemplate x:Key="MainViewModelTemplate">
+            <custom:UserStatusTag />
+        </DataTemplate>
     </UserControl.Resources>
 
     <!--  MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Height}"  -->
-    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid
-            Margin="10,2,10,0"
-            VerticalAlignment="Stretch"
-            ColumnDefinitions="*, *, *, *, *"
-            RowDefinitions="Auto,Auto,5,*">
-            <Border
-                Grid.Row="0"
-                Grid.ColumnSpan="5"
-                Margin="0,2"
-                Padding="1"
-                HorizontalAlignment="Stretch"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
-                BorderThickness="1"
-                CornerRadius="5">
-                <custom:ToolBar />
-            </Border>
-
-            <DockPanel
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="5">
-                <TabStrip
-                    Name="TabHost"
-                    Height="30"
-                    VerticalAlignment="Center"
-                    ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
-                    SelectedIndex="0"
-                    SelectedValue="{Binding SelectedTab, Mode=TwoWay}"
-                    Theme="{StaticResource AlternateTabStripTheme}">
-                    <TabStrip.Styles>
-                        <Styles>
-                            <Style Selector="TabStripItem">
-                                <Setter Property="Height" Value="30" />
-                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
-                            </Style>
-                        </Styles>
-                    </TabStrip.Styles>
-                    <TabStripItem
-                        Name="Secret"
-                        Content="Secrets"
-                        IsSelected="True" />
-                    <TabStripItem Name="Certificate" Content="Certificates" />
-                    <TabStripItem Name="Key" Content="Keys" />
-                    <TabStripItem Name="All" Content="All" />
-                </TabStrip>
-
-                <Button
-                    Margin="5,0,5,0"
-                    VerticalAlignment="Center"
-                    Click="RefreshButton_OnClick"
-                    Theme="{StaticResource TransparentButton}"
-                    ToolTip.ShowDelay="1000"
-                    ToolTip.Tip="Refresh values visible to your identity (F5)"
-                    ToolTip.VerticalOffset="10">
-                    <StackPanel Orientation="Horizontal">
-                        <ui:BitmapIcon
-                            Width="16"
-                            Height="16"
-                            RenderOptions.BitmapInterpolationMode="HighQuality"
-                            ShowAsMonochrome="True"
-                            UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
-                    </StackPanel>
-                </Button>
-                <!--
-                    Click="CreateSecret_Clicked"
-                    Theme="{StaticResource TransparentButton}"
-                -->
-
-                <DropDownButton
-                    Name="CreateDropDownButton"
-                    Margin="5,0,5,0"
-                    FontSize="{DynamicResource FontSizeSmall}"
-                    ToolTip.Tip="Create new item"
-                    ToolTip.VerticalOffset="10">
-                    <DropDownButton.Styles>
-                        <!--       <Style Selector="DropDownButton /template/ Border#RootBorder">
-                            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
-                        </Style>-->
-
-                        <Style Selector="DropDownButton#CreateDropDownButton">
-                            <Setter Property="MinHeight" Value="28" />
-                            <Setter Property="Height" Value="28" />
-                            <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
-                        </Style>
 
 
-                    </DropDownButton.Styles>
-                    <DropDownButton.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
+    <Grid Name="MainGrid" RowDefinitions="*, 18">
+
+        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid
+                Margin="10,2,10,0"
+                VerticalAlignment="Stretch"
+                ColumnDefinitions="*, *, *, *, *"
+                RowDefinitions="Auto,Auto,5,*">
+                <Border
+                    Grid.Row="0"
+                    Grid.ColumnSpan="5"
+                    Margin="0,2"
+                    Padding="1"
+                    HorizontalAlignment="Stretch"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                    <custom:ToolBar />
+                </Border>
+
+                <DockPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="5">
+                    <TabStrip
+                        Name="TabHost"
+                        Height="30"
+                        VerticalAlignment="Center"
+                        ItemContainerTheme="{StaticResource AlternateTabStripItemTheme}"
+                        SelectedIndex="0"
+                        SelectedValue="{Binding SelectedTab, Mode=TwoWay}"
+                        Theme="{StaticResource AlternateTabStripTheme}">
+                        <TabStrip.Styles>
+                            <Styles>
+                                <Style Selector="TabStripItem">
+                                    <Setter Property="Height" Value="30" />
+                                    <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                                </Style>
+                            </Styles>
+                        </TabStrip.Styles>
+                        <TabStripItem
+                            Name="Secret"
+                            Content="Secrets"
+                            IsSelected="True" />
+                        <TabStripItem Name="Certificate" Content="Certificates" />
+                        <TabStripItem Name="Key" Content="Keys" />
+                        <TabStripItem Name="All" Content="All" />
+                    </TabStrip>
+
+                    <Button
+                        Margin="5,0,5,0"
+                        VerticalAlignment="Center"
+                        Click="RefreshButton_OnClick"
+                        Theme="{StaticResource TransparentButton}"
+                        ToolTip.ShowDelay="1000"
+                        ToolTip.Tip="Refresh values visible to your identity (F5)"
+                        ToolTip.VerticalOffset="10">
+                        <StackPanel Orientation="Horizontal">
                             <ui:BitmapIcon
                                 Width="16"
                                 Height="16"
-                                VerticalAlignment="Bottom"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
-                                UriSource="avares://KeyVaultExplorer/Assets/Add.png" />
-                            <TextBlock VerticalAlignment="{OnPlatform Bottom, Windows=Center}" Text="Create Item" />
+                                UriSource="avares://KeyVaultExplorer/Assets/Refresh.png" />
                         </StackPanel>
-                    </DropDownButton.Content>
-                    <DropDownButton.Flyout>
-                        <MenuFlyout>
-                            <MenuItem Click="CreateSecret_Clicked" Header="Create Secret.." />
-                            <MenuItem Header="Create Key.." IsEnabled="False" />
-                            <MenuItem Header="Create Certificate.." IsEnabled="False" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-                <TextBox
-                    Name="SearchTextBox"
-                    HorizontalAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    AcceptsReturn="False"
-                    Classes.IsSmall="True"
-                    Classes.clearButton="True"
-                    ClipToBounds="True"
-                    DockPanel.Dock="Right"
-                    HotKeyManager.HotKey="Ctrl+F"
-                    Text="{Binding SearchQuery, Mode=TwoWay}"
-                    TextChanged="SearchBoxChanges"
-                    TextWrapping="NoWrap"
-                    Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F0} names, tags (Ctrl+F)'}">
-                    <TextBox.Styles>
-                        <Style Selector="TextBox">
-                            <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="InnerRightContent">
-                                <Template>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button
-                                            Command="{Binding $parent[TextBox].Clear}"
-                                            Content="&#xE8BB;"
-                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                            IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                            RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                            Theme="{StaticResource TransparentButton}" />
-                                        <Button
-                                            Command="{Binding $parent[TextBox].Clear}"
-                                            Content="&#xE721;"
-                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                            IsHitTestVisible="False"
-                                            RenderOptions.TextRenderingMode="SubpixelAntialias"
-                                            Theme="{StaticResource TransparentButton}" />
-                                    </StackPanel>
-                                </Template>
-                            </Setter>
-                        </Style>
-                    </TextBox.Styles>
-                </TextBox>
+                    </Button>
+                    <!--
+                        Click="CreateSecret_Clicked"
+                        Theme="{StaticResource TransparentButton}"
+                    -->
+
+                    <DropDownButton
+                        Name="CreateDropDownButton"
+                        Margin="5,0,5,0"
+                        FontSize="{DynamicResource FontSizeSmall}"
+                        ToolTip.Tip="Create new item"
+                        ToolTip.VerticalOffset="10">
+                        <DropDownButton.Styles>
+                            <!--       <Style Selector="DropDownButton /template/ Border#RootBorder">
+                            <Setter Property="BoxShadow" Value="0 4 10 0 #34000000" />
+                        </Style>-->
+
+                            <Style Selector="DropDownButton#CreateDropDownButton">
+                                <Setter Property="MinHeight" Value="28" />
+                                <Setter Property="Height" Value="28" />
+                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                            </Style>
 
 
-            </DockPanel>
+                        </DropDownButton.Styles>
+                        <DropDownButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <ui:BitmapIcon
+                                    Width="16"
+                                    Height="16"
+                                    VerticalAlignment="Bottom"
+                                    RenderOptions.BitmapInterpolationMode="HighQuality"
+                                    ShowAsMonochrome="True"
+                                    UriSource="avares://KeyVaultExplorer/Assets/Add.png" />
+                                <TextBlock VerticalAlignment="{OnPlatform Bottom, Windows=Center}" Text="Create Item" />
+                            </StackPanel>
+                        </DropDownButton.Content>
+                        <DropDownButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Click="CreateSecret_Clicked" Header="Create Secret.." />
+                                <MenuItem Header="Create Key.." IsEnabled="False" />
+                                <MenuItem Header="Create Certificate.." IsEnabled="False" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                    <TextBox
+                        Name="SearchTextBox"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        AcceptsReturn="False"
+                        Background="{DynamicResource LayerFillColorAltBrush}"
+                        Classes.IsSmall="True"
+                        Classes.clearButton="True"
+                        ClipToBounds="True"
+                        DockPanel.Dock="Right"
+                        HotKeyManager.HotKey="Ctrl+F"
+                        Text="{Binding SearchQuery, Mode=TwoWay}"
+                        TextChanged="SearchBoxChanges"
+                        TextWrapping="NoWrap"
+                        Watermark="Search names, tags (Ctrl+F)">
+                        <TextBox.Styles>
+                            <Style Selector="TextBox">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="InnerRightContent">
+                                    <Template>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Command="{Binding $parent[TextBox].Clear}"
+                                                Content="&#xE8BB;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                IsVisible="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                                Theme="{StaticResource TransparentButton}" />
+                                            <Button
+                                                Command="{Binding $parent[TextBox].Clear}"
+                                                Content="&#xE721;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                IsHitTestVisible="False"
+                                                RenderOptions.TextRenderingMode="SubpixelAntialias"
+                                                Theme="{StaticResource TransparentButton}" />
+                                        </StackPanel>
+                                    </Template>
+                                </Setter>
+                            </Style>
+                        </TextBox.Styles>
+                    </TextBox>
 
 
-            <ProgressBar
-                Grid.Row="2"
-                Grid.ColumnSpan="5"
-                IsIndeterminate="True"
-                IsVisible="{Binding IsBusy}"
-                Orientation="Horizontal" />
-
-            <DockPanel
-                Grid.Row="3"
-                Grid.ColumnSpan="5"
-                IsVisible="{Binding !HasAuthorizationError}">
-
-                <!--
-                    IsVisible="{Binding !IsBusy}"
-                    KeyDown="ValuesDataGrid_KeyDown"
-                    
-                    Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F2} values'}"
-                    x:DataType="models:KeyVaultContentsAmalgamation"
-                -->
+                </DockPanel>
 
 
-                <DataGrid
-                    Name="VaultContentDataGrid"
-                    Grid.Row="1"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    CanUserReorderColumns="True"
-                    CanUserResizeColumns="True"
-                    CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
-                    DoubleTapped="OnDoubleTapped"
-                    FrozenColumnCount="1"
-                    GridLinesVisibility="Horizontal"
-                    HorizontalScrollBarVisibility="Auto"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding VaultContents}"
-                    SelectedItem="{Binding SelectedRow}"
-                    SelectionMode="Single"
-                    VerticalScrollBarVisibility="Visible">
+                <ProgressBar
+                    Grid.Row="2"
+                    Grid.ColumnSpan="5"
+                    IsIndeterminate="True"
+                    IsVisible="{Binding IsBusy}"
+                    Orientation="Horizontal" />
 
-                    <DataGrid.Columns>
-                        <!--<DataGridTextColumn
-                        Width="200"
-                        Binding="{Binding Type}"
-                        Header="Type"
-                        IsVisible="{Binding ShowTypeColumn}" />-->
-                        <DataGridTextColumn
-                            Width="200"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="180"
-                            Binding="{Binding WhenLastModified}"
-                            Header="Last Modified Date"
-                            SortMemberPath="LastModifiedDate" />
-                        <DataGridTextColumn
-                            Width="180"
-                            Binding="{Binding WhenExpires}"
-                            Header="Expires"
-                            SortMemberPath="ExpiresOn" />
+                <DockPanel
+                    Grid.Row="3"
+                    Grid.ColumnSpan="5"
+                    IsVisible="{Binding !HasAuthorizationError}">
 
-                        <DataGridTemplateColumn
-                            Width="200"
-                            Header="Tags"
-                            SortMemberPath="TagValuesString">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ItemsRepeater ItemsSource="{Binding TagValues}">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Orientation="Horizontal" />
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
-                                            <DataTemplate>
-                                                <DataTemplate.DataType>
-                                                    <x:Type x:TypeArguments="sys:String" TypeName="scg:List" />
-                                                </DataTemplate.DataType>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Border
-                                                        Margin="2"
-                                                        Padding="5,0,5,0"
-                                                        Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
-                                                        CornerRadius="5">
-                                                        <TextBlock
-                                                            VerticalAlignment="Center"
-                                                            Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
-                                                            Text="{Binding .}" />
-                                                    </Border>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                    <!--
+                        IsVisible="{Binding !IsBusy}"
+                        KeyDown="ValuesDataGrid_KeyDown"
+                        
+                        Watermark="{Binding VaultContents.Count, StringFormat='Search {0:F2} values'}"
+                        x:DataType="models:KeyVaultContentsAmalgamation"
+                    -->
 
 
+                    <DataGrid
+                        Name="VaultContentDataGrid"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
+                        DoubleTapped="OnDoubleTapped"
+                        FrozenColumnCount="1"
+                        GridLinesVisibility="Horizontal"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding VaultContents}"
+                        SelectedItem="{Binding SelectedRow}"
+                        SelectionMode="Single"
+                        VerticalScrollBarVisibility="Visible">
 
-                        <DataGridTextColumn
-                            Width="300"
-                            Binding="{Binding Id}"
-                            Header="Identifier" />
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="250"
+                                Binding="{Binding Name}"
+                                Header="Name" />
+                            <DataGridTextColumn
+                                Width="180"
+                                Binding="{Binding WhenLastModified}"
+                                Header="Last Modified Date"
+                                SortMemberPath="LastModifiedDate" />
+                            <DataGridTextColumn
+                                Width="180"
+                                Binding="{Binding WhenExpires}"
+                                Header="Expires"
+                                SortMemberPath="ExpiresOn" />
+
+                            <DataGridTemplateColumn
+                                Width="220"
+                                Header="Tags"
+                                SortMemberPath="TagValuesString">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsRepeater ItemsSource="{Binding TagValues}">
+                                            <ItemsRepeater.Layout>
+                                                <StackLayout Orientation="Horizontal" />
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate>
+                                                    <DataTemplate.DataType>
+                                                        <x:Type x:TypeArguments="sys:String" TypeName="scg:List" />
+                                                    </DataTemplate.DataType>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Border
+                                                            Margin="3"
+                                                            Padding="4,-2,4,-2"
+                                                            Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
+                                                            CornerRadius="5">
+                                                            <TextBlock
+                                                                Padding="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
+                                                                Text="{Binding .}" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
 
-                        <DataGridTextColumn
-                            Width="200"
-                            Binding="{Binding UpdatedOn}"
-                            Header="Updated" />
 
-                        <DataGridTextColumn
-                            Width="200"
-                            Binding="{Binding CreatedOn}"
-                            Header="Created" />
+                            <DataGridTextColumn
+                                Width="300"
+                                Binding="{Binding Id}"
+                                Header="Identifier" />
 
 
-                        <DataGridTextColumn
-                            Width="400"
-                            Binding="{Binding ValueUri}"
-                            Header="Value Uri" />
+                            <DataGridTextColumn
+                                Width="200"
+                                Binding="{Binding UpdatedOn}"
+                                Header="Updated" />
 
-                        <DataGridTextColumn
-                            Width="300"
-                            Binding="{Binding ContentType}"
-                            Header="ContentType" />
-
-                    </DataGrid.Columns>
-                    <DataGrid.Styles />
-                </DataGrid>
+                            <DataGridTextColumn
+                                Width="200"
+                                Binding="{Binding CreatedOn}"
+                                Header="Created" />
 
 
-            </DockPanel>
-            <ScrollViewer
-                Grid.Row="4"
-                Grid.ColumnSpan="5"
-                IsVisible="{Binding HasAuthorizationError}">
-                <StackPanel Orientation="Vertical">
-                    <Button
-                        Margin="0,0,12,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Command="{Binding CloseErrorCommand}"
-                        Content="&#xE8BB;"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Foreground="Red"
-                        IsDefault="True"
-                        IsVisible="{Binding HasAuthorizationError}"
-                        ToolTip.Tip="Close Message" />
-                    <SelectableTextBlock
-                        xml:space="preserve"
-                        Text="{Binding AuthorizationMessage}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-            </ScrollViewer>
+                            <DataGridTextColumn
+                                Width="400"
+                                Binding="{Binding ValueUri}"
+                                Header="Value Uri" />
+
+                            <DataGridTextColumn
+                                Width="300"
+                                Binding="{Binding ContentType}"
+                                Header="ContentType" />
+
+                        </DataGrid.Columns>
+                        <DataGrid.Styles />
+                    </DataGrid>
+
+
+                </DockPanel>
+                <ScrollViewer
+                    Grid.Row="4"
+                    Grid.ColumnSpan="5"
+                    IsVisible="{Binding HasAuthorizationError}">
+                    <StackPanel Orientation="Vertical">
+                        <Button
+                            Margin="0,0,12,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Command="{Binding CloseErrorCommand}"
+                            Content="&#xE8BB;"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Foreground="Red"
+                            IsDefault="True"
+                            IsVisible="{Binding HasAuthorizationError}"
+                            ToolTip.Tip="Close Message" />
+                        <SelectableTextBlock
+                            xml:space="preserve"
+                            Text="{Binding AuthorizationMessage}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+        </Panel>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
+            <TextBlock
+                Grid.Column="0"
+                FontSize="{DynamicResource FontSizeSmall}"
+                Text="{Binding VaultTotalString}"
+                Theme="{StaticResource CaptionTextBlockStyle}"
+                ToolTip.Tip="Total item count" />
+
+            <ContentControl Grid.Column="1" ContentTemplate="{StaticResource MainViewModelTemplate}" />
         </Grid>
 
-    </Panel>
-
+    </Grid>
 </UserControl>

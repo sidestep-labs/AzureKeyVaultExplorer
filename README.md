@@ -11,13 +11,13 @@
 ## Overview
 Visit the releases section to download the application. *Still in active development but in a usable state*
 
-**Key Vault Explorer** is a lightweight tool with the idea to simplify finding and accessing secrets (and certitficates and keys) stored in Azure Key Vault, providing a interface for aggregating, filtering, and quickly getting secret values. The app was inspired by the original [AzureKeyVaultExplorer](https://github.com/microsoft/AzureKeyVaultExplorer) with the goal to eventually bring some more feature parity but first brining the application to macOS.
+**Key Vault Explorer** is a lightweight tool with the idea to simplify finding and accessing secrets (and certificates and keys) stored in Azure Key Vault, providing a interface for aggregating, filtering, and quickly getting secret values. The app was inspired by the original [AzureKeyVaultExplorer](https://github.com/microsoft/AzureKeyVaultExplorer) with the goal to eventually bring some more feature parity but first brining the application to macOS.
 
 ### Key features
 
 - Signing in with a Microsoft Account [See how credentials are secured](#security)
 - Support to selectively include/exclude subscriptions to show resource groups and key vaults in the tree
-- Ability to filter subscriptions, resrouce groups, and key vaults by name
+- Ability to filter subscriptions, resource groups, and key vaults by name
 - Saving vaults to "pinned" section in quick access menu and saving selected subscriptions in SQLite
 - Copy secrets to the clipboard using Control+C
 - Automatic clearing of clipboard values after a set amount of time (configurable up to 60 seconds)
@@ -28,7 +28,7 @@ Visit the releases section to download the application. *Still in active develop
 
 ### Privacy Features
 - **No telemetry or logs collected**
-- Sqlite Database encryption using DPAPI and KeyChain on Mac
+- SQLite Database encryption using DPAPI and KeyChain on Mac
   
 
 # Security
@@ -36,7 +36,7 @@ Visit the releases section to download the application. *Still in active develop
 The authentication and credentials storage uses [Microsoft.Identity.Client.Extensions.Msal](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet) library are encrypted and stored with DPAPI on windows, and the keychain on macOS (you may be prompted multiple times to grant rights).
 The security is pulled directly from this document: https://github.com/AzureAD/microsoft-authentication-extensions-for-dotnet/wiki/Cross-platform-Token-Cache#configuring-the-token-cache
 
-The Sqlite database is encrypted using DPAPI on windows, and on macOS the password  in the keychain.
+The SQLite database is encrypted using DPAPI on windows, and on macOS the password  in the keychain.
 
 ## Screenshots
 
@@ -74,7 +74,7 @@ Get it from the Microsoft store!
 
 ## First time installs in Azure Tenant:
 
-Please follow this Microsoft learn artilce if you encourter this error: https://learn.microsoft.com/en-us/answers/questions/1393470/azure-enterprise-apps-missing-a-permission-listed
+Please follow this Microsoft learn article if you encounter this error: https://learn.microsoft.com/en-us/answers/questions/1393470/azure-enterprise-apps-missing-a-permission-listed
 <p align="left">
 <img width="450" src="https://github.com/user-attachments/assets/8bc44343-ff85-41a6-a2d3-63f3c0db2301">
 </p>
@@ -87,9 +87,9 @@ Your Azure tenant global admin will have to consent via this URL:
 If downloaded from this section, you will need to follow this guide to run the app: https://github.com/cricketthomas/AzureKeyVaultExplorer/discussions/67#discussioncomment-10014603
 
 
-Install the lastest .NET 8 SDK: https://dotnet.microsoft.com/en-us/download/dotnet
+Install the latest .NET 8 SDK: https://dotnet.microsoft.com/en-us/download/dotnet
 
-1. Open PowerShell 7+ (on windows, linux and mac, or zsh on mac)
+1. Open PowerShell 7+ (on windows, Linux and mac, or zsh on mac)
 
 2. `cd c:\repos` (choose the folder of your choice)
 
@@ -115,7 +115,7 @@ Repeat step 5. The build starts and might take a couple of minutes. The final ou
 
 6. Open that folder in Windows Explorer and run `keyvaultexplorerdesktop.exe`. On macOS, a `Key Vault Explorer.app` mac os package will be generated in the publish directory. Move this to "Applications", you will have to force open the app using System Preferences, and click "Open anyway".
 
-7. It will lauch your default browser window and prompt you to login and grant consent. 
+7. It will launch your default browser window and prompt you to login and grant consent. 
 ### Notes: 
 The app is now verified as I am member of the Microsoft Partner Program. 
 <img width="400" src="https://github.com/user-attachments/assets/1e7e802f-cabf-481c-8f39-b78875772ffd"/>
@@ -135,12 +135,12 @@ Alternatively, you create an enterprise application with the following permissio
 ## Troubleshooting
 The folder where all app associated data like the database and other encrypted files is `/Users/YOUR_USER_NAME/Library/Application Support/KeyVaultExplorer/` on macOS
 and `C:\Users\YOUR_USER_NAME\AppData\Local\KeyVaultExplorer` on Windows.
-If you're facing trouble, I recommend deleteing all files in the directory. On macOS, i also recommend opening the key chain and deleting everything that begins with "keyvaultexplorer_".
+If you're facing trouble, I recommend deleting all files in the directory. On macOS, i also recommend opening the key chain and deleting everything that begins with "keyvaultexplorer_".
 
 When downloading on windows, you may have to click properties on the exe/application file and check the "unblock" checkbox to allow running the application on the machine if you get a messages saying the app needs another app from the microsoft store to download.
 
 ## Contribution
-Accepting PRs, suggestions, code reviews, feature requests and more. This is my first time using avaloniaUI and building a desktop application so all feedback is welcome.  
+Accepting PRs, suggestions, code reviews, feature requests and more. This is my first time using AvaloniaUI and building a desktop application so all feedback is welcome.  
 
 
 ### Dependencies

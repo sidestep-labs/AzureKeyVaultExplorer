@@ -157,7 +157,7 @@
                     CanUserSort="True"
                     Header="Pin to Sidebar" />
                 <DataGridTextColumn
-                    Width="200"
+                    Width="250"
                     Binding="{Binding Data.DisplayName}"
                     Header="DisplayName" />
                 <DataGridTextColumn
@@ -190,12 +190,6 @@
 
             </DataGrid.Columns>
         </DataGrid>
-
-
-
-
-
-
     </Grid>
 
 

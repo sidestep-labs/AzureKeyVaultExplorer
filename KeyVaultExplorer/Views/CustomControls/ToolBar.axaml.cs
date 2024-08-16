@@ -10,7 +10,7 @@ public partial class ToolBar : UserControl
     public ToolBar()
     {
         InitializeComponent();
-        DataContext = Defaults.Locator.GetRequiredService<ToolBarViewModel>();
+        //DataContext = Defaults.Locator.GetRequiredService<ToolBarViewModel>();
     }
 
     private void SettingsButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

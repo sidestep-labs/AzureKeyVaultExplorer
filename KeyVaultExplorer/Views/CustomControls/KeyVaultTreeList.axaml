@@ -135,6 +135,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalContentAlignment="Center"
                 AcceptsReturn="False"
+                Background="{DynamicResource LayerFillColorAltBrush}"
                 Classes.IsSmall="True"
                 Classes.clearButton="True"
                 FontSize="{StaticResource FontSizeSmall}"
@@ -274,6 +275,7 @@
                             <ui:BitmapIcon
                                 Width="16"
                                 Height="16"
+                                Foreground="{DynamicResource IconForegroundColor}"
                                 RenderOptions.BitmapInterpolationMode="HighQuality"
                                 ShowAsMonochrome="True"
                                 UriSource="avares://KeyVaultExplorer/Assets/KeyVault.png" />

@@ -28,6 +28,9 @@
         <ResourceDictionary x:Key="Light">
             <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
 
+            <StaticResource x:Key="IconForegroundColor" ResourceKey="IconForegroundColorBrush" />
+            <SolidColorBrush x:Key="IconForegroundColorBrush" Color="Transparent" />
+
             <SolidColorBrush
                 x:Key="AccentFillColorTertiaryBrush"
                 Opacity="0.15"
@@ -41,7 +44,8 @@
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <StaticResource x:Key="TabViewBorderBrush" ResourceKey="AccentFillColorTertiaryBrush" />
-
+            <StaticResource x:Key="IconForegroundColor" ResourceKey="IconForegroundColorBrush" />
+            <SolidColorBrush x:Key="IconForegroundColorBrush" Color="#9a2e00" />
             <SolidColorBrush
                 x:Key="AccentFillColorTertiaryBrush"
                 Opacity="0.15"

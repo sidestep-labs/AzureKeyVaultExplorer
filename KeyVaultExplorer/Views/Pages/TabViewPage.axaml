@@ -22,6 +22,9 @@
     </Design.DataContext>
     <UserControl.Resources>
         <res:PercentageConverter x:Key="PercentageConverter" />
+        <DataTemplate x:Key="MainViewModelTemplate">
+            <custom:UserStatusTag />
+        </DataTemplate>
     </UserControl.Resources>
     <UserControl.Styles>
         <Styles>
@@ -160,59 +163,75 @@
                     <Panel Name="CustomDragRegion" IsHitTestVisible="False" />
                 </ui:TabView.TabStripFooter>
             </ui:TabView>
-            <StackPanel
-                VerticalAlignment="Stretch"
-                IsVisible="{Binding !Documents.Count}"
-                Orientation="Vertical">
-                <Grid RowDefinitions="Auto">
-                    <Border
-                        Grid.Row="0"
-                        Margin="10,12,10,0"
-                        Padding="1"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
-                        BorderThickness="1"
-                        CornerRadius="5">
-                        <custom:ToolBar />
-                    </Border>
 
-                </Grid>
-                <Image
-                    Name="BackgroundImg"
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Opacity=".15"
-                    RenderOptions.BitmapInterpolationMode="HighQuality"
-                    Source="avares://KeyVaultExplorer/Assets/kv-gray.png" />
-                <StackPanel HorizontalAlignment="Center">
-                    <StackPanel.Styles>
-                        <Style Selector="TextBlock">
-                            <Setter Property="Foreground" Value="#ababab" />
-                            <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
-                        </Style>
-                    </StackPanel.Styles>
-                    <TextBlock
-                        Margin="10,10"
+
+            <Grid Name="MainGrid2" RowDefinitions="*,18">
+                <StackPanel
+                    VerticalAlignment="Stretch"
+                    IsVisible="{Binding !Documents.Count}"
+                    Orientation="Vertical">
+                    <Grid RowDefinitions="Auto">
+                        <Border
+                            Grid.Row="0"
+                            Margin="10,12,10,0"
+                            Padding="1"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource AccentFillColorTertiaryBrush}"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <custom:ToolBar />
+                        </Border>
+
+                    </Grid>
+                    <Image
+                        Name="BackgroundImg"
+                        Width="150"
                         HorizontalAlignment="Center"
-                        ClipToBounds="True">
-                        You have no key vaults selected.
-                    </TextBlock>
-                    <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
-                        Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
-                        Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
-                        <HyperlinkButton
-                            Padding="0,-1,0,0"
+                        VerticalAlignment="Top"
+                        Opacity=".15"
+                        RenderOptions.BitmapInterpolationMode="HighQuality"
+                        Source="avares://KeyVaultExplorer/Assets/kv-gray.png" />
+                    <StackPanel HorizontalAlignment="Center">
+                        <StackPanel.Styles>
+                            <Style Selector="TextBlock">
+                                <Setter Property="Foreground" Value="#ababab" />
+                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+                            </Style>
+                        </StackPanel.Styles>
+                        <TextBlock
+                            Margin="10,10"
                             HorizontalAlignment="Center"
-                            Content="Azure RBAC Documentation"
-                            NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
-                    </TextBlock>
+                            ClipToBounds="True">
+                            You have no key vaults selected.
+                        </TextBlock>
+                        <TextBlock Margin="18,0,0,0" TextWrapping="Wrap">
+                            Expand the navigation bar on the left to view subscriptions, and expand vaults.<LineBreak />
+                            Not seeing any values or key vaults? Have your adminsitrator grant privileges:<LineBreak />
+                            <HyperlinkButton
+                                Padding="0,-1,0,0"
+                                HorizontalAlignment="Center"
+                                Content="Azure RBAC Documentation"
+                                NavigateUri="https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli" />
+                        </TextBlock>
+
+                    </StackPanel>
+
+
 
                 </StackPanel>
 
 
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="*, Auto"
+                    IsVisible="{Binding !Documents.Count}">
 
-            </StackPanel>
+                    <ContentControl Grid.Column="1" ContentTemplate="{StaticResource MainViewModelTemplate}" />
+                </Grid>
+
+            </Grid>
+
+
         </Grid>
     </SplitView>
 </UserControl>

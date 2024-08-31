@@ -1,13 +1,21 @@
-# Azure Key Vault Explorer
 
-<img src="https://github.com/cricketthomas/AzureKeyVaultExplorer/assets/15821271/678b131f-58eb-452e-858c-c41ffaa89fbf" width="250" >
-
-<p align="left" style="margin-left:30px">
-    <a href="https://apps.microsoft.com/detail/9mz794c6t74m?cid=github_readme&mode=direct">
-	<img src="https://get.microsoft.com/images/en-us%20light.svg" width="200"/>
-    </a>
+<p align="center">
+  <img width="280" align="center" src="/KeyVaultExplorer/Assets/AppIcon.png">
 </p>
-
+<h1 align="center">
+  Azure Key Vault Explorer
+</h1>
+<p align="center">
+  Find Key Vaults in Azure faster.
+</p>
+<p align="center">
+   <a href="https://apps.microsoft.com/detail/9mz794c6t74m?cid=github_readme&mode=direct">
+      <img src="https://get.microsoft.com/images/en-us%20light.svg" width="200"/>
+   </a>
+</p>
+ <p style="display: block" align="center">
+ 	<sup>Named 'Key Vault Explorer' in Microsoft Store.</sub>
+ </p>
 ## Overview
 Visit the releases section to download the application. *Still in active development but in a usable state*
 
@@ -118,8 +126,9 @@ Repeat step 5. The build starts and might take a couple of minutes. The final ou
 7. It will launch your default browser window and prompt you to login and grant consent. 
 ### Notes: 
 The app is now verified as I am member of the Microsoft Partner Program. 
-<img width="400" src="https://github.com/user-attachments/assets/1e7e802f-cabf-481c-8f39-b78875772ffd"/>
-
+<p align="left">
+   <img width="400" src="https://github.com/user-attachments/assets/1e7e802f-cabf-481c-8f39-b78875772ffd"/>
+</p>
 
 When you run it for the first time, it creates an enterprise application in your tenant. 
 Please contact your Azure tenant admin to make sure the application has been consented for use. 

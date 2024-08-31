@@ -16,6 +16,8 @@
  <p style="display: block" align="center">
  	<sup>Named 'Key Vault Explorer' in Microsoft Store.</sub>
  </p>
+
+    
 ## Overview
 Visit the releases section to download the application. *Still in active development but in a usable state*
 

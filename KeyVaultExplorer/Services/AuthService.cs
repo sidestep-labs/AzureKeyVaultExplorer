@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static SkiaSharp.HarfBuzz.SKShaper;
 
 namespace KeyVaultExplorer.Services;
 
@@ -22,7 +23,6 @@ public class AuthService
     public string TenantName { get; private set; }
 
     public string TenantId { get; private set; }
-
 
     public IAccount Account { get; private set; }
 
@@ -150,7 +150,7 @@ public class AuthService
         await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
     }
 
-    public async Task<AuthenticationResult> GetAzureArmTokenSilent()
+    public async Task<AuthenticationResult> GetAzureArmTokenSilent(string tenantId = null)
     {
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
@@ -160,6 +160,11 @@ public class AuthService
             accounts = await authenticationClient.GetAccountsAsync();
             Account = accounts.First();
         }
+
+        if (tenantId is not null)
+            return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).WithTenantId(tenantId).ExecuteAsync();
+
+        //var x= await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).WithExtraQueryParameters(new System.Collections.Generic.Dictionary<string, string> { { "tenant", "" } }).ExecuteAsync();
         return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).ExecuteAsync();
     }
 

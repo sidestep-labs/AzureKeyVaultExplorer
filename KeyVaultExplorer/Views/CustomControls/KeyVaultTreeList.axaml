@@ -47,39 +47,6 @@
         </ui:FAMenuFlyout>
     </UserControl.Resources>
 
-    <!--
-        SolidBackgroundFillColorTertiaryBrush
-        SolidBackgroundFillColorTertiaryBrushCustom
-        LayerOnMicaBaseAltFillColorSecondaryBrush
-    -->
-
-    <!--<TabControl HorizontalAlignment="Stretch" TabStripPlacement="Bottom">
-                <TabControl.Styles>
-                    <Styles>
-                        <Style Selector="TabItem">
-                            <Setter Property="FontSize" Value="12" />
-                            <Setter Property="MinHeight" Value="20" />
-                            <Setter Property="MaxHeight" Value="20" />
-                        </Style>
-                        <Style Selector="TabItem:focus /template/ ContentPresenter#PART_ContentPresenter" />
-                        <Style Selector="TabItem:focus" />
-                        <Style Selector="TabControl /template/ ItemsPresenter#PART_ItemsPresenter">
-                            <Setter Property="Height" Value="25" />
-                        </Style>
-                        <Style Selector="TabItem:selected">
-                            <Setter Property="Background" Value="{DynamicResource CardBackgroundTertiaryBrush}" />
-                            <Style Selector="^ /template/ Rectangle#PART_SelectedPipe">
-                                <Setter Property="IsVisible" Value="True" />
-                                <Setter Property="MinHeight" Value="1" />
-    -->
-    <!--<Setter Property="Width" Value="111" />-->
-    <!--
-                            </Style>
-                            <Style Selector="^ /template/ Border#PART_LayoutRoot" />
-                        </Style>
-                    </Styles>
-                </TabControl.Styles>-->
-    <!--<TabItem Header="Vaults..">-->
     <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*">
         <Border
             Grid.Row="0"
@@ -121,6 +88,17 @@
                             UriSource="avares://KeyVaultExplorer/Assets/CollapseAll.png" />
                     </StackPanel>
                 </Button>
+
+                <Button
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="OpenExternalVaultFromUriDialogBox_Click"
+                    Content="&#xE8a7;"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    FontSize="16"
+                    Theme="{StaticResource TransparentButton}"
+                    ToolTip.Tip="Open Vault From Uri"
+                    ToolTip.VerticalOffset="10" />
             </StackPanel>
         </Border>
 

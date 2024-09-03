@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Azure.Core.Pipeline;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
 using Azure.ResourceManager.Resources;
@@ -33,6 +34,14 @@ public partial class VaultService
     private AuthService _authService { get; set; }
     private KvExplorerDb _dbContext { get; set; }
     private IMemoryCache _memoryCache { get; set; }
+
+    public static async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
+    {
+        await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
+        {
+            yield return kvResource;
+        }
+    }
 
     public async Task<KeyVaultKey> CreateKey(KeyVaultKey key, Uri KeyVaultUri)
     {
@@ -144,6 +153,29 @@ public partial class VaultService
         }
     }
 
+    //public async Task<KeyVaultResource> GetKeyVaultResource(Uri keyVaultUri)
+    //{
+    //    var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+    //    var client = new ArmClient(token);
+    //    var resourceIdentifier = new ResourceIdentifier(keyVaultUri.ToString());
+    //    return await client.GetKeyVaultResource(resourceIdentifier).GetAsync();
+    //}
+    public async Task<KeyVaultResource> GetKeyVaultResource(string subscriptionId, string resourceGroupName, string tenantId, string vaultName)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent(tenantId));
+        var client = new ArmClient(token);
+        var resourceIdentifier = KeyVaultResource.CreateResourceIdentifier(subscriptionId: subscriptionId, resourceGroupName: resourceGroupName, vaultName: vaultName);
+        return await client.GetKeyVaultResource(resourceIdentifier).GetAsync();
+    }
+
+    public async Task<KeyVaultResource> GetKeyVaultResource(string subscriptionId, string resourceGroupName, string vaultName)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureArmTokenSilent());
+        var client = new ArmClient(token);
+        var resourceIdentifier = KeyVaultResource.CreateResourceIdentifier(subscriptionId: subscriptionId, resourceGroupName: resourceGroupName, vaultName: vaultName);
+        return await client.GetKeyVaultResource(resourceIdentifier).GetAsync();
+    }
+
     /// <summary>
     /// returns all key vaults based on all the subscriptions the user has rights to view.
     /// </summary>
@@ -164,7 +196,7 @@ public partial class VaultService
         {
             f.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
 
-            var savedSubscriptions = await _dbContext.GetStoredSubscriptions(_authService.TenantId ??  null);
+            var savedSubscriptions = await _dbContext.GetStoredSubscriptions(_authService.TenantId ?? null);
             List<SubscriptionResource> subscriptionCollection = [];
             foreach (var sub in savedSubscriptions)
             {
@@ -323,14 +355,6 @@ public partial class VaultService
             {
                 yield return secretProperties;
             }
-        }
-    }
-
-    public static async IAsyncEnumerable<KeyVaultResource> GetWithKeyVaultsBySubscriptionAsync(KvSubscriptionModel resource)
-    {
-        await foreach (var kvResource in resource.Subscription.GetKeyVaultsAsync())
-        {
-            yield return kvResource;
         }
     }
 

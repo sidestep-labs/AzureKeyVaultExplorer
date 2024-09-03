@@ -5,8 +5,11 @@ using Avalonia.Threading;
 using Azure.ResourceManager.KeyVault;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
+using KeyVaultExplorer.Exceptions;
 using KeyVaultExplorer.Models;
+using KeyVaultExplorer.Services;
 using KeyVaultExplorer.ViewModels;
+using System;
 using System.Linq;
 
 namespace KeyVaultExplorer.Views.CustomControls;
@@ -14,6 +17,9 @@ namespace KeyVaultExplorer.Views.CustomControls;
 public partial class KeyVaultTreeList : UserControl
 {
     private readonly TabViewPageViewModel _tabViewViewModel;
+    private readonly NotificationViewModel _notificationViewModel;
+    private readonly  VaultService _vaultSerivce;
+
     //public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<KeyVaultTreeList, string>(nameof(Title), defaultValue: "test");
 
     //public string Title
@@ -26,6 +32,8 @@ public partial class KeyVaultTreeList : UserControl
         InitializeComponent();
         DataContext = Defaults.Locator.GetRequiredService<KeyVaultTreeListViewModel>();
         _tabViewViewModel = Defaults.Locator.GetRequiredService<TabViewPageViewModel>();
+        _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
+        _vaultSerivce = Defaults.Locator.GetRequiredService<VaultService>();
         SubscriptionTreeViewList = this.FindControl<TreeView>("SubscriptionTreeViewList")!;
         SubscriptionTreeViewList.ContextRequested += OnDataGridRowContextRequested;
     }
@@ -100,9 +108,63 @@ public partial class KeyVaultTreeList : UserControl
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.Data);
             }, DispatcherPriority.ContextIdle);
         }
-        Control control = (Control)sender!;
-        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
+
+
+
+
+    private void OpenExternalVaultFromUriDialogBox_Click(object sender, RoutedEventArgs args)
+    {
+        var dialog = new ContentDialog()
+        {
+            Title = "Open External Key Vault",
+            Name = "OpenExternalVaultDialog",
+            IsPrimaryButtonEnabled = true,
+            PrimaryButtonText = "Open",
+            DefaultButton = ContentDialogButton.Primary,
+            CloseButtonText = "Cancel",
+            Content = new OpenExternalVault(),
+            MinWidth = 750
+        };
+
+
+        dialog.PrimaryButtonClick += async (sender, args) =>
+        {
+            var def = args.GetDeferral();
+            try
+            {
+                var vaultName = (dialog.Content as UserControl).FindControl<TextBox>("VaultName").Text.Trim();
+                var subscriptionId = (dialog.Content as UserControl).FindControl<TextBox>("SubscriptionId").Text.Trim();
+                var rgName = (dialog.Content as UserControl).FindControl<TextBox>("ResourceGroupName").Text.Trim();
+                var tenantId = (dialog.Content as UserControl).FindControl<TextBox>("TenantId").Text.Trim();
+
+                var vaultData = await _vaultSerivce.GetKeyVaultResource(subscriptionId: subscriptionId, resourceGroupName: rgName, tenantId: tenantId, vaultName: vaultName);
+               
+                Dispatcher.UIThread.Post(async () =>
+                {
+                    await (DataContext as KeyVaultTreeListViewModel).PinVaultToQuickAccessCommand.ExecuteAsync(vaultData);
+
+                    _tabViewViewModel.AddVaultPageCommand.Execute(vaultData.Data);
+                }, DispatcherPriority.ContextIdle);
+                //_notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification("Success", "The properties have been updated."));
+            }
+            catch (KeyVaultInsufficientPrivilegesException ex)
+            {
+                _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+            }
+            catch (Exception ex)
+            {
+                _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+            }
+            finally
+            {
+                def.Complete();
+            }
+        };
+
+        dialog.ShowAsync();
+    }
+
 
     private void TreeListFlyoutItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
@@ -117,7 +179,5 @@ public partial class KeyVaultTreeList : UserControl
                 _tabViewViewModel.AddVaultPageCommand.Execute(model.SelectedTreeItem.Data);
             }, DispatcherPriority.ContextIdle);
         }
-        Control control = (Control)sender!;
-        control.RaiseEvent(new RoutedEventArgs(MainView.NavigateHomeEvent));
     }
 }

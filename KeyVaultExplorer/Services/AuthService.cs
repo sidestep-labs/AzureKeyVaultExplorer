@@ -15,17 +15,6 @@ public class AuthService
     public IPublicClientApplication authenticationClient;
     public MsalCacheHelper msalCacheHelper;
 
-    // Providing the RedirectionUri to receive the token based on success or failure.
-    public bool IsAuthenticated { get; private set; } = false;
-
-    public AuthenticatedUserClaims AuthenticatedUserClaims { get; private set; }
-
-    public string TenantName { get; private set; }
-
-    public string TenantId { get; private set; }
-
-    public IAccount Account { get; private set; }
-
     public AuthService()
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
@@ -33,6 +22,38 @@ public class AuthService
             .WithRedirectUri("http://localhost")
             .WithIosKeychainSecurityGroup("us.sidesteplabs.keyvaultexplorer")
             .Build();
+    }
+
+    public IAccount Account { get; private set; }
+
+    public AuthenticatedUserClaims AuthenticatedUserClaims { get; private set; }
+
+    // Providing the RedirectionUri to receive the token based on success or failure.
+    public bool IsAuthenticated { get; private set; } = false;
+    public string TenantId { get; private set; }
+    public string TenantName { get; private set; }
+    public async Task<AuthenticationResult> GetAzureArmTokenSilent(string tenantId = null)
+    {
+       
+        var accounts = await AttachTokenCache();
+        if (!accounts.Any())
+        {
+            await LoginAsync(CancellationToken.None);
+            accounts = await authenticationClient.GetAccountsAsync();
+            Account = accounts.First();
+        }
+
+        if (tenantId is not null)
+            return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).WithTenantId(tenantId).ExecuteAsync();
+
+        //var x= await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).WithExtraQueryParameters(new System.Collections.Generic.Dictionary<string, string> { { "tenant", "" } }).ExecuteAsync();
+        return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).ExecuteAsync();
+    }
+
+    public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
+    {
+        var accounts = await AttachTokenCache();
+        return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.First()).ExecuteAsync();
     }
 
     // Propagates notification that the operation should be cancelled.
@@ -116,6 +137,16 @@ public class AuthService
         return authenticationResult;
     }
 
+    public async Task RemoveAccount()
+    {
+
+        var accounts = await AttachTokenCache();
+        Account = null;
+        IsAuthenticated = false;
+        AuthenticatedUserClaims = null;
+        await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
+    }
+
     private async Task<System.Collections.Generic.IEnumerable<IAccount>> AttachTokenCache()
     {
         // Cache configuration and hook-up to public application. Refer to https://github.com/AzureAD/microsoft-authentication-extensions-for-dotnet/wiki/Cross-platform-Token-Cache#configuring-the-token-cache
@@ -125,6 +156,7 @@ public class AuthService
              new StorageCreationPropertiesBuilder(Constants.CacheFileName, Constants.LocalAppDataFolder)
                .WithLinuxKeyring(Constants.LinuxKeyRingSchema, Constants.LinuxKeyRingCollection, Constants.LinuxKeyRingLabel, Constants.LinuxKeyRingAttr1, Constants.LinuxKeyRingAttr2)
                .WithMacKeyChain(Constants.KeyChainServiceName, Constants.KeyChainAccountName)
+               //.WithCacheChangedEvent(clientId: "your-client-id", authority: "your-authority")
                .Build();
 
         msalCacheHelper = await MsalCacheHelper.CreateAsync(storageProperties);
@@ -138,40 +170,5 @@ public class AuthService
         // If the cache file is being reused, we'd find some already-signed-in accounts
 
         return await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
-    }
-
-    public async Task RemoveAccount()
-    {
-        await AttachTokenCache();
-        var accounts = await authenticationClient.GetAccountsAsync();
-        Account = null;
-        IsAuthenticated = false;
-        AuthenticatedUserClaims = null;
-        await authenticationClient.RemoveAsync(accounts.FirstOrDefault());
-    }
-
-    public async Task<AuthenticationResult> GetAzureArmTokenSilent(string tenantId = null)
-    {
-        await AttachTokenCache();
-        var accounts = await authenticationClient.GetAccountsAsync();
-        if (!accounts.Any())
-        {
-            await LoginAsync(CancellationToken.None);
-            accounts = await authenticationClient.GetAccountsAsync();
-            Account = accounts.First();
-        }
-
-        if (tenantId is not null)
-            return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).WithTenantId(tenantId).ExecuteAsync();
-
-        //var x= await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).WithExtraQueryParameters(new System.Collections.Generic.Dictionary<string, string> { { "tenant", "" } }).ExecuteAsync();
-        return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).ExecuteAsync();
-    }
-
-    public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
-    {
-        await AttachTokenCache();
-        var accounts = await authenticationClient.GetAccountsAsync();
-        return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.First()).ExecuteAsync();
     }
 }

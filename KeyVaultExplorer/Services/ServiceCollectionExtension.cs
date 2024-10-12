@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
         collection.AddSingleton<NotificationViewModel>();
         collection.AddSingleton<KvExplorerDb>();
         collection.AddTransient<AppSettingReader>();
-        collection.AddSingleton<IClipboard, ClipboardService>();
-        collection.AddSingleton<IStorageProvider, StorageProviderService>();
+        collection.AddSingleton<ClipboardService>();
+        collection.AddSingleton<StorageProviderService>();
     }
 }

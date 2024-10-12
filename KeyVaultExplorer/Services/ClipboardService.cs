@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Services;
 
-public class ClipboardService : Avalonia.Input.Platform.IClipboard
+public class ClipboardService
 {
     protected virtual IClipboard? Clipboard => _clipboard ??= Avalonia.Application.Current.GetTopLevel()?.Clipboard;
     private IClipboard? _clipboard;

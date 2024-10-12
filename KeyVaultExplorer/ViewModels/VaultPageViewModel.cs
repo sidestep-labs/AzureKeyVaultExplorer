@@ -32,7 +32,7 @@ public partial class VaultPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
 
-    private readonly IClipboard _clipboardService;
+    private readonly ClipboardService _clipboardService;
 
     private readonly VaultService _vaultService;
 
@@ -75,7 +75,7 @@ public partial class VaultPageViewModel : ViewModelBase
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
-        _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
+        _clipboardService = Defaults.Locator.GetRequiredService<ClipboardService>();
         vaultContents = [];
         BitmapImage = new Lazy<Bitmap>(() => LoadImage("avares://KeyVaultExplorer/Assets/AppIcon.ico"));
 

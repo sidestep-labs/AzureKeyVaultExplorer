@@ -28,9 +28,9 @@ namespace KeyVaultExplorer.ViewModels;
 public partial class PropertiesPageViewModel : ViewModelBase
 {
     private readonly AuthService _authService;
-    private readonly IClipboard _clipboardService;
+    private readonly ClipboardService _clipboardService;
     private readonly NotificationViewModel _notificationViewModel;
-    private readonly IStorageProvider _storageService;
+    private readonly StorageProviderService _storageService;
     private readonly VaultService _vaultService;
     private SettingsPageViewModel _settingsPageViewModel;
 
@@ -78,8 +78,8 @@ public partial class PropertiesPageViewModel : ViewModelBase
     {
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
-        _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
-        _storageService = Defaults.Locator.GetRequiredService<IStorageProvider>();
+        _clipboardService = Defaults.Locator.GetRequiredService<ClipboardService>();
+        _storageService = Defaults.Locator.GetRequiredService<StorageProviderService>();
     }
 
     public PropertiesPageViewModel(KeyVaultContentsAmalgamation model)
@@ -87,8 +87,8 @@ public partial class PropertiesPageViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _settingsPageViewModel = Defaults.Locator.GetRequiredService<SettingsPageViewModel>();
-        _clipboardService = Defaults.Locator.GetRequiredService<IClipboard>();
-        _storageService = Defaults.Locator.GetRequiredService<IStorageProvider>();
+        _clipboardService = Defaults.Locator.GetRequiredService<ClipboardService>();
+        _storageService = Defaults.Locator.GetRequiredService<StorageProviderService>();  
         _notificationViewModel = new NotificationViewModel();// Defaults.Locator.GetRequiredService<NotificationViewModel>();
         OpenedItem = model;
         Dispatcher.UIThread.InvokeAsync(async () =>

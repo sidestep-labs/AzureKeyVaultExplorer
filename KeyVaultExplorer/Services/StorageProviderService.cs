@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Services;
 
-public class StorageProviderService : Avalonia.Platform.Storage.IStorageProvider
+public class StorageProviderService
 {
     protected virtual IStorageProvider? StorageProvider => _storageProvider ??= Avalonia.Application.Current.GetTopLevel()?.StorageProvider;
     private IStorageProvider? _storageProvider;

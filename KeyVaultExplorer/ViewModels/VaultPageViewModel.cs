@@ -195,7 +195,7 @@ public partial class VaultPageViewModel : ViewModelBase
         {
             var contents = item == KeyVaultItemType.All ? _vaultContents : _vaultContents.Where(x => item == x.Type);
 
-            VaultContents = KeyVaultFilterHelper.FilterByQuery(contents, SearchQuery, item => item.Name, item => item.Tags);
+            VaultContents = KeyVaultFilterHelper.FilterByQuery(contents, SearchQuery, item => item.Name, item => item.Tags, item => item.ContentType);
 
             await DelaySetIsBusy(false);
         }
@@ -382,7 +382,7 @@ public partial class VaultPageViewModel : ViewModelBase
             return;
         }
 
-        VaultContents = KeyVaultFilterHelper.FilterByQuery(item != KeyVaultItemType.All ? _vaultContents.Where(k => k.Type == item) : _vaultContents, value ?? SearchQuery, item => item.Name, item => item.Tags);
+        VaultContents = KeyVaultFilterHelper.FilterByQuery(item != KeyVaultItemType.All ? _vaultContents.Where(k => k.Type == item) : _vaultContents, value ?? SearchQuery, item => item.Name, item => item.Tags, item => item.ContentType);
     }
 
     [RelayCommand]
@@ -402,7 +402,7 @@ public partial class VaultPageViewModel : ViewModelBase
         if (item.HasFlag(KeyVaultItemType.All))
             _vaultContents = [];
 
-        VaultContents = KeyVaultFilterHelper.FilterByQuery(_vaultContents.Where(v => v.Type != item), SearchQuery, item => item.Name, item => item.Tags);
+        VaultContents = KeyVaultFilterHelper.FilterByQuery(_vaultContents.Where(v => v.Type != item), SearchQuery, item => item.Name, item => item.Tags, item => item.ContentType);
 
         await FilterAndLoadVaultValueType(item);
     }
@@ -467,7 +467,8 @@ public partial class VaultPageViewModel : ViewModelBase
             IEnumerable<T> source,
             string query,
             Func<T, string> nameSelector,
-            Func<T, IDictionary<string, string>> tagsSelector)
+            Func<T, IDictionary<string, string>> tagsSelector,
+            Func<T, string> contentTypeSelector)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -476,6 +477,7 @@ public partial class VaultPageViewModel : ViewModelBase
 
             var filteredItems = source.Where(item =>
                 nameSelector(item).AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)
+                || contentTypeSelector(item).AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)
                 || (tagsSelector(item)?.Any(tag =>
                     tag.Key.AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)
                     || tag.Value.AsSpan().Contains(query.AsSpan(), StringComparison.OrdinalIgnoreCase)) ?? false));

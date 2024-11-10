@@ -44,7 +44,8 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Avalonia.Desktop" Version="11.1.4" />
+	<PackageReference Include="Avalonia.Desktop" Version="11.2.0" />
+	<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0-rc.1.24431.7" />
   </ItemGroup>
 
   	

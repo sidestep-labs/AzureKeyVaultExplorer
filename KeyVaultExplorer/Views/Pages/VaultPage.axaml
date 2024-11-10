@@ -181,7 +181,7 @@
                         Text="{Binding SearchQuery, Mode=TwoWay}"
                         TextChanged="SearchBoxChanges"
                         TextWrapping="NoWrap"
-                        Watermark="Search names, tags (Ctrl+F)">
+                        Watermark="Search names, tags, content types (Ctrl+F)">
                         <TextBox.Styles>
                             <Style Selector="TextBox">
                                 <Setter Property="Background" Value="Transparent" />

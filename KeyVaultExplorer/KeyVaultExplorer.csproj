@@ -53,7 +53,7 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.4" />
+	<PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.5" />
 	<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.1" />
     <PackageReference Include="Avalonia.Svg.Skia" Version="11.2.0" />
     <PackageReference Include="DeviceId" Version="6.7.0" />

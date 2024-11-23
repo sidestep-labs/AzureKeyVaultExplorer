@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using KeyVaultExplorer.Services;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.ViewModels;
 
@@ -23,7 +24,7 @@ public partial class TitleBarViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async void Signin()
+    private async void SignIn()
     {
         var cancellation = new CancellationToken();
         var account = await _authService.RefreshTokenAsync(cancellation);
@@ -32,7 +33,7 @@ public partial class TitleBarViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async void Signout()
+    private async Task SignOut()
     {
         await _authService.RemoveAccount();
     }

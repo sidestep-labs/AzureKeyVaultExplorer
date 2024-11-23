@@ -3,8 +3,8 @@ param(
     [string]$BuildNumber = '1.0.0.0',
     $VersionPrefix = "1.0.0",
     $VersionSuffix = "99",
-    [ValidateSet('net8.0', 'net8.0-windows10.0.19041.0', "net8.0-macos")]
-    [string]$Platform = 'net8.0',
+    [ValidateSet('net9.0', 'net9.0-windows10.0.19041.0', "net9.0-macos")]
+    [string]$Platform = 'net9.0',
     [ValidateSet('win-x64', 'win-arm64', 'osx-x64', 'osx-arm64', 'linux-x64')]
     [string]$Runtime = 'win-x64',
     [Switch]$CreateMacOSBundle = $false
@@ -80,6 +80,6 @@ if ($Runtime -eq "osx-x64") {
 # //TODO create a script that can edit the appxmanifest to change settings and repack the app for msft store submission
 # mpdev build .\msix.json
 # Push-Location 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\'
-# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Key Vault Explorer 1.0.263.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Unpacked"
-# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\KeyVaultExplorerforAzure_1263_1.msix"
+# .\makeappx.exe unpack /v /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Key Vault Explorer 1.0.302.0.msix" /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Unpacked"
+# .\makeappx.exe pack /v /d "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\Unpacked" /p "C:\repos\AzureKeyVaultExplorer\mpdev\Key Vault Explorer\output\KeyVaultExplorerforAzure_1302x86.msix"
 

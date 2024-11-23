@@ -297,18 +297,20 @@
                                                         </DataTemplate.DataType>
                                                         <Border
                                                             Margin="2"
-                                                            Padding="5,0,5,0"
+                                                            Padding="8,0,8,0"
                                                             Background="{DynamicResource AccentFillColorSelectedTextBackgroundBrush}"
                                                             CornerRadius="5">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <SelectableTextBlock
-                                                                    VerticalAlignment="Center"
-                                                                    Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
-                                                                    TextWrapping="Wrap">
-                                                                    <Label Content="{Binding Key, StringFormat={}{0:n0}:}" />
-                                                                    <Label Content="{Binding Value}" />
-                                                                </SelectableTextBlock>
-                                                            </StackPanel>
+                                                            <SelectableTextBlock
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{DynamicResource TextOnAccentFillColorSelectedTextBrush}"
+                                                                TextWrapping="Wrap">
+                                                                <SelectableTextBlock.Text>
+                                                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                                                        <Binding Path="Key" />
+                                                                        <Binding Path="Value" />
+                                                                    </MultiBinding>
+                                                                </SelectableTextBlock.Text>
+                                                            </SelectableTextBlock>
                                                         </Border>
                                                     </DataTemplate>
                                                 </ItemsRepeater.ItemTemplate>

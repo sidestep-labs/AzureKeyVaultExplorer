@@ -39,6 +39,36 @@ jobs:
       with:
         name: keyvaultexplorer.win-x64
         path: keyvaultexplorer.win-x64.tar    
+  build_windows_arm:
+    name: Build Windows ARM
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/win-packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            winarm-nuget
+    - name: Publish Windows
+      run: | 
+        ./build.ps1 -Runtime win-arm64 -PublishAot -BuildNumber '1.0.${{github.run_number }}'
+        New-Item -ItemType Directory -Path "win-arm64" 
+        Move-Item -Path ".\publish" -Destination "$env:GITHUB_WORKSPACE\win-arm64\publish"
+        gci -path  "$env:GITHUB_WORKSPACE\win-arm64\publish"
+      shell: pwsh
+    - name: Create Package
+      run: tar -cvf keyvaultexplorer.win-arm64.tar win-arm64
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: keyvaultexplorer.win-arm64
+        path: keyvaultexplorer.win-arm64.tar    
   build_macos_intel:
     name: Build macOS intel
     runs-on: macos-12

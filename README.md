@@ -143,6 +143,10 @@ Alternatively, you create an enterprise application with the following permissio
 <sup>Thank you to reddit user AzureToujours for helping with the readme.</sub>
 
 
+## Installer
+
+Installer built with [Master Packager Dev](https://www.masterpackager.com/masterpackagerdev/).
+
 ## Troubleshooting
 The folder where all app associated data like the database and other encrypted files is `/Users/YOUR_USER_NAME/Library/Application Support/KeyVaultExplorer/` on macOS
 and `C:\Users\YOUR_USER_NAME\AppData\Local\KeyVaultExplorer` on Windows.

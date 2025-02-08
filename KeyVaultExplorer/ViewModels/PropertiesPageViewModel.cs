@@ -306,6 +306,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
 
                 var vm = new CreateNewSecretVersionViewModel();
                 vm.KeyVaultSecretModel = newVersion;
+                vm.SecretValue = (await _vaultService.GetSecret(kvUri: OpenedItem.SecretProperties.VaultUri, secretName: OpenedItem.SecretProperties.Name)).Value;
 
                 var newVersionBtn = new TaskDialogButton("Create Secret", "CreateSecretButtonResult") { IsDefault = true, };
                 newVersionBtn.Bind(TaskDialogButton.IsEnabledProperty, new Binding { Path = "!HasErrors", Mode = BindingMode.OneWay, FallbackValue = false, Source = vm, });

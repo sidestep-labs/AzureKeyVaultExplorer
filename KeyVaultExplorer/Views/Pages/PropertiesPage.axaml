@@ -140,29 +140,31 @@
                             BorderThickness="1"
                             CornerRadius="4"
                             IsVisible="{Binding IsSecret}">
-                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="*" VerticalAlignment="Stretch">
+                            <Grid
+                                VerticalAlignment="Stretch"
+                                ColumnDefinitions="*,Auto"
+                                RowDefinitions="*">
                                 <Border
-                                    MaxHeight="200"
                                     Grid.Column="0"
-                                    IsVisible="True"
+                                    MaxHeight="200"
                                     Padding="0"
-                                    BorderThickness="1" 
-                                    CornerRadius="4">
-                                    <ScrollViewer
-                                        VerticalScrollBarVisibility="Visible">
-                                        <StackPanel
-                                            VerticalAlignment="Top">
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    IsVisible="True">
+                                    <ScrollViewer VerticalScrollBarVisibility="Visible">
+                                        <StackPanel VerticalAlignment="Center">
                                             <TextBlock
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center"
                                                 IsVisible="{Binding !#ShowToggleButton.IsChecked}"
                                                 Text="{Binding SecretHidden}" />
-                                            <TextBlock
+                                            <SelectableTextBlock
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Top"
-                                                TextWrapping="Wrap"
+                                                xml:space="preserve"
                                                 IsVisible="{Binding #ShowToggleButton.IsChecked}"
-                                                Text="{Binding SecretPlainText}" />
+                                                Text="{Binding SecretPlainText}"
+                                                TextWrapping="Wrap" />
                                         </StackPanel>
 
                                     </ScrollViewer>

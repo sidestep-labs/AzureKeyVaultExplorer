@@ -69,35 +69,6 @@ jobs:
       with:
         name: keyvaultexplorer.win-arm64
         path: keyvaultexplorer.win-arm64.tar    
-  build_macos_intel:
-    name: Build macOS intel
-    runs-on: macos-12
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - uses: actions/cache@v3
-      with:
-          path: ~/.nuget/osx-intel-packages
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            mac-nuget
-    - name: publish_macOS_intel
-      run: |
-        ./build.ps1 -Runtime osx-x64 -PublishAot -BuildNumber '1.0.${{github.run_number }}'       
-        New-Item -ItemType Directory -Path "osx-x64" 
-        Move-Item -Path "Key Vault Explorer for Azure.app" -Destination "$env:GITHUB_WORKSPACE\osx-x64\Key Vault Explorer for Azure.app"
-      shell: pwsh
-    - name: Create Package
-      run: tar -cvf keyvaultexplorer.osx-x64.tar osx-x64/
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: keyvaultexplorer.osx-x64
-        path: keyvaultexplorer.osx-x64.tar    
   build_macos:
     name: Build macOS Arm64
     runs-on: macos-latest
@@ -162,7 +133,7 @@ jobs:
 
   release:
     name: Release code
-    needs: [ build_macos, build_windows, build_macos_intel, build_linux]
+    needs: [ build_macos, build_windows, build_windows_arm, build_linux]
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
@@ -174,7 +145,7 @@ jobs:
         run: |
           Get-ChildItem -Recurse
           gh release create v1.0.${{github.run_number }} --draft
-          gh release upload v1.0.${{github.run_number }} "./keyvaultexplorer.win-x64/keyvaultexplorer.win-x64.tar" "./keyvaultexplorer.win-arm64/keyvaultexplorer.win-arm64.tar" "./keyvaultexplorer.osx-arm64/keyvaultexplorer.osx-arm64.tar" "./keyvaultexplorer.osx-x64/keyvaultexplorer.osx-x64.tar" "./keyvaultexplorer.linux-x64/keyvaultexplorer.linux-x64.tar"
+          gh release upload v1.0.${{github.run_number }} "./keyvaultexplorer.win-x64/keyvaultexplorer.win-x64.tar" "./keyvaultexplorer.win-arm64/keyvaultexplorer.win-arm64.tar" "./keyvaultexplorer.osx-arm64/keyvaultexplorer.osx-arm64.tar" "./keyvaultexplorer.linux-x64/keyvaultexplorer.linux-x64.tar"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh

@@ -62,7 +62,7 @@
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
 
-                    <ui:SettingsExpanderItem Description="Use a custom Client ID / Application ID for Azure AD authentication">
+                    <ui:SettingsExpanderItem Description="Use a custom Client ID / Application ID for Azure MSAL authentication">
                         <ui:SettingsExpanderItem.Content>
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Name="SettingsPageClientIdCheckbox" IsChecked="{Binding SettingsPageClientIdCheckbox, Mode=TwoWay}" />

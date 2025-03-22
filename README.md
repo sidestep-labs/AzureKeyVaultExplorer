@@ -84,7 +84,7 @@ Get it from the Microsoft store!
 
 ## Using your own client id / application Id (your own enterprise application):
 ### This requires the check box to be selected, and a valid client id.
-- Create an Enterprise application in your azure AD tenant:
+- Create an Enterprise application in your Azure AD/Entra tenant:
   <br/>
 ![image](https://github.com/user-attachments/assets/c72875a5-ef34-4157-8b2a-bed9f14b4b55)
 <br>

@@ -45,6 +45,12 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<Settings> settings;
 
+    [ObservableProperty]
+    private bool settingsPageClientIdCheckbox;
+
+    [ObservableProperty]
+    private string customClientId;
+
     public SettingsPageViewModel()
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
@@ -58,7 +64,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             ClearClipboardTimeout = jsonSettings.ClipboardTimeout;
             IsBackgroundTransparencyEnabled = jsonSettings.BackgroundTransparency;
             CurrentAppTheme = jsonSettings.AppTheme ?? "System";
-
+            CustomClientId = jsonSettings.CustomClientId;
+            SettingsPageClientIdCheckbox = jsonSettings.SettingsPageClientIdCheckbox;
             //NavigationLayoutMode = s.NavigationLayoutMode;
         }, DispatcherPriority.MaxValue);
     }
@@ -106,6 +113,26 @@ public partial class SettingsPageViewModel : ViewModelBase
     {
         if (oldValue is not null && oldValue != newValue)
             Dispatcher.UIThread.InvokeAsync(async () => await AddOrUpdateAppSettings(nameof(AppSettings.AppTheme), CurrentAppTheme), DispatcherPriority.Background);
+    }
+
+
+
+    partial void OnSettingsPageClientIdCheckboxChanged(bool value)
+    {
+
+        Dispatcher.UIThread.InvokeAsync(async () => 
+            await AddOrUpdateAppSettings(nameof(AppSettings.SettingsPageClientIdCheckbox), SettingsPageClientIdCheckbox),
+        DispatcherPriority.Background);
+    }
+
+    partial void OnCustomClientIdChanged(string value)
+    {
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            await Task.Delay(50);
+            await AddOrUpdateAppSettings(nameof(AppSettings.CustomClientId), CustomClientId);
+        },
+         DispatcherPriority.Background);
     }
 
     partial void OnClearClipboardTimeoutChanging(int oldValue, int newValue)

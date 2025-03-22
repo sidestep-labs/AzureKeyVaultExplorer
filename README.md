@@ -82,7 +82,38 @@ Get it from the Microsoft store!
 </p>
 
 
-## First time installs in Azure Tenant:
+## Using your own client id / application Id (your own enterprise application):
+### This requires the check box to be selected, and a valid client id.
+- Create an Enterprise application in your azure AD tenant:
+  <br/>
+![image](https://github.com/user-attachments/assets/c72875a5-ef34-4157-8b2a-bed9f14b4b55)
+<br>
+![image](https://github.com/user-attachments/assets/e0e90e41-c649-4b4a-80a7-74c897ace4bb)
+
+- Select a tenant auth type:
+  <br/>
+![image](https://github.com/user-attachments/assets/f92a9f0b-a6cc-4e47-8f95-a9043e07bf50)
+ - Then navigate to "App Registrations" and go to the "Manage > Authentication" page:
+![image](https://github.com/user-attachments/assets/dadf5b96-6364-41f8-8e2f-e4ea9855c39a)
+- Select Desktop + Devices and add the following, you need to check the following boxes and add `http://localhost` as a custom uri
+![image](https://github.com/user-attachments/assets/3b150988-a189-4429-b29b-b4d4723d6a9e)
+- Add mac redirect uri's:
+![image](https://github.com/user-attachments/assets/43819626-1e95-4de7-8f75-5180761c6eb1)
+- Navigate to the API Permissions section and add the following permissions, you may need an admin to grant consent:
+![image](https://github.com/user-attachments/assets/c20b5e9a-ac23-4710-bc15-a4c5dd9e843e)
+<br/>
+- You or and admin will have to grant consent to your own application if not granted already. 
+![image](https://github.com/user-attachments/assets/8845b9fd-5fed-42a2-bd47-0ab06575c1f0)
+- Open the app and update the client Id, then restart the app: 
+![image](https://github.com/user-attachments/assets/87d75793-5c95-488e-b4d4-20af6b5f46bb)
+- Upon restart you'll see something similar to this:
+  <br/>
+![image](https://github.com/user-attachments/assets/3913632e-0f39-435e-a285-e3ec42975132)
+<br/>
+- Then the app should work as normal under your own identity and your own tenant's enterprise application.
+
+
+## First time installs in Azure Tenant (Using default clientId):
 
 Please follow this Microsoft learn article if you encounter this error: https://learn.microsoft.com/en-us/answers/questions/1393470/azure-enterprise-apps-missing-a-permission-listed
 <p align="left">

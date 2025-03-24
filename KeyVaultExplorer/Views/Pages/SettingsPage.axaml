@@ -8,8 +8,8 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:KeyVaultExplorer.ViewModels"
     Margin="0,40,0,0"
-    d:DesignHeight="450"
-    d:DesignWidth="880"
+    d:DesignHeight="650"
+    d:DesignWidth="1080"
     x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
 
@@ -61,6 +61,30 @@
                                 Content="Sign out" />
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
+
+                    <ui:SettingsExpanderItem Description="Use a custom Client ID / Application ID for Azure MSAL authentication">
+                        <ui:SettingsExpanderItem.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Name="SettingsPageClientIdCheckbox" IsChecked="{Binding SettingsPageClientIdCheckbox, Mode=TwoWay}" />
+                                <TextBlock Margin="0,6,0,0">Override Client Id (requires restart)</TextBlock>
+                            </StackPanel>
+                        </ui:SettingsExpanderItem.Content>
+
+                        <ui:SettingsExpanderItem.Footer>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox
+                                    Name="SettingsPageClientIdTextBox"
+                                    MinWidth="325"
+                                    Classes.clearButton="True"
+                                    IsEnabled="{Binding #SettingsPageClientIdCheckbox.IsChecked}"
+                                    Text="{Binding CustomClientId, Mode=TwoWay}"
+                                    Watermark="Azure Client Id: e.g. 18405e16-1ba4aca2.." />
+                            </StackPanel>
+                        </ui:SettingsExpanderItem.Footer>
+                    </ui:SettingsExpanderItem>
+
+
+
                 </ui:SettingsExpander>
 
                 <ui:SettingsExpander

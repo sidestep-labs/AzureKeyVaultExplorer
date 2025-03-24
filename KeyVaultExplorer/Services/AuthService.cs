@@ -28,8 +28,14 @@ public class AuthService
 
     public AuthService()
     {
-        authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
-            .WithRedirectUri($"msal{Constants.ClientId}://auth")
+
+        var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
+        var customClientId = (string?)settings.AppSettings.CustomClientId ?? Constants.ClientId;
+        var settingsPageClientIdCheckbox = (bool?)settings.AppSettings.SettingsPageClientIdCheckbox ?? false;
+        string clientId = settingsPageClientIdCheckbox && !string.IsNullOrEmpty(customClientId) ? customClientId : Constants.ClientId;
+
+        authenticationClient = PublicClientApplicationBuilder.Create(clientId)
+            .WithRedirectUri($"msal{clientId}://auth")
             .WithRedirectUri("http://localhost")
             .WithIosKeychainSecurityGroup("us.sidesteplabs.keyvaultexplorer")
             .Build();

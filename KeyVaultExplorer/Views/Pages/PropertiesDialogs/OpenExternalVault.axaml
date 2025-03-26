@@ -1,0 +1,36 @@
+<UserControl
+    x:Class="KeyVaultExplorer.OpenExternalVault"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:armmodels="clr-namespace:Azure.ResourceManager.KeyVault;assembly=Azure.ResourceManager.KeyVault"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:KeyVaultExplorer.Models;assembly=KeyVaultExplorer"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="clr-namespace:KeyVaultExplorer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="8">
+        <TextBox
+            Name="SubscriptionId"
+            MinWidth="450"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Watermark="Subscription Id e.g. cd7a227e-4..." />
+        <TextBox
+            Name="ResourceGroupName"
+            MinWidth="450"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Watermark="Resource Group Name e.g. rg-my-resource-group" />
+        <TextBox
+            Name="VaultName"
+            MinWidth="450"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Watermark="Key Vault Name e.g. my-key-vault" />
+    </StackPanel>
+
+</UserControl>

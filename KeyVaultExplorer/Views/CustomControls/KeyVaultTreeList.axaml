@@ -121,6 +121,17 @@
                             UriSource="avares://KeyVaultExplorer/Assets/CollapseAll.png" />
                     </StackPanel>
                 </Button>
+
+                <Button
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="OpenExternalVaultFromUriDialogBox_Click"
+                    Content="&#xE8a7;"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    FontSize="16"
+                    Theme="{StaticResource TransparentButton}"
+                    ToolTip.Tip="Open Vault From Uri"
+                    ToolTip.VerticalOffset="10" />
             </StackPanel>
         </Border>
 

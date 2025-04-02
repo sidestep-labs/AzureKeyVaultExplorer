@@ -74,24 +74,29 @@ Clone the project, open the `.\AzureKeyVaultExplorer` directory and open the sol
 
 
 # Installing / building from source:
-Get it from the Microsoft store!
+### Get it from the Microsoft store!
 <p align="left">
   <a href="https://apps.microsoft.com/detail/9mz794c6t74m?rtc=1&hl=en-us&gl=US&cid=github&gl=US">
     <img src="https://get.microsoft.com/images/en-us%20light.svg" width="200" alt="Download" />
   </a>
 </p>
 
+### Or Get it from winget!
+```pwsh
+winget search "Key Vault Explorer" --source msstore
+winget install "Key Vault Explorer" --source msstore
+```
 
 ## Using your own client id / application Id (your own enterprise application):
 ### This requires the check box to be selected, and a valid client id.
 - Create an Enterprise application in your Azure AD/Entra tenant:
-  <br/>
+  
 ![image](https://github.com/user-attachments/assets/c72875a5-ef34-4157-8b2a-bed9f14b4b55)
-<br>
+
 ![image](https://github.com/user-attachments/assets/e0e90e41-c649-4b4a-80a7-74c897ace4bb)
 
 - Select a tenant auth type:
-  <br/>
+  
 ![image](https://github.com/user-attachments/assets/f92a9f0b-a6cc-4e47-8f95-a9043e07bf50)
  - Then navigate to "App Registrations" and go to the "Manage > Authentication" page:
 ![image](https://github.com/user-attachments/assets/dadf5b96-6364-41f8-8e2f-e4ea9855c39a)
@@ -176,7 +181,9 @@ Alternatively, you create an enterprise application with the following permissio
 
 ## Installer
 
-Installer built with [Master Packager Dev](https://www.masterpackager.com/masterpackagerdev/).
+<img src="https://www.masterpackager.com/media/site/img/icon_blue.svg" width="100"/>
+
+Installer built with: [Master Packager Dev](https://www.masterpackager.com/masterpackagerdev/)
 
 ## Troubleshooting
 The folder where all app associated data like the database and other encrypted files is `/Users/YOUR_USER_NAME/Library/Application Support/KeyVaultExplorer/` on macOS

@@ -108,7 +108,7 @@ public partial class KeyVaultTreeList : UserControl
         var dialog = new ContentDialog()
         {
             Name = "OpenExternalVaultDialog",
-            Title = "Open Key Vault By URI",
+            Title = "Open Key Vault",
             IsPrimaryButtonEnabled = true,
             PrimaryButtonText = "Open",
             DefaultButton = ContentDialogButton.Primary,

@@ -14,7 +14,7 @@
    </a>
 </p>
  <p style="display: block" align="center">
- 	<sup>Named 'Key Vault Explorer' in Microsoft Store.</sub>
+ 	<sup>Named 'Key Vault Explorer' in the Microsoft Store.</sub>
  </p>
 
     
@@ -81,7 +81,7 @@ Clone the project, open the `.\AzureKeyVaultExplorer` directory and open the sol
   </a>
 </p>
 
-### Or Get it from winget!
+### Or get it from winget!
 ```pwsh
 winget search "Key Vault Explorer" --source msstore
 winget install "Key Vault Explorer" --source msstore
@@ -106,15 +106,16 @@ winget install "Key Vault Explorer" --source msstore
 ![image](https://github.com/user-attachments/assets/43819626-1e95-4de7-8f75-5180761c6eb1)
 - Navigate to the API Permissions section and add the following permissions, you may need an admin to grant consent:
 ![image](https://github.com/user-attachments/assets/c20b5e9a-ac23-4710-bc15-a4c5dd9e843e)
-<br/>
-- You or and admin will have to grant consent to your own application if not granted already. 
+- You or and admin will have to grant consent to your own application if not granted already.
+  
 ![image](https://github.com/user-attachments/assets/8845b9fd-5fed-42a2-bd47-0ab06575c1f0)
-- Open the app and update the client Id, then restart the app: 
+- Open the app and update the client Id in the settings page, then restart the app:
+  
 ![image](https://github.com/user-attachments/assets/87d75793-5c95-488e-b4d4-20af6b5f46bb)
 - Upon restart you'll see something similar to this:
-  <br/>
+  
 ![image](https://github.com/user-attachments/assets/3913632e-0f39-435e-a285-e3ec42975132)
-<br/>
+
 - Then the app should work as normal under your own identity and your own tenant's enterprise application.
 
 

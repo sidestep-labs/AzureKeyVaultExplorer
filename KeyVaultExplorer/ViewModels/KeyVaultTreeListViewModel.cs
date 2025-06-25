@@ -1,4 +1,5 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Input;
+using Avalonia.Threading;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
@@ -42,6 +43,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     private readonly KvExplorerDb _dbContext;
     private readonly VaultService _vaultService;
     private readonly NotificationViewModel _notificationViewModel;
+    private readonly ClipboardService _clipboardService;
     private readonly string[] WatchedNameOfProps = [nameof(KvSubscriptionModel.IsExpanded), nameof(KvSubscriptionModel.IsSelected)];
 
     public KeyVaultTreeListViewModel()
@@ -50,6 +52,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
         _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
+        _clipboardService = Defaults.Locator.GetRequiredService<ClipboardService>();
         // PropertyChanged += OnMyViewModelPropertyChanged;
 
         //foreach (var item in TreeViewList)
@@ -296,14 +299,6 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         }
     }
 
-    //private void OnMyViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    //{
-    //    if (e.PropertyName == nameof(SelectedTreeItem))
-    //    {
-    //        // Handle changes to the SelectedTreeItem property here
-    //        //OnSelectedTreeItemChanged("test");
-    //    }
-    //}
 
     partial void OnSearchQueryChanged(string value)
     {
@@ -322,6 +317,14 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         if (model is null) return;
         var uri = $"https://portal.azure.com/#@{_authService.TenantName}/resource{model.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
+    }
+
+    [RelayCommand]
+    private async Task CopyPortalURL(KeyVaultResource model)
+    {
+        if (model is null) return;
+        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/resource{model.Id}";
+        await _clipboardService.SetTextAsync(uri);
     }
 
     private void TreeViewList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

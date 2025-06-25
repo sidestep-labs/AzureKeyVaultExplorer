@@ -102,7 +102,7 @@ jobs:
         path: keyvaultexplorer.osx-arm64.tar    
   build_linux:
     name: Build Linux
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET

@@ -43,6 +43,11 @@
                 CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
                 IconSource="Open"
                 Text="Open in Azure Portal" />
+            <ui:MenuFlyoutItem
+                Command="{Binding CopyPortalURLCommand}"
+                CommandParameter="{Binding #SubscriptionTreeViewList.SelectedItem}"
+                IconSource="Copy"
+                Text="Copy Portal URL" />
 
         </ui:FAMenuFlyout>
     </UserControl.Resources>

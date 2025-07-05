@@ -15,8 +15,6 @@ public static class FilterService
             return allSubscriptions;
         }
 
-        var filteredSubscriptions = new List<KvSubscriptionModel>();
-
         foreach (var subscription in allSubscriptions)
         {
             var filteredResourceGroups = subscription.ResourceGroups
@@ -40,10 +38,19 @@ public static class FilterService
                     ResourceGroups = new ObservableCollection<KvResourceGroupModel>(filteredResourceGroups)
                 };
 
-                filteredSubscriptions.Add(filteredSubscription);
+                new List<KvSubscriptionModel>().Add(filteredSubscription);
             }
         }
 
-        return filteredSubscriptions;
+        // Sort the filtered results alphabetically
+        var sortedSubscriptions = SortService.SortSubscriptions(new List<KvSubscriptionModel>());
+
+        // Sort the nested collections within each subscription
+        foreach (var subscription in sortedSubscriptions)
+        {
+            SortService.SortSubscriptionTree(subscription);
+        }
+
+        return sortedSubscriptions;
     }
 }

@@ -357,4 +357,12 @@ public partial class VaultService
         var client = new SecretClient(KeyVaultUri, token);
         return await client.UpdateSecretPropertiesAsync(properties);
     }
+
+    public async Task<CertificateProperties> UpdateCertificate(CertificateProperties properties, Uri KeyVaultUri)
+    {
+        var token = new CustomTokenCredential(await _authService.GetAzureKeyVaultTokenSilent());
+        var client = new CertificateClient(KeyVaultUri, token);
+        var response = await client.UpdateCertificatePropertiesAsync(properties);
+        return response.Value.Properties;
+    }
 }

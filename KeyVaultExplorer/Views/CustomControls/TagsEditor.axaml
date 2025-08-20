@@ -1,0 +1,61 @@
+<UserControl
+    x:Class="KeyVaultExplorer.Views.CustomControls.TagsEditor"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:controls="using:KeyVaultExplorer.Views.CustomControls"
+    d:DesignHeight="300"
+    d:DesignWidth="500"
+    x:DataType="controls:TagsEditor"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" Spacing="10">
+        <TextBlock Text="Tags" FontWeight="SemiBold" />
+        
+        <!-- Tags List -->
+        <ItemsControl Name="TagsItemsControl" ItemsSource="{Binding Tags}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="controls:TagItem">
+                    <Border
+                        Background="{DynamicResource SystemFillColorNeutralBackgroundBrush}"
+                        BorderBrush="{DynamicResource SystemFillColorNeutralBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Margin="0,2"
+                        Padding="8">
+                        <Grid ColumnDefinitions="*,*,Auto">
+                            <TextBox
+                                Grid.Column="0"
+                                Text="{Binding Key, Mode=TwoWay}"
+                                Watermark="Key"
+                                Margin="0,0,5,0" />
+                            <TextBox
+                                Grid.Column="1"
+                                Text="{Binding Value, Mode=TwoWay}"
+                                Watermark="Value"
+                                Margin="5,0,5,0" />
+                            <Button
+                                Grid.Column="2"
+                                Content="×"
+                                FontSize="16"
+                                Width="24"
+                                Height="24"
+                                Padding="0"
+                                Click="RemoveTag_Click"
+                                Tag="{Binding}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        <!-- Add New Tag Button -->
+        <Button
+            Name="AddTagButton"
+            Content="+ Add Tag"
+            HorizontalAlignment="Left"
+            Click="AddTag_Click" />
+    </StackPanel>
+</UserControl>

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using KeyVaultExplorer.Services;
 using KeyVaultExplorer.Validations;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,6 +65,9 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         ValidateAllProperties();
     }
 
+    // Delegate to get updated tags from the UI
+    public Func<IDictionary<string, string>>? GetUpdatedTags { get; set; }
+
     [ObservableProperty]
     public bool hasActivationDateChecked;
 
@@ -86,6 +90,9 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         else
             KeyVaultSecretModel.ExpiresOn = null;
 
+        // Update tags from the TagsEditor if available
+        UpdateTagsFromEditor();
+
         var updatedProps = await _vaultService.UpdateSecret(KeyVaultSecretModel, KeyVaultSecretModel.VaultUri);
         KeyVaultSecretModel = updatedProps;
     }
@@ -101,6 +108,9 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
             newSecret.Properties.ExpiresOn = KeyVaultSecretModel.ExpiresOn.Value.Date + (ExpiresOnTimespan ?? TimeSpan.Zero);
 
         newSecret.Properties.ContentType = KeyVaultSecretModel.ContentType;
+
+        // Update tags from the TagsEditor before creating new version
+        UpdateTagsFromEditor();
 
         foreach (var tag in KeyVaultSecretModel.Tags)
             newSecret.Properties.Tags.Add(tag.Key, tag.Value);
@@ -134,6 +144,19 @@ public partial class CreateNewSecretVersionViewModel : ViewModelBase
         if (newValue is false)
         {
             KeyVaultSecretModel.ExpiresOn = null;
+        }
+    }
+
+    private void UpdateTagsFromEditor()
+    {
+        if (GetUpdatedTags != null)
+        {
+            var updatedTags = GetUpdatedTags();
+            KeyVaultSecretModel.Tags.Clear();
+            foreach (var tag in updatedTags)
+            {
+                KeyVaultSecretModel.Tags[tag.Key] = tag.Value;
+            }
         }
     }
 

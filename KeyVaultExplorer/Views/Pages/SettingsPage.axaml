@@ -140,6 +140,27 @@
                         </ComboBox>
                     </ui:SettingsExpander.Footer>
                 </ui:SettingsExpander>
+                <ui:SettingsExpander
+                    Description="Select which Azure cloud environment to connect to"
+                    Header="Azure Cloud Environment"
+                    IconSource="Cloud">
+
+                    <ui:SettingsExpander.Footer>
+                        <ComboBox
+                            MinWidth="150"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            ItemsSource="{Binding AzureClouds}"
+                            SelectedItem="{Binding SelectedAzureCloud, Mode=TwoWay}">
+                            <ComboBox.Styles>
+                                <Style Selector="ComboBox /template/ ContentPresenter#ContentPresenter">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </ComboBox.Styles>
+
+                        </ComboBox>
+                    </ui:SettingsExpander.Footer>
+                </ui:SettingsExpander>
             </StackPanel>
 
             <StackPanel

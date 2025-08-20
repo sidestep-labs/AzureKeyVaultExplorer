@@ -25,6 +25,9 @@ public class AuthService
 
 
     public IAccount Account { get; private set; }
+    
+    // Property to get the current cloud's portal URL
+    public string PortalUrl => GetCurrentCloudEnvironment().PortalUrl;
 
     public AuthService()
     {
@@ -33,12 +36,27 @@ public class AuthService
         var customClientId = (string?)settings.AppSettings.CustomClientId ?? Constants.ClientId;
         var settingsPageClientIdCheckbox = (bool?)settings.AppSettings.SettingsPageClientIdCheckbox ?? false;
         string clientId = settingsPageClientIdCheckbox && !string.IsNullOrEmpty(customClientId) ? customClientId : Constants.ClientId;
+        
+        // Get the cloud environment from settings
+        var cloudSetting = settings.AppSettings.AzureCloud ?? "Public";
+        var azureCloud = Enum.TryParse<AzureCloud>(cloudSetting, out var parsed) ? parsed : AzureCloud.Public;
+        var cloudEnvironment = CloudEnvironment.GetCloudEnvironment(azureCloud);
 
         authenticationClient = PublicClientApplicationBuilder.Create(clientId)
+            .WithAuthority(cloudEnvironment.Authority)
             .WithRedirectUri($"msal{clientId}://auth")
             .WithRedirectUri("http://localhost")
             .WithIosKeychainSecurityGroup("us.sidesteplabs.keyvaultexplorer")
             .Build();
+    }
+    
+    // Helper method to get current cloud environment
+    private CloudEnvironment GetCurrentCloudEnvironment()
+    {
+        var settings = Defaults.Locator.GetRequiredService<AppSettingReader>();
+        var cloudSetting = settings.AppSettings.AzureCloud ?? "Public";
+        var azureCloud = Enum.TryParse<AzureCloud>(cloudSetting, out var parsed) ? parsed : AzureCloud.Public;
+        return CloudEnvironment.GetCloudEnvironment(azureCloud);
     }
 
     // Propagates notification that the operation should be cancelled.
@@ -166,13 +184,15 @@ public class AuthService
             accounts = await authenticationClient.GetAccountsAsync();
             Account = accounts.First();
         }
-        return await authenticationClient.AcquireTokenSilent(Constants.AzureRMScope, accounts.First()).ExecuteAsync();
+        var cloudEnvironment = GetCurrentCloudEnvironment();
+        return await authenticationClient.AcquireTokenSilent(Constants.GetAzureResourceManagerScope(cloudEnvironment), accounts.First()).ExecuteAsync();
     }
 
     public async Task<AuthenticationResult> GetAzureKeyVaultTokenSilent()
     {
         await AttachTokenCache();
         var accounts = await authenticationClient.GetAccountsAsync();
-        return await authenticationClient.AcquireTokenSilent(Constants.KvScope, accounts.First()).ExecuteAsync();
+        var cloudEnvironment = GetCurrentCloudEnvironment();
+        return await authenticationClient.AcquireTokenSilent(Constants.GetKeyVaultScope(cloudEnvironment), accounts.First()).ExecuteAsync();
     }
 }

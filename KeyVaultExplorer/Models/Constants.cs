@@ -20,11 +20,28 @@ public static class Constants
     //Leaving the scope to its default values.
     public static readonly string[] Scopes = ["openid", "offline_access", "profile", "email",];
 
+    // Legacy constants for backwards compatibility - use CloudEnvironment instead
     public static readonly string[] AzureRMScope = ["https://management.core.windows.net//.default"];
 
     public static readonly string[] KvScope = ["https://vault.azure.net/.default"];
 
     public static readonly string[] AzureScopes = ["https://management.core.windows.net//.default", "https://vault.azure.net//.default", "user_impersonation"];
+    
+    // Helper methods to get cloud-specific scopes
+    public static string[] GetKeyVaultScope(CloudEnvironment cloudEnvironment)
+    {
+        return [cloudEnvironment.VaultScope];
+    }
+    
+    public static string[] GetAzureResourceManagerScope(CloudEnvironment cloudEnvironment)
+    {
+        return [cloudEnvironment.ManagementScope];
+    }
+    
+    public static string[] GetAzureScopes(CloudEnvironment cloudEnvironment)
+    {
+        return [cloudEnvironment.ManagementScope, cloudEnvironment.VaultScope, "user_impersonation"];
+    }
 
     // Cache settings
     public const string CacheFileName = "keyvaultexplorer_msal_cache.txt";

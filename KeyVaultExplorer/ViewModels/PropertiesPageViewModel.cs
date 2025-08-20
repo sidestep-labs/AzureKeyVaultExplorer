@@ -358,7 +358,7 @@ public partial class PropertiesPageViewModel : ViewModelBase
     private void OpenInAzure()
     {
         if (OpenedItem is null) return;
-        var uri = $"https://portal.azure.com/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
+        var uri = $"{_authService.PortalUrl}/#@{_authService.TenantName}/asset/Microsoft_Azure_KeyVault/{OpenedItem.Type}/{OpenedItem.Id}";
         Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true, Verb = "open" });
     }
 

@@ -50,6 +50,12 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     [ObservableProperty]
     private string customClientId;
+    
+    [ObservableProperty]
+    private string[] azureClouds = ["Public", "USGovernment"];
+    
+    [ObservableProperty]
+    private string selectedAzureCloud;
 
     public SettingsPageViewModel()
     {
@@ -66,6 +72,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             CurrentAppTheme = jsonSettings.AppTheme ?? "System";
             CustomClientId = jsonSettings.CustomClientId;
             SettingsPageClientIdCheckbox = jsonSettings.SettingsPageClientIdCheckbox;
+            SelectedAzureCloud = jsonSettings.AzureCloud ?? "Public";
             //NavigationLayoutMode = s.NavigationLayoutMode;
         }, DispatcherPriority.MaxValue);
     }
@@ -143,6 +150,16 @@ public partial class SettingsPageViewModel : ViewModelBase
                 await Task.Delay(50); // TOOD: figure out a way to get the value without having to wait for it to propagate.
                 await AddOrUpdateAppSettings(nameof(AppSettings.ClipboardTimeout), ClearClipboardTimeout);
             }, DispatcherPriority.Background);
+    }
+
+    partial void OnSelectedAzureCloudChanged(string value)
+    {
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            await Task.Delay(50);
+            await AddOrUpdateAppSettings(nameof(AppSettings.AzureCloud), SelectedAzureCloud);
+        },
+         DispatcherPriority.Background);
     }
 
     [RelayCommand]

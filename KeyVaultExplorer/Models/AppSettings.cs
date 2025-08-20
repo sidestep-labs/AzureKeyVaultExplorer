@@ -16,7 +16,7 @@ public class AppSettings
     public string PanePlacement { get; set; } = "Left";
     public bool SettingsPageClientIdCheckbox { get; set; } = false;
     public string CustomClientId { get; set; } = string.Empty;
-
-
-
+    
+    [AllowedValues("Public", "USGovernment")]
+    public string AzureCloud { get; set; } = "Public";
 }

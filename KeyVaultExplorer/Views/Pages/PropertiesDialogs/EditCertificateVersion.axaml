@@ -1,0 +1,61 @@
+<UserControl
+    x:Class="KeyVaultExplorer.EditCertificateVersion"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="clr-namespace:KeyVaultExplorer.ViewModels"
+    xmlns:controls="using:KeyVaultExplorer.Views.CustomControls"
+    d:DesignHeight="450"
+    d:DesignWidth="600"
+    x:DataType="vm:EditCertificateVersionViewModel"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        MinWidth="400"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Orientation="Vertical">
+
+            <StackPanel Orientation="Vertical" Spacing="5">
+                <TextBlock Text="Certificate Name" />
+                <TextBox IsEnabled="False" Text="{Binding KeyVaultCertificateModel.Name}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Spacing="5">
+                <TextBlock Text="Vault Location" />
+                <TextBox IsEnabled="False" Text="{Binding KeyVaultCertificateModel.VaultUri}" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Activation Date (Read-only)" />
+                <TextBox IsEnabled="False" Text="{Binding KeyVaultCertificateModel.NotBefore}" />
+                
+                <TextBlock Text="Expiration Date (Read-only)" />
+                <TextBox IsEnabled="False" Text="{Binding KeyVaultCertificateModel.ExpiresOn}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <TextBlock
+                    Margin="0,4,0,0"
+                    VerticalAlignment="Center"
+                    Text="Enabled" />
+                <ToggleSwitch
+                    IsChecked="{Binding KeyVaultCertificateModel.Enabled}"
+                    OffContent="No"
+                    OnContent="Yes" />
+            </StackPanel>
+
+            <!-- Tags Editor Section -->
+            <StackPanel Orientation="Vertical" Spacing="5">
+                <controls:TagsEditor Name="TagsEditor" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

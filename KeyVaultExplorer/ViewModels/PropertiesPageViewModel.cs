@@ -238,6 +238,72 @@ public partial class PropertiesPageViewModel : ViewModelBase
                     DataContext = viewModel
                 };
             }
+            else if (IsKey)
+            {
+                var currentItem = KeyPropertiesList.OrderByDescending(x => x.CreatedOn).First();
+                var viewModel = new EditKeyVersionViewModel();
+
+                viewModel.KeyVaultKeyModel = currentItem;
+                dialog.PrimaryButtonClick += async (sender, args) =>
+                {
+                    var def = args.GetDeferral();
+                    try
+                    {
+                        await viewModel.EditDetailsCommand.ExecuteAsync(null);
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification("Success", "The key properties have been updated."));
+                    }
+                    catch (KeyVaultInsufficientPrivilegesException ex)
+                    {
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+                    }
+                    catch (Exception ex)
+                    {
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    }
+                    finally
+                    {
+                        def.Complete();
+                    }
+                };
+
+                dialog.Content = new EditKeyVersion()
+                {
+                    DataContext = viewModel
+                };
+            }
+            else if (IsCertificate)
+            {
+                var currentItem = CertificatePropertiesList.OrderByDescending(x => x.CreatedOn).First();
+                var viewModel = new EditCertificateVersionViewModel();
+
+                viewModel.KeyVaultCertificateModel = currentItem;
+                dialog.PrimaryButtonClick += async (sender, args) =>
+                {
+                    var def = args.GetDeferral();
+                    try
+                    {
+                        await viewModel.EditDetailsCommand.ExecuteAsync(null);
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification("Success", "The certificate properties have been updated."));
+                    }
+                    catch (KeyVaultInsufficientPrivilegesException ex)
+                    {
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Insufficient Privileges" });
+                    }
+                    catch (Exception ex)
+                    {
+                        _notificationViewModel.ShowPopup(new Avalonia.Controls.Notifications.Notification { Message = ex.Message, Title = "Error" });
+                    }
+                    finally
+                    {
+                        def.Complete();
+                    }
+                };
+
+                dialog.Content = new EditCertificateVersion()
+                {
+                    DataContext = viewModel
+                };
+            }
             var result = await dialog.ShowAsync();
         }
         catch (KeyVaultItemNotFoundException ex)

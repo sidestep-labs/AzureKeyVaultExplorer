@@ -86,7 +86,6 @@
                         Command="{Binding EditVersionCommand}"
                         IconSource="Edit"
                         IsEnabled="{Binding !IsManaged}"
-                        IsVisible="{Binding IsSecret}"
                         Label="Edit"
                         ToolTip.Tip="Edit Current Version"
                         ToolTip.VerticalOffset="10" />

@@ -36,7 +36,6 @@ public static class Constants
 
     public const string KeyChainServiceName = "keyvaultexplorerforazure_msal_service";
     public const string KeyChainAccountName = "keyvaultexplorerforazure_msal_account";
-    public static readonly string DatabaseFilePath = Path.Combine(LocalAppDataFolder, nameof(KeyVaultExplorer) + ".db");
     public static readonly string DatabasePasswordFilePath = Path.Combine(LocalAppDataFolder, EncryptedSecretFileName);
 
     public const string LinuxKeyRingSchema = "us.cricketthomas.keyvaultexplorer.tokencache";

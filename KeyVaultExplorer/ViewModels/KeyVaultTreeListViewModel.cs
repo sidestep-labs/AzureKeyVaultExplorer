@@ -46,7 +46,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
     {
         _authService = Defaults.Locator.GetRequiredService<AuthService>();
         _vaultService = Defaults.Locator.GetRequiredService<VaultService>();
-        _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
+        using var _ = _dbContext = Defaults.Locator.GetRequiredService<KvExplorerDb>();
         _notificationViewModel = Defaults.Locator.GetRequiredService<NotificationViewModel>();
         _clipboardService = Defaults.Locator.GetRequiredService<ClipboardService>();
         // PropertyChanged += OnMyViewModelPropertyChanged;

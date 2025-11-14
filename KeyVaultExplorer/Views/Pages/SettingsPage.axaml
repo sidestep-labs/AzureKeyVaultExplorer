@@ -53,6 +53,13 @@
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
 
+                    <ui:SettingsExpanderItem Content="Recreate Database" Description="Clear Sqlite Database of all saved items. Useful if you are experiencing issues.">
+                        <ui:SettingsExpanderItem.Footer>
+                            <Button
+                                Command="{Binding DeleteDatabaseCommand}"
+                                Content="Delete Database" />
+                        </ui:SettingsExpanderItem.Footer>
+                    </ui:SettingsExpanderItem>
                     <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache">
                         <ui:SettingsExpanderItem.Footer>
                             <Button

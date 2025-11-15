@@ -11,18 +11,12 @@ using System.Threading.Tasks;
 
 namespace KeyVaultExplorer.Database;
 
-public partial class KvExplorerDb : IDisposable
+public partial class KvExplorerDb
 {
     private static string _password = null;
 
     public KvExplorerDb()
     {
-    }
-
-    public async void Dispose()
-    {
-        using var connection = await TryCreateDatabaseAndOpenConnection();
-        await connection.CloseAsync();
     }
 
     public async Task<bool> DeleteQuickAccessItemByKeyVaultId(string keyVaultId)

@@ -130,4 +130,32 @@ public static class DatabaseEncryptedPasswordManager
         }
         return new byte[32];
     }
+    public static void PurgePasswords()
+    {
+        string dbPath = Path.Combine(Constants.LocalAppDataFolder, Constants.ProtectedKeyFileName);
+        if (OperatingSystem.IsMacOS())
+        {
+            string macosPath = dbPath.Replace("bin", "txt");
+            if (File.Exists(macosPath))
+            {
+                File.Delete(macosPath);
+            }
+            MacOSKeyChainService.DeleteFromKeychain(Constants.KeychainSecretName, Constants.KeychainServiceName);
+        }
+        if (OperatingSystem.IsWindows())
+        {
+            if (File.Exists(dbPath))
+                File.Delete(dbPath);
+
+            string encryptedSecretPath = Path.Combine(Constants.LocalAppDataFolder, Constants.EncryptedSecretFileName);
+            if (File.Exists(encryptedSecretPath))
+                File.Delete(encryptedSecretPath);
+
+            if (File.Exists(Constants.DatabasePasswordFilePath))
+                File.Delete(Constants.DatabasePasswordFilePath);
+
+            if (File.Exists(Constants.DeviceFileTokenName))
+                File.Delete(Constants.DeviceFileTokenName);
+        }
+    }
 }

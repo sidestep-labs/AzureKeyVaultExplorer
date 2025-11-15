@@ -1,5 +1,4 @@
-﻿using Avalonia.Input;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.KeyVault;
@@ -9,9 +8,6 @@ using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
 using System;
-using System.Buffers;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -118,6 +114,8 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                         quickAccess.ResourceGroups[0].KeyVaultResources.Add(kvrResponse);
                         quickAccess.PropertyChanged += KvSubscriptionModel_PropertyChanged;
                     }
+                    quickAccess.ResourceGroups[0].KeyVaultResources = SortService.SortKeyVaults(quickAccess.ResourceGroups[0].KeyVaultResources);
+                    
                     quickAccess.ResourceGroups[0].ResourceGroupDisplayName = "Pinned";
                     quickAccess.ResourceGroups[0].IsExpanded = true;
 
@@ -139,6 +137,7 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         var searched = await Task.Run(() =>
         {
             return new ObservableCollection<KvSubscriptionModel>(_treeViewList);
+            return SortService.SortSubscriptions(_treeViewList);
         });
         Dispatcher.UIThread.Post(() => {
             TreeViewList = searched;
@@ -190,6 +189,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
         await _dbContext.InsertQuickAccessItemAsync(qa);
 
         TreeViewList[0].ResourceGroups[0].KeyVaultResources.Add(model);
+        
+        // Sort the quick access key vaults alphabetically
+        TreeViewList[0].ResourceGroups[0].KeyVaultResources = SortService.SortKeyVaults(TreeViewList[0].ResourceGroups[0].KeyVaultResources);
+        
         var quickAccess = new KvSubscriptionModel
         {
             SubscriptionDisplayName = "Quick Access",
@@ -251,6 +254,9 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                         {
                             kvResourceModel.KeyVaultResources.Add(vault);
                         }
+                        
+                        // Sort the key vaults alphabetically
+                        kvResourceModel.KeyVaultResources = SortService.SortKeyVaults(kvResourceModel.KeyVaultResources);
                     });
                 }, DispatcherPriority.ContextIdle);
             }
@@ -291,6 +297,10 @@ public partial class KeyVaultTreeListViewModel : ViewModelBase
                                     KeyVaultResources = [placeholder]
                                 });
                         }
+                        
+                        // Sort the resource groups alphabetically
+                        kvSubModel.ResourceGroups = SortService.SortResourceGroups(kvSubModel.ResourceGroups);
+                        
                         kvSubModel.HasSubNodeDataBeenFetched = true;
                         kvSubModel.ResourceGroups.CollectionChanged += TreeViewSubNode_CollectionChanged;
                     });

@@ -1,7 +1,9 @@
 ﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using FluentAvalonia.Styling;
+using FluentAvalonia.UI.Controls;
 using KeyVaultExplorer.Database;
 using KeyVaultExplorer.Models;
 using KeyVaultExplorer.Services;
@@ -174,4 +176,14 @@ public partial class SettingsPageViewModel : ViewModelBase
     {
         Process.Start(new ProcessStartInfo("https://github.com/cricketthomas/KeyVaultExplorer/issues/new") { UseShellExecute = true, Verb = "open" });
     }
+
+
+    [RelayCommand]
+    private Task DeleteDatabase()
+    {
+        _ = _dbContext.DropTablesAndRecreate();
+        return Task.CompletedTask;
+    }
+ 
+
 }

@@ -32,8 +32,6 @@ public partial class App : Application
 
         Dispatcher.UIThread.Post(async () =>
         {
-            await KvExplorerDb.OpenSqlConnection();
-
             if (!dbExists)
                 KvExplorerDb.InitializeDatabase();
         }, DispatcherPriority.Loaded);
@@ -52,13 +50,6 @@ public partial class App : Application
         }
     }
 
-    private void MainWindowOnClosing(object? sender, WindowClosingEventArgs e)
-    {
-        if (sender is Window window)
-        {
-            KvExplorerDb.CloseSqlConnection();
-        }
-    }
 
     public override void Initialize()
     {

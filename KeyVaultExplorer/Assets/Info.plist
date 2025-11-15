@@ -5,7 +5,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.0.0.2</string>
 	<key>CFBundleIdentifier</key>
-	<string>us.sidesteplabs.KeyVaultExplorer</string>
+	<string>us.cricketthomas.KeyVaultExplorer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>NSAppTransportSecurity</key>

@@ -53,6 +53,13 @@
                         </ui:SettingsExpanderItem.Footer>
                     </ui:SettingsExpanderItem>
 
+                    <ui:SettingsExpanderItem Content="Recreate Database" Description="Clear Sqlite Database of all saved items. Useful if you are experiencing issues.">
+                        <ui:SettingsExpanderItem.Footer>
+                            <Button
+                                Command="{Binding DeleteDatabaseCommand}"
+                                Content="Delete Database" />
+                        </ui:SettingsExpanderItem.Footer>
+                    </ui:SettingsExpanderItem>
                     <ui:SettingsExpanderItem Content="Sign out" Description="Remove the current account from cache">
                         <ui:SettingsExpanderItem.Footer>
                             <Button
@@ -153,13 +160,13 @@
                     Margin="-10,1"
                     Content="Source Code"
                     Foreground="{DynamicResource AccentTextFillColorTertiaryBrush}"
-                    NavigateUri="https://github.com/cricketthomas/sidestep"
+                    NavigateUri="https://github.com/cricketthomas/AzureKeyVaultExplorer"
                     Theme="{StaticResource TransparentButton}" />
                 <HyperlinkButton
                     Margin="-10,1"
                     Content="Software License Terms"
                     Foreground="{DynamicResource AccentTextFillColorTertiaryBrush}"
-                    NavigateUri="https://github.com/cricketthomas/KeyVaultExplorer/blob/master/LICENSE"
+                    NavigateUri="https://github.com/cricketthomas/AzureKeyVaultExplorer/blob/master/LICENSE"
                     Theme="{StaticResource TransparentButton}" />
                 <Button
                     Margin="0,10"

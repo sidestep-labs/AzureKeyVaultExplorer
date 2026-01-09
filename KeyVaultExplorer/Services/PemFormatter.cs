@@ -13,8 +13,12 @@ public static class PemFormatter
     /// </summary>
     /// <param name="publicKey">The public key bytes to format</param>
     /// <returns>A properly formatted PEM string with headers, wrapped base64 content, and footers</returns>
+    /// <exception cref="ArgumentNullException">Thrown when publicKey is null</exception>
     public static string FormatPublicKey(byte[] publicKey)
     {
+        if (publicKey == null)
+            throw new ArgumentNullException(nameof(publicKey));
+
         var base64 = Convert.ToBase64String(publicKey);
         var sb = new StringBuilder();
         sb.AppendLine("-----BEGIN PUBLIC KEY-----");
